@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html
+        {
+            height: 100%;
+        }
+        body
+        {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map_canvas
+        {
+            height: 100%;
+        }
+    </style>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"> </script>
+
+    <script type="text/javascript">  
+    
+        var map;
+        var Markers = [];
+     
+        function Initialize(zoomLevel,lat,lng,type){  
+            //Get the type of map to start.
+            //Need to convert the GoogleMapType enum
+            //to an actual Google Map Type
+            var MapType;
+            switch (type)
+            {
+                case 1:
+                    MapType = google.maps.MapTypeId.ROADMAP;
+                    break;
+                case 2:
+                    MapType = google.maps.MapTypeId.TERRAIN;
+                    break;
+                case 3:
+                    MapType = google.maps.MapTypeId.HYBRID;
+                    break;
+                case 4:
+                    MapType = google.maps.MapTypeId.SATELLITE;
+                    break;
+                default:
+                   MapType = google.maps.MapTypeId.ROADMAP;
+            };
+        
+            //Create an instance of the map with the lat, lng, zoom, and
+            //type passed in
+            var myLatlng = new google.maps.LatLng(lat,lng);   
+            var myOptions = {zoom: zoomLevel,center: myLatlng,mapTypeId: MapType};
+            var MarkerSize = new google.maps.Size(48,48);
+                              
+            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);     
+            google.maps.event.addListener(map, 'click', Map_Click);
+            google.maps.event.addListener(map, 'mousemove', Map_MouseMove);
+            google.maps.event.addListener(map, 'idle',Map_Idle);
+                   
+        }  
+  
+        function Map_Click(e){
+            window.external.Map_Click(e.latLng.lat(),e.latLng.lng()); 
+        }
+        
+        function Map_MouseMove(e){
+            window.external.Map_MouseMove(e.latLng.lat(),e.latLng.lng()); 
+        }
+                 
+        function Map_Idle(){
+            window.external.Map_Idle();
+        }
+        
+              
+        function DeleteMarkers()
+        {
+            if (Markers){
+                for (i in Markers){
+                    Markers[i].setMap(null);
+                    google.maps.event.clearInstanceListeners(Markers[i]);
+                    Markers[i] = null;
+                }
+                Markers.length = 0;
+            }
+        }
+                 
+        
+        function AddMarker(name,lat,lng)
+        {
+            var MarkerLatLng = new google.maps.LatLng(lat, lng);     
+            var MarkerOption = {map:map,position:MarkerLatLng,title:name};
+            var Marker = new google.maps.Marker(MarkerOption);
+            Markers.push(Marker);
+            MarkerLatLng = null;
+            MarkerOption = null;
+        }
+        
+    </script>
+    
+</head>
+<body>
+    <div id="map_canvas" style="width: 100%; height: 100%">
+    </div>
+</body>
+</html>

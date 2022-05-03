@@ -1,0 +1,300 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AA121E13-C8D8-47F7-970C-C1C0D1B32934}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>FacturaElectronicaCR_VB.My.MyApplication</StartupObject>
+    <RootNamespace>FacturaElectronicaCR_VB</RootNamespace>
+    <AssemblyName>FacturaElectronicaCR_VB</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>FacturaElectronicaCR_VB.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>FacturaElectronicaCR_VB.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DocumentationFile>FacturaElectronicaCR_VB.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DocumentationFile>FacturaElectronicaCR_VB.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BarcodeLib.Barcode.CrystalReports">
+      <HintPath>C:\Users\Administrator\Desktop\borrar+\BarcodeLib_CrystalBarcode_Trial\BarcodeLib.Barcode.CrystalReports.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.7.4137.9688, Culture=neutral, PublicKeyToken=a4292a325f69b123, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\COMPONENTES\Librerias\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="BusinessRefinery.Barcode.CrystalReport">
+      <HintPath>C:\Users\Administrator\Downloads\BusinessRefinery.Barcode.CrystalReport.dll</HintPath>
+    </Reference>
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.3500.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="FirmaXadesNet">
+      <HintPath>..\COMPONENTES\Librerias\FirmaXadesNet.dll</HintPath>
+    </Reference>
+    <Reference Include="FlashControlV71, Version=1.0.3187.32366, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="Gma.QrCodeNet.Encoding, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\QrCode.Net.0.4.0.0\lib\net45\Gma.QrCodeNet.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="KeepAutomation.Barcode.Crystal">
+      <HintPath>C:\Users\Administrator\Downloads\KA.Barcode.for.CrystalReports\DLL\Net40\KeepAutomation.Barcode.Crystal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xades, Version=1.0.5.0, Culture=neutral, PublicKeyToken=52bc0bff8bc72d48, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\COMPONENTES\Librerias\Microsoft.Xades.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Certificado.Designer.vb">
+      <DependentUpon>Certificado.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Certificado.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Clases\ATV_Class.vb" />
+    <Compile Include="Clases\ClasesJson.vb" />
+    <Compile Include="Clases\Class_FTP.vb" />
+    <Compile Include="Clases\Class_funcionesSQL.vb" />
+    <Compile Include="Clases\Class_MAIL.vb" />
+    <Compile Include="Clases\Class_XML_Conexion.vb" />
+    <Compile Include="Clases\Comunicacion.vb" />
+    <Compile Include="Clases\CONEXION_TO_SQLSERVER.vb" />
+    <Compile Include="Clases\FacturaElectronica.vb" />
+    <Compile Include="Clases\FechaManager.vb" />
+    <Compile Include="Clases\Firma.vb" />
+    <Compile Include="Clases\Funciones.vb" />
+    <Compile Include="Clases\QR_CODE.vb" />
+    <Compile Include="Clases\SAP.vb" />
+    <Compile Include="Clases\TokenHacienda.vb" />
+    <Compile Include="Clases\VariablesGlobales.vb" />
+    <Compile Include="Clases\XML_Generator.vb" />
+    <Compile Include="CrystalReport1.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport1.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="frmReportes.Designer.vb">
+      <DependentUpon>frmReportes.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmReportes.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\HojaCarta_FE.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HojaCarta_FE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\HojaCarta_FES.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HojaCarta_FES.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\HojaCarta_TE.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>HojaCarta_TE.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\NotasCredito_NC.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotasCredito_NC.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\NotasCredito_NCS.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NotasCredito_NCS.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TestFacturaXMLCR.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TestFacturaXMLCR.Designer.vb">
+      <DependentUpon>TestFacturaXMLCR.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Certificado.resx">
+      <DependentUpon>Certificado.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CrystalReport1.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport1.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReportes.resx">
+      <DependentUpon>frmReportes.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\HojaCarta_FE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>HojaCarta_FE.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\HojaCarta_FES.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>HojaCarta_FES.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\HojaCarta_TE.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>HojaCarta_TE.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\NotasCredito_NC.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NotasCredito_NC.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\NotasCredito_NCS.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>NotasCredito_NCS.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestFacturaXMLCR.resx">
+      <DependentUpon>TestFacturaXMLCR.vb</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="SAPbobsCOM">
+      <Guid>{FC8030BE-F5D2-4B8E-8F92-44228FE30088}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="SAPbouiCOM">
+      <Guid>{6048236A-956D-498D-A6F1-9C81C13AB6E8}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

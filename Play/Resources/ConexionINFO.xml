@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Conexiones>
+ <!-- NODO1 INFORMACION DE CONEXION A SAP  <Password>Geja1579</Password>    <UserName>SincroS</UserName>-->   <!--<Password>Geja1579</Password><UserName>SincroS</UserName>-->
+  <name codigo="SAP">
+   
+    <CompanyDB>BD_BOURNE</CompanyDB>
+	   <Password>Abc..123</Password>
+    <UserName>manager</UserName>
+    <Server>172.14.16.14</Server>
+    <DbUserName>sa</DbUserName>
+    <DbPassword>Bourne$2018</DbPassword>
+    <LicenseServer>172.14.16.14:30000</LicenseServer>  
+  </name>
+  
+  <!--  NODO2 INFORMACION DE CONEXION A SQL Sic_Local_Web-->
+  <name codigo="SQL_Sic_Local_Web">
+    <user>sa</user>
+    <clave>Bourne$2018</clave>
+    <dababase>Sic_Local_Web</dababase>
+    <server>172.14.16.14</server>
+  </name>
+
+
+  <!--  NODO3 INFORMACION DE CONEXION A FIREBIRD -->
+  <name codigo="SQL_FIREBIRD">
+    <Dsn>FireBird-ODBC</Dsn>
+  </name>
+
+  <!--  NODO4 INFORMACION DE CONEXION A MYSQL WEB <ipAdres>mysql.us.cloudlogin.co</ipAdres>-->
+  <name codigo="MYSQL">
+    <ipAdres>mysql.us.cloudlogin.co</ipAdres>
+    <MyDatabase>arquitect_bourne</MyDatabase>
+    <myprot>3306</myprot>
+    <user>arquitect_bourne</user>
+    <clave>SoporteBourne2013</clave>
+      <dns>BourneDB_WEB</dns>
+  </name>
+
+  <!--  NODO5 INFORMACION DE CONEXION A FTP WEB -->
+  <name codigo="FTP">
+    <FtpServer>ftp://bourneycia.net/bourneycia.net/</FtpServer>
+    <userFTP>arquitect</userFTP>
+    <passFTP>tbh573</passFTP>
+    <dirLocal>\\Sap2\essco\TRANSMISIONES\</dirLocal>
+</name>
+
+ <name codigo="CUENTAS">
+    <CashAccount>10100101001</CashAccount>
+    <TransferAccount>10100101001</TransferAccount>
+	
+	<BancoPopular>10100102001</BancoPopular>
+	<BancoNacional>10100102002</BancoNacional>
+	<BancoCostaRica>10100102003</BancoCostaRica>
+	<BancoLaFise>10100102004</BancoLaFise>
+	<BancoCoocique>10100102005</BancoCoocique>
+	<BancoBCT>10100102006</BancoBCT>
+		  
+	
+  </name>
+  
+   <name codigo="HACIENDA">
+    <Patch_FE>\\172.14.16.14\essco\XMLs\FE</Patch_FE>
+    <Patch_NC>\\172.14.16.14\essco\XMLs\NC</Patch_NC>
+	<Patch_ND>\\172.14.16.14\essco\XMLs\ND</Patch_ND>
+	<Patch_TE>\\172.14.16.14\essco\XMLs\TE</Patch_TE>
+	<Patch_MR>\\172.14.16.14\essco\XMLs\MR</Patch_MR>
+	<Patch_Certificado>\\172.14.16.14\essco\XMLs\Certificado\310120057532.p12</Patch_Certificado>
+	<ATV_Usuario>cpj-3-101-200575@stag.comprobanteselectronicos.go.cr</ATV_Usuario>
+	<ATV_Password>($hAU#](jHBg}ZK!o$#:</ATV_Password>
+	<Certificado_PIN>1234</Certificado_PIN>
+	<URL_RECEPCION>https://api.comprobanteselectronicos.go.cr/recepcion-sandbox/v1/</URL_RECEPCION>
+	<IDP_CLIENT_ID>api-stag</IDP_CLIENT_ID>
+	<IDP_URI>https://idp.comprobanteselectronicos.go.cr/auth/realms/rut-stag/protocol/openid-connect/token</IDP_URI>
+	<PRINT_FE></PRINT_FE>
+	<PRINT_NC>\\VINICIO-PC \EPSON L210 Series</PRINT_NC>
+	<PRINT_ND></PRINT_ND>
+  </name>
+
+
+</Conexiones>
