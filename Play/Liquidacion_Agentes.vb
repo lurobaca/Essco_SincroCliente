@@ -185,52 +185,62 @@ Public Class Liquidacion_Agentes
 
     End Sub
     Public Function Cargar()
-        Dim TotalDepositos As String
-        Dim TotalRecibos As String
-        Dim TotalGastos As String
-        Dim TotalViaticos As String
-        Dim TotalHospedaje As String
-        Dim TotalImprevistos As String
-        Dim TotalOtros As String
-        Dim TotalCombustibles As String
-        'si esta creando un liquidacion nueva debe jalar los gastos con num liqui vacia
-        ' si jala un liquidacion para editarla debe jalarla segun un numero de liquidacion
-        If Class_VariablesGlobales.CREANDO_LIQ_AGENTE = False Then
-            Class_VariablesGlobales.NumLiqui = txtb_Consecutivo.Text
-        Else
-            Class_VariablesGlobales.NumLiqui = ""
-            'SE SOLICITAN LOS GASTOS SIN NUMERO DE LIQUIDACION CUANDO ES UNA LIQUDACION NUEVA, ESTO PARA PODE RVER LOS GASTOS TRANSMITIDOS POR LOS AGENTES
-            'SE DEBEN JALAR LOS GASTOS 
-        End If
 
-        TotalViaticos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Viaticos", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
-        TotalHospedaje = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Hospedaje", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
-        TotalImprevistos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Imprevistos", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
-        ' txtb_Promociones.Text = Obj_Funciones_SQL.ObtieneTotalGastos(SQL_Comman1, NumLiqui, TipoLiqui, "PROMOCIONES", txtb_CodAgente.Text, dtp_FechaFin.Value.Date, dtp_FechaFin.Value.Date)
-        TotalOtros = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Otros", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
-        TotalCombustibles = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Combustible", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
+        Try
 
-        txtb_Viaticos.Text = FormatCurrency(TotalViaticos, 2)
-        txtb_Hospedaje.Text = FormatCurrency(TotalHospedaje, 2)
-        txtb_Imprevistos.Text = FormatCurrency(TotalImprevistos, 2)
-        ' txtb_Promociones.Text = FormatCurrency(TotalDepositos, 2)
-        txtb_Otros.Text = FormatCurrency(TotalOtros, 2)
-        txtb_Combustibles.Text = FormatCurrency(TotalCombustibles, 2)
 
-        TotalGastos = Convert.ToDouble(TotalViaticos) + Convert.ToDouble(TotalHospedaje) + Convert.ToDouble(TotalImprevistos) + Convert.ToDouble(TotalOtros) + Convert.ToDouble(TotalCombustibles)
-        txtb_TotalGastos.Text = FormatCurrency(CStr(TotalGastos), 2)
+            Dim TotalDepositos As String
+            Dim TotalRecibos As String
+            Dim TotalGastos As String
+            Dim TotalViaticos As String
+            Dim TotalHospedaje As String
+            Dim TotalImprevistos As String
+            Dim TotalOtros As String
+            Dim TotalCombustibles As String
+            'si esta creando un liquidacion nueva debe jalar los gastos con num liqui vacia
+            ' si jala un liquidacion para editarla debe jalarla segun un numero de liquidacion
+            If Class_VariablesGlobales.CREANDO_LIQ_AGENTE = False Then
+                Class_VariablesGlobales.NumLiqui = txtb_Consecutivo.Text
+            Else
+                Class_VariablesGlobales.NumLiqui = ""
+                'SE SOLICITAN LOS GASTOS SIN NUMERO DE LIQUIDACION CUANDO ES UNA LIQUDACION NUEVA, ESTO PARA PODE RVER LOS GASTOS TRANSMITIDOS POR LOS AGENTES
+                'SE DEBEN JALAR LOS GASTOS 
+            End If
 
-        dgv_Depositos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneDepositos(Class_VariablesGlobales.SQL_Comman1, "VENTANA_DEPOSITO", "", Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txtb_CodAgente.Text), "", "", "", "DPCONSECUTIVO", Class_VariablesGlobales.LIQUIDANDO, False, "")
-        TotalDepositos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalDepositos(Class_VariablesGlobales.SQL_Comman1, "VENTANA_DEPOSITO", Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txtb_CodAgente.Text), "", Class_VariablesGlobales.LIQUIDANDO)
+            TotalViaticos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Viaticos", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
+            TotalHospedaje = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Hospedaje", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
+            TotalImprevistos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Imprevistos", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
+            ' txtb_Promociones.Text = Obj_Funciones_SQL.ObtieneTotalGastos(SQL_Comman1, NumLiqui, TipoLiqui, "PROMOCIONES", txtb_CodAgente.Text, dtp_FechaFin.Value.Date, dtp_FechaFin.Value.Date)
+            TotalOtros = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Otros", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
+            TotalCombustibles = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, "Combustible", txtb_CodAgente.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), False, False)
 
-        txtb_TotalDepositos.Text = FormatCurrency(TotalDepositos, 2)
+            txtb_Viaticos.Text = FormatCurrency(TotalViaticos, 2)
+            txtb_Hospedaje.Text = FormatCurrency(TotalHospedaje, 2)
+            txtb_Imprevistos.Text = FormatCurrency(TotalImprevistos, 2)
+            ' txtb_Promociones.Text = FormatCurrency(TotalDepositos, 2)
+            txtb_Otros.Text = FormatCurrency(TotalOtros, 2)
+            txtb_Combustibles.Text = FormatCurrency(TotalCombustibles, 2)
 
-        dgv_Recibos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneRecibos(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txtb_CodAgente.Text), Class_VariablesGlobales.frmLiqAge.txtb_Consecutivo.Text)
-        TotalRecibos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalRecibos(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txtb_CodAgente.Text), Class_VariablesGlobales.frmLiqAge.txtb_Consecutivo.Text)
-        txtb_TotalRecibos.Text = FormatCurrency(TotalRecibos, 2)
+            TotalGastos = Convert.ToDouble(TotalViaticos) + Convert.ToDouble(TotalHospedaje) + Convert.ToDouble(TotalImprevistos) + Convert.ToDouble(TotalOtros) + Convert.ToDouble(TotalCombustibles)
+            txtb_TotalGastos.Text = FormatCurrency(CStr(TotalGastos), 2)
 
-        Dim Diferencia As Double = (Convert.ToDouble(TotalDepositos) + Convert.ToDouble(TotalGastos)) - Convert.ToDouble(TotalRecibos)
-        txtb_Diferencias.Text = CStr(Obj_Mformat.FormatoMoneda(Diferencia))
+            dgv_Depositos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneDepositos(Class_VariablesGlobales.SQL_Comman1, "VENTANA_DEPOSITO", "", Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txtb_CodAgente.Text), "", "", "", "DPCONSECUTIVO", Class_VariablesGlobales.LIQUIDANDO, False, "")
+            TotalDepositos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalDepositos(Class_VariablesGlobales.SQL_Comman1, "VENTANA_DEPOSITO", Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txtb_CodAgente.Text), "", Class_VariablesGlobales.LIQUIDANDO)
+
+            txtb_TotalDepositos.Text = FormatCurrency(TotalDepositos, 2)
+
+            dgv_Recibos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneRecibos(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txtb_CodAgente.Text), Class_VariablesGlobales.frmLiqAge.txtb_Consecutivo.Text)
+            TotalRecibos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalRecibos(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txtb_CodAgente.Text), Class_VariablesGlobales.frmLiqAge.txtb_Consecutivo.Text)
+            txtb_TotalRecibos.Text = FormatCurrency(TotalRecibos, 2)
+
+            Dim Diferencia As Double = (Convert.ToDouble(TotalDepositos) + Convert.ToDouble(TotalGastos)) - Convert.ToDouble(TotalRecibos)
+            txtb_Diferencias.Text = CStr(Obj_Mformat.FormatoMoneda(Diferencia))
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+
+
+        End Try
     End Function
     Public Sub btn_Cargar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Cargar.Click
         Cargar()

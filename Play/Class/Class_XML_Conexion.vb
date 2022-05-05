@@ -17,9 +17,9 @@ Public Class Class_XML_Conexion
             Dim m_nodelist As XmlNodeList
             Dim m_node As XmlNode
 
-            'Dim conectar As String = "C:\ConexionINFO__Pronutre_SANDBOX.xml"
+            Dim conectar As String = "C:\ConexionINFO__Pronutre_SANDBOX.xml"
             'Dim conectar As String = "C:\ConexionINFO_SANDBOX_esscocr.xml"
-            Dim conectar As String = "C:\ConexionINFO__Aleft_PRODUCCION.xml"
+            'Dim conectar As String = "C:\ConexionINFO__Aleft_PRODUCCION.xml"
             'Dim conectar As String = "C:\ConexionINFO__Aleft_SANDBOX.xml"
             '-----------MODO PRUEBAS'-----------
             'm_xmld.Load("C:\ConexionINFO_BourneSANDBOX.xml")
@@ -32,7 +32,7 @@ Public Class Class_XML_Conexion
             'Dim conectar As String = "C:\ConexionINFO.xml"
             'Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
             If Principal IsNot Nothing Then
-                Principal.Text = "SINCRO [13.04.2022] v2 FE V4.3 Produccion WMS" & "  " & conectar
+                Principal.Text = "SINCRO [04.05.2022] v2 FE V4.3 Produccion WMS" & "  " & conectar
             End If
 
             'Creamos el "Document"
