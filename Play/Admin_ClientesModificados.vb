@@ -1,8 +1,12 @@
 ﻿Public Class Admin_ClientesModificados
     Public Obj_SQL_CONEXIONSERVER As New Class_funcionesSQL
     Dim Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio As Integer
-    Public obj_SAP As New SAP_BUSSINES_ONE
-    Public oCompany As New SAPbobsCOM.Company
+
+    Dim EstadoInactivo As Integer = 0
+    Dim EstadoActivo As Integer = 1
+
+    'Public obj_SAP As New SAP_BUSSINES_ONE
+    'Public oCompany As New SAPbobsCOM.Company
     Private Sub Btn_Atras_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Btn_Atras.Click
         If CInt(txtb_id.Text) - 1 <= 0 Then
         Else
@@ -447,6 +451,7 @@
                 Dim EXO_NombreInstitucion As String = txtb_ExoNombreInstitucion.Text
                 Dim EXO_FechaEmision As String = DTP_ExoFechaEmision.Value.ToShortDateString
                 Dim EXO_PorcentajeCompra As String
+                Dim EnviarFE As Integer
 
                 If txtb_ExoPorcentajeCompra.Text = "" Then
                     EXO_PorcentajeCompra = "0"
@@ -462,7 +467,7 @@
                     Guardar = False
                 End If
                 'Debemos Guardar un cliente en una tabla propia
-                Dim fallo = Class_VariablesGlobales.Obj_Funciones_SQL.GuardaCliente(CardCode, CardName, Cedula, Respolsabletributario, U_Visita, U_ClaveWeb, Phone1, Phone2, Street, E_Mail, NameFicticio, Latitud, Longitud, Agente, Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Estado, Tipo_Cedula, Fecha, Hora, Aprobado, Consecutivo, EXO_TipoDocumento, EXO_Numero, EXO_NombreInstitucion, EXO_FechaEmision, EXO_PorcentajeCompra, Guardar)
+                Dim fallo = Class_VariablesGlobales.Obj_Funciones_SQL.GuardaCliente(CardCode, CardName, Cedula, Respolsabletributario, U_Visita, U_ClaveWeb, Phone1, Phone2, Street, E_Mail, NameFicticio, Latitud, Longitud, Agente, Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Estado, Tipo_Cedula, Fecha, Hora, Aprobado, Consecutivo, EXO_TipoDocumento, EXO_Numero, EXO_NombreInstitucion, EXO_FechaEmision, EXO_PorcentajeCompra, EnviarFE, Guardar)
 
                 If fallo <> 1 Then
 
@@ -499,7 +504,7 @@
                     EXO_NombreInstitucion = Nothing
                     EXO_FechaEmision = Nothing
                     EXO_PorcentajeCompra = Nothing
-
+                    EnviarFE = Nothing
 
                     Limpiar()
 
@@ -528,7 +533,7 @@
 
             If result1 = DialogResult.Yes Then
                 'conecta  a SAP
-                oCompany = obj_SAP.ConectarSap()
+                'oCompany = obj_SAP.ConectarSap()
                 Dim DiaVisita As String = ""
                 Select Case Comb_DiaVisita.SelectedIndex
                     Case 1
@@ -563,12 +568,23 @@
                 End Select
 
 
+                If Class_VariablesGlobales.XMLParamSAP_CompanyDB <> "" Then
+                    'obj_SAP.CreaSocioNegocio(txtb_Codigo.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_email.Text, txtb_Telfono1.Text, txtb_Telfono2.Text, DiaVisita, txtb_CalveWeb.Text, txtb_Nombre.Text, txtb_Cedula.Text.PadLeft(12, "0"), txtb_ResponsableTributario.Text, txtb_OtrasResenas.Text, txtb_NombreComercial.Text, txtb_Hora.Text, txtb_id.Text, Comb_TipoId.SelectedIndex, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, DTP_Fecha.Text, Frecuencia, txtb_Agente.Text, Class_VariablesGlobales.SQL_Comman2, Comb_Tipo.SelectedIndex) = 0 Then
 
-                If obj_SAP.CreaSocioNegocio(txtb_Codigo.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_email.Text, txtb_Telfono1.Text, txtb_Telfono2.Text, DiaVisita, txtb_CalveWeb.Text, txtb_Nombre.Text, txtb_Cedula.Text.PadLeft(12, "0"), txtb_ResponsableTributario.Text, txtb_OtrasResenas.Text, txtb_NombreComercial.Text, txtb_Hora.Text, txtb_id.Text, Comb_TipoId.SelectedIndex, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, DTP_Fecha.Text, Frecuencia, txtb_Agente.Text, Class_VariablesGlobales.SQL_Comman2, Comb_Tipo.SelectedIndex) = 0 Then
-                    Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text)
-                    limpia()
-                Else
                 End If
+
+                Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text,
+                                                        txtb_Codigo.Text, txtb_Nombre.Text, txtb_Cedula.Text.PadLeft(12, "0"),
+                                                        txtb_ResponsableTributario.Text, DiaVisita, txtb_CalveWeb.Text,
+                                                        txtb_Telfono1.Text, txtb_Telfono2.Text, txtb_OtrasResenas.Text, txtb_email.Text,
+                                                         txtb_NombreComercial.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_Agente.Text,
+                                                         Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex,
+                                                          EstadoActivo, Comb_TipoId.SelectedIndex, DTP_Fecha.Value(), txtb_Hora.Text, 1,
+                                                         Comb_Tipo.SelectedIndex, CBox_ExoTipoDoc.SelectedIndex, txtb_ExoNumero.Text(),
+                                                         txtb_ExoNombreInstitucion.Text(), DTP_ExoFechaEmision.Value(), txtb_ExoPorcentajeCompra.Text())
+                limpia()
+                'Else
+                'End If
             End If
             If result1 = DialogResult.No Then
 
@@ -586,7 +602,7 @@
         If result1 = DialogResult.Yes Then
 
             'conecta  a SAP
-            oCompany = obj_SAP.ConectarSap()
+            'oCompany = obj_SAP.ConectarSap()
             Dim DiaVisita As String = ""
             Select Case Comb_DiaVisita.SelectedIndex
                 Case 1
@@ -634,24 +650,28 @@
                 End If
             End If
 
-
-
-
             Dim LineContacto As Integer
 
             LineContacto = Obj_SQL_CONEXIONSERVER.ObtieneLineaContacto(txtb_Codigo.Text, Class_VariablesGlobales.SQL_Comman2)
 
+            'If obj_SAP.ModificaSocioNegocio(LineContacto, txtb_Codigo.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_email.Text, txtb_Telfono1.Text, txtb_Telfono2.Text, DiaVisita, txtb_CalveWeb.Text, txtb_Nombre.Text, txtb_Cedula.Text, txtb_ResponsableTributario.Text, txtb_OtrasResenas.Text, txtb_NombreComercial.Text, txtb_Hora.Text, txtb_id.Text, Comb_TipoId.SelectedIndex, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, DTP_Fecha.Text, Class_VariablesGlobales.SQL_Comman2) = 0 Then
+            Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text,
+                                                        txtb_Codigo.Text, txtb_Nombre.Text, txtb_Cedula.Text.PadLeft(12, "0"),
+                                                        txtb_ResponsableTributario.Text, DiaVisita, txtb_CalveWeb.Text,
+                                                        txtb_Telfono1.Text, txtb_Telfono2.Text, txtb_OtrasResenas.Text, txtb_email.Text,
+                                                         txtb_NombreComercial.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_Agente.Text,
+                                                         Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex,
+                                                         EstadoActivo, Comb_TipoId.SelectedIndex, DTP_Fecha.Value(), txtb_Hora.Text, 1,
+                                                         Comb_Tipo.SelectedIndex, CBox_ExoTipoDoc.SelectedIndex, txtb_ExoNumero.Text(),
+                                                         txtb_ExoNombreInstitucion.Text(), DTP_ExoFechaEmision.Value(), txtb_ExoPorcentajeCompra.Text())
 
-            If obj_SAP.ModificaSocioNegocio(LineContacto, txtb_Codigo.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_email.Text, txtb_Telfono1.Text, txtb_Telfono2.Text, DiaVisita, txtb_CalveWeb.Text, txtb_Nombre.Text, txtb_Cedula.Text, txtb_ResponsableTributario.Text, txtb_OtrasResenas.Text, txtb_NombreComercial.Text, txtb_Hora.Text, txtb_id.Text, Comb_TipoId.SelectedIndex, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, DTP_Fecha.Text, Class_VariablesGlobales.SQL_Comman2) = 0 Then
-                Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Codigo.Text)
-                limpia()
-            Else
-                'error
+            limpia()
+                'Else
+                '    'error
+                'End If
+
             End If
-
-        End If
         If result1 = DialogResult.No Then
-
 
         End If
     End Sub
@@ -736,13 +756,53 @@
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         'ANULA EL MOVIMIENTO PARA QUE DEJE DE APARECER EN LA LISTA
-        Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text)
+        Dim DiaVisita As String = ""
+        Select Case Comb_DiaVisita.SelectedIndex
+            Case 1
+                DiaVisita = "01"
+            Case 2
+                DiaVisita = "02"
+            Case 3
+                DiaVisita = "03"
+            Case 4
+                DiaVisita = "04"
+            Case 5
+                DiaVisita = "05"
+            Case 6
+                DiaVisita = "06"
+        End Select
+
+        Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text,
+                                                        txtb_Codigo.Text, txtb_Nombre.Text, txtb_Cedula.Text.PadLeft(12, "0"),
+                                                        txtb_ResponsableTributario.Text, DiaVisita, txtb_CalveWeb.Text,
+                                                        txtb_Telfono1.Text, txtb_Telfono2.Text, txtb_OtrasResenas.Text, txtb_email.Text,
+                                                         txtb_NombreComercial.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_Agente.Text,
+                                                         Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex,
+                                                         EstadoInactivo, Comb_TipoId.SelectedIndex, DTP_Fecha.Value(), txtb_Hora.Text, 1,
+                                                         Comb_Tipo.SelectedIndex, CBox_ExoTipoDoc.SelectedIndex, txtb_ExoNumero.Text(),
+                                                         txtb_ExoNombreInstitucion.Text(), DTP_ExoFechaEmision.Value(), txtb_ExoPorcentajeCompra.Text())
         MsgBox("El cliente fue Anulado")
         Limpiar()
 
     End Sub
 
     Public Sub CerrarCliente()
+
+        Dim DiaVisita As String = ""
+        Select Case Comb_DiaVisita.SelectedIndex
+            Case 1
+                DiaVisita = "01"
+            Case 2
+                DiaVisita = "02"
+            Case 3
+                DiaVisita = "03"
+            Case 4
+                DiaVisita = "04"
+            Case 5
+                DiaVisita = "05"
+            Case 6
+                DiaVisita = "06"
+        End Select
 
         Dim result1 As DialogResult
         result1 = MessageBox.Show("El Cliente se cerrara y no se lo podra vender mas\n Realmente desea Cerrar este cliente en SAP?",
@@ -753,13 +813,24 @@
         If result1 = DialogResult.Yes Then
             'Cambia el agente a Cerrado
             'conecta  a SAP
-            oCompany = obj_SAP.ConectarSap()
-            If obj_SAP.CerrarSocioNegocio(txtb_Codigo.Text, Class_VariablesGlobales.SQL_Comman2) = 0 Then
-                Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Codigo.Text)
-                limpia()
-            Else
-                'error
-            End If
+            'oCompany = obj_SAP.ConectarSap()
+            'If obj_SAP.CerrarSocioNegocio(txtb_Codigo.Text, Class_VariablesGlobales.SQL_Comman2) = 0 Then
+
+
+            Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text,
+                                                        txtb_Codigo.Text, txtb_Nombre.Text, txtb_Cedula.Text.PadLeft(12, "0"),
+                                                        txtb_ResponsableTributario.Text, DiaVisita, txtb_CalveWeb.Text,
+                                                        txtb_Telfono1.Text, txtb_Telfono2.Text, txtb_OtrasResenas.Text, txtb_email.Text,
+                                                         txtb_NombreComercial.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_Agente.Text,
+                                                         Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex,
+                                                         EstadoInactivo, Comb_TipoId.SelectedIndex, DTP_Fecha.Value(), txtb_Hora.Text, 1,
+                                                         Comb_Tipo.SelectedIndex, CBox_ExoTipoDoc.SelectedIndex, txtb_ExoNumero.Text(),
+                                                         txtb_ExoNombreInstitucion.Text(), DTP_ExoFechaEmision.Value(), txtb_ExoPorcentajeCompra.Text())
+
+            limpia()
+            'Else
+            '    'error
+            'End If
 
         End If
         If result1 = DialogResult.No Then

@@ -101,6 +101,7 @@ Partial Class Admin_ClientesModificados
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Comb_Tipo = New System.Windows.Forms.ComboBox()
         Me.Label27 = New System.Windows.Forms.Label()
+        Me.CBox_EnviarFE = New System.Windows.Forms.CheckBox()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -887,7 +888,7 @@ Partial Class Admin_ClientesModificados
         'Comb_Tipo
         '
         Me.Comb_Tipo.FormattingEnabled = True
-        Me.Comb_Tipo.Items.AddRange(New Object() {"", "CLIENTE", "PROVEEDOR"})
+        Me.Comb_Tipo.Items.AddRange(New Object() {"", "CLIENTE ", "PROVEEDOR "})
         Me.Comb_Tipo.Location = New System.Drawing.Point(460, 76)
         Me.Comb_Tipo.Margin = New System.Windows.Forms.Padding(4)
         Me.Comb_Tipo.Name = "Comb_Tipo"
@@ -904,11 +905,22 @@ Partial Class Admin_ClientesModificados
         Me.Label27.TabIndex = 94
         Me.Label27.Text = "Tipo"
         '
+        'CBox_EnviarFE
+        '
+        Me.CBox_EnviarFE.AutoSize = True
+        Me.CBox_EnviarFE.Location = New System.Drawing.Point(460, 41)
+        Me.CBox_EnviarFE.Name = "CBox_EnviarFE"
+        Me.CBox_EnviarFE.Size = New System.Drawing.Size(196, 21)
+        Me.CBox_EnviarFE.TabIndex = 97
+        Me.CBox_EnviarFE.Text = "Enviar Factura Electronica"
+        Me.CBox_EnviarFE.UseVisualStyleBackColor = True
+        '
         'Admin_ClientesModificados
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1141, 731)
+        Me.Controls.Add(Me.CBox_EnviarFE)
         Me.Controls.Add(Me.Comb_Tipo)
         Me.Controls.Add(Me.Label27)
         Me.Controls.Add(Me.Button1)
@@ -1047,4 +1059,5 @@ Partial Class Admin_ClientesModificados
     Friend WithEvents DTP_ExoFechaEmision As DateTimePicker
     Friend WithEvents txtb_ExoPorcentajeCompra As TextBox
     Friend WithEvents lbl_PorcentajeCompra As Label
+    Friend WithEvents CBox_EnviarFE As CheckBox
 End Class

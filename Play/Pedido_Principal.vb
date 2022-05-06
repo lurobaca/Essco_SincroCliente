@@ -4,8 +4,8 @@ Imports SAPbobsCOM
 'Imports Outlook = Microsoft.Office.Interop.Outlook
 
 Public Class Pedido_Principal
-    Public oCompany As New SAPbobsCOM.Company
-    Public obj_SAP As New SAP_BUSSINES_ONE
+    'Public oCompany As New SAPbobsCOM.Company
+    'Public obj_SAP As New SAP_BUSSINES_ONE
     Public obj_Exportar As New ExportarAExcell
     Public Obj_OutLook As New Class_CorreoMicrosoft
     Public FIniOrdCompra As String
@@ -54,7 +54,7 @@ Public Class Pedido_Principal
 
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_CrearEnSAP.Click
         Try
-            oCompany = obj_SAP.ConectarSap()
+            'oCompany = obj_SAP.ConectarSap()
             Dim Pregunta As Integer
             'verifica si existe el pedido
             If CInt(Class_VariablesGlobales.Obj_Funciones_SQL.ExisteOrdenCompra(lbl_NumOrden.Text, Class_VariablesGlobales.SQL_Comman1)) = 0 Then
@@ -135,9 +135,9 @@ Public Class Pedido_Principal
 
 
 
-                    If obj_SAP.AddOrderClient("01", EncabezadoOrdenCompra, DetalleOrdenCompra, oCompany, Class_VariablesGlobales.SQL_Comman1) = 0 Then
-                        'si se crea el pedido en SAP actualiza la bandera 
-                        Class_VariablesGlobales.Obj_Funciones_SQL.PedidoCreadoEnSAP(Class_VariablesGlobales.SQL_Comman1, lbl_NumOrden.Text)
+                    'If obj_SAP.AddOrderClient("01", EncabezadoOrdenCompra, DetalleOrdenCompra, oCompany, Class_VariablesGlobales.SQL_Comman1) = 0 Then
+                    'si se crea el pedido en SAP actualiza la bandera 
+                    Class_VariablesGlobales.Obj_Funciones_SQL.PedidoCreadoEnSAP(Class_VariablesGlobales.SQL_Comman1, lbl_NumOrden.Text)
 
                         'Verifica si el pedido es de reckitt hace la obtension de los datos de SAP del pedido creado 
                         If Trim(txtb_CodProveedor.Text) = "P094" Or Trim(txtb_CodProveedor.Text) = "P096" Then
@@ -182,14 +182,14 @@ Public Class Pedido_Principal
 
 
 
+                        'Else
+                        '    MsgBox("Por problemas de conexión con SAP el pedido no se ha podido crear, pruebe las siguientes soluciones: " & vbCrLf _
+                        '           & "- Cierre y vuelva a abrir el sistema " & vbCrLf _
+                        '           & "- Verifique que las conexiones a SAP no estén saturadas " & vbCrLf _
+                        '           & "- Verifique que tenga conexión a la red" & vbCrLf _
+                        '           & "- Verifique que el servidor de SAP este encendido y conectado a la red")
+                        'End If
                     Else
-                        MsgBox("Por problemas de conexión con SAP el pedido no se ha podido crear, pruebe las siguientes soluciones: " & vbCrLf _
-                               & "- Cierre y vuelva a abrir el sistema " & vbCrLf _
-                               & "- Verifique que las conexiones a SAP no estén saturadas " & vbCrLf _
-                               & "- Verifique que tenga conexión a la red" & vbCrLf _
-                               & "- Verifique que el servidor de SAP este encendido y conectado a la red")
-                    End If
-                Else
 
                 End If
 

@@ -3,7 +3,7 @@ Imports System.Threading
 
 Public Class Liquidacion_Choferes
     Public Obj_SQL_CONEXION As New Class_funcionesSQL
-    Public Obj_SAP As New SAP_BUSSINES_ONE
+    'Public Obj_SAP As New SAP_BUSSINES_ONE
     Public ConsecutivoRepFac As String
 
     Public valProgres As Integer = 1
@@ -944,7 +944,7 @@ Public Class Liquidacion_Choferes
 
                 'Carga el numero de liquidacion al recibo de SAP
                 While contardor < dgv_Recibos.Rows.Count - 1
-                    Obj_SAP.ActualizaPago(dgv_Recibos.Rows(contardor).Cells(0).Value.ToString(), Trim(txt_CodChofer.Text), txtb_Consecutivo.Text)
+                    'Obj_SAP.ActualizaPago(dgv_Recibos.Rows(contardor).Cells(0).Value.ToString(), Trim(txt_CodChofer.Text), txtb_Consecutivo.Text)
 
                     contardor += 1
                 End While
@@ -1044,7 +1044,7 @@ Public Class Liquidacion_Choferes
 
                     'Carga el numero de liquidacion al recibo de SAP
                     While contardor < dgv_Recibos.Rows.Count - 1
-                        Obj_SAP.ActualizaPago(dgv_Recibos.Rows(contardor).Cells(0).Value.ToString(), Trim(txt_CodChofer.Text), txtb_Consecutivo.Text)
+                        'Obj_SAP.ActualizaPago(dgv_Recibos.Rows(contardor).Cells(0).Value.ToString(), Trim(txt_CodChofer.Text), txtb_Consecutivo.Text)
 
                         contardor += 1
                     End While

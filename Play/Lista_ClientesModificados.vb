@@ -53,7 +53,7 @@
                 '[E_Mail], [NameFicticio], [Latitud], [Longitud], [Agente], [Id_Provincia], [Id_Canton], [Id_Distrito], [Id_Barrio], [Estado], [Tipo_Cedula],
                 '[Fecha], [Hora], [Aprobado], [id]
 
-                Dim Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Id_DiaVisita, Id_TipoID As Integer
+                Dim Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Id_DiaVisita, Id_TipoID, Id_TipoSocio As Integer
 
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Consecutivo.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(0).Value)
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Codigo.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(1).Value)
@@ -167,8 +167,10 @@
 
 
                 Id_TipoID = CInt(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(20).Value))
+                Id_TipoSocio = CInt(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(25).Value))
+
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.Comb_TipoId.SelectedIndex = Id_TipoID
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.Comb_Tipo.SelectedIndex = CInt(Id_TipoID)
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.Comb_Tipo.SelectedIndex = CInt(Id_TipoSocio)
 
 
 

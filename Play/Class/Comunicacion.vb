@@ -179,7 +179,7 @@ Public Class Comunicacion
     Public Sub ConsultaEstatus(TK As String, claveConsultar As String, RutaComprobante As String, Tipo As String, ConsecutivoMR As String)
         Try
             Dim obj_FTP As New Class_FTP
-            Dim obj_SAP As New SAP_BUSSINES_ONE
+            'Dim obj_SAP As New SAP_BUSSINES_ONE
             Dim URL_RECEPCION As String = VariablesGlobales.URL_RECEPCION
             Dim http As HttpClient = New HttpClient
             Dim Msj As String
@@ -404,7 +404,7 @@ Public Class Comunicacion
             ReasonPhrase = Nothing
 
 
-            obj_SAP = Nothing
+            'obj_SAP = Nothing
 
 
 

@@ -1,5 +1,5 @@
 ﻿Public Class AddRecibo
-    Public Obj_SAP As New SAP_BUSSINES_ONE
+    'Public Obj_SAP As New SAP_BUSSINES_ONE
 
     Private Sub TextBox1_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtb_NumRecibo.KeyPress
         If e.KeyChar = Microsoft.VisualBasic.ChrW(Keys.Return) Then
@@ -42,9 +42,9 @@
 
                 If Respuesta = "" Then
                     If Class_VariablesGlobales.frmLiqChof.btn_Guardar.Text = "GUARDAR" Then
-                        Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), "")
+                        'Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), "")
                     Else
-                        Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), CInt(Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text))
+                        'Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), CInt(Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text))
                     End If
                     Class_VariablesGlobales.frmLiqChof.Cargar()
                     txtb_NumRecibo.Text = ""
@@ -55,9 +55,9 @@
 
                     ElseIf result = DialogResult.Yes Then
                         If Class_VariablesGlobales.frmLiqChof.btn_Guardar.Text = "GUARDAR" Then
-                            Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), "")
+                            'Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), "")
                         Else
-                            Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), CInt(Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text))
+                            'Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), CInt(Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text))
                         End If
 
                         Class_VariablesGlobales.frmLiqChof.Cargar()
@@ -74,9 +74,9 @@
 
             Else
                 If Class_VariablesGlobales.frmLiqChof.btn_Guardar.Text = "GUARDAR" Then
-                    Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), "")
+                    'Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), "")
                 Else
-                    Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), CInt(Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text))
+                    'Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), CInt(Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text))
                 End If
                 Class_VariablesGlobales.frmLiqChof.Cargar()
                 txtb_NumRecibo.Text = ""
@@ -97,7 +97,7 @@
 
     Private Sub btn_Quitar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Quitar.Click
         If Trim(txtb_NumRecibo.Text) <> "" Then
-            Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), "01", "0")
+            'Obj_SAP.ActualizaPago(Trim(txtb_NumRecibo.Text), "01", "0")
             Class_VariablesGlobales.frmLiqChof.Cargar()
             txtb_NumRecibo.Text = ""
         Else

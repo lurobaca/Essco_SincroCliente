@@ -1,7 +1,7 @@
 ﻿Public Class RevisaDepositos
     Dim Thast As New Hashtable
-    Public obj_SAP As New SAP_BUSSINES_ONE
-    Public oCompany As New SAPbobsCOM.Company
+    'Public obj_SAP As New SAP_BUSSINES_ONE
+    'Public oCompany As New SAPbobsCOM.Company
     Public LlamaDepos As Boolean = False
     Public Function CargaDatos()
 
@@ -146,13 +146,13 @@
                             Cuenta_Banco = Class_VariablesGlobales.XMLParamCuentas_BancoBCT
                         End If
 
-                        If obj_SAP.CreaDeposito(DPCODIGO, DPFECHA, DPBANCO, CDbl(Total), Class_VariablesGlobales.SQL_Comman1, Cuenta_Banco, NUMLIQ) = 0 Then
-                            Class_VariablesGlobales.Obj_Funciones_SQL.ModificaDeposito(Class_VariablesGlobales.SQL_Comman2, DPCONSECUTIVO, "", "", "", "", "", "", "", "", False, "1", "")
+                        'If obj_SAP.CreaDeposito(DPCODIGO, DPFECHA, DPBANCO, CDbl(Total), Class_VariablesGlobales.SQL_Comman1, Cuenta_Banco, NUMLIQ) = 0 Then
+                        Class_VariablesGlobales.Obj_Funciones_SQL.ModificaDeposito(Class_VariablesGlobales.SQL_Comman2, DPCONSECUTIVO, "", "", "", "", "", "", "", "", False, "1", "")
+                            'End If
+
+
+
                         End If
-
-
-
-                    End If
 
                     contardor += 1
                 End While
@@ -174,7 +174,7 @@
     Private Sub RevisaDepositos_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
 
         'conecta  a SAP
-        oCompany = obj_SAP.ConectarSap()
+        'oCompany = obj_SAP.ConectarSap()
 
 
 

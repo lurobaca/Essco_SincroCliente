@@ -504,8 +504,8 @@ Public Class Stock_Manager
             Impuesto = "IVA13"
         End If
 
-        Dim obj_SAP As New SAP_BUSSINES_ONE
-        obj_SAP.CreaArticulo(txtb_ItemCode.Text, txtb_Descripcion.Text, txtb_CodProveedor.Text, txtb_Empaque.Text, txtb_CodBarras.Text, CBox_Familia.Text, CBox_Categoria.Text, CBox_Marca.Text, Txtb_NombreExtrangero.Text, CBox_GrupoArticulo.SelectedValue, Cbox_Ubicacion.Text, txtb_CodAlterno.Text, txtb_UnidMedida.Text, Impuesto, SujetoAImpuesto)
+        'Dim obj_SAP As New SAP_BUSSINES_ONE
+        'obj_SAP.CreaArticulo(txtb_ItemCode.Text, txtb_Descripcion.Text, txtb_CodProveedor.Text, txtb_Empaque.Text, txtb_CodBarras.Text, CBox_Familia.Text, CBox_Categoria.Text, CBox_Marca.Text, Txtb_NombreExtrangero.Text, CBox_GrupoArticulo.SelectedValue, Cbox_Ubicacion.Text, txtb_CodAlterno.Text, txtb_UnidMedida.Text, Impuesto, SujetoAImpuesto)
 
 
         VariablesGlobales.Obj_SQL.CambiaEstadoArticulo(Class_VariablesGlobales.SQL_Comman2, Txtb_IdArticuloNuevo.Text)

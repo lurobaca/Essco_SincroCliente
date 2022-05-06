@@ -4,7 +4,7 @@
 Public Class Devoluciones
 
     ' Public oCompany As New SAPbobsCOM.Company
-    Public obj_SAP As New SAP_BUSSINES_ONE
+    'Public obj_SAP As New SAP_BUSSINES_ONE
 
     Public Obj_Mformat As New MonedaFormat
     Public indice As Integer
@@ -12,7 +12,7 @@ Public Class Devoluciones
     Public tbhath As New Hashtable
     Public tbhath2 As New Hashtable
     Private Sub Devoluciones_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        VariablesGlobales.oCompany = obj_SAP.ConectarSap()
+        'VariablesGlobales.oCompany = obj_SAP.ConectarSap()
         Me.Dtg_Devoluciones.EditMode = DataGridViewEditMode.EditOnEnter
 
         Dim tabla As New DataTable
@@ -647,7 +647,8 @@ Public Class Devoluciones
                     'A
 
 
-                    Dim err As String = obj_SAP.CreaNotaCreditoLigada(txtb_DocNum.Text, txtb_CodChofer.Text, EncabezadoOrdenCompra, DetalleOrdenCompra, VariablesGlobales.oCompany, Class_VariablesGlobales.SQL_Comman1)
+                    Dim err As String
+                    'obj_SAP.CreaNotaCreditoLigada(txtb_DocNum.Text, txtb_CodChofer.Text, EncabezadoOrdenCompra, DetalleOrdenCompra, VariablesGlobales.oCompany, Class_VariablesGlobales.SQL_Comman1)
                     'Dim err As String = obj_SAP.CreaNotaCreditoDesLigada(txtb_DocNum.Text, txtb_CodChofer.Text, EncabezadoOrdenCompra, DetalleOrdenCompra, VariablesGlobales.oCompany, Class_VariablesGlobales.SQL_Comman1)
                     If Trim(err) = "" Then
                         'Imprimir()

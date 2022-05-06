@@ -558,18 +558,18 @@ Public Class ReporteDeDevoluciones
             'Primero obtendra las linea que necesitas TRASLADO, ENTRADA Y SALIDA esto segun el estado  de Accion que se le alla elegido
             Dim TablCambiado As DataTable
             Dim TablaLineasEntrada As DataTable
-            Dim vCompany As SAPbobsCOM.Company
+            'Dim vCompany As SAPbobsCOM.Company
 
             TablCambiado = Class_VariablesGlobales.Obj_Funciones_SQL.ConsultaRepDevo(txb_Numero.Text, Class_VariablesGlobales.SQL_Comman2, "CAMBIADO")
 
-            Class_VariablesGlobales.obj_SAP.CreaSalidaDeMercaderia(TablCambiado)
-            Class_VariablesGlobales.obj_SAP.CreaEntradaDeMercaderia(TablCambiado)
+            'Class_VariablesGlobales.obj_SAP.CreaSalidaDeMercaderia(TablCambiado)
+            'Class_VariablesGlobales.obj_SAP.CreaEntradaDeMercaderia(TablCambiado)
 
             TablCambiado.Dispose()
 
             TablCambiado = Class_VariablesGlobales.Obj_Funciones_SQL.ConsultaRepDevo(txb_Numero.Text, Class_VariablesGlobales.SQL_Comman2, "TRASLADO")
 
-            Class_VariablesGlobales.obj_SAP.CreaTrasladoDeMercaderia(TablCambiado)
+            'Class_VariablesGlobales.obj_SAP.CreaTrasladoDeMercaderia(TablCambiado)
 
             Class_VariablesGlobales.Obj_Funciones_SQL.CambiaStadoACorregido(txb_Numero.Text, Class_VariablesGlobales.SQL_Comman2)
             btn_Corregir.Visible = False

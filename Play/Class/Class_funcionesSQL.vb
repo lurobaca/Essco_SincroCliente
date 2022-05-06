@@ -217,7 +217,7 @@ Public Class Class_funcionesSQL
 
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-                ADATER.Fill(TABLA)
+            ADATER.Fill(TABLA)
             If Trim(TABLA.Rows(0).Item("Existe").ToString()) <> "" Then
                 Retorna = True
             Else
@@ -823,7 +823,7 @@ Public Class Class_funcionesSQL
         Dim Consulta As String
         Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_DeduccionesFijas] where [Cedula_Empleado]='" & Trim(Cedula) & "' and Tipo='" & Trim(Cbx_Tipo) & "'"
         SQL_Comman.CommandText = Consulta
-            SQL_Comman.ExecuteNonQuery()
+        SQL_Comman.ExecuteNonQuery()
 
     End Function
     Public Function ELIMINA_Planilla_TEMP(ByVal id As String, ByVal SQL_Comman As SqlCommand)
@@ -879,8 +879,8 @@ Public Class Class_funcionesSQL
             Dim contador As Integer = 0
             Dim totalplanilla As Double = 0
             If TABLA.Rows.Count > 0 Then
-                While contador <TABLA.Rows.Count
-                                   totalplanilla += CDbl(TABLA.Rows(contador).Item("SalarioFinal").ToString())
+                While contador < TABLA.Rows.Count
+                    totalplanilla += CDbl(TABLA.Rows(contador).Item("SalarioFinal").ToString())
 
                     contador += 1
                 End While
@@ -1057,7 +1057,7 @@ Public Class Class_funcionesSQL
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
-           
+
         Catch ex As Exception
         End Try
 
@@ -1266,11 +1266,11 @@ Public Class Class_funcionesSQL
 
     End Function
 
-    Public Function GuardaPlanilla(ByVal id As Integer, ByVal CedJuridica As String, ByVal Nombre As String, ByVal PorcCCSS As String, _
-         ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal CedulaEmpleado As String, ByVal Puesto As String, _
-         ByVal NombreEmpleado As String, ByVal Salario As Double, ByVal SalarioQuincenal As Double, ByVal Dedu_Adicional As Double, _
-         ByVal Dedu_Deb_Personal As Double, ByVal Dedu_Ducc_Cuota As Double, ByVal Dedu_Celular As Double, _
-         ByVal Dedu_Embargo As Double, ByVal Dedu_Prestamo As Double, ByVal Dedu_FaltaLiq As Double, ByVal Dedu_Facturas As Double, ByVal Dedu_Faltante As Double, ByVal Dedu_CCSS As Double, _
+    Public Function GuardaPlanilla(ByVal id As Integer, ByVal CedJuridica As String, ByVal Nombre As String, ByVal PorcCCSS As String,
+         ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal CedulaEmpleado As String, ByVal Puesto As String,
+         ByVal NombreEmpleado As String, ByVal Salario As Double, ByVal SalarioQuincenal As Double, ByVal Dedu_Adicional As Double,
+         ByVal Dedu_Deb_Personal As Double, ByVal Dedu_Ducc_Cuota As Double, ByVal Dedu_Celular As Double,
+         ByVal Dedu_Embargo As Double, ByVal Dedu_Prestamo As Double, ByVal Dedu_FaltaLiq As Double, ByVal Dedu_Facturas As Double, ByVal Dedu_Faltante As Double, ByVal Dedu_CCSS As Double,
          ByVal Dedu_Otro As Double, ByVal Lbl_Salario As Double, ByVal Foto As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
         Try
             Dim Consulta As String = ""
@@ -1343,11 +1343,11 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
-    Public Function GuardaPlanilla_TEM(ByVal id As Integer, ByVal CedJuridica As String, ByVal Nombre As String, ByVal PorcCCSS As String, _
-        ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal CedulaEmpleado As String, ByVal Puesto As String, _
-        ByVal NombreEmpleado As String, ByVal Salario As Double, ByVal SalarioQuincenal As Double, ByVal Dedu_Adicional As Double, _
-        ByVal Dedu_Deb_Personal As Double, ByVal Dedu_Ducc_Cuota As Double, ByVal Dedu_Celular As Double, _
-        ByVal Dedu_Embargo As Double, ByVal Dedu_Prestamo As Double, ByVal Dedu_FaltaLiq As Double, ByVal Dedu_Facturas As Double, ByVal Dedu_Faltante As Double, ByVal Dedu_CCSS As Double, _
+    Public Function GuardaPlanilla_TEM(ByVal id As Integer, ByVal CedJuridica As String, ByVal Nombre As String, ByVal PorcCCSS As String,
+        ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal CedulaEmpleado As String, ByVal Puesto As String,
+        ByVal NombreEmpleado As String, ByVal Salario As Double, ByVal SalarioQuincenal As Double, ByVal Dedu_Adicional As Double,
+        ByVal Dedu_Deb_Personal As Double, ByVal Dedu_Ducc_Cuota As Double, ByVal Dedu_Celular As Double,
+        ByVal Dedu_Embargo As Double, ByVal Dedu_Prestamo As Double, ByVal Dedu_FaltaLiq As Double, ByVal Dedu_Facturas As Double, ByVal Dedu_Faltante As Double, ByVal Dedu_CCSS As Double,
         ByVal Dedu_Otro As Double, ByVal Lbl_Salario As Double, ByVal Foto As String, ByVal id_Empleado As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
         Try
             Dim Consulta As String = ""
@@ -1523,27 +1523,27 @@ Public Class Class_funcionesSQL
             Consulta = ""
             If GUARDANDO = True Then
 
-                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Experiencia]" & _
-           "([Cedula_Empleado]" & _
-           ",[Empresa]" & _
-           ",[Puesto]" & _
-           ",[Fecha_Ingreso]" & _
-           ",[Fecha_Salida]" & _
-           ",[Person_Referencia]" & _
-           ",[Telefono]" & _
-           ",[Comentarios])" & _
+                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Experiencia]" &
+           "([Cedula_Empleado]" &
+           ",[Empresa]" &
+           ",[Puesto]" &
+           ",[Fecha_Ingreso]" &
+           ",[Fecha_Salida]" &
+           ",[Person_Referencia]" &
+           ",[Telefono]" &
+           ",[Comentarios])" &
                 "VALUES('" & Cedula & "','" & Empresa & "','" & ExPuesto & "','" & FechaIngreso & "','" & FechaSalida & "','" & Persona & "','" & Telefono & "','" & Comentario & "')"
 
 
             Else
-                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Experiencia] " & _
-                      " SET [Empresa] = '" & Empresa & "'" & _
-                      ",[Puesto] = '" & ExPuesto & "'" & _
-                      ",[Fecha_Ingreso] = '" & FechaIngreso & "'" & _
-                      ",[Fecha_Salida] ='" & FechaSalida & "'" & _
-                      ",[Person_Referencia] = '" & Persona & "'" & _
-                      ",[Telefono] = '" & Telefono & "'" & _
-                      ",[Comentarios] = '" & Comentario & "' " & _
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Experiencia] " &
+                      " SET [Empresa] = '" & Empresa & "'" &
+                      ",[Puesto] = '" & ExPuesto & "'" &
+                      ",[Fecha_Ingreso] = '" & FechaIngreso & "'" &
+                      ",[Fecha_Salida] ='" & FechaSalida & "'" &
+                      ",[Person_Referencia] = '" & Persona & "'" &
+                      ",[Telefono] = '" & Telefono & "'" &
+                      ",[Comentarios] = '" & Comentario & "' " &
                       "WHERE [Cedula_Empleado] = '" & Cedula & "' AND Empresa LIKE ='%" & Empresa & "%'"
             End If
             SQL_Comman.CommandText = Consulta
@@ -1635,18 +1635,18 @@ Public Class Class_funcionesSQL
 
             Consulta = ""
             If GUARDANDO = True Then
-                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Deducciones]" & _
-           "([Cedula_Empleado]" & _
-           ",[Categoria]" & _
-           ",[Monto]" & _
-           ",[Detalle])" & _
+                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Deducciones]" &
+           "([Cedula_Empleado]" &
+           ",[Categoria]" &
+           ",[Monto]" &
+           ",[Detalle])" &
                 "VALUES('" & Cedula & "','" & Categoria & "','" & Monto & "','" & Detalle & "')"
             Else
-                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Deducciones] " & _
-                      " SET [Cedula_Empleado] = '" & Cedula & "'" & _
-                      ",[Categoria] = '" & Categoria & "'" & _
-                      ",[Monto] = '" & Monto & "'" & _
-                      ",[Detalle] ='" & Detalle & "'" & _
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Deducciones] " &
+                      " SET [Cedula_Empleado] = '" & Cedula & "'" &
+                      ",[Categoria] = '" & Categoria & "'" &
+                      ",[Monto] = '" & Monto & "'" &
+                      ",[Detalle] ='" & Detalle & "'" &
                       "WHERE [Cedula_Empleado] = '" & Cedula & "'"
             End If
             SQL_Comman.CommandText = Consulta
@@ -1668,24 +1668,24 @@ Public Class Class_funcionesSQL
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
             Consulta = ""
             If GUARDANDO = True Then
-                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Educacion]" & _
-           "([Cedula_Empleado]" & _
-           ",[Institucion]" & _
-           ",[Fecha_Ingreso]" & _
-           ",[Fecha_Salida]" & _
-           ",[EnCurso]" & _
-           ",[Grado]" & _
-           ",[Titulo])" & _
+                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Educacion]" &
+           "([Cedula_Empleado]" &
+           ",[Institucion]" &
+           ",[Fecha_Ingreso]" &
+           ",[Fecha_Salida]" &
+           ",[EnCurso]" &
+           ",[Grado]" &
+           ",[Titulo])" &
                 "VALUES('" & Cedula & "','" & Institucion & "','" & Fecha_Ingreso & "','" & Fecha_Salida & "','" & EnCurso & "','" & Grado & "','" & Titulo & "')"
             Else
-                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Educacion] " & _
-                      " SET [Cedula_Empleado] = '" & Cedula & "'" & _
-                      ",[Institucion] = '" & Institucion & "'" & _
-                      ",[Fecha_Ingreso] = '" & Fecha_Ingreso & "'" & _
-                      ",[Fecha_Salida] ='" & Fecha_Salida & "'" & _
-                      ",[EnCurso] = '" & EnCurso & "'" & _
-                      ",[Grado] = '" & Grado & "'" & _
-                      ",[Titulo] = '" & Titulo & "'" & _
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Educacion] " &
+                      " SET [Cedula_Empleado] = '" & Cedula & "'" &
+                      ",[Institucion] = '" & Institucion & "'" &
+                      ",[Fecha_Ingreso] = '" & Fecha_Ingreso & "'" &
+                      ",[Fecha_Salida] ='" & Fecha_Salida & "'" &
+                      ",[EnCurso] = '" & EnCurso & "'" &
+                      ",[Grado] = '" & Grado & "'" &
+                      ",[Titulo] = '" & Titulo & "'" &
                       "WHERE [Cedula_Empleado] = '" & Cedula & "' and [Institucion] like '%" & Institucion & "%'"
             End If
             SQL_Comman.CommandText = Consulta
@@ -1737,20 +1737,20 @@ Public Class Class_funcionesSQL
 
             Consulta = ""
             If GUARDANDO = True Then
-                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_ConsumoVacaciones]" & _
-           "([Cedula_Empleado]" & _
-           ",[FechaIni]" & _
-           ",[FechaFin]" & _
-           ",[Dias]" & _
-           ",[Comentario])" & _
+                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_ConsumoVacaciones]" &
+           "([Cedula_Empleado]" &
+           ",[FechaIni]" &
+           ",[FechaFin]" &
+           ",[Dias]" &
+           ",[Comentario])" &
                 "VALUES('" & Cedula & "','" & FechaINI & "','" & FechaFin & "','" & Dias & "','" & Comentario & "')"
             Else
-                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_ConsumoVacaciones] " & _
-                      " SET [Cedula_Empleado] = '" & Cedula & "'" & _
-                      ",[FechaIni] = '" & FechaINI & "'" & _
-                      ",[FechaFin] = '" & FechaFin & "'" & _
-                      ",[Dias]='" & Dias & "'" & _
-                      ",[Comentario]='" & Comentario & "'" & _
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_ConsumoVacaciones] " &
+                      " SET [Cedula_Empleado] = '" & Cedula & "'" &
+                      ",[FechaIni] = '" & FechaINI & "'" &
+                      ",[FechaFin] = '" & FechaFin & "'" &
+                      ",[Dias]='" & Dias & "'" &
+                      ",[Comentario]='" & Comentario & "'" &
                       "WHERE [Cedula_Empleado] = '" & Cedula & "'"
             End If
             SQL_Comman.CommandText = Consulta
@@ -2342,12 +2342,12 @@ Public Class Class_funcionesSQL
                     Fecha = TABLA.Rows(0).Item("DocDate").ToString()
                 Next
                 If Cobrador <> "01" Then
-                    Mensaje = "EL RECIBO ESTA VINCULADO A LA LIQUIDACION [ " & NumLiq & " ] CON EL COBRADOR [ " & Cobrador & " ] " & vbLf & _
+                    Mensaje = "EL RECIBO ESTA VINCULADO A LA LIQUIDACION [ " & NumLiq & " ] CON EL COBRADOR [ " & Cobrador & " ] " & vbLf &
                          " REALMENTE DESEA AGREGAR EL RECIBO A LA LIQUIDACION ?"
                 Else
                     Mensaje = Fecha
                 End If
-               
+
             End If
             Return Mensaje
         Catch ex As Exception
@@ -2410,7 +2410,7 @@ Public Class Class_funcionesSQL
                 If IncluirAnd = False Then
                     IncluirAnd = True
                 Else
-                     Consulta =  Consulta & " and "
+                    Consulta = Consulta & " and "
                 End If
 
                 Consulta = Consulta & "[CodAgente]='" & AgenteGasto & "'  "
@@ -2553,11 +2553,11 @@ Public Class Class_funcionesSQL
                 Consulta = Consulta & "IncluirEnLiquidacion ='true'  "
             Else
                 If IncluirAnd = False Then
-                IncluirAnd = True
-            Else
-                Consulta = Consulta & " and "
-            End If
-            Consulta = Consulta & "IncluirEnLiquidacion ='false'  "
+                    IncluirAnd = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
+                Consulta = Consulta & "IncluirEnLiquidacion ='false'  "
             End If
             If TituloGasto <> "" Then
                 If IncluirAnd = False Then
@@ -3906,7 +3906,7 @@ Public Class Class_funcionesSQL
                                   ,[NumLinea]
                               From  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[DevolucionesDetalle] Where [DocNum] ='" & DocNum & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-                ADATER.Fill(TABLA)
+            ADATER.Fill(TABLA)
 
             Return TABLA
         Catch ex As Exception
@@ -5886,8 +5886,8 @@ Public Class Class_funcionesSQL
             Consulta = ""
 
             'Actualiza el estado dependiendo del numero de aplicacion que sea
-            Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]" & _
-                       "SET  [Reintento] = 1" & _
+            Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]" &
+                       "SET  [Reintento] = 1" &
                        "WHERE [Consecutivo] = '" & Consecutivo & "'"
 
 
@@ -6020,8 +6020,8 @@ Public Class Class_funcionesSQL
 
             Consulta = ""
             'Actualiza el estado dependiendo del numero de aplicacion que sea
-            Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Tbl_Alertar] SET " & _
-                       "[Nuevo2] = '0' " & _
+            Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Tbl_Alertar] SET " &
+                       "[Nuevo2] = '0' " &
                         "WHERE [Agente] = '" & Agente & "'"
 
             SQL_Comman.CommandText = Consulta
@@ -6580,7 +6580,7 @@ Public Class Class_funcionesSQL
                 Dim Consulta As String
                 'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
                 Consulta = ""
-                Consulta = "INSERT INTO  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[AgenteAEjecutar]" & _
+                Consulta = "INSERT INTO  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[AgenteAEjecutar]" &
                           "([EjecAgente]) VALUES(" & idAgente & ")"
                 SQL_Comman.CommandText = Consulta
                 SQL_Comman.ExecuteNonQuery()
@@ -7786,10 +7786,10 @@ Public Class Class_funcionesSQL
     End Function
 
 #Region "Funciones Parametros para Android Nodegueros"
-    Public Function AgregarBodeguero(ByVal SQL_Comman As SqlCommand, ByVal CodBodeguero As String, ByVal Nombre As String, ByVal Telefono As String, _
-                                     ByVal Conse_RepCarga As String, ByVal Conse_RepDevoluciones As String, ByVal Correo As String, ByVal FTP As String, _
-                                      ByVal Puesto As String, ByVal Cedula As String, ByVal Sector1 As String, _
-                                      ByVal Sector2 As String, ByVal Sector3 As String, ByVal Sector4 As String, ByVal Sector5 As String, ByVal Sector6 As String, _
+    Public Function AgregarBodeguero(ByVal SQL_Comman As SqlCommand, ByVal CodBodeguero As String, ByVal Nombre As String, ByVal Telefono As String,
+                                     ByVal Conse_RepCarga As String, ByVal Conse_RepDevoluciones As String, ByVal Correo As String, ByVal FTP As String,
+                                      ByVal Puesto As String, ByVal Cedula As String, ByVal Sector1 As String,
+                                      ByVal Sector2 As String, ByVal Sector3 As String, ByVal Sector4 As String, ByVal Sector5 As String, ByVal Sector6 As String,
                                       ByVal Sector7 As String, ByVal Sector8 As String, ByVal Sector9 As String, ByVal Sector10 As String, ByVal Sector11 As String, ByVal Sector12 As String, ByVal Sector13 As String, ByVal Sector14 As String, ByVal Sector15 As String, ByVal Sector16 As String, ByVal Sector17 As String, ByVal Sector18 As String, ByVal Sector19 As String, ByVal Sector20 As String, ByVal Clave As String, ByVal Usuario As String)
 
         Try
@@ -7996,11 +7996,11 @@ Public Class Class_funcionesSQL
         End If
     End Function
 
-    Public Function ModificaBodeguero(ByVal SQL_Comman As SqlCommand, ByVal CodBodeguero As String, ByVal Nombre As String, ByVal Telefono As String, _
-                                     ByVal Conse_RepCarga As String, ByVal Conse_RepDevoluciones As String, ByVal Correo As String, ByVal FTP As String, _
-                                      ByVal Puesto As String, ByVal Cedula As String, ByVal Sector1 As String, _
-                                      ByVal Sector2 As String, ByVal Sector3 As String, ByVal Sector4 As String, ByVal Sector5 As String, ByVal Sector6 As String, _
-                                      ByVal Sector7 As String, ByVal Sector8 As String, ByVal Sector9 As String, ByVal Sector10 As String, _
+    Public Function ModificaBodeguero(ByVal SQL_Comman As SqlCommand, ByVal CodBodeguero As String, ByVal Nombre As String, ByVal Telefono As String,
+                                     ByVal Conse_RepCarga As String, ByVal Conse_RepDevoluciones As String, ByVal Correo As String, ByVal FTP As String,
+                                      ByVal Puesto As String, ByVal Cedula As String, ByVal Sector1 As String,
+                                      ByVal Sector2 As String, ByVal Sector3 As String, ByVal Sector4 As String, ByVal Sector5 As String, ByVal Sector6 As String,
+                                      ByVal Sector7 As String, ByVal Sector8 As String, ByVal Sector9 As String, ByVal Sector10 As String,
                                       ByVal Sector11 As String, ByVal Sector12 As String, ByVal Sector13 As String, ByVal Sector14 As String, ByVal Sector15 As String, ByVal Sector16 As String, ByVal Sector17 As String, ByVal Sector18 As String, ByVal Sector19 As String, ByVal Sector20 As String, ByVal Clave As String, ByVal Usuario As String)
 
         Try
@@ -8399,9 +8399,9 @@ Public Class Class_funcionesSQL
 
 
 
-    Public Function AgregaDescFijo(ByVal SQL_Comman As SqlCommand, ByVal ID As Integer, ByVal CodCliente As String, ByVal NombCliente As String, _
-                                   ByVal CodProveedor As String, ByVal NombProveedor As String, ByVal familia As String, ByVal Categoria As String, _
-                                   ByVal Marca As String, ByVal CodArt As String, ByVal NombArticulo As String, ByVal Desc As String, ByVal Estado As Integer, _
+    Public Function AgregaDescFijo(ByVal SQL_Comman As SqlCommand, ByVal ID As Integer, ByVal CodCliente As String, ByVal NombCliente As String,
+                                   ByVal CodProveedor As String, ByVal NombProveedor As String, ByVal familia As String, ByVal Categoria As String,
+                                   ByVal Marca As String, ByVal CodArt As String, ByVal NombArticulo As String, ByVal Desc As String, ByVal Estado As Integer,
                                     ByVal PeriodoIndefinido As Integer, ByVal Fecha_INI As Date, ByVal Fecha_FIN As Date, ByVal FechaCreado As Date, ByVal FechaCerrado As Date, ByVal Usuario As String, ByVal Accion As String)
         Try
             Dim Consulta As String
@@ -8960,19 +8960,19 @@ Public Class Class_funcionesSQL
                 End If
 
 
-                Else
-                    For i As Integer = 0 To Rutas_Unidicar.Count - 1
-                        If cont > 0 Then
-                            Consulta = Consulta & " UNION "
-                        End If
+            Else
+                For i As Integer = 0 To Rutas_Unidicar.Count - 1
+                    If cont > 0 Then
+                        Consulta = Consulta & " UNION "
+                    End If
 
-                        If Grupo = "A" Then
-                            Consulta = Consulta & " SELECT * FROM UniversoXAgenteDividido('" & Rutas_Unidicar(i).ToString & "')  "
-                        ElseIf Grupo = "B" Then
-                            Consulta = Consulta & " SELECT * FROM UniversoXAgenteDividido_B('" & Rutas_Unidicar(i).ToString & "') "
-                        ElseIf Grupo = "GPS" Then
-                            Consulta = Consulta & " SELECT * FROM UniversoXAgente('" & Rutas_Unidicar(i).ToString & "') WHERE  U_Latitud IS NOT NULL  "
-                        Else
+                    If Grupo = "A" Then
+                        Consulta = Consulta & " SELECT * FROM UniversoXAgenteDividido('" & Rutas_Unidicar(i).ToString & "')  "
+                    ElseIf Grupo = "B" Then
+                        Consulta = Consulta & " SELECT * FROM UniversoXAgenteDividido_B('" & Rutas_Unidicar(i).ToString & "') "
+                    ElseIf Grupo = "GPS" Then
+                        Consulta = Consulta & " SELECT * FROM UniversoXAgente('" & Rutas_Unidicar(i).ToString & "') WHERE  U_Latitud IS NOT NULL  "
+                    Else
 
 
                         If Class_VariablesGlobales.XMLParamSAP_CompanyDB = "" Then
@@ -8984,9 +8984,9 @@ Public Class Class_funcionesSQL
 
                     End If
 
-                        cont += 1
-                    Next i
-                End If
+                    cont += 1
+                Next i
+            End If
 
 
 
@@ -9855,7 +9855,7 @@ Public Class Class_funcionesSQL
             Dim yawhere As Boolean = False
             Dim entro As Boolean = False
 
-           Consulta = "SELECT [Consecutivo],[CardCode],[CardName],[Cedula],[Respolsabletributario],[U_Visita],[U_ClaveWeb],[Phone1],[Phone2],[Street],[E_Mail],[NameFicticio],[Latitud],[Longitud],[Agente],[Id_Provincia],[Id_Canton],[Id_Distrito],[Id_Barrio],[Estado],[Tipo_Cedula],[Fecha],[Hora],[Aprobado],[id],[TipoSocio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ClientesModificados] "
+            Consulta = "SELECT [Consecutivo],[CardCode],[CardName],[Cedula],[Respolsabletributario],[U_Visita],[U_ClaveWeb],[Phone1],[Phone2],[Street],[E_Mail],[NameFicticio],[Latitud],[Longitud],[Agente],[Id_Provincia],[Id_Canton],[Id_Distrito],[Id_Barrio],[Estado],[Tipo_Cedula],[Fecha],[Hora],[Aprobado],[id],[TipoSocio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ClientesModificados] "
 
             'Si busca por agente
             If Aprobados = True Then
@@ -10104,7 +10104,32 @@ Public Class Class_funcionesSQL
             'Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR CONSULTAPedidosHoyPendientes ( " & ex.Message & " )"
         End Try
     End Function
-    Public Function ActualizoCliente(ByVal SQL_Comman As SqlCommand, ByVal Consecutivo As String)
+    'Public Function ActualizoCliente(ByVal SQL_Comman As SqlCommand, ByVal Consecutivo As String)
+
+    '    Try
+    '        ' Dim SQL_Comman As New SqlCommand
+    '        ' para la conexion al comman
+    '        ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+    '        Dim Consulta As String
+    '        Consulta = ""
+    '        Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesModificados]  SET [Aprobado]='1' WHERE [Consecutivo] = '" & Consecutivo & "'"
+    '        SQL_Comman.CommandText = Consulta
+    '        SQL_Comman.ExecuteNonQuery()
+    '        'Obj_SQL_CONEXION.Desconectar(SQL_Comman)
+    '        SQL_Comman = Nothing
+    '    Catch ex As Exception
+
+    '    End Try
+    'End Function
+
+    Public Function ActualizoCliente(ByVal SQL_Comman As SqlCommand, ByVal Consecutivo As String, CardCode As String, CardName As String, Cedula As String,
+                                                                    Respolsabletributario As String, U_Visita As String, U_ClaveWeb As String,
+                                                                    Phone1 As String, Phone2 As String, Street As String, E_Mail As String,
+                                                                    NameFicticio As String, Latitud As String, Longitud As String, Agente As String,
+                                                                    Id_Provincia As String, Id_Canton As String, Id_Distrito As String, Id_Barrio As String,
+                                                                    Estado As String, Tipo_Cedula As String, Fecha As String, Hora As String,
+                                                                    Aprobado As String, TipoSocio As String, EXO_TipoDocumento As String, EXO_Numero As String,
+                                                                    EXO_NombreInstitucion As String, EXO_FechaEmision As String, EXO_PorcentajeCompra As String)
 
         Try
             ' Dim SQL_Comman As New SqlCommand
@@ -10112,17 +10137,46 @@ Public Class Class_funcionesSQL
             ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
             Dim Consulta As String
             Consulta = ""
-            Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesModificados]  SET [Aprobado]='1' WHERE [Consecutivo] = '" & Consecutivo & "'"
+            Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesModificados]
+                       SET [CardCode] = '" & CardCode & "'                                 
+                          ,[CardName] = '" & CardName & "'                                 
+                          ,[Cedula] = '" & Cedula & "'                                 
+                          ,[Respolsabletributario] = '" & Respolsabletributario & "'                                 
+                          ,[U_Visita] = '" & U_Visita & "'                                 
+                          ,[U_ClaveWeb] = '" & U_ClaveWeb & "'                                 
+                          ,[Phone1] = '" & Phone1 & "'                                 
+                          ,[Phone2] = '" & Phone2 & "'                                 
+                          ,[Street] = '" & Street & "'                                 
+                          ,[E_Mail] = '" & E_Mail & "'                                 
+                          ,[NameFicticio] = '" & NameFicticio & "'                                 
+                          ,[Latitud] = '" & Latitud & "'                                 
+                          ,[Longitud] = '" & Longitud & "'                                 
+                          ,[Agente] = '" & Agente & "'                                 
+                          ,[Id_Provincia] = '" & Id_Provincia & "'                                 
+                          ,[Id_Canton] = '" & Id_Canton & "'                                 
+                          ,[Id_Distrito] = '" & Id_Distrito & "'                                 
+                          ,[Id_Barrio] = '" & Id_Barrio & "'                                 
+                                              
+                          ,[Tipo_Cedula] = '" & Tipo_Cedula & "'                                 
+                          ,[Fecha] = '" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Fecha) & "'                                 
+                          ,[Hora] = '" & Hora & "'                                 
+                                           
+                          ,[Consecutivo] = '" & Consecutivo & "'                                 
+                          ,[TipoSocio] = '" & TipoSocio & "'                                 
+                          ,[EXO_TipoDocumento] = '" & EXO_TipoDocumento & "'                                 
+                          ,[EXO_Numero] = '" & EXO_Numero & "'                                 
+                          ,[EXO_NombreInstitucion] = '" & EXO_NombreInstitucion & "'                                 
+                          ,[EXO_FechaEmision] = '" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(EXO_FechaEmision) & "'                               
+                          ,[EXO_PorcentajeCompra] = '" & EXO_PorcentajeCompra & "'                                 
+                    WHERE [Consecutivo] = '" & Consecutivo & "'"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
-            'Obj_SQL_CONEXION.Desconectar(SQL_Comman)
             SQL_Comman = Nothing
         Catch ex As Exception
 
         End Try
     End Function
-
-    Public Function GuardaCliente(ByVal CardCode As String, ByVal CardName As String, ByVal Cedula As String, ByVal Respolsabletributario As String, ByVal U_Visita As String, ByVal U_ClaveWeb As String, ByVal Phone1 As String, ByVal Phone2 As String, ByVal Street As String, ByVal E_Mail As String, ByVal NameFicticio As String, ByVal Latitud As String, ByVal Longitud As String, ByVal Agente As String, ByVal Id_Provincia As String, ByVal Id_Canton As String, ByVal Id_Distrito As String, ByVal Id_Barrio As String, ByVal Estado As String, ByVal Tipo_Cedula As String, ByVal Fecha As String, ByVal Hora As String, ByVal Aprobado As String, ByVal Consecutivo As String, EXO_TipoDocumento As String, EXO_Numero As String, EXO_NombreInstitucion As String, EXO_FechaEmision As String, EXO_PorcentajeCompra As String, Guardar As Boolean)
+    Public Function GuardaCliente(ByVal CardCode As String, ByVal CardName As String, ByVal Cedula As String, ByVal Respolsabletributario As String, ByVal U_Visita As String, ByVal U_ClaveWeb As String, ByVal Phone1 As String, ByVal Phone2 As String, ByVal Street As String, ByVal E_Mail As String, ByVal NameFicticio As String, ByVal Latitud As String, ByVal Longitud As String, ByVal Agente As String, ByVal Id_Provincia As String, ByVal Id_Canton As String, ByVal Id_Distrito As String, ByVal Id_Barrio As String, ByVal Estado As String, ByVal Tipo_Cedula As String, ByVal Fecha As String, ByVal Hora As String, ByVal Aprobado As String, ByVal Consecutivo As String, EXO_TipoDocumento As String, EXO_Numero As String, EXO_NombreInstitucion As String, EXO_FechaEmision As String, EXO_PorcentajeCompra As String, EnviarFE As Integer, Guardar As Boolean)
         Try
 
 
@@ -10162,7 +10216,8 @@ Public Class Class_funcionesSQL
            ,[EXO_Numero]
            ,[EXO_NombreInstitucion]
            ,[EXO_FechaEmision]
-           ,[EXO_PorcentajeCompra])
+           ,[EXO_PorcentajeCompra]
+           ,[EnviarFE])
      VALUES
            ('" & CardCode &
          "','" & CardName &
@@ -10192,7 +10247,8 @@ Public Class Class_funcionesSQL
          "','" & EXO_Numero &
          "','" & EXO_NombreInstitucion &
          "','" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(EXO_FechaEmision) &
-         "'," & EXO_PorcentajeCompra & ")"
+         "'," & EXO_PorcentajeCompra &
+           "'," & EnviarFE & ")"
 
 
             Else
@@ -10225,6 +10281,7 @@ Public Class Class_funcionesSQL
                                    ,[EXO_NombreInstitucion] = '" & EXO_NombreInstitucion & "'
                                    ,[EXO_FechaEmision] = '" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(EXO_FechaEmision) & "'
                                    ,[EXO_PorcentajeCompra] = '" & EXO_PorcentajeCompra & "' 
+                                        ,[EnviarFE] = " & EnviarFE & " 
                               WHERE [CardCode] = '" & CardCode & "'"
             End If
 
@@ -12229,7 +12286,7 @@ where DocNum='" & DocNum & "'"
         End Try
     End Sub
     Public Sub ConteoActivo()
-            Try
+        Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
@@ -12242,7 +12299,7 @@ where DocNum='" & DocNum & "'"
             MsgBox("ERROR en SQL_Comman: " & ex.Message)
 
         End Try
-        End Sub
+    End Sub
     Public Sub BorraGrupoConteo(ByVal idGrupo As String)
         Try
             Dim SQL_Comman As New SqlCommand
@@ -12259,7 +12316,7 @@ where DocNum='" & DocNum & "'"
         End Try
     End Sub
     Public Sub BorraConteo(ByVal idGrupo As String, ByVal IdInventario As String)
-            Try
+        Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
@@ -12270,11 +12327,11 @@ where DocNum='" & DocNum & "'"
             SQL_Comman = Nothing
         Catch ex As Exception
 
-                BorraConteo(idGrupo, IdInventario)
+            BorraConteo(idGrupo, IdInventario)
             MsgBox("ERROR en BorraConteo: " & ex.Message)
 
         End Try
-        End Sub
+    End Sub
     Public Sub InsertConteo(ByVal CodGrupo As String, ByVal CodArticulo As String, ByVal Descripcion As String, ByVal IdInventario As String, ByVal Conte As Integer, ByVal CodProveedor As String)
         Try
             Dim SQL_Comman As New SqlCommand
@@ -12483,7 +12540,7 @@ where DocNum='" & DocNum & "'"
     End Function
 
     Public Sub CreaRegConteos(ByVal Titulo As String, ByVal comentarioa As String)
-            Try
+        Try
             Dim TABLA As New DataTable
             Dim SQL_Comman As SqlCommand
             SQL_Comman = Conectar()
@@ -12497,12 +12554,12 @@ where DocNum='" & DocNum & "'"
             SQL_Comman.ExecuteNonQuery()
             SQL_Comman = Nothing
         Catch ex As Exception
-                MsgBox("ERROR EN CreaRegConteos : " & ex.Message)
-            End Try
+            MsgBox("ERROR EN CreaRegConteos : " & ex.Message)
+        End Try
 
-        End Sub
-        Public Sub ActualizaRegConteos(ByVal id As String, ByVal InvInicial As Double)
-            Try
+    End Sub
+    Public Sub ActualizaRegConteos(ByVal id As String, ByVal InvInicial As Double)
+        Try
 
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
@@ -12519,7 +12576,7 @@ where DocNum='" & DocNum & "'"
         Catch ex As Exception
             MsgBox("ERROR EN ActualizaRegConteos : " & ex.Message)
         End Try
-        End Sub
+    End Sub
     Public Function ActualizaStocks(ByVal IdInventario As String, ByVal Codigo As String, ByVal Stock_b1 As Integer, ByVal Monto_B1 As Double)
         Try
 
@@ -12564,7 +12621,7 @@ where DocNum='" & DocNum & "'"
         End Try
     End Function
     Public Function Recuenta(ByVal idInventario As String, ByVal Codigo As String, ByVal idGrupo As String, ByVal NumConteo As String, ByVal Cuenta As Integer)
-            Try
+        Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
@@ -12577,12 +12634,12 @@ where DocNum='" & DocNum & "'"
             Consulta = Nothing
             SQL_Comman = Nothing
         Catch ex As Exception
-                Recuenta(idInventario, Codigo, idGrupo, NumConteo, Cuenta)
+            Recuenta(idInventario, Codigo, idGrupo, NumConteo, Cuenta)
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR Recuenta ( " & ex.Message & " )"
         End Try
-        End Function
-        Public Function ActualizaConteo(ByVal idInventario As String, ByVal Codigo As String, ByVal Grupo As String, ByVal Cuenta As String, ByVal NumConteo As String)
-            Try
+    End Function
+    Public Function ActualizaConteo(ByVal idInventario As String, ByVal Codigo As String, ByVal Grupo As String, ByVal Cuenta As String, ByVal NumConteo As String)
+        Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
@@ -12594,12 +12651,12 @@ where DocNum='" & DocNum & "'"
             Consulta = Nothing
             SQL_Comman = Nothing
         Catch ex As Exception
-                ActualizaConteo(idInventario, Codigo, Grupo, Cuenta, NumConteo)
+            ActualizaConteo(idInventario, Codigo, Grupo, Cuenta, NumConteo)
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ActualizaConteo ( " & ex.Message & " )"
         End Try
-        End Function
-        Public Function Stock(ByVal CodArticulo As String)
-            Try
+    End Function
+    Public Function Stock(ByVal CodArticulo As String)
+        Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
@@ -12615,17 +12672,17 @@ where DocNum='" & DocNum & "'"
             Return TABLA.Rows(0).Item("Stock").ToString()
 
 
-                'liberando memoria
-                ADATER.Dispose()
-                ADATER = Nothing
-                Consulta = Nothing
-                Return TABLA
+            'liberando memoria
+            ADATER.Dispose()
+            ADATER = Nothing
+            Consulta = Nothing
+            Return TABLA
 
-            Catch ex As Exception
-                Return Stock(CodArticulo)
+        Catch ex As Exception
+            Return Stock(CodArticulo)
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR Stock ( " & ex.Message & " )"
         End Try
-        End Function
+    End Function
     Public Function Costo(ByVal CodArticulo As String)
         Try
             Dim SQL_Comman As New SqlCommand
@@ -12861,7 +12918,7 @@ GROUP By [idGrupo]) T0 "
     End Function
     Public Function SectorGrupo(ByVal Sector As String, ByVal Grupo As String, ByVal IdInventario As String)
 
-            Try
+        Try
 
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
@@ -12877,20 +12934,20 @@ GROUP By [idGrupo]) T0 "
 
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR SectorGrupo ( " & ex.Message & " )"
         End Try
-        End Function
-        Public Function ComparaConteos(ByVal Grupo As String, ByVal IdInventario As String)
+    End Function
+    Public Function ComparaConteos(ByVal Grupo As String, ByVal IdInventario As String)
 
-            '
-            Try
+        '
+        Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
             Dim MyDataSet As DataSet
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
-                Dim ListaProveedores As New DataTable
-                Dim Consulta As String
-                Dim CodG1 As String
-                Dim cuenta As Integer = 0
+            Dim ListaProveedores As New DataTable
+            Dim Consulta As String
+            Dim CodG1 As String
+            Dim cuenta As Integer = 0
             'Obtiene los proveedores asinganados al grupo
 
             'Consulta = "SELECT T0.IdInventario,T0.Codigo,(SELECT Cuenta FROM `Inv_Conteos` where NumConteo=1 and CodArticulo=T0.Codigo and  Grupo='A' and IdInventario='32') as C1 ,(SELECT Cuenta FROM `Inv_Conteos` where NumConteo=2 and CodArticulo=T0.Codigo and  Grupo='A' and IdInventario='32') as C2,T0.CodProveedor FROM `Inv_Inventario` T0 WHERE T0.IdInventario='32' and (`CodProveedor`='P062') "
@@ -12900,18 +12957,18 @@ GROUP By [idGrupo]) T0 "
 
             'recorre la lista de proveedores para generar la formula
             If ListaProveedores.Rows.Count > 0 Then
-                    For Each row As DataRow In ListaProveedores.Rows
+                For Each row As DataRow In ListaProveedores.Rows
                     Consulta = Consulta & "[CodProveedor]='" & ListaProveedores.Rows(cuenta).Item("CodProveedor").ToString() & "'"
                     Try
-                            If ListaProveedores.Rows(cuenta + 1).Item("CodProveedor").ToString() <> "" Then
-                                Consulta = Consulta & " or "
-                            End If
-                        Catch ex As Exception
+                        If ListaProveedores.Rows(cuenta + 1).Item("CodProveedor").ToString() <> "" Then
+                            Consulta = Consulta & " or "
+                        End If
+                    Catch ex As Exception
 
-                        End Try
+                    End Try
 
-                        cuenta += 1
-                    Next
+                    cuenta += 1
+                Next
                 Consulta = Consulta & ") ORDER BY T0.CodProveedor,T0.Codigo ASC "
             End If
 
@@ -12932,37 +12989,37 @@ GROUP By [idGrupo]) T0 "
 
             'liberando memoria
             ADATER.Dispose()
-                ADATER = Nothing
+            ADATER = Nothing
             Consulta = Nothing
             SQL_Comman = Nothing
             Return TABLA
-            Catch ex As Exception
-                'Return ComparaConteos(Grupo, IdInventario)
-                MsgBox(ex.Message)
+        Catch ex As Exception
+            'Return ComparaConteos(Grupo, IdInventario)
+            MsgBox(ex.Message)
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ComparaConteos ( " & ex.Message & " )"
         End Try
 
-            'Try
+        'Try
 
-            '    Dim ADATER As New OdbcDataAdapter
-            '    Dim TABLA As New DataTable
+        '    Dim ADATER As New OdbcDataAdapter
+        '    Dim TABLA As New DataTable
 
-            '    Dim Consulta As String = "SELECT `IdInventario`,`Codigo`,`C1`,`C2` FROM `Conteo` WHERE `CodG1`='" & Grupo & "' AND `IdInventario`='" & idInventario & "'"
+        '    Dim Consulta As String = "SELECT `IdInventario`,`Codigo`,`C1`,`C2` FROM `Conteo` WHERE `CodG1`='" & Grupo & "' AND `IdInventario`='" & idInventario & "'"
 
-            '    ADATER = New OdbcDataAdapter(Consulta, MYSQ_Comman.Connection)
+        '    ADATER = New OdbcDataAdapter(Consulta, MYSQ_Comman.Connection)
 
-            '    ADATER.Fill(TABLA)
+        '    ADATER.Fill(TABLA)
 
-            '    'liberando memoria
-            '    ADATER.Dispose()
-            '    ADATER = Nothing
-            '    Consulta = Nothing
-            '    Return TABLA
-            'Catch ex As Exception
+        '    'liberando memoria
+        '    ADATER.Dispose()
+        '    ADATER = Nothing
+        '    Consulta = Nothing
+        '    Return TABLA
+        'Catch ex As Exception
 
-            '    ERRORES = "[ " & Now & " ] ERROR ObtieneIdInventario ( " & ex.Message & " )"
-            'End Try
-        End Function
+        '    ERRORES = "[ " & Now & " ] ERROR ObtieneIdInventario ( " & ex.Message & " )"
+        'End Try
+    End Function
     'Comprueba que no se le alla hecho cruce al grupo idicado
     Public Function CompruebaCruce(ByVal Grupo As String, ByVal IdInventario As String)
         Try
@@ -13067,7 +13124,7 @@ GROUP By [idGrupo]) T0 "
 
     End Function
     Public Function ActualizaDiferencias(ByVal IdInventario As String, ByVal Codigo As String, ByVal MDF As Double, ByVal CF As Integer, ByVal DF As Integer)
-            Try
+        Try
 
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
@@ -13081,12 +13138,12 @@ GROUP By [idGrupo]) T0 "
             Consulta = Nothing
             SQL_Comman = Nothing
         Catch ex As Exception
-                ActualizaDiferencias(IdInventario, Codigo, MDF, CF, DF)
+            ActualizaDiferencias(IdInventario, Codigo, MDF, CF, DF)
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ActualizaDiferencias ( " & ex.Message & " )"
         End Try
-        End Function
-        Public Function ObtieneInventarios()
-            Try
+    End Function
+    Public Function ObtieneInventarios()
+        Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
@@ -13098,17 +13155,17 @@ GROUP By [idGrupo]) T0 "
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
 
             ADATER.Fill(TABLA)
-                'liberando memoria
-                ADATER.Dispose()
-                ADATER = Nothing
+            'liberando memoria
+            ADATER.Dispose()
+            ADATER = Nothing
             Consulta = Nothing
             SQL_Comman = Nothing
             Return TABLA
-            Catch ex As Exception
-                Return ObtieneInventarios()
+        Catch ex As Exception
+            Return ObtieneInventarios()
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ObtieneInventarios ( " & ex.Message & " )"
         End Try
-        End Function
+    End Function
     Public Function ObtieneConteosActivosGrupos(IdInventario As String)
         Try
 
@@ -13405,20 +13462,20 @@ GROUP By [idGrupo]) T0 "
 
             '    If Df_Mayores > 0 Or Df_Menores <0 Then
             '        Consulta = Consulta & " where IdInventario='" & IdInventario & "' and CodProveedor='" & Proveedor & "' AND (DFM > '" & Df_Mayores & "' OR DFM < '" & Df_Menores & "')  "
-                       '    Else
-                       '        Consulta = Consulta & " where IdInventario='" & IdInventario & "' and CodProveedor='" & Proveedor & "' "
-                       '    End If
+            '    Else
+            '        Consulta = Consulta & " where IdInventario='" & IdInventario & "' and CodProveedor='" & Proveedor & "' "
+            '    End If
 
-                       'ElseIf Df_Mayores > 0 Then
-                       '    Consulta = Consulta & " where IdInventario='" & IdInventario & "' and  DFM >= '" & Df_Mayores & "' OR DFM <= '" & Df_Menores & "'  "
-                       'ElseIf Busqueda <> "" Then
-                       '    Consulta = Consulta & " where IdInventario='" & IdInventario & "' and `Descripcion` like '%" & Busqueda & "%'"
-                       'Else
-                       '    Consulta = Consulta & " where IdInventario='" & IdInventario & "'"
-                       'End If
+            'ElseIf Df_Mayores > 0 Then
+            '    Consulta = Consulta & " where IdInventario='" & IdInventario & "' and  DFM >= '" & Df_Mayores & "' OR DFM <= '" & Df_Menores & "'  "
+            'ElseIf Busqueda <> "" Then
+            '    Consulta = Consulta & " where IdInventario='" & IdInventario & "' and `Descripcion` like '%" & Busqueda & "%'"
+            'Else
+            '    Consulta = Consulta & " where IdInventario='" & IdInventario & "'"
+            'End If
 
 
-                       Consulta = Consulta & " ORDER BY T0.NumLinea ASC"
+            Consulta = Consulta & " ORDER BY T0.NumLinea ASC"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
 
@@ -13437,14 +13494,14 @@ GROUP By [idGrupo]) T0 "
         End Try
     End Function
     Public Function DetConteo(ByVal IdInventario As String, ByVal CodArticulo As String)
-            Try
+        Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
             Dim ADATER As New SqlDataAdapter
 
             Dim TABLA As New DataTable
-                Dim Consulta As String
+            Dim Consulta As String
 
             Consulta = "SELECT T0.Grupo,T0.NumConteo,T0.Cuenta,T0.CodArticulo,(SELECT [Descripcion] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Inv_Inventario] WHERE [Codigo]=T0.CodArticulo AND IdInventario='" & IdInventario & "') as Nombre,(SELECT [Stock] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Inv_Inventario] WHERE [Codigo]=T0.CodArticulo  AND IdInventario='" & IdInventario & "') as Stock FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Inv_Conteos] T0 where T0.CodArticulo='" & CodArticulo & "' and T0.IdInventario='" & IdInventario & "' order by T0.Grupo"
 
@@ -13453,16 +13510,16 @@ GROUP By [idGrupo]) T0 "
             ADATER.Fill(TABLA)
             SQL_Comman = Nothing
             Return TABLA
-                'liberando memoria
-                ADATER.Dispose()
-                ADATER = Nothing
-                Consulta = Nothing
-            Catch ex As Exception
-                Return DetConteo(IdInventario, CodArticulo)
+            'liberando memoria
+            ADATER.Dispose()
+            ADATER = Nothing
+            Consulta = Nothing
+        Catch ex As Exception
+            Return DetConteo(IdInventario, CodArticulo)
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR DetConteo ( " & ex.Message & " )"
         End Try
-        End Function
-        Public Function ObtieneMaxConteoHecho(ByVal IdInventario As String)
+    End Function
+    Public Function ObtieneMaxConteoHecho(ByVal IdInventario As String)
         Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
@@ -13494,12 +13551,12 @@ GROUP By [idGrupo]) T0 "
 
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ObtieneMaxConteoHecho ( " & ex.Message & " )"
         End Try
-        End Function
-        Public Function ActualizaMontDifConte(ByVal IdInventario As String, ByVal Codigo As String, ByVal CF As String, ByVal DF As String, ByVal DFM As Double)
+    End Function
+    Public Function ActualizaMontDifConte(ByVal IdInventario As String, ByVal Codigo As String, ByVal CF As String, ByVal DF As String, ByVal DFM As Double)
 
-            Try
+        Try
 
-                Dim Consulta As String
+            Dim Consulta As String
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
@@ -13519,8 +13576,8 @@ GROUP By [idGrupo]) T0 "
 
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ActualizaMontDifConte ( " & ex.Message & " )"
         End Try
-        End Function
-        Public Function CierraInventario(ByVal IdInventario As String, ByVal Entradas As Double, ByVal Salidas As Double, ByVal Diferencias As Double, ByVal InvFinal As Double)
+    End Function
+    Public Function CierraInventario(ByVal IdInventario As String, ByVal Entradas As Double, ByVal Salidas As Double, ByVal Diferencias As Double, ByVal InvFinal As Double)
         Try
 
             Dim SQL_Comman As New SqlCommand
@@ -13545,9 +13602,9 @@ GROUP By [idGrupo]) T0 "
         Catch ex As Exception
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR CierraInventario ( " & ex.Message & " )"
         End Try
-        End Function
-        Public Function ObtieneInvConteo(ByVal ConteoActivo As String, ByVal CodInventario As String, ByVal Grupo As String)
-            Try
+    End Function
+    Public Function ObtieneInvConteo(ByVal ConteoActivo As String, ByVal CodInventario As String, ByVal Grupo As String)
+        Try
 
             'Obtiene solo los conteos realizados en el conteo a cruzar y que esta activo del grupo indicado
             Dim SQL_Comman As New SqlCommand
@@ -13567,20 +13624,20 @@ GROUP By [idGrupo]) T0 "
             'Consulta = "SELECT `" & ConteoActivo & "`, `Stock_b1`, `Codigo`, `Costo`  FROM `Conteo` WHERE `IdInventario`=" & CodInventario & " and ("
             'recorre la lista de proveedores para generar la formula
             If ListaProveedores.Rows.Count > 0 Then
-                    For Each row As DataRow In ListaProveedores.Rows
-                        Consulta = Consulta & "T0.CodProveedor='" & ListaProveedores.Rows(cuenta).Item("CodProveedor").ToString() & "'"
-                        Try
-                            If ListaProveedores.Rows(cuenta + 1).Item("CodProveedor").ToString() <> "" Then
-                                Consulta = Consulta & " or "
-                            End If
-                        Catch ex As Exception
+                For Each row As DataRow In ListaProveedores.Rows
+                    Consulta = Consulta & "T0.CodProveedor='" & ListaProveedores.Rows(cuenta).Item("CodProveedor").ToString() & "'"
+                    Try
+                        If ListaProveedores.Rows(cuenta + 1).Item("CodProveedor").ToString() <> "" Then
+                            Consulta = Consulta & " or "
+                        End If
+                    Catch ex As Exception
 
-                        End Try
+                    End Try
 
-                        cuenta += 1
-                    Next
-                    Consulta = Consulta & ")"
-                End If
+                    cuenta += 1
+                Next
+                Consulta = Consulta & ")"
+            End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
 
@@ -13591,11 +13648,11 @@ GROUP By [idGrupo]) T0 "
             Consulta = Nothing
             SQL_Comman = Nothing
             Return TABLA
-            Catch ex As Exception
+        Catch ex As Exception
 
-                Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ObtieneIdInventario ( " & ex.Message & " )"
-            End Try
-        End Function
+            Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ObtieneIdInventario ( " & ex.Message & " )"
+        End Try
+    End Function
     Public Function ObtieneListaProveedores(ByVal Grupo As String, ByVal CodInventario As String)
         Try
 
@@ -13633,7 +13690,7 @@ GROUP By [idGrupo]) T0 "
     End Function
     Public Function VerificaInventarioAbiertos()
 
-            Try
+        Try
             Dim TABLA As New DataTable
             Dim SQL_Comman As SqlCommand
 
@@ -13644,43 +13701,43 @@ GROUP By [idGrupo]) T0 "
             Dim ADATER As New SqlDataAdapter
 
             Dim Consulta As String
-                Dim CodG1 As String
-                Dim Proveedores(10) As String
-                Dim contproveedor As Integer = 0
+            Dim CodG1 As String
+            Dim Proveedores(10) As String
+            Dim contproveedor As Integer = 0
             'verifica o obtiene el codgrupo donde quedo guardado el grupo
             Consulta = "SELECT count([IdInventario]) as Conto FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Inv_Inventario] where Cerrado='0' group by [IdInventario]"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
 
             ADATER.Fill(TABLA)
-                Dim cuenta As Integer = 0
-                Dim Conto As Integer = 0
+            Dim cuenta As Integer = 0
+            Dim Conto As Integer = 0
 
-                For Each row As DataRow In TABLA.Rows
-                    If CInt(TABLA.Rows(cuenta).Item("Conto").ToString()) > 1 Then
-                        Conto = 1
-                    Else
-                        Conto = 0
-                    End If
+            For Each row As DataRow In TABLA.Rows
+                If CInt(TABLA.Rows(cuenta).Item("Conto").ToString()) > 1 Then
+                    Conto = 1
+                Else
+                    Conto = 0
+                End If
 
-                    cuenta += 1
-                Next
-                'liberando memoria
-                ADATER.Dispose()
-                ADATER = Nothing
+                cuenta += 1
+            Next
+            'liberando memoria
+            ADATER.Dispose()
+            ADATER = Nothing
             Consulta = Nothing
             SQL_Comman = Nothing
             Return Conto
-            Catch ex As Exception
+        Catch ex As Exception
 
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR VerificaInventarioAbiertos ( " & ex.Message & " )"
         End Try
 
-        End Function
-        Public Function SubeInveConteo(ByVal Titulo As String, ByVal comentarioa As String)
-            Try
-                Dim retorna As Integer = 0
-                Dim cont As Integer = 0
-                Dim Consulta As String
+    End Function
+    Public Function SubeInveConteo(ByVal Titulo As String, ByVal comentarioa As String)
+        Try
+            Dim retorna As Integer = 0
+            Dim cont As Integer = 0
+            Dim Consulta As String
             Dim SQL_Comman As New SqlCommand
             Dim TABLA As New DataTable
 
@@ -13689,35 +13746,35 @@ GROUP By [idGrupo]) T0 "
 
             If VerificaInventarioAbiertos() = 1 Then
 
-                    MsgBox("Verifique que todos los inventarios viejos esten cerrados antes de generar uno nuevo")
-                    retorna = 1
-                Else
+                MsgBox("Verifique que todos los inventarios viejos esten cerrados antes de generar uno nuevo")
+                retorna = 1
+            Else
 
 
-                    'Guarda el registro del inventario lo cual crea un ID unico del inventario que se esta realizando , el cual se le asignara a cada linea
-                    CreaRegConteos(Titulo, comentarioa)
-                    'obtien el id del inventario hecho
-                    Class_VariablesGlobales.idInventario = ObtieneIdInventario()
+                'Guarda el registro del inventario lo cual crea un ID unico del inventario que se esta realizando , el cual se le asignara a cada linea
+                CreaRegConteos(Titulo, comentarioa)
+                'obtien el id del inventario hecho
+                Class_VariablesGlobales.idInventario = ObtieneIdInventario()
 
 
-                    'obtiene las lineas del inventario a contar
-                    TABLA = Class_VariablesGlobales.Obj_Funciones_SQL.ConsultaInvConteo(Class_VariablesGlobales.SQL_Comman2)
+                'obtiene las lineas del inventario a contar
+                TABLA = Class_VariablesGlobales.Obj_Funciones_SQL.ConsultaInvConteo(Class_VariablesGlobales.SQL_Comman2)
 
-                    Class_VariablesGlobales.TotalLineas = TABLA.Rows.Count
+                Class_VariablesGlobales.TotalLineas = TABLA.Rows.Count
                 Inv_NuevoConteo.Lbl_Fin.Text = TABLA.Rows.Count
                 Inv_NuevoConteo.ProgBar.Maximum = TABLA.Rows.Count
                 Inv_NuevoConteo.ProgBar.Value = 0
                 Inv_NuevoConteo.Lbl_Inicio.Text = "0"
 
                 Dim COTADOR As Integer
-                    Dim InventarioInicial As Double
-                    If TABLA.Rows.Count > 0 Then
+                Dim InventarioInicial As Double
+                If TABLA.Rows.Count > 0 Then
 
-                        For Each row As DataRow In TABLA.Rows
-                            Consulta = ""
+                    For Each row As DataRow In TABLA.Rows
+                        Consulta = ""
 
-                            'solo verifica que este conectado
-                            Try
+                        'solo verifica que este conectado
+                        Try
 
                             If SQL_Comman.Connection.State = ConnectionState.Closed Then
                                 SQL_Comman = Conectar()
@@ -13727,11 +13784,11 @@ GROUP By [idGrupo]) T0 "
                             Dim Sector As String = ""
 
 
-                                If TABLA.Rows(COTADOR).Item("Sector").ToString() = "" Then
-                                    Sector = "0"
-                                Else
-                                    Sector = TABLA.Rows(COTADOR).Item("Sector").ToString()
-                                End If
+                            If TABLA.Rows(COTADOR).Item("Sector").ToString() = "" Then
+                                Sector = "0"
+                            Else
+                                Sector = TABLA.Rows(COTADOR).Item("Sector").ToString()
+                            End If
                             Dim Pack As String = ""
                             If TABLA.Rows(COTADOR).Item("Empaque").ToString() = "" Then
                                 Pack = "0"
@@ -13778,41 +13835,41 @@ GROUP By [idGrupo]) T0 "
 
                             InventarioInicial += CDbl(TABLA.Rows(COTADOR).Item("Monto_B1").ToString())
 
-                                Class_VariablesGlobales.DetalleCarga = "Subiendo : " & TABLA.Rows(COTADOR).Item("ItemName").ToString()
+                            Class_VariablesGlobales.DetalleCarga = "Subiendo : " & TABLA.Rows(COTADOR).Item("ItemName").ToString()
                             SQL_Comman.CommandText = Consulta
                             SQL_Comman.ExecuteNonQuery()
                             Class_VariablesGlobales.Contador += 1
 
-                                COTADOR += 1
-                            Catch ex As Exception
+                            COTADOR += 1
+                        Catch ex As Exception
                             MsgBox("ERROR en SubeInveConteo: " & ex.Message)
                             SQL_Comman.CommandText = Consulta
                             SQL_Comman.ExecuteNonQuery()
                             Class_VariablesGlobales.Contador += 1
 
                             COTADOR += 1
-                            End Try
+                        End Try
 
-                        Next
-                    End If
+                    Next
+                End If
 
-                    'Obj_MYSQL.Desconectar()
-                    ActualizaRegConteos(Class_VariablesGlobales.idInventario, InventarioInicial)
-                    'inicio libera memoria
-                    'MYSQ_Comman = Nothing
-                    cont = Nothing
-                    TABLA = Nothing
+                'Obj_MYSQL.Desconectar()
+                ActualizaRegConteos(Class_VariablesGlobales.idInventario, InventarioInicial)
+                'inicio libera memoria
+                'MYSQ_Comman = Nothing
+                cont = Nothing
+                TABLA = Nothing
                 'MYSQ_Comman.Connection = Nothing
                 Consulta = Nothing
                 SQL_Comman = Nothing
             End If
 
-                Return retorna
-            Catch ex As Exception
+            Return retorna
+        Catch ex As Exception
 
-                Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR Insertar_Articulos( " & ex.Message & " )"
-            End Try
-        End Function
+            Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR Insertar_Articulos( " & ex.Message & " )"
+        End Try
+    End Function
 
 
     Public Function ObtieneArticulosInternos(ByVal TipoProducto As String, ByVal CardCode As String, ByVal Palabra As String, ByVal VerDesc As Boolean, ByVal ColumnaBusqueda As Integer, ByVal SQL_Comman As SqlCommand)

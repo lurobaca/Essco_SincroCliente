@@ -32,7 +32,7 @@ Public Class Class_XML_Conexion
             'Dim conectar As String = "C:\ConexionINFO.xml"
             'Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
             If Principal IsNot Nothing Then
-                Principal.Text = "SINCRO [13.04.2022] v2 FE V4.3 Produccion WMS" & "  " & conectar
+                Principal.Text = "SINCRO [05.05.2022] v2 FE V4.3 Produccion WMS" & "  " & conectar
             End If
 
             'Creamos el "Document"

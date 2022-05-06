@@ -94,7 +94,7 @@
 
 
 
-    Public Shared oCompany As SAPbobsCOM.Company
+    'Public Shared oCompany As SAPbobsCOM.Company
 
 
 
