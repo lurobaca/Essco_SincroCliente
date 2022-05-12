@@ -18,7 +18,6 @@ Public Class LoginForm1
     Private Sub LoginForm1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
 
-
             Objt_GlobalVar = New Class_VariablesGlobales()
             ' Dim objVClas As Class_VarGlobales
             ' objVClas = New Class_VarGlobales
@@ -123,5 +122,7 @@ Public Class LoginForm1
         Me.Close()
     End Sub
 
+    Private Sub Txtb_ConfirmaPass_TextChanged(sender As Object, e As EventArgs) Handles Txtb_ConfirmaPass.TextChanged
 
+    End Sub
 End Class

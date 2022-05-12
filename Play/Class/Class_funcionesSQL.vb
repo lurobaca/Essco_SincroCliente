@@ -8886,7 +8886,16 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
 
             Dim Consulta As String = ""
-            Consulta = "SELECT [id_provincia],[nombre_provincia],[id_canton],[nombre_canton],[id_distrito],[nombre_distrito],[id_barrio],[nombre_barrio] FROM Ubicaciones_CostaRica T0"
+            'Consulta = "SELECT [id_provincia],[nombre_provincia],[id_canton],[nombre_canton],[id_distrito],[nombre_distrito],[id_barrio],[nombre_barrio] FROM Ubicaciones_CostaRica T0"
+            Consulta = "SELECT  [U_Cod_Provincia] AS [id_provincia], 
+                                [U_Des_Provincia] AS [nombre_provincia],
+                                CAST([U_Cod_Canton] AS BIGINT)  AS [id_canton],
+                                [U_Des_Canton] AS [nombre_canton],
+                                CAST([U_Cod_Distrito] AS BIGINT)  AS [id_distrito],
+                                [U_Des_Distrito] AS [nombre_distrito],
+                                CAST([U_Cod_Barrio] AS BIGINT)  AS [id_barrio],
+                                [U_Des_Barrio] AS [nombre_barrio] 
+                                FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] T0"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(Tbl_Ubicacion)
@@ -9978,11 +9987,18 @@ Public Class Class_funcionesSQL
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
+            'If id_provincia <> 0 Then
+            '    Consulta = "SELECT  [id_provincia],[nombre_provincia] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] WHERE id_provincia='" & id_provincia & "'group by [id_provincia],[nombre_provincia]  order by [id_provincia] asc"
+            'Else
+            '    Consulta = "SELECT  '0' as [id_provincia] ,''as [nombre_provincia] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] UNION " &
+            '               "SELECT  [id_provincia],[nombre_provincia] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] group by [id_provincia],[nombre_provincia]  order by [id_provincia] asc"
+            'End If
+
             If id_provincia <> 0 Then
-                Consulta = "SELECT  [id_provincia],[nombre_provincia] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] WHERE id_provincia='" & id_provincia & "'group by [id_provincia],[nombre_provincia]  order by [id_provincia] asc"
+                Consulta = "SELECT  [U_Cod_Provincia] AS id_provincia,[U_Des_Provincia] AS nombre_provincia FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] WHERE [U_Cod_Provincia]='" & id_provincia & "'group by [U_Cod_Provincia],[U_Des_Provincia]  order by [id_provincia] asc"
             Else
-                Consulta = "SELECT  '0' as [id_provincia] ,''as [nombre_provincia] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] UNION " &
-                           "SELECT  [id_provincia],[nombre_provincia] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] group by [id_provincia],[nombre_provincia]  order by [id_provincia] asc"
+                Consulta = "SELECT  '0' as [id_provincia] ,''as [nombre_provincia] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] UNION " &
+                           "SELECT  [U_Cod_Provincia] AS id_provincia,[U_Des_Provincia] AS nombre_provincia FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] group by [U_Cod_Provincia],[U_Des_Provincia]  order by [id_provincia] asc"
             End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -10002,11 +10018,18 @@ Public Class Class_funcionesSQL
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
+            'If id_canton <> 0 Then
+            '    Consulta = "SELECT [id_canton],[nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' AND id_canton='" & id_canton & "'group by [id_canton],[nombre_canton] order by [id_canton] asc"
+            'Else
+            '    Consulta = "SELECT  '0' as [id_canton] ,''as [nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] UNION " &
+            '               "SELECT [id_canton],[nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "'group by [id_canton],[nombre_canton]  order by [id_canton] asc"
+            'End If
+
             If id_canton <> 0 Then
-                Consulta = "SELECT [id_canton],[nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' AND id_canton='" & id_canton & "'group by [id_canton],[nombre_canton] order by [id_canton] asc"
+                Consulta = "SELECT CAST([U_Cod_Canton] AS BIGINT) as [id_canton],[U_Des_Canton] as [nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] where [U_Cod_Provincia]='" & id_provincia & "' AND [U_Cod_Canton]=Replace (str ('" & id_canton & "', 2), ' ', '0' ) group by [U_Cod_Canton],[U_Des_Canton] order by [id_canton] asc"
             Else
-                Consulta = "SELECT  '0' as [id_canton] ,''as [nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] UNION " &
-                           "SELECT [id_canton],[nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "'group by [id_canton],[nombre_canton]  order by [id_canton] asc"
+                Consulta = "SELECT  '-1' as [id_canton] ,''as [nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] UNION " &
+                           "SELECT CAST([U_Cod_Canton] AS BIGINT)  as [id_canton], [U_Des_Canton] as [nombre_canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] where [U_Cod_Provincia]='" & id_provincia & "'group by [U_Cod_Canton],[U_Des_Canton]  order by [id_canton] asc"
             End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -10024,11 +10047,21 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
 
+            'If id_distrito <> 0 Then
+            '    Consulta = "SELECT [id_distrito],[nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' and [id_canton] ='" & id_canton & "' AND [id_distrito]='" & id_distrito & "'   group by [id_distrito],[nombre_distrito] order by [id_distrito] asc"
+            'Else
+            '    Consulta = "SELECT  '0' as [id_distrito] ,''as [nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] UNION " &
+            '               "SELECT [id_distrito],[nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' and [id_canton] ='" & id_canton & "' group by [id_distrito],[nombre_distrito] order by [id_distrito] asc"
+            'End If
+
+            '       ,[U_Cod_Distrito]
+            ',[U_Des_Distrito]
+
             If id_distrito <> 0 Then
-                Consulta = "SELECT [id_distrito],[nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' and [id_canton] ='" & id_canton & "' AND [id_distrito]='" & id_distrito & "'   group by [id_distrito],[nombre_distrito] order by [id_distrito] asc"
+                Consulta = "SELECT CAST([U_Cod_Distrito] AS BIGINT)  as [id_distrito],[U_Des_Distrito] as [nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] where [U_Cod_Provincia]='" & id_provincia & "' and [U_Cod_Canton] =Replace (str ('" & id_canton & "', 2), ' ', '0' )  AND [U_Cod_Distrito]=Replace (str ('" & id_distrito & "', 2), ' ', '0' )  group by [U_Cod_Distrito],[U_Des_Distrito] order by [id_distrito] asc"
             Else
-                Consulta = "SELECT  '0' as [id_distrito] ,''as [nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] UNION " &
-                           "SELECT [id_distrito],[nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' and [id_canton] ='" & id_canton & "' group by [id_distrito],[nombre_distrito] order by [id_distrito] asc"
+                Consulta = "SELECT  '-1' as [id_distrito] ,''as [nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES]  UNION " &
+                           "SELECT CAST([U_Cod_Distrito] AS BIGINT) as [id_distrito],[U_Des_Distrito] as [nombre_distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES]  where [U_Cod_Provincia]='" & id_provincia & "' and [U_Cod_Canton] =Replace (str ('" & id_canton & "', 2), ' ', '0' )  group by [U_Cod_Distrito],[U_Des_Distrito] order by [id_distrito] asc"
             End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -10045,11 +10078,18 @@ Public Class Class_funcionesSQL
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
+            'If id_barrio <> 0 Then
+            '    Consulta = "SELECT  [id_barrio],[nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' and [id_canton] ='" & id_canton & "' AND [id_distrito]='" & id_distrito & "' AND [id_barrio]='" & id_barrio & "'   group by [id_barrio],[nombre_barrio]  order by [id_barrio] asc"
+            'Else
+            '    Consulta = "SELECT  '0' as [id_barrio] ,''as [nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] UNION " &
+            '               "SELECT  [id_barrio],[nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' and [id_canton] ='" & id_canton & "' AND [id_distrito]='" & id_distrito & "' group by [id_barrio],[nombre_barrio]  order by [id_barrio] asc"
+            'End If
+
             If id_barrio <> 0 Then
-                Consulta = "SELECT  [id_barrio],[nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' and [id_canton] ='" & id_canton & "' AND [id_distrito]='" & id_distrito & "' AND [id_barrio]='" & id_barrio & "'   group by [id_barrio],[nombre_barrio]  order by [id_barrio] asc"
+                Consulta = "SELECT  CAST([U_Cod_Barrio] AS BIGINT) as [id_barrio],[U_Des_Barrio]  as [nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] where [U_Cod_Provincia]='" & id_provincia & "' and [U_Cod_Canton] =Replace (str ('" & id_canton & "', 2), ' ', '0' ) AND [U_Cod_Distrito]=Replace (str ('" & id_distrito & "', 2), ' ', '0' ) AND [id_barrio]=Replace (str ('" & id_barrio & "', 2), ' ', '0' ) group by [U_Cod_Barrio],[U_Des_Barrio]  order by [id_barrio] asc"
             Else
-                Consulta = "SELECT  '0' as [id_barrio] ,''as [nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] UNION " &
-                           "SELECT  [id_barrio],[nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Ubicaciones_CostaRica] where [id_provincia]='" & id_provincia & "' and [id_canton] ='" & id_canton & "' AND [id_distrito]='" & id_distrito & "' group by [id_barrio],[nombre_barrio]  order by [id_barrio] asc"
+                Consulta = "SELECT  '-1' as [id_barrio] ,''as [nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] UNION " &
+                           "SELECT  CAST([U_Cod_Barrio] AS BIGINT) as [id_barrio], [U_Des_Barrio] as [nombre_barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] where [U_Cod_Provincia]='" & id_provincia & "' and [U_Cod_Canton] =Replace (str ('" & id_canton & "', 2), ' ', '0' ) AND [U_Cod_Distrito]=Replace (str ('" & id_distrito & "', 2), ' ', '0' ) group by [U_Cod_Barrio],[U_Des_Barrio]  order by [id_barrio] asc"
             End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)

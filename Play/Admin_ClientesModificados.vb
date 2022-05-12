@@ -21,6 +21,12 @@
         Try
 
 
+            If Class_VariablesGlobales.XMLParamSAP_CompanyDB <> "" Then
+                btn_Actualizar.Text = "Crear Cliente en SAP"
+            End If
+
+
+
             'txtb_Consecutivo.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneProvincias(Class_VariablesGlobales.SQL_Comman2, 0)
 
             'Obtiene las provincias
@@ -106,9 +112,6 @@
 
         For Each row As DataRow In Tbl.Rows
 
-
-
-
             txtb_Codigo.Text = Trim(Tbl.Rows(0).Item(0).ToString())
             txtb_Nombre.Text = Trim(Tbl.Rows(0).Item(1).ToString())
             txtb_Cedula.Text = Trim(Tbl.Rows(0).Item(2).ToString())
@@ -166,7 +169,6 @@
             'End If
             Combo_Distrito.SelectedIndex = Id_Distrito
 
-
             '---------BARRIOS-------------
 
             With Combo_Barrio
@@ -192,7 +194,6 @@
 
                 btn_Actualizar.Enabled = False
 
-
                 lbl_Estado.Text = Trim(Tbl.Rows(0).Item(18).ToString())
 
             Else
@@ -200,10 +201,7 @@
 
                 btn_Actualizar.Enabled = True
 
-
             End If
-
-
 
         Next
     End Function
@@ -253,8 +251,6 @@
                 .DisplayMember = "nombre_canton"
                 .ValueMember = "id_canton"
             End With
-
-
 
     End Sub
 
@@ -341,8 +337,6 @@
     '    End With
     '    Id_Barrio = CInt(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(17).Value))
     '    Class_VariablesGlobales.frmAdmin_ClientesModificados.Combo_Barrio.SelectedIndex = Id_Barrio
-
-
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Actualizar.Click
 
@@ -546,7 +540,7 @@
                 End Select
 
 
-                Dim Frecuencia As String = ""
+                Dim Frecuencia As String = "01"
                 Select Case Comb_Frecuencia.SelectedIndex
                     Case 1
                         Frecuencia = "01"
@@ -562,9 +556,7 @@
                         Frecuencia = "06"
                 End Select
 
-
-
-                If obj_SAP.CreaSocioNegocio(txtb_Codigo.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_email.Text, txtb_Telfono1.Text, txtb_Telfono2.Text, DiaVisita, txtb_CalveWeb.Text, txtb_Nombre.Text, txtb_Cedula.Text.PadLeft(12, "0"), txtb_ResponsableTributario.Text, txtb_OtrasResenas.Text, txtb_NombreComercial.Text, txtb_Hora.Text, txtb_id.Text, Comb_TipoId.SelectedIndex, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, DTP_Fecha.Text, Frecuencia, txtb_Agente.Text, Class_VariablesGlobales.SQL_Comman2, Comb_Tipo.SelectedIndex) = 0 Then
+                If obj_SAP.CreaSocioNegocio(txtb_Codigo.Text, txtb_Latitud.Text, txtb_Longitud.Text, txtb_email.Text, txtb_Telfono1.Text, txtb_Telfono2.Text, DiaVisita, txtb_CalveWeb.Text, txtb_Nombre.Text, txtb_Cedula.Text.PadLeft(12, "0"), txtb_ResponsableTributario.Text, txtb_OtrasResenas.Text, txtb_NombreComercial.Text, txtb_Hora.Text, txtb_id.Text, Comb_TipoId.SelectedIndex, Combo_Provincia.SelectedIndex, Combo_Canton.Text, Combo_Distrito.Text, Combo_Barrio.Text, DTP_Fecha.Text, Frecuencia, txtb_Agente.Text, Class_VariablesGlobales.SQL_Comman2, Comb_Tipo.SelectedIndex) = 0 Then
                     Obj_SQL_CONEXIONSERVER.ActualizoCliente(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text)
                     limpia()
                 Else

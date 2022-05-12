@@ -912,7 +912,7 @@ Public Class SAP_BUSSINES_ONE
 
                 'PARAMETROS DE CONEXION A SAP
                 oCompany = New SAPbobsCOM.Company
-                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2012
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2019
                 If Class_VariablesGlobales.XMLParamSAP_CompanyDB.Trim <> "" Then
                     oCompany.CompanyDB = Class_VariablesGlobales.XMLParamSAP_CompanyDB.Trim
                 Else
