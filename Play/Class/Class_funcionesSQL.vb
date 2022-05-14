@@ -8886,8 +8886,9 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
 
             Dim Consulta As String = ""
-            'Consulta = "SELECT [id_provincia],[nombre_provincia],[id_canton],[nombre_canton],[id_distrito],[nombre_distrito],[id_barrio],[nombre_barrio] FROM Ubicaciones_CostaRica T0"
-            Consulta = "SELECT  [U_Cod_Provincia] AS [id_provincia], 
+            If Class_VariablesGlobales.XMLParamSAP_CompanyDB <> "" Then
+
+                Consulta = "SELECT  [U_Cod_Provincia] AS [id_provincia], 
                                 [U_Des_Provincia] AS [nombre_provincia],
                                 CAST([U_Cod_Canton] AS BIGINT)  AS [id_canton],
                                 [U_Des_Canton] AS [nombre_canton],
@@ -8896,6 +8897,14 @@ Public Class Class_funcionesSQL
                                 CAST([U_Cod_Barrio] AS BIGINT)  AS [id_barrio],
                                 [U_Des_Barrio] AS [nombre_barrio] 
                                 FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] T0"
+
+
+            Else
+
+                Consulta = "SELECT [id_provincia],[nombre_provincia],[id_canton],[nombre_canton],[id_distrito],[nombre_distrito],[id_barrio],[nombre_barrio] FROM Ubicaciones_CostaRica T0"
+
+            End If
+
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(Tbl_Ubicacion)
