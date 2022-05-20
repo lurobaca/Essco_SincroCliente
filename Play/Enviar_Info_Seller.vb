@@ -183,17 +183,17 @@ Public Class Enviar_Info_Seller
     Public Sub Carga_Descuentos(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String)
         Try
             Try
-                My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg")
+                My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\descuentos.mbg")
             Catch ex As Exception
 
             End Try
-            Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg")
+            Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\descuentos.mbg")
 
             Dim Tbl_Descuentos As New DataTable
             Tbl_Descuentos = Class_VariablesGlobales.Obj_Funciones_SQL.Obtiene_Descuentos(SQL_Comman1, Ruta)
-            Class_VariablesGlobales.Obj_Creaarchivo.Crear_InDescuentos(Tbl_Descuentos, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta)
-            If Class_VariablesGlobales.Obj_Creaarchivo.ObtieneTamanoFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg") <> "0 Kb" Then
-                Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg", "Descuentos.mbg", Ruta2, "Completo", Servidor)
+            Class_VariablesGlobales.Obj_Creaarchivo.Crear_InDescuentos(Tbl_Descuentos, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\descuentos.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta)
+            If Class_VariablesGlobales.Obj_Creaarchivo.ObtieneTamanoFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\descuentos.mbg") <> "0 Kb" Then
+                Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\descuentos.mbg", "descuentos.mbg", Ruta2, "Completo", Servidor)
             End If
 
             Tbl_Descuentos.Dispose()
@@ -343,6 +343,7 @@ Public Class Enviar_Info_Seller
 
         If CBox_VERPuestos.Text = "AGENTE" Then
             Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, ChBox_ClientexDia.Checked, Rutas_Unidicar)
+            Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
         Else
             If Cbox_Clientes.Checked = True Then
                 Carga_DeliverClientes(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
