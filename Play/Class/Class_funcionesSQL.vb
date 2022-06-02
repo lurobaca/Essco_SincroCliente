@@ -10176,7 +10176,7 @@ Public Class Class_funcionesSQL
 
         End Try
     End Function
-    Public Function GuardaCliente(ByVal CardCode As String, ByVal CardName As String, ByVal Cedula As String, ByVal Respolsabletributario As String, ByVal U_Visita As String, ByVal U_ClaveWeb As String, ByVal Phone1 As String, ByVal Phone2 As String, ByVal Street As String, ByVal E_Mail As String, ByVal NameFicticio As String, ByVal Latitud As String, ByVal Longitud As String, ByVal Agente As String, ByVal Id_Provincia As String, ByVal Id_Canton As String, ByVal Id_Distrito As String, ByVal Id_Barrio As String, ByVal Estado As String, ByVal Tipo_Cedula As String, ByVal Fecha As String, ByVal Hora As String, ByVal Aprobado As String, ByVal Consecutivo As String, EXO_TipoDocumento As String, EXO_Numero As String, EXO_NombreInstitucion As String, EXO_FechaEmision As String, EXO_PorcentajeCompra As String, EnviarFE As Integer, Guardar As Boolean)
+    Public Function GuardaCliente(ByVal CardCode As String, ByVal CardName As String, ByVal Cedula As String, ByVal Respolsabletributario As String, ByVal U_Visita As String, ByVal U_ClaveWeb As String, ByVal Phone1 As String, ByVal Phone2 As String, ByVal Street As String, ByVal E_Mail As String, ByVal NameFicticio As String, ByVal Latitud As String, ByVal Longitud As String, ByVal Agente As String, ByVal Id_Provincia As String, ByVal Id_Canton As String, ByVal Id_Distrito As String, ByVal Id_Barrio As String, ByVal Estado As String, ByVal Tipo_Cedula As String, ByVal Fecha As String, ByVal Hora As String, ByVal Aprobado As String, ByVal Consecutivo As String, EXO_TipoDocumento As String, EXO_Numero As String, EXO_NombreInstitucion As String, EXO_FechaEmision As String, EXO_PorcentajeCompra As String, EnviarFE As Integer, TipoSocio As Integer, Guardar As Boolean)
         Try
 
 
@@ -10281,7 +10281,8 @@ Public Class Class_funcionesSQL
                                    ,[EXO_NombreInstitucion] = '" & EXO_NombreInstitucion & "'
                                    ,[EXO_FechaEmision] = '" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(EXO_FechaEmision) & "'
                                    ,[EXO_PorcentajeCompra] = '" & EXO_PorcentajeCompra & "' 
-                                        ,[EnviarFE] = " & EnviarFE & " 
+                                   ,[EnviarFE] = " & EnviarFE & "    
+                                   ,[TipoSocio] = " & TipoSocio & " 
                               WHERE [CardCode] = '" & CardCode & "'"
             End If
 

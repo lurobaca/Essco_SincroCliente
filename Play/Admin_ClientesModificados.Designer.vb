@@ -888,7 +888,7 @@ Partial Class Admin_ClientesModificados
         'Comb_Tipo
         '
         Me.Comb_Tipo.FormattingEnabled = True
-        Me.Comb_Tipo.Items.AddRange(New Object() {"", "CLIENTE ", "PROVEEDOR "})
+        Me.Comb_Tipo.Items.AddRange(New Object() {"", "CLIENTE", "PROVEEDOR"})
         Me.Comb_Tipo.Location = New System.Drawing.Point(460, 76)
         Me.Comb_Tipo.Margin = New System.Windows.Forms.Padding(4)
         Me.Comb_Tipo.Name = "Comb_Tipo"

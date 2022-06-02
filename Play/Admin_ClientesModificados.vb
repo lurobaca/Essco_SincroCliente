@@ -452,6 +452,13 @@
                 Dim EXO_FechaEmision As String = DTP_ExoFechaEmision.Value.ToShortDateString
                 Dim EXO_PorcentajeCompra As String
                 Dim EnviarFE As Integer
+                Dim TipoSocio As Integer
+                If Comb_Tipo.Text = "CLIENTE" Then
+                    TipoSocio = 1
+                ElseIf Comb_Tipo.Text = "PROVEEDOR" Then
+                    TipoSocio = 2
+                End If
+
 
                 If txtb_ExoPorcentajeCompra.Text = "" Then
                     EXO_PorcentajeCompra = "0"
@@ -467,7 +474,7 @@
                     Guardar = False
                 End If
                 'Debemos Guardar un cliente en una tabla propia
-                Dim fallo = Class_VariablesGlobales.Obj_Funciones_SQL.GuardaCliente(CardCode, CardName, Cedula, Respolsabletributario, U_Visita, U_ClaveWeb, Phone1, Phone2, Street, E_Mail, NameFicticio, Latitud, Longitud, Agente, Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Estado, Tipo_Cedula, Fecha, Hora, Aprobado, Consecutivo, EXO_TipoDocumento, EXO_Numero, EXO_NombreInstitucion, EXO_FechaEmision, EXO_PorcentajeCompra, EnviarFE, Guardar)
+                Dim fallo = Class_VariablesGlobales.Obj_Funciones_SQL.GuardaCliente(CardCode, CardName, Cedula, Respolsabletributario, U_Visita, U_ClaveWeb, Phone1, Phone2, Street, E_Mail, NameFicticio, Latitud, Longitud, Agente, Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Estado, Tipo_Cedula, Fecha, Hora, Aprobado, Consecutivo, EXO_TipoDocumento, EXO_Numero, EXO_NombreInstitucion, EXO_FechaEmision, EXO_PorcentajeCompra, EnviarFE, TipoSocio, Guardar)
 
                 If fallo <> 1 Then
 

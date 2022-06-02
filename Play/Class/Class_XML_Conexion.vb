@@ -19,7 +19,7 @@ Public Class Class_XML_Conexion
 
             'Dim conectar As String = "C:\ConexionINFO__Pronutre_SANDBOX.xml"
             'Dim conectar As String = "C:\ConexionINFO_SANDBOX_esscocr.xml"
-            ' Dim conectar As String = "C:\ConexionINFO__Aleft_PRODUCCION.xml"
+            'Dim conectar As String = "C:\ConexionINFO__Aleft_PRODUCCION.xml"
             Dim conectar As String = "C:\ConexionINFO__Aleft_SANDBOX.xml"
             '-----------MODO PRUEBAS'-----------
             'm_xmld.Load("C:\ConexionINFO_BourneSANDBOX.xml")
