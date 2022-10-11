@@ -324,15 +324,14 @@ Partial Class Facturacion
         '
         'txtb_Comentarios
         '
-        Me.txtb_Comentarios.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.txtb_Comentarios.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Comentarios.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtb_Comentarios.Location = New System.Drawing.Point(16, 772)
         Me.txtb_Comentarios.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Comentarios.Multiline = True
         Me.txtb_Comentarios.Name = "txtb_Comentarios"
-        Me.txtb_Comentarios.Size = New System.Drawing.Size(632, 75)
+        Me.txtb_Comentarios.Size = New System.Drawing.Size(992, 75)
         Me.txtb_Comentarios.TabIndex = 84
         '
         'Label15

@@ -18,10 +18,10 @@
     Public Shared XMLParamFTP_dirLocal As String
 
     'PARAMETROS SQL
-    Public Shared XMLParamSQL_user As String = "sa"
-    Public Shared XMLParamSQL_clave As String = "Bourn3"
-    Public Shared XMLParamSQL_server As String = "SAP"
-    Public Shared XMLParamSAP_DB As String = "BD_Bourne"
+    Public Shared XMLParamSQL_user As String = ""
+    Public Shared XMLParamSQL_clave As String = ""
+    Public Shared XMLParamSQL_server As String = ""
+    Public Shared XMLParamSAP_DB As String = ""
     Public Shared XMLParamSQL_dababase As String
 
     Public Shared ReporteTE_Consecutivo As String = ""

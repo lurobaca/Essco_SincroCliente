@@ -120,6 +120,7 @@
 
 
         Catch ex As Exception
+            MessageBox.Show(ex.Message)
 
 
             Me.dtp_FechaReporte.Text = ""

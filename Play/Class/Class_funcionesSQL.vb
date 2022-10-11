@@ -18,8 +18,8 @@ Public Class Class_funcionesSQL
         End Try
         Return SQL_Comman1
     End Function
-    Public Function Desconectar(SqlCommand0 As SqlCommand, CNX As SqlConnection)
-        Obj_SQL_CONEXION_CONEXION.Desconectar(SqlCommand0, CNX_1)
+    Public Function Desconectar(SqlCommand As SqlCommand)
+        Obj_SQL_CONEXION_CONEXION.Desconectar(SqlCommand)
     End Function
 
 
@@ -206,13 +206,13 @@ Public Class Class_funcionesSQL
             Dim Retorna As Boolean = False
 
             If Tipo = "FE" Or Tipo = "TE" Then
-                Consulta = "SELECT CASE WHEN T0.[DocNum] IS NULL THEN 0 ELSE T0.[DocNum] END  AS Existe FROM [BD_Bourne].[dbo].[OINV] T0 WHERE T0.[DocType] = 'S' and T0.[DocNum]='" & DocNum & "'"
+                Consulta = "SELECT CASE WHEN T0.[DocNum] IS NULL THEN 0 ELSE T0.[DocNum] END  AS Existe FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OINV] T0 WHERE T0.[DocType] = 'S' and T0.[DocNum]='" & DocNum & "'"
             End If
             If Tipo = "ND" Then
-                Consulta = "SELECT CASE WHEN T0.[DocNum] IS NULL THEN 0 ELSE T0.[DocNum] END AS Existe FROM [BD_Bourne].[dbo].[OINV] T0 WHERE T0.[DocType] = 'S' AND T0.[DocSubType]='DN' and T0.[DocNum]='" & DocNum & "'"
+                Consulta = "SELECT CASE WHEN T0.[DocNum] IS NULL THEN 0 ELSE T0.[DocNum] END AS Existe FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OINV] T0 WHERE T0.[DocType] = 'S' AND T0.[DocSubType]='DN' and T0.[DocNum]='" & DocNum & "'"
             End If
             If Tipo = "NC" Then
-                Consulta = "SELECT CASE WHEN T0.[DocNum] IS NULL THEN 0 ELSE T0.[DocNum] END AS Existe FROM [BD_Bourne].[dbo].[ORIN] T0 WHERE T0.[DocType] = 'S' and T0.[DocNum]='" & DocNum & "'"
+                Consulta = "SELECT CASE WHEN T0.[DocNum] IS NULL THEN 0 ELSE T0.[DocNum] END AS Existe FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORIN] T0 WHERE T0.[DocType] = 'S' and T0.[DocNum]='" & DocNum & "'"
             End If
 
 
@@ -970,7 +970,7 @@ Public Class Class_funcionesSQL
 
             Dim Existe As Boolean = False
 
-            Consulta = "SELECT top 1 T0.[DocNum] FROM [BD_Bourne].[dbo].OPOR T0 WHERE T0.[NumAtCard] ='" & DocNum & "'"
+            Consulta = "SELECT top 1 T0.[DocNum] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OPOR T0 WHERE T0.[NumAtCard] ='" & DocNum & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Dim contardor As Integer = 0
@@ -994,7 +994,7 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
             Dim Existe As Boolean = False
 
-            Consulta = "SELECT top 1 [DocNum]  FROM [BD_Bourne].[dbo].[ORDR] where DocNum='" & DocNum & "'"
+            Consulta = "SELECT top 1 [DocNum]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORDR] where DocNum='" & DocNum & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Dim contardor As Integer = 0
@@ -1022,7 +1022,7 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
             Dim Existe As Boolean = False
 
-            Consulta = "SELECT top 1 [U_Boleta]  FROM [BD_Bourne].[dbo].[ORIN] where U_Boleta='" & Boleta & "'"
+            Consulta = "SELECT top 1 [U_Boleta]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORIN] where U_Boleta='" & Boleta & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Dim contardor As Integer = 0
@@ -1050,9 +1050,9 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
             If Descripcion <> "" Then
-                Consulta = "SELECT T0.[ItemCode], T0.[ItemName] FROM [BD_Bourne].[dbo].[OITM] T0 where [ItemName] like '%" & Descripcion & "%'"
+                Consulta = "SELECT T0.[ItemCode], T0.[ItemName] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OITM] T0 where [ItemName] like '%" & Descripcion & "%'"
             Else
-                Consulta = "SELECT T0.[ItemCode], T0.[ItemName] FROM [BD_Bourne].[dbo].[OITM] T0"
+                Consulta = "SELECT T0.[ItemCode], T0.[ItemName] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OITM] T0"
             End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -2054,6 +2054,8 @@ Public Class Class_funcionesSQL
                 Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Consecutivos_Liquidaciones] SET [ConseLiqChoferes] = '" & Consecutivo & "'"
             ElseIf Tipo = "OFICINA" Then
                 Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Consecutivos_Liquidaciones] SET [ConseDepositos] = '" & Consecutivo & "'"
+            ElseIf Tipo = "GASTOS" Then
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Consecutivos_Liquidaciones] SET [ConseDepositos] = '" & Consecutivo & "'"
             End If
 
             SQL_Comman.CommandText = Consulta
@@ -2117,7 +2119,11 @@ Public Class Class_funcionesSQL
                 ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
                 ADATER.Fill(TABLA)
                 CONSECUTIVO = CInt(TABLA.Rows(0).Item("ConseDepositos").ToString())
-
+            ElseIf Liquidacion = "GASTOS" Then
+                Consulta = "SELECT [ConseGastos] FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Consecutivos_Liquidaciones] T0 "
+                ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+                ADATER.Fill(TABLA)
+                CONSECUTIVO = CInt(TABLA.Rows(0).Item("ConseGastos").ToString())
             End If
 
 
@@ -2329,7 +2335,7 @@ Public Class Class_funcionesSQL
             Dim Cobrador As String = ""
             Dim Fecha As String = ""
             Dim Mensaje As String = ""
-            Consulta = "SELECT T0.[U_NumLiquidacion] ,T0.[U_BP_COBRADOR],T0.[DocDate] FROM [BD_Bourne].[dbo].ORCT T0 WHERE T0.[DocNum] ='" & NumRecibo & "'"
+            Consulta = "SELECT T0.[U_NumLiquidacion] ,T0.[U_BP_COBRADOR],T0.[DocDate] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].ORCT T0 WHERE T0.[DocNum] ='" & NumRecibo & "'"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -2371,7 +2377,7 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
             Dim Consecutivo As String
 
-            Consulta = "SELECT [Conse_Gastos] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes]  where [CodAgente]='1'"
+            Consulta = "SELECT [Conse_Gastos] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes]  where [CodAgente]='3'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
@@ -2399,7 +2405,7 @@ Public Class Class_funcionesSQL
             Dim IncluirAnd As Boolean = False 'controla la incrustacion del AND para los filtros
 
 
-            Consulta = Consulta & "Select [DocNum],[Tipo] ,[NumDoc] ,[Monto] ,[Descripcion] ,[ConseLiqui],[TipoLiqui],[FechaGasto],[CodAgente],[Anulado],[EsFE],[Codigo],(Select T0.[CardName] FROM [BD_BOURNE].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Nombre,( Select T0.[LicTradNum] FROM [BD_BOURNE].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Cedula,(Select T0.[E_Mail] FROM [BD_BOURNE].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Correo,EstadoMH FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[GastosLiquidaciones] where  "
+            Consulta = Consulta & "Select [DocNum],[Tipo] ,[NumDoc] ,[Monto] ,[Descripcion] ,[ConseLiqui],[TipoLiqui],[FechaGasto],[CodAgente],[Anulado],[EsFE],[Codigo],(Select T0.[CardName] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Nombre,( Select T0.[LicTradNum] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Cedula,(Select T0.[E_Mail] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Correo,EstadoMH FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[GastosLiquidaciones] where  "
 
             If NumLiquidacion <> "" Then
                 IncluirAnd = True
@@ -2504,7 +2510,7 @@ Public Class Class_funcionesSQL
             Dim IncluirAnd As Boolean = False 'controla la incrustacion del AND para los filtros
 
 
-            Consulta = Consulta & "Select [DocNum],[Tipo] ,[NumDoc] ,[Monto] ,[Descripcion] ,[ConseLiqui],[TipoLiqui],[FechaGasto],[CodAgente],[Anulado],[EsFE],[Codigo],(Select T0.[CardName] FROM [BD_BOURNE].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Nombre,( Select T0.[LicTradNum] FROM [BD_BOURNE].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Cedula,(Select T0.[E_Mail] FROM [BD_BOURNE].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Correo,EstadoMH FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[GastosLiquidaciones] where  "
+            Consulta = Consulta & "Select [DocNum],[Tipo] ,[NumDoc] ,[Monto] ,[Descripcion] ,[ConseLiqui],[TipoLiqui],[FechaGasto],[CodAgente],[Anulado],[EsFE],[Codigo],(Select T0.[CardName] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Nombre,( Select T0.[LicTradNum] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Cedula,(Select T0.[E_Mail] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OCRD T0 WHERE T0.[CardCode] =[Codigo] COLLATE Modern_Spanish_CI_AS ) as Correo,EstadoMH FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[GastosLiquidaciones] where  "
 
             If AgenteGasto <> "" Then
                 IncluirAnd = True
@@ -3348,11 +3354,11 @@ Public Class Class_funcionesSQL
             If Class_VariablesGlobales.LiquidacionRecuperada <> "" Then
 
                 If FechaIni <> "" And FechaFin <> "" And Agente <> "" Then
-                    'Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.[JrnlMemo] not like '%Cancelado'and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
+                    'Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.[JrnlMemo] not like '%Cancelado'and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
                     If Class_VariablesGlobales.LIQUIDANDO = "CHOFERES" Then
-                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' ORDER BY T0.[DocNum] ASC"
+                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' ORDER BY T0.[DocNum] ASC"
                     Else
-                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE    T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE    T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
+                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE    T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE    T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
                     End If
 
                 End If
@@ -3360,9 +3366,9 @@ Public Class Class_funcionesSQL
             Else
                 If FechaIni <> "" And FechaFin <> "" And Agente <> "" Then
                     If Class_VariablesGlobales.LIQUIDANDO = "CHOFERES" Then
-                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
+                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM  [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
                     Else
-                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
+                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
                     End If
 
                 End If
@@ -3389,29 +3395,17 @@ Public Class Class_funcionesSQL
             Dim Monto As String
             If Class_VariablesGlobales.LiquidacionRecuperada <> "" Then
                 If Class_VariablesGlobales.LIQUIDANDO = "CHOFERES" Then
-                    Consulta = "SELECT SUM(T10.[Monto]) AS Monto  FROM (SELECT SUM(T0.[DocTotal]) AS Monto  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' 
-                                UNION
-                               SELECT SUM(T0.[DocTotal]) AS Monto  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y') T10 "
+                    Consulta = "SELECT SUM(T10.[Monto]) AS Monto  FROM (SELECT SUM(T0.[DocTotal]) AS Monto  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y') T10 "
                 Else
-                    Consulta = "Select SUM(T10.[Monto]) As Monto  FROM (Select SUM(T0.[DocTotal]) As Monto  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' 
-                                UNION
-                                SELECT SUM(T0.[DocTotal]) AS Monto  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y') T10 "
+                    Consulta = "Select SUM(T10.[Monto]) As Monto  FROM (Select SUM(T0.[DocTotal]) As Monto  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y') T10 "
                 End If
-
-                'Consulta = "SELECT SUM(T0.[DocTotal]) AS Monto  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.[JrnlMemo] not like '%Cancelado'and T0.Canceled not like 'Y' "
             Else
                 If Class_VariablesGlobales.LIQUIDANDO = "CHOFERES" Then
-                    Consulta = "Select SUM(T10.[Monto]) As Monto  FROM (SELECT SUM(T0.[DocTotal]) AS Monto  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'
-                                UNION
-                                SELECT SUM(T0.[DocTotal]) AS Monto  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y') T10"
+                    Consulta = "Select SUM(T10.[Monto]) As Monto  FROM (SELECT SUM(T0.[DocTotal]) AS Monto  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y') T10"
                 Else
-                    Consulta = "Select SUM(T10.[Monto]) As Monto  FROM (SELECT SUM(T0.[DocTotal]) AS Monto  FROM [BD_BOURNE].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' 
-                                UNION
-                                SELECT SUM(T0.[DocTotal]) AS Monto  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y') T10 "
+                    Consulta = "Select SUM(T10.[Monto]) As Monto  FROM (SELECT SUM(T0.[DocTotal]) AS Monto  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y') T10 "
                 End If
-
             End If
-
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -3571,10 +3565,10 @@ Public Class Class_funcionesSQL
                                 T0.[DocNum],
                                 T0.[DocTotal] as Total,
                                 T0.[Consecutivo],
-                                CASE WHEN (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [BD_BOURNE].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum]) IS NULL THEN 
+                                CASE WHEN (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum]) IS NULL THEN 
 		                                (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [Historial_BD_Bourne].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
                                 ELSE 
-    	                                (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [BD_BOURNE].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
+    	                                (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
 	                            END AS 'Saldo',
                                 T0.[NombreRuta],
                                 T0.[SlpCode]   
@@ -3583,10 +3577,10 @@ Public Class Class_funcionesSQL
             Else
                 'si el Tipo no es contado es por que obtendra todas las facturas del reporte de carga especifico 
                 Consulta = "SELECT T0.[DocNum],T0.[DocTotal] as Total,T0.[Consecutivo],
-                            CASE WHEN (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [BD_BOURNE].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum]) IS NULL THEN 
+                            CASE WHEN (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum]) IS NULL THEN 
 		                         (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [Historial_BD_Bourne].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
                             ELSE 
-    	                         (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [BD_BOURNE].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
+    	                         (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
 	                        END AS 'Saldo',
                             T0.[NombreRuta],
                             T0.[SlpCode]   
@@ -3976,7 +3970,7 @@ Public Class Class_funcionesSQL
                 Consulta = "SELECT [CodProveedor],[NameProveedor] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[inv_inventario] WHERE [IdInventario]='" & ObtieneIdInventario() & "' and [Unificado]='0' GROUP BY  [CodProveedor] ,[NameProveedor]"
             ElseIf Class_VariablesGlobales.LlamadoDesde = "PedidorPrincipal" Then
                 'Obtiene los proveedores activos de SAP
-                Consulta = "SELECT T0.[CardCode], T0.[CardName] FROM BD_BOURNE.dbo.OCRD T0 WHERE T0.[CardType]='S' AND T0.[frozenFor]='N' and (CardCode like 'P0%' )"
+                Consulta = "SELECT T0.[CardCode], T0.[CardName] FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OCRD T0 WHERE T0.[CardType]='S' AND T0.[frozenFor]='N' and (CardCode like 'P0%' )"
             ElseIf LlamadoDesde = "StockManager" Then
                 Consulta = "Select [CardCode] AS [CodProveedor],[CardName] AS [NameProveedor] From [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ClientesModificados] Where [TipoSocio] = 2"
             Else
@@ -4136,7 +4130,7 @@ Public Class Class_funcionesSQL
 
 
 
-            Consulta = "Select T0.[DocNum] FROM [BD_BOURNE].[dbo].OPOR T0 WHERE T0.[NumAtCard]='" + NumFerencia + "'"
+            Consulta = "Select T0.[DocNum] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OPOR T0 WHERE T0.[NumAtCard]='" + NumFerencia + "'"
 
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -4159,7 +4153,7 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
-            Consulta = "SELECT CONVERT(int,T1.[MinStock] ) as MinStock FROM [BD_Bourne].[dbo].OITM T0  INNER JOIN [BD_Bourne].[dbo].OITW T1 ON T0.[ItemCode] = T1.[ItemCode] WHERE T0.[ItemCode] ='" & ItemCode & "' and   T1.[WhsCode] ='01'"
+            Consulta = "SELECT CONVERT(int,T1.[MinStock] ) as MinStock FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OITM T0  INNER JOIN [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OITW T1 ON T0.[ItemCode] = T1.[ItemCode] WHERE T0.[ItemCode] ='" & ItemCode & "' and   T1.[WhsCode] ='01'"
 
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -5209,7 +5203,7 @@ Public Class Class_funcionesSQL
 
 
             Dim ADATER As New SqlDataAdapter
-            Dim Consulta As String = "SELECT * FROM Inventario"
+            Dim Consulta = "SELECT * FROM Inventario order by ItemCode desc"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman1.Connection)
             ADATER.Fill(TABLA)
 
@@ -5454,7 +5448,7 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
-    Public Function Consulta_Estado_SubidaSAP(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
+    Public Function Consulta_Estado_SubidaSAP(ByVal AGENTE As String, Archivo As String, Accion As String, ByVal SQL_Comman As SqlCommand)
         Try
             'Dim SQL_Comman As New SqlCommand
             ' para la conexion al comman
@@ -5462,11 +5456,91 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
-            If AGENTE <> "" Then
-                Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Agente] = '" & AGENTE & "' order by [Agente] asc"
-            Else
-                Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] order by [Agente] asc"
+            Dim Condiciones As String
+            Dim yawhere As Boolean = False
+
+
+            Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] "
+
+
+
+            If Archivo = "Pedidos" Then
+
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
+
+                Consulta = Consulta & " [Archivo] ='pedidos.mbg' "
             End If
+
+            If Archivo = "Devoluciones" Then
+
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
+
+                Consulta = Consulta & " [Archivo] ='devoluciones.mbg' "
+            End If
+
+            If Archivo = "Pagos" Then
+
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
+
+                Consulta = Consulta & " [Archivo] ='pagos.mbg' "
+            End If
+
+            If AGENTE <> "" Then
+
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
+                Consulta = Consulta & " [AGENTE] = '" & AGENTE & "'"
+            End If
+
+
+            If Accion = "ERROR" Then
+
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
+
+                Consulta = Consulta & " [Estado] = 'ERROR'"
+            End If
+
+
+
+            If Accion = "SUBIDO" Then
+
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
+
+                Consulta = Consulta & " [Estado] = 'SUBIDO' "
+            End If
+
+
+
+            Consulta = Consulta & " order by [Agente] asc"
 
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -5552,7 +5626,9 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
-    Public Function EliminaListaEstadoErroSAP(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
+
+
+    Public Function LimpiaEstadoSubidoSAP(ByVal AGENTE As String, ByVal ACCION As String, ByVal SQL_Comman As SqlCommand)
 
         Try
             'Dim SQL_Comman As New SqlCommand
@@ -5560,39 +5636,45 @@ Public Class Class_funcionesSQL
             'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Dim yawhere As Boolean = False
 
-            Consulta = ""
+            Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] "
+
+
+
+
+
             If AGENTE <> "" Then
-                Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Estado] = 'ERROR' AND [Agente] = '" & AGENTE & "' "
-            Else
-                Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Estado] = 'ERROR'"
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
+
+                Consulta = Consulta & " [Agente] = '" & AGENTE & "'"
             End If
 
-            SQL_Comman.CommandText = Consulta
-            SQL_Comman.ExecuteNonQuery()
 
 
-            'Obj_SQL_CONEXION.Desconectar(SQL_Comman)
-            SQL_Comman = Nothing
-        Catch ex As Exception
-            MessageBox.Show("ERROR en EliminaListaEstadoErroSAP [ " & ex.Message & " ]")
-        End Try
-    End Function
+            If ACCION = "ERROR" Then
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+                End If
 
-    Public Function EliminaListaEstadoSubidoSAP(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
-
-        Try
-            'Dim SQL_Comman As New SqlCommand
-            ' para la conexion al comman
-            'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-            Dim Consulta As String
-            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
-
-            Consulta = ""
-            If AGENTE <> "" Then
-                Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Estado] = 'SUBIDO' AND [Agente] = '" & AGENTE & "'"
+                Consulta = Consulta & " [Estado] = 'ERROR'"
             Else
-                Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Estado] = 'SUBIDO'"
+                If yawhere = False Then
+                    Consulta = Consulta & " Where "
+                    yawhere = True
+                Else
+                    Consulta = Consulta & " and "
+            End If
+
+                Consulta = Consulta & " [Estado] = 'SUBIDO'"
             End If
 
             SQL_Comman.CommandText = Consulta
@@ -5742,134 +5824,134 @@ Public Class Class_funcionesSQL
     End Function
 
     'ESTADOS DE PAGOS
-    Public Function PagosTODOS(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
-        Try
-            'Dim SQL_Comman As New SqlCommand
-            ' para la conexion al comman
-            ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-            Dim ADATER As New SqlDataAdapter
-            Dim TABLA As New DataTable
-            Dim Consulta As String = ""
+    'Public Function PagosTODOS(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
+    '    Try
+    '        'Dim SQL_Comman As New SqlCommand
+    '        ' para la conexion al comman
+    '        ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+    '        Dim ADATER As New SqlDataAdapter
+    '        Dim TABLA As New DataTable
+    '        Dim Consulta As String = ""
 
-            If AGENTE <> "" Then
-                Consulta = "SELECT  *FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Agente] = '" & AGENTE & "' order by [Agente] asc "
-            Else
-                Consulta = "SELECT  *FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' order by [Agente] asc "
-            End If
-
-
-            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-            ADATER.Fill(TABLA)
-            ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
-
-            Return TABLA
-        Catch ex As Exception
-            MessageBox.Show("ERROR en PagosTODOS [ " & ex.Message & " ]")
-        End Try
-    End Function
-    Public Function PagosConError(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
-        Try
-            ' Dim SQL_Comman As New SqlCommand
-            ' para la conexion al comman
-            'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-            Dim ADATER As New SqlDataAdapter
-            Dim TABLA As New DataTable
-            Dim Consulta As String = ""
-            If AGENTE <> "" Then
-                Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]  WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'ERROR' AND [Agente] = '" & AGENTE & "' order by [Agente] asc"
-            Else
-                Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]  WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'ERROR' order by [Agente] asc"
-            End If
+    '        If AGENTE <> "" Then
+    '            Consulta = "SELECT  *FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Agente] = '" & AGENTE & "' order by [Agente] asc "
+    '        Else
+    '            Consulta = "SELECT  *FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' order by [Agente] asc "
+    '        End If
 
 
-            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-            ADATER.Fill(TABLA)
-            ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
+    '        ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+    '        ADATER.Fill(TABLA)
+    '        ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
 
-            Return TABLA
-        Catch ex As Exception
-            MessageBox.Show("ERROR en PagosConError [ " & ex.Message & " ]")
-        End Try
-    End Function
-    Public Function PagosSUBIDOS(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
-        Try
-            'Dim SQL_Comman As New SqlCommand
-            ' para la conexion al comman
-            ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-            Dim ADATER As New SqlDataAdapter
-            Dim TABLA As New DataTable
-            Dim Consulta As String = ""
-
-            If AGENTE <> "" Then
-                Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]  WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'SUBIDO' AND [Agente] = '" & AGENTE & "' order by [Agente] asc"
-            Else
-                Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]  WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'SUBIDO' order by [Agente] asc"
-            End If
-
-
-            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-            ADATER.Fill(TABLA)
-            ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
-
-            Return TABLA
-        Catch ex As Exception
-            MessageBox.Show("ERROR en PagosSUBIDOS [ " & ex.Message & " ]")
-        End Try
-    End Function
-    Public Function PagosEliminaEstadoSUBIDO(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
-
-        Try
-            'Dim SQL_Comman As New SqlCommand
-            ' para la conexion al comman
-            ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-            Dim Consulta As String
-            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
-
-            Consulta = ""
-            If AGENTE <> "" Then
-                Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'SUBIDO' AND [Agente] = '" & AGENTE & "'"
-            Else
-                Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'SUBIDO'"
-            End If
-
-            SQL_Comman.CommandText = Consulta
-            SQL_Comman.ExecuteNonQuery()
+    '        Return TABLA
+    '    Catch ex As Exception
+    '        MessageBox.Show("ERROR en PagosTODOS [ " & ex.Message & " ]")
+    '    End Try
+    'End Function
+    'Public Function PagosConError(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
+    '    Try
+    '        ' Dim SQL_Comman As New SqlCommand
+    '        ' para la conexion al comman
+    '        'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+    '        Dim ADATER As New SqlDataAdapter
+    '        Dim TABLA As New DataTable
+    '        Dim Consulta As String = ""
+    '        If AGENTE <> "" Then
+    '            Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]  WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'ERROR' AND [Agente] = '" & AGENTE & "' order by [Agente] asc"
+    '        Else
+    '            Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]  WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'ERROR' order by [Agente] asc"
+    '        End If
 
 
-            ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
-            SQL_Comman = Nothing
-        Catch ex As Exception
-            MessageBox.Show("ERROR en PagosEliminaEstadoSUBIDO [ " & ex.Message & " ]")
-        End Try
+    '        ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+    '        ADATER.Fill(TABLA)
+    '        ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
 
-    End Function
-    Public Function PagosEliminaEstadoERROR(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
+    '        Return TABLA
+    '    Catch ex As Exception
+    '        MessageBox.Show("ERROR en PagosConError [ " & ex.Message & " ]")
+    '    End Try
+    'End Function
+    'Public Function PagosSUBIDOS(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
+    '    Try
+    '        'Dim SQL_Comman As New SqlCommand
+    '        ' para la conexion al comman
+    '        ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+    '        Dim ADATER As New SqlDataAdapter
+    '        Dim TABLA As New DataTable
+    '        Dim Consulta As String = ""
 
-        Try
-            '  Dim SQL_Comman As New SqlCommand
-            ' para la conexion al comman
-            ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-            Dim Consulta As String
-            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
-
-            Consulta = ""
-            If AGENTE <> "" Then
-                Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'ERROR' AND [Agente] = '" & AGENTE & "'"
-            Else
-                Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'ERROR'"
-            End If
-
-            SQL_Comman.CommandText = Consulta
-            SQL_Comman.ExecuteNonQuery()
+    '        If AGENTE <> "" Then
+    '            Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]  WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'SUBIDO' AND [Agente] = '" & AGENTE & "' order by [Agente] asc"
+    '        Else
+    '            Consulta = "SELECT * FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP]  WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'SUBIDO' order by [Agente] asc"
+    '        End If
 
 
-            ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
-            SQL_Comman = Nothing
-        Catch ex As Exception
-            MessageBox.Show("ERROR en PagosEliminaEstadoERROR [ " & ex.Message & " ]")
-        End Try
+    '        ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+    '        ADATER.Fill(TABLA)
+    '        ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
 
-    End Function
+    '        Return TABLA
+    '    Catch ex As Exception
+    '        MessageBox.Show("ERROR en PagosSUBIDOS [ " & ex.Message & " ]")
+    '    End Try
+    'End Function
+    'Public Function PagosEliminaEstadoSUBIDO(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
+
+    '    Try
+    '        'Dim SQL_Comman As New SqlCommand
+    '        ' para la conexion al comman
+    '        ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+    '        Dim Consulta As String
+    '        'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+
+    '        Consulta = ""
+    '        If AGENTE <> "" Then
+    '            Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'SUBIDO' AND [Agente] = '" & AGENTE & "'"
+    '        Else
+    '            Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'SUBIDO'"
+    '        End If
+
+    '        SQL_Comman.CommandText = Consulta
+    '        SQL_Comman.ExecuteNonQuery()
+
+
+    '        ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
+    '        SQL_Comman = Nothing
+    '    Catch ex As Exception
+    '        MessageBox.Show("ERROR en PagosEliminaEstadoSUBIDO [ " & ex.Message & " ]")
+    '    End Try
+
+    'End Function
+    'Public Function PagosEliminaEstadoERROR(ByVal AGENTE As String, ByVal SQL_Comman As SqlCommand)
+
+    '    Try
+    '        '  Dim SQL_Comman As New SqlCommand
+    '        ' para la conexion al comman
+    '        ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+    '        Dim Consulta As String
+    '        'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+
+    '        Consulta = ""
+    '        If AGENTE <> "" Then
+    '            Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'ERROR' AND [Agente] = '" & AGENTE & "'"
+    '        Else
+    '            Consulta = "DELETE FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Estado_Subida_SAP] WHERE [Archivo] = 'pagos.mbg' AND [Estado] = 'ERROR'"
+    '        End If
+
+    '        SQL_Comman.CommandText = Consulta
+    '        SQL_Comman.ExecuteNonQuery()
+
+
+    '        ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
+    '        SQL_Comman = Nothing
+    '    Catch ex As Exception
+    '        MessageBox.Show("ERROR en PagosEliminaEstadoERROR [ " & ex.Message & " ]")
+    '    End Try
+
+    'End Function
 
     Public Function CambiaEstadoReinsertar(ByVal Consecutivo As String, ByVal Archivo As String, ByVal SQL_Comman As SqlCommand)
         Try
@@ -6044,7 +6126,7 @@ Public Class Class_funcionesSQL
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
 
             Consulta = ""
-            Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Agentes] SET [Conse_Gastos] = '" & Consecutivo & "' WHERE [CodAgente] ='1'"
+            Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Agentes] SET [Conse_Gastos] = '" & Consecutivo & "' WHERE [CodAgente] ='3'"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
 
@@ -6054,35 +6136,55 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
-    Public Function RecargarTODO(ByVal Agente As String, ByVal SQL_Comman As SqlCommand)
+    'Public Function RecargarTODO(ByVal Agente As String, ByVal SQL_Comman As SqlCommand)
+    '    Try
+
+    '        If Agente <> "1" Then
+
+
+    '            Dim Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
+    '            Dim cont As Integer = 0
+    '            ' para la conexion al comman
+    '            'Dim SQL_Comman As New SqlCommand
+    '            'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+    '            Dim Consulta As String
+    '            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+    '            Consulta = ""
+    '            Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Agentes] SET [Recargar] = '1' WHERE [CodAgente] ='" & Agente & "'"
+
+    '            SQL_Comman.CommandText = Consulta
+    '            SQL_Comman.ExecuteNonQuery()
+    '            ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
+    '        End If
+    '        Return 0
+    '    Catch ex As Exception
+    '        MessageBox.Show("ERROR en RecargarTODO [ " & ex.Message & " ]")
+    '    End Try
+
+    'End Function
+    Public Function ModificaRecargar(ByVal SQL_Comman As SqlCommand, ByVal Recargar As Integer, ByVal Agente As String)
         Try
 
-            If Agente <> "1" Then
 
+            Dim Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
+            Dim cont As Integer = 0
 
-                Dim Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
-                Dim cont As Integer = 0
-                ' para la conexion al comman
-                'Dim SQL_Comman As New SqlCommand
-                'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-                Dim Consulta As String
-                'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
 
-                Consulta = ""
-                ' Consulta = "UPDATE  "&  Class_VariablesGlobales.XMLParamSQL_dababase  &".[dbo].[UltimosConsecutivos] SET [Ulti_Consec_Pedidos] = '0',[Ulti_Consec_Pagos] = '0',[Ulti_Consec_Depositos] = '0' WHERE [id_agente] ='" & Agente & "'"
-
-
-
-                Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Agentes] SET [Conse_Pedido] = '0',[Conse_Pagos] = '0',[Conse_Deposito] = '0',[Conse_Gastos] = '0',[Conse_NoVisita] = '0' WHERE [CodAgente] ='" & Agente & "'"
-
-
-                SQL_Comman.CommandText = Consulta
-                SQL_Comman.ExecuteNonQuery()
-                ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
+            Consulta = ""
+            If Agente <> "" Then
+                Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Agentes] SET [Recargar] = '" & Recargar & "' WHERE [CodAgente] ='" & Agente & "'"
+            Else
+                Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Agentes] SET [Recargar] = '" & Recargar & "'"
             End If
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+
             Return 0
         Catch ex As Exception
-            MessageBox.Show("ERROR en RecargarTODO [ " & ex.Message & " ]")
+            MessageBox.Show("ERROR en ModificaConsecutivSistema [ " & ex.Message & " ]")
         End Try
 
     End Function
@@ -6870,7 +6972,7 @@ Public Class Class_funcionesSQL
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
 
             Consulta = ""
-            Consulta = "SELECT [ItemName] FROM [BD_Bourne].[dbo].[OITM] where [ItemCode] = '" & CodArticulo & "'"
+            Consulta = "SELECT [ItemName] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OITM] where [ItemCode] = '" & CodArticulo & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
@@ -7556,7 +7658,7 @@ Public Class Class_funcionesSQL
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
 
-            Consulta = "SELECT T1.Code, T1.Name FROM [BD_Bourne].[dbo].[@RUTAS]  T1"
+            Consulta = "SELECT T1.Code, T1.Name FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[@RUTAS]  T1"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Return TABLA
@@ -8313,12 +8415,7 @@ Public Class Class_funcionesSQL
         Catch ex As Exception
 
         End Try
-
-
     End Function
-
-
-
 
     Public Function ObtieneUsuarios(ByVal SQL_Comman As SqlCommand)
         Try
@@ -8333,38 +8430,25 @@ Public Class Class_funcionesSQL
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
-            'Obj_SQL_CONEXION.Desconectar(SQL_Comman)
-
             Return TABLA
         Catch ex As Exception
             MessageBox.Show("ERROR en ObtieneUsuarios [ " & ex.Message & " ]")
         End Try
     End Function
 
-
     Public Function INSERTA_Usuario(ByVal SQL_Comman As SqlCommand, ByVal Usuario As String, ByVal Password As String, ByVal Puesto As String, ByVal Cedula As String, ByVal Nombre As String, ByVal Cambiar As String)
         Try
-
-            'Dim SQL_Comman As New SqlCommand
-            'para la conexion al comman
-            'SQL_Comman.Connection = Obj_SQL_CONEXIONSERVER.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
             Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Users] ([Usuario],[Password],[Puesto],[Cedula] ,[Nombre],[Cambiar]) VALUES('" & Usuario & "','" & Password & "','" & Puesto & "','" & Cedula & "','" & Nombre & "','" & Cambiar & "')"
-
-
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
 
         Catch ex As Exception
-            'ERRORES = "[ " & Now & " ] ERROR INSERTAPedidosHoyPendientes ( " & ex.Message & " )"
         End Try
 
     End Function
-
-
 
     Public Function ModificaUsuario(ByVal SQL_Comman As SqlCommand, ByVal Usuario As String, ByVal Password As String, ByVal Puesto As String, ByVal Cedula As String, ByVal Nombre As String, ByVal Codigo As String, ByVal Cambiar As String)
         Try
@@ -8394,6 +8478,34 @@ Public Class Class_funcionesSQL
     End Function
 
 #End Region
+
+
+#Region "Login"
+    'Almacena el registro cuando se verifique que el usuario no ah sido usado en otro equipo
+    Public Function RegistrarInicioSesion(ByVal SQL_Comman As SqlCommand, ByVal Usuario As String, ByVal IP As String, ByVal UsuarioWindows As String)
+        Try
+
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Sessiones] (
+                                    [UsuarioWindos]
+                                   ,[Ip]
+                                   ,[UsuarioSincro])
+                                    VALUES
+                                   ('" & Usuario & "'
+                                   ,'" & IP & "'
+                                   ,'" & UsuarioWindows & "')"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+
+        Catch ex As Exception
+        End Try
+
+    End Function
+#End Region
+
+
 
 #Region "Acciones Descuentos Fijos de cliente"
 
@@ -8525,7 +8637,7 @@ Public Class Class_funcionesSQL
 
             Return TABLA
         Catch ex As Exception
-            MessageBox.Show("[ " & Now & " ] ERROR EN ObtieneConsecutivo [ " & ex.Message & " ]")
+            MessageBox.Show("[ " & Now & " ] ERROR EN ConsultaClientesDescFijos [ " & ex.Message & " ]")
         End Try
 
         Return 0
@@ -8598,7 +8710,7 @@ Public Class Class_funcionesSQL
 
             Return TABLA
         Catch ex As Exception
-            MessageBox.Show("[ " & Now & " ] ERROR EN ObtieneConsecutivo [ " & ex.Message & " ]")
+            MessageBox.Show("[ " & Now & " ] ERROR EN ObtieneFamilias [ " & ex.Message & " ]")
         End Try
 
         Return 0
@@ -8622,7 +8734,7 @@ Public Class Class_funcionesSQL
             'SQL_Comman = Nothing
             Return TABLA
         Catch ex As Exception
-            MessageBox.Show("[ " & Now & " ] ERROR EN ObtieneConsecutivo [ " & ex.Message & " ]")
+            MessageBox.Show("[ " & Now & " ] ERROR EN ObtieneCategorias [ " & ex.Message & " ]")
         End Try
 
         Return 0
@@ -8639,21 +8751,14 @@ Public Class Class_funcionesSQL
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
 
-
-
-
             Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ObtieneMarca] ('" & CodProveedor & "')"
-
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
-
-            ' SQL_Comman = Nothing
-
             Return TABLA
         Catch ex As Exception
-            MessageBox.Show("[ " & Now & " ] ERROR EN ObtieneConsecutivo [ " & ex.Message & " ]")
+            MessageBox.Show("[ " & Now & " ] ERROR EN ObtieneMarcas [ " & ex.Message & " ]")
         End Try
 
         Return 0
@@ -8701,17 +8806,10 @@ Public Class Class_funcionesSQL
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
 
-
-
-
             Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ObtieneTODASFamilia] ()"
-
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
-
-
-            ' SQL_Comman = Nothing
 
             Return TABLA
         Catch ex As Exception
@@ -8747,17 +8845,10 @@ Public Class Class_funcionesSQL
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
 
-
-
-
             Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ObtieneTODASCategoria] ()"
-
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
-
-
-            'SQL_Comman = Nothing
 
             Return TABLA
         Catch ex As Exception
@@ -8911,13 +9002,27 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en Obtiene_UbicacionesCR [ " & ex.Message & " ]")
         End Try
     End Function 'obtiene los clientes segun un agente para cargarlos en el celular
-    Public Function Obtiene_Descuentos(ByVal SQL_Comman As SqlCommand, Ruta As String)
+    Public Function Obtiene_Descuentos(ByVal SQL_Comman As SqlCommand, Ruta As String, Rutas_Unidicar() As String)
         Try
             Dim Tbl_Descuentos As New DataTable
             Dim ADATER As New SqlDataAdapter
 
             Dim Consulta As String = ""
-            Consulta = "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorAgente(" & Ruta & ") T0"
+            Dim cont As Integer = 0
+
+            If Rutas_Unidicar Is Nothing Then
+                Consulta = "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorAgente(" & Ruta & ") T0"
+            Else
+
+                For i As Integer = 0 To Rutas_Unidicar.Count - 1
+                    If cont > 0 Then
+                        Consulta = Consulta & " UNION "
+                    End If
+                    Consulta = Consulta & "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorAgente(" & Rutas_Unidicar(i).ToString & ") T0"
+                    cont += 1
+                Next
+
+            End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(Tbl_Descuentos)
@@ -8942,18 +9047,18 @@ Public Class Class_funcionesSQL
 
 
                 If Grupo = "A" Then
-                    Consulta = Consulta & " SELECT * FROM UniversoXAgenteDividido('" & Agente & "')  "
+                    Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Agente & "')  "
                 ElseIf Grupo = "B" Then
-                    Consulta = Consulta & " SELECT * FROM UniversoXAgenteDividido_B('" & Agente & "') "
+                    Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido_B('" & Agente & "') "
                 ElseIf Grupo = "GPS" Then
-                    Consulta = Consulta & " SELECT * FROM UniversoXAgente('" & Agente & "') WHERE  U_Latitud IS NOT NULL  "
+                    Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Agente & "') WHERE  U_Latitud IS NOT NULL  "
                 Else
 
                     If Class_VariablesGlobales.XMLParamSAP_CompanyDB = "" Then
                         'Obtiene los datos de la DB de essco
                         Consulta = "SELECT * FROM [essco].UniversoXAgente('" & Agente & "')  "
                     Else
-                        Consulta = "SELECT * FROM UniversoXAgente('" & Agente & "')  "
+                        Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Agente & "')  "
                     End If
 
 
@@ -8967,19 +9072,19 @@ Public Class Class_funcionesSQL
                         End If
 
                         If Grupo = "A" Then
-                            Consulta = Consulta & " SELECT * FROM UniversoXAgenteDividido('" & Rutas_Unidicar(i).ToString & "')  "
-                        ElseIf Grupo = "B" Then
-                            Consulta = Consulta & " SELECT * FROM UniversoXAgenteDividido_B('" & Rutas_Unidicar(i).ToString & "') "
-                        ElseIf Grupo = "GPS" Then
-                            Consulta = Consulta & " SELECT * FROM UniversoXAgente('" & Rutas_Unidicar(i).ToString & "') WHERE  U_Latitud IS NOT NULL  "
-                        Else
+                        Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Rutas_Unidicar(i).ToString & "')  "
+                    ElseIf Grupo = "B" Then
+                        Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido_B('" & Rutas_Unidicar(i).ToString & "') "
+                    ElseIf Grupo = "GPS" Then
+                        Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unidicar(i).ToString & "') WHERE  U_Latitud IS NOT NULL  "
+                    Else
 
 
                         If Class_VariablesGlobales.XMLParamSAP_CompanyDB = "" Then
                             'Obtiene los datos de la DB de essco
                             Consulta = "SELECT * FROM [essco].UniversoXAgente('" & Agente & "')  "
                         Else
-                            Consulta = Consulta & "SELECT * FROM UniversoXAgente('" & Rutas_Unidicar(i).ToString & "')  "
+                            Consulta = Consulta & "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unidicar(i).ToString & "')  "
                         End If
 
                     End If
@@ -9013,7 +9118,7 @@ Public Class Class_funcionesSQL
 
             Dim Consulta As String = ""
 
-            Consulta = "SELECT * FROM Universo('" & Agente & "') order by CardCode asc "
+            Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].Universo('" & Agente & "') order by CardCode asc "
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(Tbl_Clientes)
@@ -9334,10 +9439,10 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
-    Public Function INSERTA_Empresa(ByVal SQL_Comman As SqlCommand, ByVal Cedula As String, ByVal Nombre As String, ByVal Telefono As String, ByVal Correo As String, ByVal Web As String, ByVal Direccion As String, ByVal Server_Ftp As String, ByVal User_Ftp As String, ByVal Clave_Ftp As String, ByVal NumMaxFactura As String, ByVal DescMax As String, ByVal ConseRepCarga As String, ByVal ConseRepDevoluciones As String, Nombre_Fantacia As String, id_Provincia As Integer, id_canton As Integer, id_distrito As Integer, id_barrio As Integer, Tipo_Cedula As Integer, Telefono2 As Integer, ClaveEmail As String, CodigoActividadEconomica As String, DescrActividadEconomica As String, Txtb_RutaPadreFtp As String)
+    Public Function INSERTA_Empresa(ByVal SQL_Comman As SqlCommand, ByVal Cedula As String, ByVal Nombre As String, ByVal Telefono As String, ByVal Correo As String, ByVal Web As String, ByVal Direccion As String, ByVal Server_Ftp As String, ByVal User_Ftp As String, ByVal Clave_Ftp As String, ByVal NumMaxFactura As String, ByVal DescMax As String, ByVal ConseRepCarga As String, ByVal ConseRepDevoluciones As String, Nombre_Fantacia As String, id_Provincia As Integer, id_canton As Integer, id_distrito As Integer, id_barrio As Integer, Tipo_Cedula As Integer, Telefono2 As Integer, ClaveEmail As String, CodigoActividadEconomica As String, DescrActividadEconomica As String, Txtb_RutaPadreFtp As String, Txtb_ServidorSQL As String, Txtb_IPServidor As String, Txtb_UsuarioSQL As String, Txtb_ClaveSQL As String)
         Try
             Dim Consulta As String
-            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa] ([Cedula],[Nombre] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica ) VALUES('" & Cedula & "','" & Nombre & "','" & Telefono & "','" & Correo & "','" & Web & "','" & Direccion & "','" & Server_Ftp & "','" & User_Ftp & "','" & Clave_Ftp & "','" & NumMaxFactura & "','" & DescMax & "','" & ConseRepCarga & "','" & ConseRepDevoluciones & "','" & Nombre_Fantacia & "','" & id_Provincia & "','" & id_canton & "','" & id_distrito & "','" & id_barrio & "','" & Tipo_Cedula & "','" & ClaveEmail & "','" & CodigoActividadEconomica & "','" & DescrActividadEconomica & "','" & Txtb_RutaPadreFtp & "')"
+            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa] ([Cedula],[Nombre] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica ,ServidorSQL,IPServidor,UserSQL,ClaveSQL) VALUES('" & Cedula & "','" & Nombre & "','" & Telefono & "','" & Correo & "','" & Web & "','" & Direccion & "','" & Server_Ftp & "','" & User_Ftp & "','" & Clave_Ftp & "','" & NumMaxFactura & "','" & DescMax & "','" & ConseRepCarga & "','" & ConseRepDevoluciones & "','" & Nombre_Fantacia & "','" & id_Provincia & "','" & id_canton & "','" & id_distrito & "','" & id_barrio & "','" & Tipo_Cedula & "','" & ClaveEmail & "','" & CodigoActividadEconomica & "','" & DescrActividadEconomica & "','" & Txtb_RutaPadreFtp & "','" & Txtb_ServidorSQL & "','" & Txtb_IPServidor & "','" & Txtb_UsuarioSQL & "','" & Txtb_ClaveSQL & "')"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
             Return 0
@@ -9350,14 +9455,14 @@ Public Class Class_funcionesSQL
 
     End Function
 
-    Public Function Actualiza_Empresa(ByVal SQL_Comman As SqlCommand, ByVal Cedula As String, ByVal Nombre As String, ByVal Telefono As String, ByVal Correo As String, ByVal Web As String, ByVal Direccion As String, ByVal Server_Ftp As String, ByVal User_Ftp As String, ByVal Clave_Ftp As String, ByVal NumMaxFactura As String, ByVal DescMax As String, ByVal ConseRepCarga As String, ByVal ConseRepDevoluciones As String, Nombre_Fantacia As String, id_Provincia As Integer, id_canton As Integer, id_distrito As Integer, id_barrio As Integer, Tipo_Cedula As Integer, Telefono2 As Integer, ClaveEmail As String, CodigoActividadEconomica As String, DescrActividadEconomica As String, RutaPadreFtp As String)
+    Public Function Actualiza_Empresa(ByVal SQL_Comman As SqlCommand, ByVal Cedula As String, ByVal Nombre As String, ByVal Telefono As String, ByVal Correo As String, ByVal Web As String, ByVal Direccion As String, ByVal Server_Ftp As String, ByVal User_Ftp As String, ByVal Clave_Ftp As String, ByVal NumMaxFactura As String, ByVal DescMax As String, ByVal ConseRepCarga As String, ByVal ConseRepDevoluciones As String, Nombre_Fantacia As String, id_Provincia As Integer, id_canton As Integer, id_distrito As Integer, id_barrio As Integer, Tipo_Cedula As Integer, Telefono2 As Integer, ClaveEmail As String, CodigoActividadEconomica As String, DescrActividadEconomica As String, RutaPadreFtp As String, Txtb_ServidorSQL As String, Txtb_IPServidor As String, Txtb_UsuarioSQL As String, Txtb_ClaveSQL As String)
         Try
             Dim Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
             Dim cont As Integer = 0
 
             Dim Consulta As String = ""
             'Actualiza el estado dependiendo del numero de aplicacion que sea
-            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  Set [Cedula] = '" & Cedula & "' ,[Nombre] = '" & Nombre & "',[Telefono] = '" & Telefono & "' ,[Correo] = '" & Correo & "' ,[Web] = '" & Web & "',[Direccion] = '" & Direccion & "',[Server_Ftp]='" & Server_Ftp & "',[User_Ftp]='" & User_Ftp & "',[Clave_Ftp]='" & Clave_Ftp & "',[NumMaxFactura]='" & NumMaxFactura & "',DescMax='" & DescMax & "',Conse_RepCarga='" & ConseRepCarga & "',Conse_RepDevoluciones='" & ConseRepDevoluciones & "',Nombre_Fantacia='" & Nombre_Fantacia & "',id_Provincia='" & id_Provincia & "',id_canton='" & id_canton & "',id_distrito='" & id_distrito & "',id_barrio='" & id_barrio & "',Tipo_Cedula='" & Tipo_Cedula & "',Telefono2='" & Telefono2 & "',ClaveEmail='" & ClaveEmail & "',CodigoActividadEconomica='" & CodigoActividadEconomica & "', DescrActividadEconomica='" & DescrActividadEconomica & "', RutaPadre_Ftp='" & RutaPadreFtp & "'"
+            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  Set [Cedula] = '" & Cedula & "' ,[Nombre] = '" & Nombre & "',[Telefono] = '" & Telefono & "' ,[Correo] = '" & Correo & "' ,[Web] = '" & Web & "',[Direccion] = '" & Direccion & "',[Server_Ftp]='" & Server_Ftp & "',[User_Ftp]='" & User_Ftp & "',[Clave_Ftp]='" & Clave_Ftp & "',[NumMaxFactura]='" & NumMaxFactura & "',DescMax='" & DescMax & "',Conse_RepCarga='" & ConseRepCarga & "',Conse_RepDevoluciones='" & ConseRepDevoluciones & "',Nombre_Fantacia='" & Nombre_Fantacia & "',id_Provincia='" & id_Provincia & "',id_canton='" & id_canton & "',id_distrito='" & id_distrito & "',id_barrio='" & id_barrio & "',Tipo_Cedula='" & Tipo_Cedula & "',Telefono2='" & Telefono2 & "',ClaveEmail='" & ClaveEmail & "',CodigoActividadEconomica='" & CodigoActividadEconomica & "', DescrActividadEconomica='" & DescrActividadEconomica & "', RutaPadre_Ftp='" & RutaPadreFtp & "', ServidorSQL='" & Txtb_ServidorSQL & "', IPServidor='" & Txtb_IPServidor & "', UserSQL='" & Txtb_UsuarioSQL & "', ClaveSQL='" & Txtb_ClaveSQL & "'"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
 
@@ -9376,7 +9481,7 @@ Public Class Class_funcionesSQL
 
             Dim Consulta As String = ""
 
-            Consulta = "SELECT [Cedula],[Nombre] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,Telefono2,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica, RutaPadre_Ftp FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  "
+            Consulta = "SELECT [Cedula],[Nombre] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,Telefono2,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica, RutaPadre_Ftp,ServidorSQL,IPServidor,UserSQL,ClaveSQL FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  "
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -9521,18 +9626,18 @@ Public Class Class_funcionesSQL
 
 
                 If VerPuesto = "TODOS" Then
-                    Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'1'  ORDER BY [CodAgente] ASC "
+                    Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3'  ORDER BY [CodAgente] ASC "
                 ElseIf VerPuesto = "CHOFER" Then
                     If CodAgente <> "" Then
-                        Consulta = "SELECT [CodAgente] as CodChofer,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'1' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
+                        Consulta = "SELECT [CodAgente] as CodChofer,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
                     Else
-                        Consulta = "SELECT [CodAgente] as CodChofer,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'1' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
+                        Consulta = "SELECT [CodAgente] as CodChofer,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
                     End If
                 Else
                     If CodAgente <> "" Then
-                        Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'1' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
+                        Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
                     Else
-                        Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'1' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
+                        Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
                     End If
 
 
@@ -9967,7 +10072,7 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
             Dim id As Integer
 
-            Consulta = "SELECT T11.id FROM(SELECT (ROW_NUMBER() OVER(ORDER BY T1.[CntctPrsn] DESC))-1 as id,T1.[CardCode],T1.[CntctPrsn],T2.[Name] FROM [BD_Bourne].[dbo].[OCRD]  T1 INNER JOIN [BD_Bourne].[dbo].OCPR T2 ON T1.CardCode = T2.CardCode WHERE T1.[CardCode] ='" & CardCode & "' ) T11 WHERE T11.[Name]=T11.[CntctPrsn] "
+            Consulta = "SELECT T11.id FROM(SELECT (ROW_NUMBER() OVER(ORDER BY T1.[CntctPrsn] DESC))-1 as id,T1.[CardCode],T1.[CntctPrsn],T2.[Name] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OCRD]  T1 INNER JOIN [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OCPR T2 ON T1.CardCode = T2.CardCode WHERE T1.[CardCode] ='" & CardCode & "' ) T11 WHERE T11.[Name]=T11.[CntctPrsn] "
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -10256,11 +10361,11 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
             Dim Correo As String = ""
             If Tipo = "FE" Or Tipo = "FES" Or Tipo = "TE" Or Tipo = "TES" Then
-                Consulta = "SELECT top 1 CASE WHEN T0.[E_Mail] IS NULL THEN '' ELSE T0.[E_Mail] END AS Correo FROM BD_BOURNE.dbo.OCRD T0 WHERE T0.[CardCode]  =(SELECT top 1 T0.[CardCode] FROM BD_BOURNE.dbo.OINV T0 WHERE T0.[DocNum] like '%" & CInt(CodSeguridad) & "%')"
+                Consulta = "SELECT top 1 CASE WHEN T0.[E_Mail] IS NULL THEN '' ELSE T0.[E_Mail] END AS Correo FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OCRD T0 WHERE T0.[CardCode]  =(SELECT top 1 T0.[CardCode] FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OINV T0 WHERE T0.[DocNum] like '%" & CInt(CodSeguridad) & "%')"
             ElseIf Tipo = "NC" Or Tipo = "NCS" Then
-                Consulta = "SELECT top 1 CASE WHEN T0.[E_Mail] IS NULL THEN '' ELSE T0.[E_Mail] END AS Correo FROM BD_BOURNE.dbo.OCRD T0 WHERE T0.[CardCode]  =(SELECT top 1 T0.[CardCode] FROM BD_BOURNE.dbo.ORIN T0 WHERE T0.[DocNum] like '%" & CInt(CodSeguridad) & "%')"
+                Consulta = "SELECT top 1 CASE WHEN T0.[E_Mail] IS NULL THEN '' ELSE T0.[E_Mail] END AS Correo FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OCRD T0 WHERE T0.[CardCode]  =(SELECT top 1 T0.[CardCode] FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.ORIN T0 WHERE T0.[DocNum] like '%" & CInt(CodSeguridad) & "%')"
             ElseIf Tipo = "ND" Or Tipo = "NDS" Then
-                Consulta = "SELECT top 1 CASE WHEN T0.[E_Mail] IS NULL THEN '' ELSE T0.[E_Mail] END AS Correo FROM BD_BOURNE.dbo.OCRD T0 WHERE T0.[CardCode]  =(SELECT top 1 T0.[CardCode] FROM BD_BOURNE.dbo.OINV T0 WHERE T0.[DocNum] like '%" & CInt(CodSeguridad) & "%' and T0.[DocSubType]='DN')  "
+                Consulta = "SELECT top 1 CASE WHEN T0.[E_Mail] IS NULL THEN '' ELSE T0.[E_Mail] END AS Correo FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OCRD T0 WHERE T0.[CardCode]  =(SELECT top 1 T0.[CardCode] FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OINV T0 WHERE T0.[DocNum] like '%" & CInt(CodSeguridad) & "%' and T0.[DocSubType]='DN')  "
             End If
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -11073,6 +11178,7 @@ where DocNum='" & DocNum & "'"
         Try
 
 
+
             Dim Consulta As String = ""
 
             Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE]
@@ -11128,7 +11234,9 @@ where DocNum='" & DocNum & "'"
            ,[MH_Message]
            ,[TotalGravado]
            ,[TotalExento] 
-           ,[Vendedor])
+           ,[Vendedor]
+           ,[DocNum] 
+           ,[NumeroPedido])
      VALUES
            (   '" & Clave &
                "','" & CodCliente &
@@ -11181,12 +11289,15 @@ where DocNum='" & DocNum & "'"
                "','" & MH_Message &
                "','" & TotalGravado &
                "','" & TotalExento &
-               "','" & Vendedor & "')"
+               "','" & Vendedor &
+               "','" & DocNum &
+               "','" & DocNum & "')"
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
-            Return ObtieneConsecutivoACrear("FE")
+            Return DocNum
         Catch ex As Exception
+            Return -100
             MessageBox.Show("ERROR en GuardarCE_FE " & ex.Message)
 
 
@@ -11317,7 +11428,40 @@ where DocNum='" & DocNum & "'"
         End Try
     End Function
 
+    Public Function AumentaConsecutivoProximoDocumento(Tipo As String, DocNum As String)
+        Dim SQL_Comman As New SqlCommand
+        Try
 
+            SQL_Comman = Conectar()
+
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+
+            Dim Consulta As String = ""
+
+            If Tipo = "FE" Or Tipo = "FES" Then
+                Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Consecutivos] SET FE ='" & DocNum + 1 & "'"
+            End If
+            If Tipo = "NC" Or Tipo = "NCS" Then
+                Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Consecutivos] SET NC ='" & DocNum + 1 & "'"
+            End If
+            If Tipo = "ND" Or Tipo = "NDS" Then
+                Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Consecutivos] SET ND ='" & DocNum + 1 & "'"
+            End If
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Desconectar(SQL_Comman)
+
+
+            Return 0
+        Catch ex As Exception
+            Desconectar(SQL_Comman)
+
+            Return 1
+        End Try
+    End Function
     Public Function ObtieneFechaEmisionComprobantes(NumeroDocumento As String, TipoComprobante As String)
         Try
             Dim SQL_Comman As New SqlCommand
@@ -11474,15 +11618,6 @@ where DocNum='" & DocNum & "'"
             Dim ADATER As New SqlDataAdapter
 
             Dim Consulta As String = ""
-            'If Tipo = "FE" Or Tipo = "FES" Then
-            '    Consulta = "SELECT case when MAX(DocNum) is null then -1 else  MAX(DocNum)  end  as DocNum FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE] "
-            'End If
-            'If Tipo = "NC" Or Tipo = "NCS" Then
-            '    Consulta = "SELECT case when MAX(DocNum) is null then -1 else  MAX(DocNum)  end  as DocNum FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_NC] "
-            'End If
-            'If Tipo = "ND" Or Tipo = "NDS" Then
-            '    Consulta = "SELECT case when MAX(DocNum) is null then -1 else  MAX(DocNum)  end  as DocNum FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_ND] "
-            'End If
 
             If Tipo = "FE" Or Tipo = "FES" Then
                 Consulta = "SELECT case when FE is null then -1 else  [FE]  end  as DocNum FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Consecutivos] "
@@ -11503,7 +11638,7 @@ where DocNum='" & DocNum & "'"
 
         Catch ex As Exception
             Return New DataTable
-            'ERRORES = "[ " & Now & " ] ERROR ObtieneMaxLineaFactura ( " & ex.Message & " )"
+            'ERRORES = "[ " & Now & " ] ERROR ObtieneConsecutivoACrear ( " & ex.Message & " )"
         End Try
     End Function
 
@@ -12035,7 +12170,7 @@ where DocNum='" & DocNum & "'"
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = " SELECT T0.[Code],T0.[Name] FROM [BD_Bourne].[dbo].[@UBICACION] T0"
+            Consulta = " SELECT T0.[Code],T0.[Name] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[@UBICACION] T0"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
@@ -12050,7 +12185,7 @@ where DocNum='" & DocNum & "'"
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = " SELECT T0.[ItmsGrpCod],T0.[ItmsGrpNam] FROM [BD_Bourne].[dbo].[OITB] T0"
+            Consulta = " SELECT T0.[ItmsGrpCod],T0.[ItmsGrpNam] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OITB] T0"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
@@ -12068,13 +12203,13 @@ where DocNum='" & DocNum & "'"
             Dim Consulta As String = ""
 
             If Tipo = "Familia" Then
-                Consulta = "SELECT T0.[Code],T0.[Name] FROM [BD_Bourne].[dbo].[@FAMILIA] T0"
+                Consulta = "SELECT T0.[Code],T0.[Name] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[@FAMILIA] T0"
             End If
             If Tipo = "Categoria" Then
-                Consulta = "SELECT T0.[Code],T0.[Name] FROM [BD_Bourne].[dbo].[@CATEGORIA] T0"
+                Consulta = "SELECT T0.[Code],T0.[Name] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[@CATEGORIA] T0"
             End If
             If Tipo = "Marca" Then
-                Consulta = "SELECT T0.[Code],T0.[Name] FROM [BD_Bourne].[dbo].[@MARCA] T0"
+                Consulta = "SELECT T0.[Code],T0.[Name] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[@MARCA] T0"
             End If
 
 
@@ -13508,7 +13643,7 @@ GROUP By [idGrupo]) T0 "
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
-            Desconectar(SQL_Comman, SQL_Comman.Connection)
+            Desconectar(SQL_Comman)
             Consulta = Nothing
             SQL_Comman = Nothing
 

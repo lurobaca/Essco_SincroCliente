@@ -72,6 +72,9 @@ Public Class CrearArchivo
             Dim Conse_ClientesNuevos As String
             Dim Puesto As String
             Dim RutaPadre_Ftp As String
+            Dim Server_SQL As String
+            Dim User_SQL As String
+            Dim Clave_SQL As String
 
             For Each row As DataRow In TABLA.Rows
 
@@ -100,9 +103,15 @@ Public Class CrearArchivo
                 Conse_ClientesNuevos = TABLA.Rows(cont).Item("Conse_ClientesNuevos").ToString()
                 Puesto = TABLA.Rows(cont).Item("Puesto").ToString()
                 RutaPadre_Ftp = TABLA.Rows(cont).Item("RutaPadre_Ftp").ToString()
+
+                Server_SQL = TABLA.Rows(cont).Item("IPServidor").ToString()
+                User_SQL = TABLA.Rows(cont).Item("UserSQL").ToString()
+                Clave_SQL = TABLA.Rows(cont).Item("ClaveSQL").ToString()
+
+
                 '  Linea = "" + quote + CardCode + quote + "," & quote & CardName & quote & "," & quote & CntctPrsn & quote & "," & quote & GroupNum & quote & "," & quote & U_Visita & quote & "," & quote & U_Descuento & quote & "," & quote & U_ClaveWeb & quote & "," & quote & SlpCode & quote
                 'Linea = TABLA.Rows(cont).Item("id_agente").ToString() & "," & CInt(TABLA.Rows(cont).Item("Ulti_Consec_Pedidos").ToString()) & "," & TABLA.Rows(cont).Item("Ulti_Consec_Pagos").ToString() & "," & TABLA.Rows(cont).Item("Ulti_Consec_Depositos").ToString() & ",bourneycia.net,arquitect,tbh573,3-101-200575,Bourne&Cia S.A,Costa Rica,Guanacaste,Cañas,Frente a la escuela de sandillal,2669-6094"
-                Linea = CodAgente & "," & Nombre & "," & Telefono & "," & Conse_Pedido & "," & Conse_Pagos & "," & Conse_Deposito & "," & Correo & "," & Cedula & "," & Nombre_Empresa & "," & Telefono_Empresa & "," & Correo_Empresa & "," & Web_Empresa & "," & Direccion_Empresa & "," & Server_Ftp & "," & User_Ftp & "," & Clave_Ftp & "," & NumMaxFactura & "," & DescMax & "," & CedulaAgente & "," & Conse_Gastos & "," & Conse_NoVisita & "," & Conse_Devoluciones & "," & Obj_VSegLic.Encripta(Obj_VGlobal.MisPropiedades.Valida) & "," & DescMax & "," & Conse_ClientesNuevos & "," & Puesto & "," & RutaPadre_Ftp & ","
+                Linea = CodAgente & "," & Nombre & "," & Telefono & "," & Conse_Pedido & "," & Conse_Pagos & "," & Conse_Deposito & "," & Correo & "," & Cedula & "," & Nombre_Empresa & "," & Telefono_Empresa & "," & Correo_Empresa & "," & Web_Empresa & "," & Direccion_Empresa & "," & Server_Ftp & "," & User_Ftp & "," & Clave_Ftp & "," & NumMaxFactura & "," & DescMax & "," & CedulaAgente & "," & Conse_Gastos & "," & Conse_NoVisita & "," & Conse_Devoluciones & "," & Obj_VSegLic.Encripta(Obj_VGlobal.MisPropiedades.Valida) & "," & DescMax & "," & Conse_ClientesNuevos & "," & Puesto & "," & RutaPadre_Ftp & "," & Server_SQL & "," & User_SQL & "," & Clave_SQL & ","
 
                 'ESCRIBE LA LINEA EN EL ARCHIVO
                 strStreamWriter.WriteLine(Linea)
@@ -403,8 +412,11 @@ Public Class CrearArchivo
                 ItemCode = Tbl_Ubicaciones.Rows(cont).Item("ItemCode").ToString()
                 Descuento = Tbl_Ubicaciones.Rows(cont).Item("Descuento").ToString()
 
-                Linea = CardCode & "^" & ItemCode & "^" & Descuento & "^"
-                strStreamWriter.WriteLine(Linea)
+                If (CardCode <> "" And ItemCode <> "" And Descuento <> "") Then
+                    Linea = CardCode & "^" & ItemCode & "^" & Descuento & "^"
+                    strStreamWriter.WriteLine(Linea)
+                End If
+
                 Linea = ""
 
                 CardCode = ""
@@ -432,6 +444,8 @@ Public Class CrearArchivo
             Descuento = Nothing
 
         Catch ex As Exception
+            MessageBox.Show("ERROR Crear_InDescuentos : " & ex.Message)
+
 
         End Try
         Return 0
@@ -567,7 +581,238 @@ Public Class CrearArchivo
         Return 0
 
     End Function
-    Public Function Crear(ByVal Tabla As DataTable, ByVal Tbl_Art_Restringidos As DataTable, ByVal Tbl_Art_PermitidosDeCasasRestringidas As DataTable, ByVal RutaOrigen As String, ByVal carpeta As String)
+    'Public Function Crear(ByVal Tabla As DataTable, ByVal Tbl_Art_Restringidos As DataTable, ByVal Tbl_Art_PermitidosDeCasasRestringidas As DataTable, ByVal RutaOrigen As String, ByVal carpeta As String)
+    '    Try
+
+    '        Dim sRenglon As String = Nothing
+    '        Dim strStreamW As Stream = Nothing
+    '        Dim strStreamWriter As StreamWriter = Nothing
+    '        Dim ContenidoArchivo As String = Nothing
+    '        ' Donde guardamos los paths de los archivos que vamos a estar utilizando ..
+    '        Dim PathArchivo As String
+    '        Dim i As Integer
+
+    '        Dim cont As Integer = 0
+    '        Dim Linea As String = ""
+    '        Dim Linea2 As String = ""
+    '        'Variables para cada lista de presio
+    '        Dim DETALLE_1 As String = ""
+    '        Dim LISTA_A_DETALLE As String = ""
+    '        Dim LISTA_A_SUPERMERCADO As String = ""
+    '        Dim LISTA_A_MAYORISTA As String = ""
+    '        Dim LISTA_A_2_MAYORISTA As String = ""
+    '        Dim PAÑALERA As String = ""
+    '        Dim SUPERMERCADOS As String = ""
+    '        Dim MAYORISTAS As String = ""
+    '        Dim HUELLAS_DORADAS As String = ""
+    '        Dim ALSER As String = ""
+    '        Dim COSTO As String = ""
+    '        Dim SUGERIDO As String = ""
+    '        Dim CodeBars As String = ""
+
+    '        Dim Precio_Sug As String = ""
+
+    '        Dim LineaRestringida As Boolean
+    '        Dim Nueva_Linea = 0
+    '        Const quote As String = """"
+
+
+
+    '        If Directory.Exists(carpeta) = False Then ' si no existe la carpeta se crea
+    '            Directory.CreateDirectory(carpeta)
+    '        End If
+
+    '        Cursor.Current = Cursors.WaitCursor
+    '        PathArchivo = RutaOrigen ' Se determina el nombre del archivo 
+
+    '        'verificamos si existe el archivo
+    '        If File.Exists(PathArchivo) Then
+    '            strStreamW = File.Open(PathArchivo, FileMode.Open) 'Abrimos el archivo
+    '        Else
+    '            strStreamW = File.Create(PathArchivo) ' lo creamos
+    '        End If
+
+    '        strStreamWriter = New StreamWriter(strStreamW, System.Text.Encoding.Default) ' tipo de codificacion para escritura
+
+
+    '        For Each row As DataRow In Tabla.Rows
+
+    '            Dim conta As Integer = 0
+    '            Dim conta2 As Integer = 0
+    '            'recorre los articulos restringidos
+    '            For Each row2 As DataRow In Tbl_Art_Restringidos.Rows
+
+    '                'VERIFICA QUE LA CASA DE LA LINEA EN CURSO ESTA RESTRINGIDA
+    '                If Mid(Tabla.Rows(cont).Item("ItemCode").ToString(), 1, 4) = Tbl_Art_Restringidos.Rows(conta).Item("Cod_Articulo").ToString() Then
+    '                    LineaRestringida = True
+
+    '                    ' SI LA CASA ESTA RESTRINGIDA VERIFICA SI LA LINEA EN CURSO ESTA EXENTA DE ESTA RESTRICCION
+    '                    For Each row3 As DataRow In Tbl_Art_PermitidosDeCasasRestringidas.Rows
+    '                        If Tabla.Rows(cont).Item("ItemCode").ToString() = Tbl_Art_PermitidosDeCasasRestringidas.Rows(conta2).Item("Cod_Articulo").ToString() Then
+    '                            LineaRestringida = False
+    '                            Exit For
+
+    '                        End If
+    '                        conta2 += 1
+    '                    Next
+    '                    Exit For
+    '                End If
+    '                conta += 1
+    '            Next
+
+
+
+    '            'si no esta restringida la mete en el archivo
+    '            If LineaRestringida = False Then
+
+    '                'Linea = "" + quote + Tabla.Rows(cont).Item("ItemCode").ToString() + quote + "," & quote & Tabla.Rows(cont).Item("ItemName").ToString() & quote & "," & quote & "UNID" & quote & "," & quote & "UNID" & quote & "," & quote & Tabla.Rows(cont).Item("Impuesto").ToString() & quote & "," & quote & "0" & quote & ","
+    '                Linea2 = "" + Tabla.Rows(cont).Item("ItemCode").ToString() + "^" & Tabla.Rows(cont).Item("ItemName").ToString() & "^" & "0" & "^" & CInt(Tabla.Rows(cont).Item("Empaque").ToString()) & "^" & Tabla.Rows(cont).Item("Impuesto").ToString() & "^"
+    '                ' DetalleCarga = "GENERANDO ARTICULO [" & Tabla.Rows(cont).Item("ItemCode").ToString() & "] [ " & Tabla.Rows(cont).Item("ItemName").ToString() & " ]"
+    '                'si se crean eliminan o modifican las listas se debe de corregir aqui tambien, MEJOR BASARSE EN CODIGO
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "DETALLE 1" Then
+    '                    'DETALLE_1 = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    DETALLE_1 = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA A DETALLE" Then
+    '                    'LISTA_A_DETALLE = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    LISTA_A_DETALLE = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA A SUPERMERCADO" Then
+    '                    ' LISTA_A_SUPERMERCADO = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    LISTA_A_SUPERMERCADO = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA A MAYORISTA" Then
+    '                    '  LISTA_A_MAYORISTA = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    LISTA_A_MAYORISTA = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA A + 2% MAYORISTA" Then
+    '                    'LISTA_A_2_MAYORISTA = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    LISTA_A_2_MAYORISTA = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "PAÑALERA" Then
+    '                    'PAÑALERA = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    PAÑALERA = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "SUPERMERCADOS" Then
+    '                    'SUPERMERCADOS = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    SUPERMERCADOS = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "MAYORISTAS" Then
+    '                    ' MAYORISTAS = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    MAYORISTAS = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "HUELLAS DORADAS" Then
+    '                    ' HUELLAS_DORADAS = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    HUELLAS_DORADAS = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA CANAL ORIENTAL" Then
+    '                    'ALSER = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    ALSER = Tabla.Rows(cont).Item("Price").ToString()
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "COSTO" Then
+    '                    'COSTO = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    COSTO = Tabla.Rows(cont).Item("Price").ToString()
+
+    '                End If
+    '                If Tabla.Rows(cont).Item("ListName").ToString() = "PRECIO SUGERIDO" Then
+    '                    'SUGERIDO = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
+    '                    SUGERIDO = Tabla.Rows(cont).Item("Price").ToString()
+    '                    Nueva_Linea = 1
+    '                End If
+    '                Precio_Sug = Tabla.Rows(cont).Item("U_Precio_Sug").ToString()
+    '                CodeBars = Tabla.Rows(cont).Item("CodeBars").ToString()
+    '                If Nueva_Linea = 1 Then
+
+    '                    'Linea += DETALLE_1 + "," + LISTA_A_DETALLE + "," + LISTA_A_SUPERMERCADO + "," + LISTA_A_MAYORISTA + "," + LISTA_A_2_MAYORISTA + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + PAÑALERA + "," + SUPERMERCADOS + "," + MAYORISTAS + "," + HUELLAS_DORADAS + "," + ALSER + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "" + quote + "," + quote + "0.0000" + quote + "," + COSTO + "," + SUGERIDO + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + ","
+    '                    Linea2 += DETALLE_1 + "^" + LISTA_A_DETALLE + "^" + LISTA_A_SUPERMERCADO + "^" + LISTA_A_MAYORISTA + "^" + LISTA_A_2_MAYORISTA + "^" + PAÑALERA + "^" + SUPERMERCADOS + "^" + MAYORISTAS + "^" + HUELLAS_DORADAS + "^" + ALSER + "^" + COSTO + "^" + Precio_Sug + "^" + CodeBars + "^"
+
+    '                    'ESCRIBE LA LINEA EN EL ARCHIVO
+    '                    strStreamWriter.WriteLine(Linea2)
+
+
+    '                    Linea = ""
+    '                    Linea2 = ""
+    '                    DETALLE_1 = ""
+    '                    LISTA_A_DETALLE = ""
+    '                    LISTA_A_SUPERMERCADO = ""
+    '                    LISTA_A_MAYORISTA = ""
+    '                    LISTA_A_2_MAYORISTA = ""
+    '                    PAÑALERA = ""
+    '                    SUPERMERCADOS = ""
+    '                    MAYORISTAS = ""
+    '                    HUELLAS_DORADAS = ""
+    '                    ALSER = ""
+    '                    ALSER = ""
+    '                    COSTO = ""
+    '                    Precio_Sug = ""
+    '                    CodeBars = ""
+    '                    Nueva_Linea = 0
+    '                End If
+    '                Linea = ""
+    '                Linea2 = ""
+    '                cont += 1
+    '                'Contador += 1
+    '                ' Contador_sub += 1
+
+    '                'fin de Verificacion de linea restringida
+    '            Else
+    '                cont += 1
+    '                LineaRestringida = False
+    '            End If
+    '        Next
+
+
+    '        strStreamWriter.Close() ' cerramos
+
+    '        'INICIO DE LIBERIACION DE MEMORIA
+
+    '        sRenglon = Nothing
+
+    '        strStreamW.Dispose()
+    '        strStreamW = Nothing
+
+    '        strStreamWriter.Dispose()
+    '        strStreamWriter = Nothing
+
+    '        ContenidoArchivo = Nothing
+    '        PathArchivo = Nothing
+    '        i = Nothing
+
+    '        Linea = Nothing
+    '        Linea2 = Nothing
+    '        DETALLE_1 = Nothing
+    '        LISTA_A_DETALLE = Nothing
+    '        LISTA_A_SUPERMERCADO = Nothing
+    '        LISTA_A_MAYORISTA = Nothing
+    '        LISTA_A_2_MAYORISTA = Nothing
+    '        PAÑALERA = Nothing
+    '        SUPERMERCADOS = Nothing
+    '        MAYORISTAS = Nothing
+    '        HUELLAS_DORADAS = Nothing
+    '        ALSER = Nothing
+    '        ALSER = Nothing
+    '        COSTO = Nothing
+    '        CodeBars = Nothing
+
+    '        Nueva_Linea = Nothing
+    '        'FIN DE LIBERIACION DE MEMORIA
+
+
+    '        ' Contador = 0
+    '    Catch ex As Exception
+    '        Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR en Crear ( " & ex.ToString & " )"
+    '    End Try
+    '    Return 0
+
+    'End Function
+
+
+    Public Function Crear(ByVal Tabla As DataTable,
+                          ByVal Tbl_Art_Restringidos As DataTable,
+                          ByVal Tbl_Art_PermitidosDeCasasRestringidas As DataTable,
+                          ByVal RutaOrigen As String,
+                          ByVal carpeta As String,
+                          Ruta As String)
         Try
 
             Dim sRenglon As String = Nothing
@@ -579,25 +824,28 @@ Public Class CrearArchivo
             Dim i As Integer
 
             Dim cont As Integer = 0
-            Dim Linea As String = ""
+            Dim LineaListasPrecios As String = ""
             Dim Linea2 As String = ""
             'Variables para cada lista de presio
-            Dim DETALLE_1 As String = ""
-            Dim LISTA_A_DETALLE As String = ""
-            Dim LISTA_A_SUPERMERCADO As String = ""
-            Dim LISTA_A_MAYORISTA As String = ""
-            Dim LISTA_A_2_MAYORISTA As String = ""
-            Dim PAÑALERA As String = ""
-            Dim SUPERMERCADOS As String = ""
-            Dim MAYORISTAS As String = ""
-            Dim HUELLAS_DORADAS As String = ""
-            Dim ALSER As String = ""
-            Dim COSTO As String = ""
-            Dim SUGERIDO As String = ""
-            Dim CodeBars As String = ""
+            'Dim DETALLE_1 As String = ""
+            'Dim LISTA_A_DETALLE As String = ""
+            'Dim LISTA_A_SUPERMERCADO As String = ""
+            'Dim LISTA_A_MAYORISTA As String = ""
+            'Dim LISTA_A_2_MAYORISTA As String = ""
+            'Dim PAÑALERA As String = ""
+            'Dim SUPERMERCADOS As String = ""
+            'Dim MAYORISTAS As String = ""
+            'Dim HUELLAS_DORADAS As String = ""
+            'Dim ALSER As String = ""
+            'Dim COSTO As String = ""
+            'Dim SUGERIDO As String = ""
+
+
+            Dim CodBarras As String = ""
+            Dim Existencias As String = ""
+            Dim ItemCode As String = ""
 
             Dim Precio_Sug As String = ""
-
             Dim LineaRestringida As Boolean
             Dim Nueva_Linea = 0
             Const quote As String = """"
@@ -608,7 +856,7 @@ Public Class CrearArchivo
                 Directory.CreateDirectory(carpeta)
             End If
 
-            Cursor.Current = Cursors.WaitCursor
+            'Windows.Forms.Cursor.Current = Cursors.WaitCursor
             PathArchivo = RutaOrigen ' Se determina el nombre del archivo 
 
             'verificamos si existe el archivo
@@ -648,98 +896,41 @@ Public Class CrearArchivo
 
 
 
+
+
                 'si no esta restringida la mete en el archivo
                 If LineaRestringida = False Then
+                    'LA LISTA VIENE ORDENADA POR CODIGO DE ARTICULO DESCENDENTEMENTE , esto quiere decir que el codigo del articulo se mantiene y el codigo de la lista de precio cambia
+                    If ItemCode = "" Then
+                        ItemCode = Tabla.Rows(cont).Item("ItemCode").ToString()
+                    End If
 
-                    'Linea = "" + quote + Tabla.Rows(cont).Item("ItemCode").ToString() + quote + "," & quote & Tabla.Rows(cont).Item("ItemName").ToString() & quote & "," & quote & "UNID" & quote & "," & quote & "UNID" & quote & "," & quote & Tabla.Rows(cont).Item("Impuesto").ToString() & quote & "," & quote & "0" & quote & ","
-                    Linea2 = "" + Tabla.Rows(cont).Item("ItemCode").ToString() + "^" & Tabla.Rows(cont).Item("ItemName").ToString() & "^" & "0" & "^" & CInt(Tabla.Rows(cont).Item("Empaque").ToString()) & "^" & Tabla.Rows(cont).Item("Impuesto").ToString() & "^"
-                    ' DetalleCarga = "GENERANDO ARTICULO [" & Tabla.Rows(cont).Item("ItemCode").ToString() & "] [ " & Tabla.Rows(cont).Item("ItemName").ToString() & " ]"
-                    'si se crean eliminan o modifican las listas se debe de corregir aqui tambien, MEJOR BASARSE EN CODIGO
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "DETALLE 1" Then
-                        'DETALLE_1 = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        DETALLE_1 = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA A DETALLE" Then
-                        'LISTA_A_DETALLE = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        LISTA_A_DETALLE = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA A SUPERMERCADO" Then
-                        ' LISTA_A_SUPERMERCADO = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        LISTA_A_SUPERMERCADO = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA A MAYORISTA" Then
-                        '  LISTA_A_MAYORISTA = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        LISTA_A_MAYORISTA = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA A + 2% MAYORISTA" Then
-                        'LISTA_A_2_MAYORISTA = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        LISTA_A_2_MAYORISTA = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "PAÑALERA" Then
-                        'PAÑALERA = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        PAÑALERA = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "SUPERMERCADOS" Then
-                        'SUPERMERCADOS = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        SUPERMERCADOS = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "MAYORISTAS" Then
-                        ' MAYORISTAS = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        MAYORISTAS = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "HUELLAS DORADAS" Then
-                        ' HUELLAS_DORADAS = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        HUELLAS_DORADAS = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "LISTA CANAL ORIENTAL" Then
-                        'ALSER = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        ALSER = Tabla.Rows(cont).Item("Price").ToString()
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "COSTO" Then
-                        'COSTO = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        COSTO = Tabla.Rows(cont).Item("Price").ToString()
-
-                    End If
-                    If Tabla.Rows(cont).Item("ListName").ToString() = "PRECIO SUGERIDO" Then
-                        'SUGERIDO = quote & Tabla.Rows(cont).Item("Price").ToString() & quote
-                        SUGERIDO = Tabla.Rows(cont).Item("Price").ToString()
-                        Nueva_Linea = 1
-                    End If
-                    Precio_Sug = Tabla.Rows(cont).Item("U_Precio_Sug").ToString()
-                    CodeBars = Tabla.Rows(cont).Item("CodeBars").ToString()
-                    If Nueva_Linea = 1 Then
-
-                        'Linea += DETALLE_1 + "," + LISTA_A_DETALLE + "," + LISTA_A_SUPERMERCADO + "," + LISTA_A_MAYORISTA + "," + LISTA_A_2_MAYORISTA + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + PAÑALERA + "," + SUPERMERCADOS + "," + MAYORISTAS + "," + HUELLAS_DORADAS + "," + ALSER + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "" + quote + "," + quote + "0.0000" + quote + "," + COSTO + "," + SUGERIDO + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + "," + quote + "0.0000" + quote + ","
-                        Linea2 += DETALLE_1 + "^" + LISTA_A_DETALLE + "^" + LISTA_A_SUPERMERCADO + "^" + LISTA_A_MAYORISTA + "^" + LISTA_A_2_MAYORISTA + "^" + PAÑALERA + "^" + SUPERMERCADOS + "^" + MAYORISTAS + "^" + HUELLAS_DORADAS + "^" + ALSER + "^" + COSTO + "^" + Precio_Sug + "^" + CodeBars + "^"
+                    'Si es diferente es por que empezara a obtener la informacion de una nueva linea, para agregar la ultima linea se usa Or cont = Tabla.Rows.Count - 1 
+                    If ItemCode <> Tabla.Rows(cont).Item("ItemCode").ToString() Then
+                        ItemCode = Tabla.Rows(cont).Item("ItemCode").ToString()
+                        Linea2 = "" + Tabla.Rows(cont - 1).Item("ItemCode").ToString() + "^" & Tabla.Rows(cont - 1).Item("ItemName").ToString() & "^" & Tabla.Rows(cont - 1).Item("Existencias").ToString() & "^" & CInt(Tabla.Rows(cont - 1).Item("Empaque").ToString()) & "^" & Tabla.Rows(cont - 1).Item("Impuesto").ToString() & "^" & Tabla.Rows(cont - 1).Item("CodeBars").ToString() & "^" & LineaListasPrecios
 
                         'ESCRIBE LA LINEA EN EL ARCHIVO
                         strStreamWriter.WriteLine(Linea2)
-
-
-                        Linea = ""
+                        'DetalleCarga = "RUTA [ " & Ruta & " ] GENERANDO ARCHIVO [ " & Linea2 & " ]"
                         Linea2 = ""
-                        DETALLE_1 = ""
-                        LISTA_A_DETALLE = ""
-                        LISTA_A_SUPERMERCADO = ""
-                        LISTA_A_MAYORISTA = ""
-                        LISTA_A_2_MAYORISTA = ""
-                        PAÑALERA = ""
-                        SUPERMERCADOS = ""
-                        MAYORISTAS = ""
-                        HUELLAS_DORADAS = ""
-                        ALSER = ""
-                        ALSER = ""
-                        COSTO = ""
-                        Precio_Sug = ""
-                        CodeBars = ""
-                        Nueva_Linea = 0
-                    End If
-                    Linea = ""
-                    Linea2 = ""
-                    cont += 1
-                    'Contador += 1
-                    ' Contador_sub += 1
+                        LineaListasPrecios = ""
 
+                    End If
+                    LineaListasPrecios = LineaListasPrecios & Tabla.Rows(cont).Item("PriceList").ToString() & "^" & Tabla.Rows(cont).Item("Price").ToString() + "^"
+
+                    'indica que se llego a la ultima linea
+                    If cont + 1 = Tabla.Rows.Count Then
+                        ItemCode = Tabla.Rows(cont).Item("ItemCode").ToString()
+                        Linea2 = "" + Tabla.Rows(cont - 1).Item("ItemCode").ToString() + "^" & Tabla.Rows(cont - 1).Item("ItemName").ToString() & "^" & Tabla.Rows(cont - 1).Item("Existencias").ToString() & "^" & CInt(Tabla.Rows(cont - 1).Item("Empaque").ToString()) & "^" & Tabla.Rows(cont - 1).Item("Impuesto").ToString() & "^" & Tabla.Rows(cont - 1).Item("CodeBars").ToString() & "^" & LineaListasPrecios
+
+                        'ESCRIBE LA LINEA EN EL ARCHIVO
+                        strStreamWriter.WriteLine(Linea2)
+                        'DetalleCarga = "RUTA [ " & Ruta & " ] GENERANDO ARCHIVO [ " & Linea2 & " ]"
+                        Linea2 = ""
+                        LineaListasPrecios = ""
+                    End If
+                    cont += 1
                     'fin de Verificacion de linea restringida
                 Else
                     cont += 1
@@ -747,7 +938,7 @@ Public Class CrearArchivo
                 End If
             Next
 
-
+            'DetalleCarga = "RUTA [ " & Ruta & " ] GENERACION FINALIZADA "
             strStreamWriter.Close() ' cerramos
 
             'INICIO DE LIBERIACION DE MEMORIA
@@ -764,34 +955,18 @@ Public Class CrearArchivo
             PathArchivo = Nothing
             i = Nothing
 
-            Linea = Nothing
             Linea2 = Nothing
-            DETALLE_1 = Nothing
-            LISTA_A_DETALLE = Nothing
-            LISTA_A_SUPERMERCADO = Nothing
-            LISTA_A_MAYORISTA = Nothing
-            LISTA_A_2_MAYORISTA = Nothing
-            PAÑALERA = Nothing
-            SUPERMERCADOS = Nothing
-            MAYORISTAS = Nothing
-            HUELLAS_DORADAS = Nothing
-            ALSER = Nothing
-            ALSER = Nothing
-            COSTO = Nothing
-            CodeBars = Nothing
 
             Nueva_Linea = Nothing
             'FIN DE LIBERIACION DE MEMORIA
 
-
             ' Contador = 0
         Catch ex As Exception
-            Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR en Crear ( " & ex.ToString & " )"
+            'ERRORES = "[ " & Now & " ] ERROR en Crear ( " & ex.ToString & " )"
         End Try
         Return 0
 
     End Function
-
 
     Public Function Crear_InFacturass(ByVal Tbl_Facturas As DataTable, ByVal RutaOrigen As String, ByVal carpeta As String, ByVal VerDias As Boolean)
         Try

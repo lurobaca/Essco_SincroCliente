@@ -212,6 +212,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Class\Class_CorreoMicrosoft.vb" />
+    <Compile Include="Class\InforComputadora.vb" />
     <Compile Include="Class\QR_CODE.vb" />
     <Compile Include="Class\Simple3Des.vb" />
     <Compile Include="Class\ValidaConexion.vb" />

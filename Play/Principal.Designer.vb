@@ -185,42 +185,49 @@ Partial Class Principal
         Me.ReportesDeCargaToolStripMenuItem.Name = "ReportesDeCargaToolStripMenuItem"
         Me.ReportesDeCargaToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.ReportesDeCargaToolStripMenuItem.Text = "Reportes de Carga"
+        Me.ReportesDeCargaToolStripMenuItem.Visible = False
         '
         'ReporteDeFacturasToolStripMenuItem
         '
         Me.ReporteDeFacturasToolStripMenuItem.Name = "ReporteDeFacturasToolStripMenuItem"
         Me.ReporteDeFacturasToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.ReporteDeFacturasToolStripMenuItem.Text = "Reporte de Facturas"
+        Me.ReporteDeFacturasToolStripMenuItem.Visible = False
         '
         'UltimosConsecutivosToolStripMenuItem
         '
         Me.UltimosConsecutivosToolStripMenuItem.Name = "UltimosConsecutivosToolStripMenuItem"
         Me.UltimosConsecutivosToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.UltimosConsecutivosToolStripMenuItem.Text = "Ultimos Consecutivos"
+        Me.UltimosConsecutivosToolStripMenuItem.Visible = False
         '
         'DescuentosFijosToolStripMenuItem
         '
         Me.DescuentosFijosToolStripMenuItem.Name = "DescuentosFijosToolStripMenuItem"
         Me.DescuentosFijosToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.DescuentosFijosToolStripMenuItem.Text = "Descuentos Fijos"
+        Me.DescuentosFijosToolStripMenuItem.Visible = False
         '
         'InformacionDelClienteToolStripMenuItem
         '
         Me.InformacionDelClienteToolStripMenuItem.Name = "InformacionDelClienteToolStripMenuItem"
         Me.InformacionDelClienteToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.InformacionDelClienteToolStripMenuItem.Text = "Informacion del cliente"
+        Me.InformacionDelClienteToolStripMenuItem.Visible = False
         '
         'DevolucionesToolStripMenuItem
         '
         Me.DevolucionesToolStripMenuItem.Name = "DevolucionesToolStripMenuItem"
         Me.DevolucionesToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.DevolucionesToolStripMenuItem.Text = "Devoluciones"
+        Me.DevolucionesToolStripMenuItem.Visible = False
         '
         'DevolucionesPendientesToolStripMenuItem
         '
         Me.DevolucionesPendientesToolStripMenuItem.Name = "DevolucionesPendientesToolStripMenuItem"
         Me.DevolucionesPendientesToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.DevolucionesPendientesToolStripMenuItem.Text = "Devoluciones Pendientes"
+        Me.DevolucionesPendientesToolStripMenuItem.Visible = False
         '
         'EstadoComprobantesToolStripMenuItem
         '
@@ -233,6 +240,7 @@ Partial Class Principal
         Me.AceptaRechazaFacturasToolStripMenuItem.Name = "AceptaRechazaFacturasToolStripMenuItem"
         Me.AceptaRechazaFacturasToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.AceptaRechazaFacturasToolStripMenuItem.Text = "Acepta/Rechaza Facturas"
+        Me.AceptaRechazaFacturasToolStripMenuItem.Visible = False
         '
         'BodegaToolStripMenuItem
         '
@@ -240,6 +248,7 @@ Partial Class Principal
         Me.BodegaToolStripMenuItem.Name = "BodegaToolStripMenuItem"
         Me.BodegaToolStripMenuItem.Size = New System.Drawing.Size(73, 24)
         Me.BodegaToolStripMenuItem.Text = "Bodega"
+        Me.BodegaToolStripMenuItem.Visible = False
         '
         'ReporteDeCargaToolStripMenuItem
         '
@@ -272,7 +281,6 @@ Partial Class Principal
         Me.UbicacionesToolStripMenuItem.Name = "UbicacionesToolStripMenuItem"
         Me.UbicacionesToolStripMenuItem.Size = New System.Drawing.Size(251, 26)
         Me.UbicacionesToolStripMenuItem.Text = "WMS"
-        Me.UbicacionesToolStripMenuItem.Visible = False
         '
         'BodegaToolStripMenuItem1
         '
@@ -329,6 +337,7 @@ Partial Class Principal
         Me.BodeguerosToolStripMenuItem.Name = "BodeguerosToolStripMenuItem"
         Me.BodeguerosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.BodeguerosToolStripMenuItem.Text = "Bodegueros"
+        Me.BodeguerosToolStripMenuItem.Visible = False
         '
         'EmpresaToolStripMenuItem
         '
@@ -348,30 +357,35 @@ Partial Class Principal
         Me.RutasToolStripMenuItem.Name = "RutasToolStripMenuItem"
         Me.RutasToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.RutasToolStripMenuItem.Text = "Rutas"
+        Me.RutasToolStripMenuItem.Visible = False
         '
         'UniversosToolStripMenuItem
         '
         Me.UniversosToolStripMenuItem.Name = "UniversosToolStripMenuItem"
         Me.UniversosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.UniversosToolStripMenuItem.Text = "Universos"
+        Me.UniversosToolStripMenuItem.Visible = False
         '
         'CambioInfoClienteToolStripMenuItem
         '
         Me.CambioInfoClienteToolStripMenuItem.Name = "CambioInfoClienteToolStripMenuItem"
         Me.CambioInfoClienteToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.CambioInfoClienteToolStripMenuItem.Text = "Cambio Info cliente"
+        Me.CambioInfoClienteToolStripMenuItem.Visible = False
         '
         'UsuariosToolStripMenuItem
         '
         Me.UsuariosToolStripMenuItem.Name = "UsuariosToolStripMenuItem"
         Me.UsuariosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.UsuariosToolStripMenuItem.Text = "Usuarios"
+        Me.UsuariosToolStripMenuItem.Visible = False
         '
         'CamionesToolStripMenuItem
         '
         Me.CamionesToolStripMenuItem.Name = "CamionesToolStripMenuItem"
         Me.CamionesToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.CamionesToolStripMenuItem.Text = "Camiones"
+        Me.CamionesToolStripMenuItem.Visible = False
         '
         'ClientesModificadosToolStripMenuItem
         '
@@ -384,18 +398,21 @@ Partial Class Principal
         Me.DesicionesToolStripMenuItem.Name = "DesicionesToolStripMenuItem"
         Me.DesicionesToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.DesicionesToolStripMenuItem.Text = "Decisiones"
+        Me.DesicionesToolStripMenuItem.Visible = False
         '
         'LicenciasToolStripMenuItem
         '
         Me.LicenciasToolStripMenuItem.Name = "LicenciasToolStripMenuItem"
         Me.LicenciasToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.LicenciasToolStripMenuItem.Text = "Licencias"
+        Me.LicenciasToolStripMenuItem.Visible = False
         '
         'BancosToolStripMenuItem
         '
         Me.BancosToolStripMenuItem.Name = "BancosToolStripMenuItem"
         Me.BancosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.BancosToolStripMenuItem.Text = "Bancos"
+        Me.BancosToolStripMenuItem.Visible = False
         '
         'LiquidacionesToolStripMenuItem
         '
@@ -408,8 +425,9 @@ Partial Class Principal
         '
         Me.ContadoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NuevaToolStripMenuItem, Me.GastosToolStripMenuItem1, Me.DepositosToolStripMenuItem1, Me.BuscarFacturaToolStripMenuItem})
         Me.ContadoToolStripMenuItem.Name = "ContadoToolStripMenuItem"
-        Me.ContadoToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.ContadoToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.ContadoToolStripMenuItem.Text = "Choferes"
+        Me.ContadoToolStripMenuItem.Visible = False
         '
         'NuevaToolStripMenuItem
         '
@@ -439,7 +457,7 @@ Partial Class Principal
         '
         Me.CreditoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NuevaToolStripMenuItem1, Me.GastosToolStripMenuItem2, Me.DepositosToolStripMenuItem2})
         Me.CreditoToolStripMenuItem.Name = "CreditoToolStripMenuItem"
-        Me.CreditoToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.CreditoToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.CreditoToolStripMenuItem.Text = "Agentes"
         '
         'NuevaToolStripMenuItem1
@@ -463,8 +481,9 @@ Partial Class Principal
         'RevisarDepositosToolStripMenuItem
         '
         Me.RevisarDepositosToolStripMenuItem.Name = "RevisarDepositosToolStripMenuItem"
-        Me.RevisarDepositosToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.RevisarDepositosToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.RevisarDepositosToolStripMenuItem.Text = "Revisar Depositos"
+        Me.RevisarDepositosToolStripMenuItem.Visible = False
         '
         'ExportarToolStripMenuItem
         '
@@ -484,12 +503,14 @@ Partial Class Principal
         Me.InformacionAPickingToolStripMenuItem.Name = "InformacionAPickingToolStripMenuItem"
         Me.InformacionAPickingToolStripMenuItem.Size = New System.Drawing.Size(323, 26)
         Me.InformacionAPickingToolStripMenuItem.Text = "Informacion a Picking  ( BODEGA )"
+        Me.InformacionAPickingToolStripMenuItem.Visible = False
         '
         'InformacionAEliverToolStripMenuItem
         '
         Me.InformacionAEliverToolStripMenuItem.Name = "InformacionAEliverToolStripMenuItem"
         Me.InformacionAEliverToolStripMenuItem.Size = New System.Drawing.Size(323, 26)
         Me.InformacionAEliverToolStripMenuItem.Text = "Informacion a Deliver ( CAMIONES )"
+        Me.InformacionAEliverToolStripMenuItem.Visible = False
         '
         'ReportesToolStripMenuItem
         '
@@ -510,6 +531,7 @@ Partial Class Principal
         Me.FaltanteSobranteLiquidacionChoferesToolStripMenuItem.Name = "FaltanteSobranteLiquidacionChoferesToolStripMenuItem"
         Me.FaltanteSobranteLiquidacionChoferesToolStripMenuItem.Size = New System.Drawing.Size(345, 26)
         Me.FaltanteSobranteLiquidacionChoferesToolStripMenuItem.Text = "Faltante/Sobrante Liquidacion Choferes"
+        Me.FaltanteSobranteLiquidacionChoferesToolStripMenuItem.Visible = False
         '
         'FaltanteSobranteLiquidacionAgentesToolStripMenuItem
         '
@@ -522,6 +544,7 @@ Partial Class Principal
         Me.MathHaciendaToolStripMenuItem.Name = "MathHaciendaToolStripMenuItem"
         Me.MathHaciendaToolStripMenuItem.Size = New System.Drawing.Size(345, 26)
         Me.MathHaciendaToolStripMenuItem.Text = "Math Hacienda"
+        Me.MathHaciendaToolStripMenuItem.Visible = False
         '
         'InventarioToolStripMenuItem
         '
@@ -529,6 +552,7 @@ Partial Class Principal
         Me.InventarioToolStripMenuItem.Name = "InventarioToolStripMenuItem"
         Me.InventarioToolStripMenuItem.Size = New System.Drawing.Size(110, 24)
         Me.InventarioToolStripMenuItem.Text = "Conteo Fisico"
+        Me.InventarioToolStripMenuItem.Visible = False
         '
         'GruposToolStripMenuItem
         '
@@ -598,6 +622,7 @@ Partial Class Principal
         Me.AcercaDeToolStripMenuItem.Name = "AcercaDeToolStripMenuItem"
         Me.AcercaDeToolStripMenuItem.Size = New System.Drawing.Size(87, 24)
         Me.AcercaDeToolStripMenuItem.Text = "Acerca de"
+        Me.AcercaDeToolStripMenuItem.Visible = False
         '
         'SistemaToolStripMenuItem
         '
@@ -617,6 +642,7 @@ Partial Class Principal
         Me.VentasToolStripMenuItem.Name = "VentasToolStripMenuItem"
         Me.VentasToolStripMenuItem.Size = New System.Drawing.Size(64, 24)
         Me.VentasToolStripMenuItem.Text = "Ventas"
+        Me.VentasToolStripMenuItem.Visible = False
         '
         'OrdenDeCompraToolStripMenuItem
         '
@@ -690,7 +716,7 @@ Partial Class Principal
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.AliceBlue
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(17, 17)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FacturacionToolStripMenuItem, Me.BodegaToolStripMenuItem, Me.AdministrarToolStripMenuItem, Me.LiquidacionesToolStripMenuItem, Me.ExportarToolStripMenuItem, Me.ReportesToolStripMenuItem, Me.InventarioToolStripMenuItem, Me.PlanillaToolStripMenuItem, Me.VentasToolStripMenuItem, Me.ToolStripMenuItem8, Me.ComprasToolStripMenuItem, Me.AcercaDeToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FacturacionToolStripMenuItem, Me.AdministrarToolStripMenuItem, Me.BodegaToolStripMenuItem, Me.LiquidacionesToolStripMenuItem, Me.ExportarToolStripMenuItem, Me.ReportesToolStripMenuItem, Me.InventarioToolStripMenuItem, Me.PlanillaToolStripMenuItem, Me.VentasToolStripMenuItem, Me.ToolStripMenuItem8, Me.ComprasToolStripMenuItem, Me.AcercaDeToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(8, 2, 0, 2)
@@ -704,6 +730,7 @@ Partial Class Principal
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
         Me.ToolStripMenuItem8.Size = New System.Drawing.Size(87, 24)
         Me.ToolStripMenuItem8.Text = "Inventario"
+        Me.ToolStripMenuItem8.Visible = False
         '
         'ToolStripMenuItem9
         '

@@ -634,10 +634,10 @@ Public Class frmReporte
 
         Dim MiConexion As New CrystalDecisions.Shared.ConnectionInfo
         Dim myTables As CrystalDecisions.CrystalReports.Engine.Tables = MyReport.Database.Tables
-        MiConexion.ServerName = "SAP"
-        MiConexion.DatabaseName = "BD_Bourne"
-        MiConexion.UserID = "sa"
-        MiConexion.Password = "Bourn3"
+        MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
+        MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+        MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
+        MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
         For Each myTable As CrystalDecisions.CrystalReports.Engine.Table In myTables
             Dim myTableLogonInfo As TableLogOnInfo = myTable.LogOnInfo
             myTableLogonInfo.ConnectionInfo = MiConexion

@@ -16,21 +16,21 @@
         Button5.BackColor = Color.Green
 
 
-        If Class_VariablesGlobales.Puesto = "Manager" Then
-            GroupBox3.Visible = True
-            GroupBox2.Visible = True
-            GroupBox1.Visible = True
-        End If
-        If Class_VariablesGlobales.Puesto = "Facturacion" Then
-            GroupBox3.Visible = False
-            GroupBox2.Visible = True
-            GroupBox1.Visible = False
-        End If
-        If Class_VariablesGlobales.Puesto = "Administracion" Or Class_VariablesGlobales.Puesto = "Contabilidad" Or Class_VariablesGlobales.Puesto = "CuentasXCobrar" Then
-            GroupBox3.Visible = False
-            GroupBox2.Visible = False
-            GroupBox1.Visible = True
-        End If
+        'If Class_VariablesGlobales.Puesto = "Manager" Then
+        '    GroupBox3.Visible = True
+        '    GroupBox2.Visible = True
+        '    GroupBox1.Visible = True
+        'End If
+        'If Class_VariablesGlobales.Puesto = "Facturacion" Then
+        '    GroupBox3.Visible = False
+        '    GroupBox2.Visible = True
+        '    GroupBox1.Visible = False
+        'End If
+        'If Class_VariablesGlobales.Puesto = "Administracion" Or Class_VariablesGlobales.Puesto = "Contabilidad" Or Class_VariablesGlobales.Puesto = "CuentasXCobrar" Then
+        '    GroupBox3.Visible = False
+        '    GroupBox2.Visible = False
+        '    GroupBox1.Visible = True
+        'End If
     End Sub
 
 
@@ -52,13 +52,14 @@
 
 
                     'limpia errores
-                    Class_VariablesGlobales.Obj_Funciones_SQL.EliminaListaEstadoErroSAP(agente, Class_VariablesGlobales.SQL_Comman2)
-                    DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(agente, Class_VariablesGlobales.SQL_Comman2)
+                    Class_VariablesGlobales.Obj_Funciones_SQL.LimpiaEstadoSubidoSAP(txt_SoloAg.Text, "ERROR", Class_VariablesGlobales.SQL_Comman2)
+                    DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(agente, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
                     'limpia Subidos
-                    Class_VariablesGlobales.Obj_Funciones_SQL.EliminaListaEstadoSubidoSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-                    DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(agente, Class_VariablesGlobales.SQL_Comman2)
+                    Class_VariablesGlobales.Obj_Funciones_SQL.LimpiaEstadoSubidoSAP(txt_SoloAg.Text, "SUBIDO", Class_VariablesGlobales.SQL_Comman2)
+                    DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(agente, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
                     'intenta subir todo los archivos del agente
-                    Class_VariablesGlobales.Obj_Funciones_SQL.RecargarTODO(agente, Class_VariablesGlobales.SQL_Comman2)
+                    'Class_VariablesGlobales.Obj_Funciones_SQL.RecargarTODO(agente, Class_VariablesGlobales.SQL_Comman2)
+                    Class_VariablesGlobales.Obj_Funciones_SQL.ModificaRecargar(Class_VariablesGlobales.SQL_Comman2, 1, agente)
                     LbL_AgEjecucion.Text = "Sigt->" & agente
 
 
@@ -92,15 +93,16 @@
             Else
 
                 'limpia errores
-                Class_VariablesGlobales.Obj_Funciones_SQL.EliminaListaEstadoErroSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-                DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+                Class_VariablesGlobales.Obj_Funciones_SQL.LimpiaEstadoSubidoSAP(txt_SoloAg.Text, "ERROR", Class_VariablesGlobales.SQL_Comman2)
+                DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
 
                 'limpia Subidos
-                Class_VariablesGlobales.Obj_Funciones_SQL.EliminaListaEstadoSubidoSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-                DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+                Class_VariablesGlobales.Obj_Funciones_SQL.LimpiaEstadoSubidoSAP(txt_SoloAg.Text, "SUBIDO", Class_VariablesGlobales.SQL_Comman2)
+                DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
 
                 'intenta subir todo los archivos del agente
-                Class_VariablesGlobales.Obj_Funciones_SQL.RecargarTODO(agente, Class_VariablesGlobales.SQL_Comman2)
+                'Class_VariablesGlobales.Obj_Funciones_SQL.RecargarTODO(agente, Class_VariablesGlobales.SQL_Comman2)
+                Class_VariablesGlobales.Obj_Funciones_SQL.ModificaRecargar(Class_VariablesGlobales.SQL_Comman2, 1, agente)
                 LbL_AgEjecucion.Text = "Sigt->" & agente
 
 
@@ -122,12 +124,12 @@
 
 
                 'limpia errores
-                Class_VariablesGlobales.Obj_Funciones_SQL.EliminaListaEstadoErroSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-                DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+                Class_VariablesGlobales.Obj_Funciones_SQL.LimpiaEstadoSubidoSAP(txt_SoloAg.Text, "ERROR", Class_VariablesGlobales.SQL_Comman2)
+                DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
 
                 'limpia Subidos
-                Class_VariablesGlobales.Obj_Funciones_SQL.EliminaListaEstadoSubidoSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-                DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+                Class_VariablesGlobales.Obj_Funciones_SQL.LimpiaEstadoSubidoSAP(txt_SoloAg.Text, "SUBIDO", Class_VariablesGlobales.SQL_Comman2)
+                DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
 
                 'indica cual agente quiere subir
                 Class_VariablesGlobales.Obj_Funciones_SQL.EliminaidAgenteENEjecucion(Class_VariablesGlobales.SQL_Comman2)
@@ -163,84 +165,72 @@
         End If
     End Sub
 
-#Region "BOTONES ACCIONES GENERALES"
-    Private Sub Button26_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_MuestraTodo.Click
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-    End Sub
-    Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_MuestraTodoError.Click
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_EstadoError_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-    End Sub
-    Private Sub Button3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_MuestraTodoSubido.Click
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_EstadoSubidos_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-    End Sub
-    Private Sub Button5_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_LimpiaTodoError.Click
-        Class_VariablesGlobales.Obj_Funciones_SQL.EliminaListaEstadoErroSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-    End Sub
-    Private Sub btn_LimpiaTodoSubido_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_LimpiaTodoSubido.Click
-        Class_VariablesGlobales.Obj_Funciones_SQL.EliminaListaEstadoSubidoSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-    End Sub
-#End Region
+
 
 #Region "BOTONES DE ACCIONES PARA PEDIDOS"
-    Private Sub btn_TodosPedidos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_TodosPedidos.Click
-
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PedidosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    Private Sub btn_TodosPedidos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "Todos", Class_VariablesGlobales.SQL_Comman2)
+        'DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PedidosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
         RegulaTamanoColumnas(DGV_EstadoSubida)
     End Sub
 
-    Private Sub btn_PedidError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PedidError.Click
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PedidosConError(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    Private Sub btn_PedidError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "ERROR", Class_VariablesGlobales.SQL_Comman2)
+
+        'DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PedidosConError(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
         RegulaTamanoColumnas(DGV_EstadoSubida)
     End Sub
 
-    Private Sub btn_PedidSubido_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PedidSubido.Click
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PedidosSUBIDOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    Private Sub btn_PedidSubido_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+
+        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "SUBIDO", Class_VariablesGlobales.SQL_Comman2)
+
+        'DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PedidosSUBIDOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
         RegulaTamanoColumnas(DGV_EstadoSubida)
     End Sub
 
-    Private Sub btn_PedidLimpError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PedidLimpError.Click
+    Private Sub btn_PedidLimpError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Class_VariablesGlobales.Obj_Funciones_SQL.PedidosEliminaEstadoERROR(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
         DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PedidosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
         RegulaTamanoColumnas(DGV_EstadoSubida)
     End Sub
 
-    Private Sub btn_PedidLimpSubidos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PedidLimpSubidos.Click
+    Private Sub btn_PedidLimpSubidos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Class_VariablesGlobales.Obj_Funciones_SQL.PedidosEliminaEstadoSUBIDO(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
         DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PedidosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
         RegulaTamanoColumnas(DGV_EstadoSubida)
     End Sub
 #End Region
 
-#Region "BOTONES DE ACCIONES PARA PAGOS"
-    Private Sub btn_PagosTodos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosTodos.Click
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        RegulaTamanoColumnas(DGV_EstadoSubida)
-    End Sub
+    '#Region "BOTONES DE ACCIONES PARA PAGOS"
+    '    Private Sub btn_PagosTodos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosTodos.Click
+    '        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    '        RegulaTamanoColumnas(DGV_EstadoSubida)
+    '    End Sub
 
-    Private Sub btn_PagosError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosError.Click
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosConError(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        RegulaTamanoColumnas(DGV_EstadoSubida)
-    End Sub
+    '    Private Sub btn_PagosError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosError.Click
+    '        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosConError(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    '        RegulaTamanoColumnas(DGV_EstadoSubida)
+    '    End Sub
 
-    Private Sub btn_PagosSubido_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosSubido.Click
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosSUBIDOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        RegulaTamanoColumnas(DGV_EstadoSubida)
-    End Sub
+    '    Private Sub btn_PagosSubido_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosSubido.Click
+    '        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosSUBIDOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    '        RegulaTamanoColumnas(DGV_EstadoSubida)
+    '    End Sub
 
-    Private Sub btn_PagosLimpError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosLimpError.Click
-        Class_VariablesGlobales.Obj_Funciones_SQL.PagosEliminaEstadoERROR(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        RegulaTamanoColumnas(DGV_EstadoSubida)
-    End Sub
+    '    Private Sub btn_PagosLimpError_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosLimpError.Click
+    '        Class_VariablesGlobales.Obj_Funciones_SQL.PagosEliminaEstadoERROR(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    '        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    '        RegulaTamanoColumnas(DGV_EstadoSubida)
+    '    End Sub
 
-    Private Sub btn_PagosLimpSubido_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosLimpSubido.Click
-        Class_VariablesGlobales.Obj_Funciones_SQL.PagosEliminaEstadoSUBIDO(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
-        RegulaTamanoColumnas(DGV_EstadoSubida)
-    End Sub
-#End Region
+    '    Private Sub btn_PagosLimpSubido_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_PagosLimpSubido.Click
+    '        Class_VariablesGlobales.Obj_Funciones_SQL.PagosEliminaEstadoSUBIDO(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    '        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.PagosTODOS(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+    '        RegulaTamanoColumnas(DGV_EstadoSubida)
+    '    End Sub
+    '#End Region
 
 
     Public Function RegulaTamanoColumnas(ByVal dgv As DataGridView)
@@ -289,7 +279,7 @@
 
         dt.PrimaryKey = New DataColumn() {dt.Columns.Item("key")} 'Creamos la clave primaria
 
-        dt = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, Class_VariablesGlobales.SQL_Comman2)
+        dt = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
         Dim dr As DataRow
         DGV_EstadoSubida.DataSource = Nothing
 
@@ -314,8 +304,6 @@
         db.DataSource = dt
 
         DGV_EstadoSubida.DataSource = db
-
-
 
     End Sub
     Private Sub Timer_AGEjecucion_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer_AGEjecucion.Tick
@@ -386,7 +374,38 @@
         obj_FTP.Subir(Class_VariablesGlobales.XMLParamFTP_dirLocal & agente & "\" & agente & ".mbg", Class_VariablesGlobales.XMLParamFTP_Server & "Revisame/" & agente & ".mbg", Class_VariablesGlobales.XMLParamFTP_user, Class_VariablesGlobales.XMLParamFTP_Password)
 
     End Sub
+
+    Private Sub btn_PedidLimpSubidos_Click_1(sender As Object, e As EventArgs) Handles btn_LimpSubidos.Click
+        Class_VariablesGlobales.Obj_Funciones_SQL.LimpiaEstadoSubidoSAP(txt_SoloAg.Text, "SUBIDO", Class_VariablesGlobales.SQL_Comman2)
+        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
+
+
+    End Sub
+
+    Private Sub btn_PedidLimpError_Click_1(sender As Object, e As EventArgs) Handles btn_LimpError.Click
+
+        Class_VariablesGlobales.Obj_Funciones_SQL.LimpiaEstadoSubidoSAP(txt_SoloAg.Text, "ERROR", Class_VariablesGlobales.SQL_Comman2)
+        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
+
+    End Sub
+
+    Private Sub btn_TodosPedidos_Click_1(sender As Object, e As EventArgs) Handles btn_Todos.Click
+        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "", Class_VariablesGlobales.SQL_Comman2)
+
+    End Sub
+
+    Private Sub btn_PedidError_Click_1(sender As Object, e As EventArgs) Handles btn_Errores.Click
+        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "ERROR", Class_VariablesGlobales.SQL_Comman2)
+
+    End Sub
+
+    Private Sub btn_PedidSubido_Click_1(sender As Object, e As EventArgs) Handles btn_Subido.Click
+        DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "SUBIDO", Class_VariablesGlobales.SQL_Comman2)
+
+    End Sub
+
+
 #End Region
 
-    
+
 End Class

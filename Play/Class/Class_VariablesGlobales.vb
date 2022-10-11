@@ -217,7 +217,7 @@ Public Class Class_VariablesGlobales
     'Public Shared Obj_Admin_Bodegueros As New Admin_Bodegueros
     'Public Shared Obj_Fecha As New FechaManager
     'Public Shared  oCompany As New SAPbobsCOM.Company
-
+    Public Shared Obj_InforComputadora As New InforComputadora
     Public Shared Obj_Funciones_SQL As New Class_funcionesSQL
     Public Shared Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
     Public Shared Obj_Funciones_MYSQL As New Class_Funciones_MYSQL

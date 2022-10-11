@@ -126,12 +126,15 @@ Public Class InfoMsjHacienda
                 Dim MensajeRespuestaH As String = ""
                 Dim GPatch_XML As String = ""
                 Dim GPatch_RH As String = ""
+                Dim mensaje As String = ""
+
 
                 If txtb_TipoComprobante.Text = "FE" Or txtb_TipoComprobante.Text = "FES" Then
                     GPatch_PDF = VariablesGlobales.Patch_FE & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & ".pdf"
                     MensajeRespuestaH = ""
                     GPatch_XML = VariablesGlobales.Patch_FE & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & "_Firmado.xml"
                     GPatch_RH = VariablesGlobales.Patch_FE & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & "_RH.xml"
+                    mensaje = "Factura Electronica ACEPTADA [" & txtb_Clave.Text & "]"
                 End If
 
                 If txtb_TipoComprobante.Text = "NC" Or txtb_TipoComprobante.Text = "NCS" Then
@@ -139,6 +142,7 @@ Public Class InfoMsjHacienda
                     MensajeRespuestaH = ""
                     GPatch_XML = VariablesGlobales.Patch_NC & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & "_Firmado.xml"
                     GPatch_RH = VariablesGlobales.Patch_NC & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & "_RH.xml"
+                    mensaje = "Nota de Credito Electronica ACEPTADA [" & txtb_Clave.Text & "]"
                 End If
 
                 If txtb_TipoComprobante.Text = "ND" Or txtb_TipoComprobante.Text = "NDS" Then
@@ -146,16 +150,18 @@ Public Class InfoMsjHacienda
                     MensajeRespuestaH = ""
                     GPatch_XML = VariablesGlobales.Patch_ND & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & "_Firmado.xml"
                     GPatch_RH = VariablesGlobales.Patch_ND & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & "_RH.xml"
+                    mensaje = "Nota de Debito Electronico ACEPTADA [" & txtb_Clave.Text & "]"
                 End If
                 If txtb_TipoComprobante.Text = "TE" Or txtb_TipoComprobante.Text = "TES" Then
                     GPatch_PDF = VariablesGlobales.Patch_TE & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & ".pdf"
                     MensajeRespuestaH = ""
                     GPatch_XML = VariablesGlobales.Patch_TE & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & "_Firmado.xml"
                     GPatch_RH = VariablesGlobales.Patch_TE & "\" & Trim(txtb_CodInterno.Text) & "\" & Trim(txtb_CodInterno.Text) & "_RH.xml"
+                    mensaje = "Tiquete Electronico ACEPTADO [" & txtb_Clave.Text & "]"
                 End If
 
                 VariablesGlobales.EmisorEmail = txtb_ReenviarEmail.Text
-                Obj_Mail.Envia_Cliente(txtb_Clave.Text, txtb_TipoComprobante.Text, "Factura Electronica ACEPTADA [" & txtb_Clave.Text & "]", MensajeRespuestaH, GPatch_XML, GPatch_PDF, GPatch_RH)
+                Obj_Mail.Envia_Cliente(txtb_Clave.Text, txtb_TipoComprobante.Text, mensaje, MensajeRespuestaH, GPatch_XML, GPatch_PDF, GPatch_RH)
                 MessageBox.Show("Comprobante enviado correctamente", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information)
                 Obj_Mail = Nothing
                 GPatch_PDF = Nothing

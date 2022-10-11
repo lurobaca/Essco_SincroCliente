@@ -17,6 +17,10 @@ Public Class Class_FTP
 
     Public Function Subir(ByVal RutaOrigen As String, ByVal RutaFTP As String, ByVal user As String, ByVal clave As String)
         Try
+            'Borra el archivo antes de subirlo
+
+            eliminarFichero(RutaFTP, user, clave)
+
             Dim clsRequest As System.Net.FtpWebRequest
             'Dim conexion As Net.Sockets.TcpClient
             'ConectaFTP()

@@ -141,31 +141,6 @@
 
         ObtieneInfoEmpresa()
 
-        'Emisor_Nombre = "EASE SOFTWARE SOLUTION COMPANY COSTA RICA SOCIEDAD DE RESPONSABILIDAD LIMITADA"
-        'Emisor_NombreComercial = "ESSCO"
-        'Emisor_Tipo = "02"
-        'Emisor_Numero = "3102796359"
-        'Emisor_Provincia = "5"
-        'Emisor_Canton = "05"
-        'Emisor_Distrito = "0"
-        'Emisor_Barrio = "04"
-        'Emisor_OtrasSenas = "100 metros norte y 125 este del salon multiuso del barrio el castillo"
-        'Emisor_CorreoElectronico = "esscocr@gmail.com"
-
-        ''--ESTOS DATOS SE OBTIENE AL SELECCIONAR EL CLIENTE
-        'Receptor_Nombre = ""
-        'Receptor_NombreComercial = ""
-        'Receptor_Tipo = ""
-        'Receptor_Numero = ""
-        'Receptor_IdentificacionExtranjero = ""
-        'Receptor_Provincia = ""
-        'Receptor_Canton = ""
-        'Receptor_Distrito = ""
-        'Receptor_Barrio = ""
-        'Receptor_OtrasSenas = ""
-        'Receptor_CorreoElectronico = ""
-
-
         CondicionVenta = CBox_TipoVenta.Text
         PlazoCredito = Txtb_plazoCredito.Text
         MedioPago = ""
@@ -208,180 +183,183 @@
         ElseIf Me.Text = "Proforma" Then
             DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FP(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor)
         Else
+
+
             DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor)
 
         End If
-        'guarda las lineas
 
-        Dim NumLinea = ""
-        Dim ItemCode = ""
-        Dim ItemName = ""
-        Dim Pack = ""
-        Dim UnidadMedida = ""
-        Dim Costo = ""
-        Dim PrecioUnitario = ""
-        Dim Utilidad_Porciento = ""
-        Dim Utilidad_Monto = ""
-        Dim Cantidad = ""
-        Dim Descuento_Porciento = ""
-        Dim Descuento_Monto = ""
-        Dim CodigoTarifa = ""
-        Dim Impuesto_Porciento = ""
-        Dim Impuesto_Monto = ""
-        Dim SubTotal = ""
-        Dim Total = ""
-        Dim Descuento_Promo_Porciento = ""
-        Dim Descuento_Promo_Monto = ""
-        Dim Descuento_Interno_Porciento = ""
-        Dim Descuento_Interno_Monto = ""
+        '-100 es codigo de error de esso para impedir agregar el detalle ya que el numero de pedido ya existe
+        If DocNum <> -100 Then
+            'Al ser una insercion exitosa debe actualizar el consecutivo para la proxima factura
+            Class_VariablesGlobales.Obj_Funciones_SQL.AumentaConsecutivoProximoDocumento("FE", DocNum)
 
-        For i As Integer = 0 To DGV_DetalleFactura.RowCount - 2
+            'guarda las lineas
+
+            Dim NumLinea = ""
+            Dim ItemCode = ""
+            Dim ItemName = ""
+            Dim Pack = ""
+            Dim UnidadMedida = ""
+            Dim Costo = ""
+            Dim PrecioUnitario = ""
+            Dim Utilidad_Porciento = ""
+            Dim Utilidad_Monto = ""
+            Dim Cantidad = ""
+            Dim Descuento_Porciento = ""
+            Dim Descuento_Monto = ""
+            Dim CodigoTarifa = ""
+            Dim Impuesto_Porciento = ""
+            Dim Impuesto_Monto = ""
+            Dim SubTotal = ""
+            Dim Total = ""
+            Dim Descuento_Promo_Porciento = ""
+            Dim Descuento_Promo_Monto = ""
+            Dim Descuento_Interno_Porciento = ""
+            Dim Descuento_Interno_Monto = ""
+
+            For i As Integer = 0 To DGV_DetalleFactura.RowCount - 2
 
 
-            NumLinea = DGV_DetalleFactura("NumLinea", i).Value.ToString()
-            ItemCode = DGV_DetalleFactura("ItemCode", i).Value.ToString()
-            ItemName = DGV_DetalleFactura("ItemName", i).Value.ToString()
-            Pack = DGV_DetalleFactura("Pack", i).Value.ToString()
-            UnidadMedida = DGV_DetalleFactura("UnidadMedida", i).Value.ToString()
-            Costo = DGV_DetalleFactura("Costo", i).Value.ToString()
-            PrecioUnitario = DGV_DetalleFactura("PrecioUnitario", i).Value.ToString()
-            Utilidad_Porciento = DGV_DetalleFactura("Utilidad_Porciento", i).Value.ToString()
-            Utilidad_Monto = DGV_DetalleFactura("Utilidad_Monto", i).Value.ToString()
-            Cantidad = DGV_DetalleFactura("Cantidad", i).Value.ToString()
-            Descuento_Porciento = DGV_DetalleFactura("Descuento_Porciento", i).Value.ToString()
-            Descuento_Monto = DGV_DetalleFactura("Descuento_Monto", i).Value.ToString()
-            CodigoTarifa = DGV_DetalleFactura("CodigoTarifa", i).Value.ToString()
-            Impuesto_Porciento = DGV_DetalleFactura("Impuesto_Porciento", i).Value.ToString()
-            Impuesto_Monto = DGV_DetalleFactura("Impuesto_Monto", i).Value.ToString()
-            SubTotal = DGV_DetalleFactura("SubTotal", i).Value.ToString()
-            Total = DGV_DetalleFactura("Total", i).Value.ToString()
-            Descuento_Promo_Porciento = DGV_DetalleFactura("Descuento_Promo_Porciento", i).Value.ToString()
-            Descuento_Promo_Monto = DGV_DetalleFactura("Descuento_Promo_Monto", i).Value.ToString()
-            Descuento_Interno_Porciento = DGV_DetalleFactura("Descuento_Interno_Porciento", i).Value.ToString()
-            Descuento_Interno_Monto = DGV_DetalleFactura("Descuento_Interno_Monto", i).Value.ToString()
+                NumLinea = DGV_DetalleFactura("NumLinea", i).Value.ToString()
+                ItemCode = DGV_DetalleFactura("ItemCode", i).Value.ToString()
+                ItemName = DGV_DetalleFactura("ItemName", i).Value.ToString()
+                Pack = DGV_DetalleFactura("Pack", i).Value.ToString()
+                UnidadMedida = DGV_DetalleFactura("UnidadMedida", i).Value.ToString()
+                Costo = DGV_DetalleFactura("Costo", i).Value.ToString()
+                PrecioUnitario = DGV_DetalleFactura("PrecioUnitario", i).Value.ToString()
+                Utilidad_Porciento = DGV_DetalleFactura("Utilidad_Porciento", i).Value.ToString()
+                Utilidad_Monto = DGV_DetalleFactura("Utilidad_Monto", i).Value.ToString()
+                Cantidad = DGV_DetalleFactura("Cantidad", i).Value.ToString()
+                Descuento_Porciento = DGV_DetalleFactura("Descuento_Porciento", i).Value.ToString()
+                Descuento_Monto = DGV_DetalleFactura("Descuento_Monto", i).Value.ToString()
+                CodigoTarifa = DGV_DetalleFactura("CodigoTarifa", i).Value.ToString()
+                Impuesto_Porciento = DGV_DetalleFactura("Impuesto_Porciento", i).Value.ToString()
+                Impuesto_Monto = DGV_DetalleFactura("Impuesto_Monto", i).Value.ToString()
+                SubTotal = DGV_DetalleFactura("SubTotal", i).Value.ToString()
+                Total = DGV_DetalleFactura("Total", i).Value.ToString()
+                Descuento_Promo_Porciento = DGV_DetalleFactura("Descuento_Promo_Porciento", i).Value.ToString()
+                Descuento_Promo_Monto = DGV_DetalleFactura("Descuento_Promo_Monto", i).Value.ToString()
+                Descuento_Interno_Porciento = DGV_DetalleFactura("Descuento_Interno_Porciento", i).Value.ToString()
+                Descuento_Interno_Monto = DGV_DetalleFactura("Descuento_Interno_Monto", i).Value.ToString()
 
+                If Me.Text = "Nota de credito" Then
+                    Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_NC1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa)
+
+                Else
+                    Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa)
+
+                End If
+
+                NumLinea = ""
+                ItemCode = ""
+                ItemName = ""
+                Pack = ""
+                UnidadMedida = ""
+                Costo = ""
+                PrecioUnitario = ""
+                Utilidad_Porciento = ""
+                Utilidad_Monto = ""
+                Cantidad = ""
+                Descuento_Porciento = ""
+                Descuento_Monto = ""
+                Impuesto_Porciento = ""
+                Impuesto_Monto = ""
+                SubTotal = ""
+                Total = ""
+                Descuento_Promo_Porciento = ""
+                Descuento_Promo_Monto = ""
+                Descuento_Interno_Porciento = ""
+                Descuento_Interno_Monto = ""
+                CodigoTarifa = ""
+            Next
+            'Aumenta consecutivo
             If Me.Text = "Nota de credito" Then
-                Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_NC1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa)
-
+                MsgBox("Nota de credito creada con exito")
             Else
-                Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa)
-
+                MsgBox("Factura creada con exito")
             End If
 
+            DocNum = Nothing
+            Clave = Nothing
+            Consecutivo = Nothing
+            DocDate = Nothing
+            DocDueDate = Nothing
+            DocTime = Nothing
+            DocType = Nothing
+            DocSubType = Nothing
+            Status = Nothing
+            Printed = Nothing
+            ID_User = Nothing
+            Nombre_User = Nothing
+            Emisor_Nombre = Nothing
+            Emisor_NombreComercial = Nothing
+            Emisor_Tipo = Nothing
+            Emisor_Numero = Nothing
+            Emisor_Provincia = Nothing
+            Emisor_Canton = Nothing
+            Emisor_Distrito = Nothing
+            Emisor_Barrio = Nothing
+            Emisor_OtrasSenas = Nothing
+            Emisor_CorreoElectronico = Nothing
+            Receptor_Nombre = Nothing
+            Receptor_NombreComercial = Nothing
+            Receptor_Tipo = Nothing
+            Receptor_Numero = Nothing
+            Receptor_IdentificacionExtranjero = Nothing
+            Receptor_Provincia = Nothing
+            Receptor_Canton = Nothing
+            Receptor_Distrito = Nothing
+            Receptor_Barrio = Nothing
+            Receptor_OtrasSenas = Nothing
+            Receptor_CorreoElectronico = Nothing
+            CondicionVenta = Nothing
+            PlazoCredito = Nothing
+            MedioPago = Nothing
+            Referencia_Numero = Nothing
+            Referencia_TipoDoc = Nothing
+            Referencia_FechaEmision = Nothing
+            Referencia_Codigo = Nothing
+            Referencia_Razon = Nothing
+            DocTotal = Nothing
+            DocSubTotal = Nothing
+            DocTotalImpuesto = Nothing
+            DocTotalDescuento = Nothing
+            DocSaldo = Nothing
+            Comments = Nothing
+            MH_Status = Nothing
+            MH_Message = Nothing
+
+
+            'Lineas detalladsa
+            NumLinea = Nothing
+            ItemCode = Nothing
+            ItemName = Nothing
+            Pack = Nothing
+            UnidadMedida = Nothing
+            Costo = Nothing
+            PrecioUnitario = Nothing
+            Utilidad_Porciento = Nothing
+            Utilidad_Monto = Nothing
+            Cantidad = Nothing
+            Descuento_Porciento = Nothing
+            Descuento_Monto = Nothing
+            Impuesto_Porciento = Nothing
+            Impuesto_Monto = Nothing
+            SubTotal = Nothing
+            Total = Nothing
+            Descuento_Promo_Porciento = Nothing
+            Descuento_Promo_Monto = Nothing
+            Descuento_Interno_Porciento = Nothing
+            Descuento_Interno_Monto = Nothing
+            CodigoTarifa = Nothing
 
 
 
-
-
-            NumLinea = ""
-            ItemCode = ""
-            ItemName = ""
-            Pack = ""
-            UnidadMedida = ""
-            Costo = ""
-            PrecioUnitario = ""
-            Utilidad_Porciento = ""
-            Utilidad_Monto = ""
-            Cantidad = ""
-            Descuento_Porciento = ""
-            Descuento_Monto = ""
-            Impuesto_Porciento = ""
-            Impuesto_Monto = ""
-            SubTotal = ""
-            Total = ""
-            Descuento_Promo_Porciento = ""
-            Descuento_Promo_Monto = ""
-            Descuento_Interno_Porciento = ""
-            Descuento_Interno_Monto = ""
-            CodigoTarifa = ""
-        Next
-        'Aumenta consecutivo
-        If Me.Text = "Nota de credito" Then
-            MsgBox("Nota de credito creada con exito")
-        Else
-            MsgBox("Factura creada con exito")
+            'inicio
+            Limpiar()
+            Inicio()
         End If
-
-        DocNum = Nothing
-        Clave = Nothing
-        Consecutivo = Nothing
-        DocDate = Nothing
-        DocDueDate = Nothing
-        DocTime = Nothing
-        DocType = Nothing
-        DocSubType = Nothing
-        Status = Nothing
-        Printed = Nothing
-        ID_User = Nothing
-        Nombre_User = Nothing
-        Emisor_Nombre = Nothing
-        Emisor_NombreComercial = Nothing
-        Emisor_Tipo = Nothing
-        Emisor_Numero = Nothing
-        Emisor_Provincia = Nothing
-        Emisor_Canton = Nothing
-        Emisor_Distrito = Nothing
-        Emisor_Barrio = Nothing
-        Emisor_OtrasSenas = Nothing
-        Emisor_CorreoElectronico = Nothing
-        Receptor_Nombre = Nothing
-        Receptor_NombreComercial = Nothing
-        Receptor_Tipo = Nothing
-        Receptor_Numero = Nothing
-        Receptor_IdentificacionExtranjero = Nothing
-        Receptor_Provincia = Nothing
-        Receptor_Canton = Nothing
-        Receptor_Distrito = Nothing
-        Receptor_Barrio = Nothing
-        Receptor_OtrasSenas = Nothing
-        Receptor_CorreoElectronico = Nothing
-        CondicionVenta = Nothing
-        PlazoCredito = Nothing
-        MedioPago = Nothing
-        Referencia_Numero = Nothing
-        Referencia_TipoDoc = Nothing
-        Referencia_FechaEmision = Nothing
-        Referencia_Codigo = Nothing
-        Referencia_Razon = Nothing
-        DocTotal = Nothing
-        DocSubTotal = Nothing
-        DocTotalImpuesto = Nothing
-        DocTotalDescuento = Nothing
-        DocSaldo = Nothing
-        Comments = Nothing
-        MH_Status = Nothing
-        MH_Message = Nothing
-
-
-        'Lineas detalladsa
-        NumLinea = Nothing
-        ItemCode = Nothing
-        ItemName = Nothing
-        Pack = Nothing
-        UnidadMedida = Nothing
-        Costo = Nothing
-        PrecioUnitario = Nothing
-        Utilidad_Porciento = Nothing
-        Utilidad_Monto = Nothing
-        Cantidad = Nothing
-        Descuento_Porciento = Nothing
-        Descuento_Monto = Nothing
-        Impuesto_Porciento = Nothing
-        Impuesto_Monto = Nothing
-        SubTotal = Nothing
-        Total = Nothing
-        Descuento_Promo_Porciento = Nothing
-        Descuento_Promo_Monto = Nothing
-        Descuento_Interno_Porciento = Nothing
-        Descuento_Interno_Monto = Nothing
-        CodigoTarifa = Nothing
-
-
-
-        'inicio
-        Limpiar()
-        Inicio()
-
     End Sub
     Public Function Limpiar()
         Try
@@ -502,12 +480,13 @@
 
             'Define cual comprobante es el que se creara
             If Class_VariablesGlobales.ComprobanteACrear = "Factura" Then
+
                 Txtb_DocNum.Text = CInt(VariablesGlobales.Obj_SQL.ObtieneConsecutivoACrear("FE"))
                 DNum = CInt(Txtb_DocNum.Text)
                 'Le resto 8 debido a que se hicieron 8 factuas electronicas con un consecutivo equivocado se debia empezar en 0000001 y al final empezamos en 001000001 por lo que debia modificarse el consecutivo y colocarlo en 1
                 'como el consecutivo de la tabla donde se almacenan las facturas sera el que genere la clave debe pegar igual al consecutivo que usara el sistema de hacieda para que cuando se le de anular a las facturas la clave de referencia
                 'sea igual a la de la factura que se mando a hacienda,en fin NO BORRE LA RESTA DE 8
-                txtb_Consecutivo.Text = "0010000101" & CStr(CInt(DNum) - 8).PadLeft(10, "0")
+                txtb_Consecutivo.Text = "0010000101" & CStr(CInt(DNum) - 7).PadLeft(10, "0")
                 Me.Text = "Facturas"
                 CBox_TipoDocumento.Text = "FE"
 

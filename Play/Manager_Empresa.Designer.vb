@@ -46,6 +46,8 @@ Partial Class Manager_Empresa
         Me.Txtb_Servidor = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Txtb_RutaPadreFtp = New System.Windows.Forms.TextBox()
+        Me.Label28 = New System.Windows.Forms.Label()
         Me.Txtb_LinMax_Fac = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Txtb_DescMax = New System.Windows.Forms.TextBox()
@@ -82,15 +84,15 @@ Partial Class Manager_Empresa
         Me.txtb_CodActividadEconomica = New System.Windows.Forms.TextBox()
         Me.txtb_DescrActividadEconomica = New System.Windows.Forms.TextBox()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.Txtb_IPServidorSQL = New System.Windows.Forms.TextBox()
+        Me.Label29 = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.txtb_ServidorSQL = New System.Windows.Forms.TextBox()
+        Me.txtb_UsuarioSQL = New System.Windows.Forms.TextBox()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label27 = New System.Windows.Forms.Label()
-        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.txtb_ClaveSQL = New System.Windows.Forms.TextBox()
         Me.CBox_UtilozoSAP = New System.Windows.Forms.CheckBox()
-        Me.Txtb_RutaPadreFtp = New System.Windows.Forms.TextBox()
-        Me.Label28 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -341,6 +343,26 @@ Partial Class Manager_Empresa
         Me.GroupBox1.TabIndex = 20
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Info Servidor FTP"
+        '
+        'Txtb_RutaPadreFtp
+        '
+        Me.Txtb_RutaPadreFtp.AccessibleDescription = ""
+        Me.Txtb_RutaPadreFtp.Location = New System.Drawing.Point(140, 125)
+        Me.Txtb_RutaPadreFtp.Margin = New System.Windows.Forms.Padding(4)
+        Me.Txtb_RutaPadreFtp.Name = "Txtb_RutaPadreFtp"
+        Me.Txtb_RutaPadreFtp.Size = New System.Drawing.Size(304, 26)
+        Me.Txtb_RutaPadreFtp.TabIndex = 21
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.Location = New System.Drawing.Point(12, 128)
+        Me.Label28.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(93, 20)
+        Me.Label28.TabIndex = 20
+        Me.Label28.Text = "Ruta Padre"
         '
         'Txtb_LinMax_Fac
         '
@@ -708,13 +730,14 @@ Partial Class Manager_Empresa
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.Txtb_IPServidorSQL)
+        Me.GroupBox4.Controls.Add(Me.Label29)
         Me.GroupBox4.Controls.Add(Me.Label25)
-        Me.GroupBox4.Controls.Add(Me.TextBox1)
-        Me.GroupBox4.Controls.Add(Me.TextBox2)
+        Me.GroupBox4.Controls.Add(Me.txtb_ServidorSQL)
+        Me.GroupBox4.Controls.Add(Me.txtb_UsuarioSQL)
         Me.GroupBox4.Controls.Add(Me.Label26)
         Me.GroupBox4.Controls.Add(Me.Label27)
-        Me.GroupBox4.Controls.Add(Me.TextBox3)
-        Me.GroupBox4.Enabled = False
+        Me.GroupBox4.Controls.Add(Me.txtb_ClaveSQL)
         Me.GroupBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox4.Location = New System.Drawing.Point(573, 325)
         Me.GroupBox4.Margin = New System.Windows.Forms.Padding(4)
@@ -724,6 +747,25 @@ Partial Class Manager_Empresa
         Me.GroupBox4.TabIndex = 21
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "SAP Bussines one"
+        '
+        'Txtb_IPServidorSQL
+        '
+        Me.Txtb_IPServidorSQL.Location = New System.Drawing.Point(320, 89)
+        Me.Txtb_IPServidorSQL.Margin = New System.Windows.Forms.Padding(4)
+        Me.Txtb_IPServidorSQL.Name = "Txtb_IPServidorSQL"
+        Me.Txtb_IPServidorSQL.Size = New System.Drawing.Size(154, 26)
+        Me.Txtb_IPServidorSQL.TabIndex = 21
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label29.Location = New System.Drawing.Point(290, 92)
+        Me.Label29.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(24, 20)
+        Me.Label29.TabIndex = 20
+        Me.Label29.Text = "IP"
         '
         'Label25
         '
@@ -736,21 +778,21 @@ Partial Class Manager_Empresa
         Me.Label25.TabIndex = 14
         Me.Label25.Text = "Usuario "
         '
-        'TextBox1
+        'txtb_ServidorSQL
         '
-        Me.TextBox1.Location = New System.Drawing.Point(139, 89)
-        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(304, 26)
-        Me.TextBox1.TabIndex = 19
+        Me.txtb_ServidorSQL.Location = New System.Drawing.Point(139, 89)
+        Me.txtb_ServidorSQL.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtb_ServidorSQL.Name = "txtb_ServidorSQL"
+        Me.txtb_ServidorSQL.Size = New System.Drawing.Size(154, 26)
+        Me.txtb_ServidorSQL.TabIndex = 19
         '
-        'TextBox2
+        'txtb_UsuarioSQL
         '
-        Me.TextBox2.Location = New System.Drawing.Point(141, 23)
-        Me.TextBox2.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(305, 26)
-        Me.TextBox2.TabIndex = 15
+        Me.txtb_UsuarioSQL.Location = New System.Drawing.Point(141, 23)
+        Me.txtb_UsuarioSQL.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtb_UsuarioSQL.Name = "txtb_UsuarioSQL"
+        Me.txtb_UsuarioSQL.Size = New System.Drawing.Size(333, 26)
+        Me.txtb_UsuarioSQL.TabIndex = 15
         '
         'Label26
         '
@@ -774,13 +816,14 @@ Partial Class Manager_Empresa
         Me.Label27.TabIndex = 16
         Me.Label27.Text = "Clave"
         '
-        'TextBox3
+        'txtb_ClaveSQL
         '
-        Me.TextBox3.Location = New System.Drawing.Point(139, 56)
-        Me.TextBox3.Margin = New System.Windows.Forms.Padding(4)
-        Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(305, 26)
-        Me.TextBox3.TabIndex = 17
+        Me.txtb_ClaveSQL.Location = New System.Drawing.Point(139, 56)
+        Me.txtb_ClaveSQL.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtb_ClaveSQL.Name = "txtb_ClaveSQL"
+        Me.txtb_ClaveSQL.PasswordChar = Global.Microsoft.VisualBasic.ChrW(35)
+        Me.txtb_ClaveSQL.Size = New System.Drawing.Size(335, 26)
+        Me.txtb_ClaveSQL.TabIndex = 17
         '
         'CBox_UtilozoSAP
         '
@@ -792,26 +835,6 @@ Partial Class Manager_Empresa
         Me.CBox_UtilozoSAP.Text = "Utilizo SAP"
         Me.CBox_UtilozoSAP.UseVisualStyleBackColor = True
         Me.CBox_UtilozoSAP.Visible = False
-        '
-        'Txtb_RutaPadreFtp
-        '
-        Me.Txtb_RutaPadreFtp.AccessibleDescription = ""
-        Me.Txtb_RutaPadreFtp.Location = New System.Drawing.Point(140, 125)
-        Me.Txtb_RutaPadreFtp.Margin = New System.Windows.Forms.Padding(4)
-        Me.Txtb_RutaPadreFtp.Name = "Txtb_RutaPadreFtp"
-        Me.Txtb_RutaPadreFtp.Size = New System.Drawing.Size(304, 26)
-        Me.Txtb_RutaPadreFtp.TabIndex = 21
-        '
-        'Label28
-        '
-        Me.Label28.AutoSize = True
-        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label28.Location = New System.Drawing.Point(12, 128)
-        Me.Label28.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(93, 20)
-        Me.Label28.TabIndex = 20
-        Me.Label28.Text = "Ruta Padre"
         '
         'Manager_Empresa
         '
@@ -933,12 +956,14 @@ Partial Class Manager_Empresa
     Friend WithEvents txtb_DescrActividadEconomica As TextBox
     Friend WithEvents GroupBox4 As GroupBox
     Friend WithEvents Label25 As Label
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents txtb_ServidorSQL As TextBox
+    Friend WithEvents txtb_UsuarioSQL As TextBox
     Friend WithEvents Label26 As Label
     Friend WithEvents Label27 As Label
-    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents txtb_ClaveSQL As TextBox
     Friend WithEvents CBox_UtilozoSAP As CheckBox
     Friend WithEvents Txtb_RutaPadreFtp As TextBox
     Friend WithEvents Label28 As Label
+    Friend WithEvents Txtb_IPServidorSQL As TextBox
+    Friend WithEvents Label29 As Label
 End Class

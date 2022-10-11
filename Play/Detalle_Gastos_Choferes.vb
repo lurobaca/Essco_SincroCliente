@@ -124,7 +124,8 @@
                 End If
                 If problema = False Then
 
-                    Class_VariablesGlobales.Obj_Funciones_SQL.ModificaConsecutivSistema(Class_VariablesGlobales.SQL_Comman1, CInt(Txtb_DocNum.Text) + 1)
+                    'Class_VariablesGlobales.Obj_Funciones_SQL.ModificaConsecutivSistema(Class_VariablesGlobales.SQL_Comman1, CInt(Txtb_DocNum.Text) + 1)
+                    Class_VariablesGlobales.Obj_Funciones_SQL.Aumenta_Consecutivos(Class_VariablesGlobales.SQL_Comman1, CInt(Txtb_DocNum.Text) + 1, "GASTOS")
                     'If NuevoSistem = True Then
                     '    NuevoSistem = False
 

@@ -17,22 +17,26 @@ Public Class Class_XML_Conexion
             Dim m_nodelist As XmlNodeList
             Dim m_node As XmlNode
 
-            'Dim conectar As String = "C:\ConexionINFO__Pronutre_SANDBOX.xml"
-            'Dim conectar As String = "C:\ConexionINFO_SANDBOX_esscocr.xml"
-            Dim conectar As String = "C:\ConexionINFO__Aleft_PRODUCCION.xml"
-            'Dim conectar As String = "C:\ConexionINFO__Aleft_SANDBOX.xml"
-            '-----------MODO PRUEBAS'-----------
-            'm_xmld.Load("C:\ConexionINFO_BourneSANDBOX.xml")
-            'Dim conectar As String = "C:\ConexionINFO_BourneSANDBOX.xml"
-            'VariablesGlobales.ConectadoA = "SANDBOX"
-            '-----------MODO PRUEBAS'-----------
+            'Dim conectar As String = "C:\ConexionINFO__Pronutre_PRODUCCION.xml"
 
-            '-----------MODO PRODUCCION-----------
+            'If File.Exists(conectar) <> True Then
+            '    conectar = "C:\ConexionINFO__Pronutre_SANDBOX.xml"
+            'End If
+
+            Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
+
+            'If File.Exists(conectar) <> True Then
+            '    conectar = "C:\ConexionINFO_SANDBOX_esscocr.xml"
+            'End If
+
             'Dim conectar As String = "C:\ConexionINFO_BourneProduccion.xml"
-            'Dim conectar As String = "C:\ConexionINFO.xml"
-            'Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
+
+            'If File.Exists(conectar) <> True Then
+            '    conectar = "C:\ConexionINFO_BourneSANDBOX.xml"
+            'End If
+
             If Principal IsNot Nothing Then
-                Principal.Text = "SINCRO [13.04.2022] v2 FE V4.3 Produccion WMS" & "  " & conectar
+                Principal.Text = "SINCRO CLIENTE [20.09.2022] v1 " & "  " & conectar
             End If
 
             'Creamos el "Document"

@@ -74,9 +74,10 @@ Partial Class Devoluciones
         '
         Me.btn_Guardar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Guardar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Guardar.Location = New System.Drawing.Point(7, 677)
+        Me.btn_Guardar.Location = New System.Drawing.Point(9, 833)
+        Me.btn_Guardar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Guardar.Name = "btn_Guardar"
-        Me.btn_Guardar.Size = New System.Drawing.Size(75, 37)
+        Me.btn_Guardar.Size = New System.Drawing.Size(100, 46)
         Me.btn_Guardar.TabIndex = 0
         Me.btn_Guardar.Text = "Guardar"
         Me.btn_Guardar.UseVisualStyleBackColor = True
@@ -85,46 +86,51 @@ Partial Class Devoluciones
         '
         Me.txtb_Fecha.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Fecha.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Fecha.Location = New System.Drawing.Point(642, 53)
+        Me.txtb_Fecha.Location = New System.Drawing.Point(856, 65)
+        Me.txtb_Fecha.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Fecha.Name = "txtb_Fecha"
-        Me.txtb_Fecha.Size = New System.Drawing.Size(200, 23)
+        Me.txtb_Fecha.Size = New System.Drawing.Size(265, 26)
         Me.txtb_Fecha.TabIndex = 1
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(4, 31)
+        Me.Label1.Location = New System.Drawing.Point(5, 38)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(80, 17)
+        Me.Label1.Size = New System.Drawing.Size(96, 20)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Cod Cliente"
         '
         'txtb_CodCliente
         '
         Me.txtb_CodCliente.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_CodCliente.Location = New System.Drawing.Point(102, 28)
+        Me.txtb_CodCliente.Location = New System.Drawing.Point(136, 34)
+        Me.txtb_CodCliente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_CodCliente.Name = "txtb_CodCliente"
         Me.txtb_CodCliente.ReadOnly = True
-        Me.txtb_CodCliente.Size = New System.Drawing.Size(100, 23)
+        Me.txtb_CodCliente.Size = New System.Drawing.Size(132, 26)
         Me.txtb_CodCliente.TabIndex = 4
         '
         'txtb_Nombre
         '
         Me.txtb_Nombre.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Nombre.Location = New System.Drawing.Point(274, 28)
+        Me.txtb_Nombre.Location = New System.Drawing.Point(365, 34)
+        Me.txtb_Nombre.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Nombre.Name = "txtb_Nombre"
         Me.txtb_Nombre.ReadOnly = True
-        Me.txtb_Nombre.Size = New System.Drawing.Size(280, 23)
+        Me.txtb_Nombre.Size = New System.Drawing.Size(372, 26)
         Me.txtb_Nombre.TabIndex = 6
         '
         'Label2
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(202, 31)
+        Me.Label2.Location = New System.Drawing.Point(269, 38)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(58, 17)
+        Me.Label2.Size = New System.Drawing.Size(68, 20)
         Me.Label2.TabIndex = 5
         Me.Label2.Text = "Nombre"
         '
@@ -133,27 +139,30 @@ Partial Class Devoluciones
         Me.Label3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(572, 57)
+        Me.Label3.Location = New System.Drawing.Point(763, 70)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(47, 17)
+        Me.Label3.Size = New System.Drawing.Size(55, 20)
         Me.Label3.TabIndex = 7
         Me.Label3.Text = "Fecha"
         '
         'txtb_Referencia
         '
         Me.txtb_Referencia.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Referencia.Location = New System.Drawing.Point(102, 84)
+        Me.txtb_Referencia.Location = New System.Drawing.Point(136, 103)
+        Me.txtb_Referencia.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Referencia.Name = "txtb_Referencia"
-        Me.txtb_Referencia.Size = New System.Drawing.Size(100, 23)
+        Me.txtb_Referencia.Size = New System.Drawing.Size(132, 26)
         Me.txtb_Referencia.TabIndex = 9
         '
         'Label4
         '
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(4, 84)
+        Me.Label4.Location = New System.Drawing.Point(5, 103)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(64, 17)
+        Me.Label4.Size = New System.Drawing.Size(75, 20)
         Me.Label4.TabIndex = 8
         Me.Label4.Text = "#Factura"
         '
@@ -162,9 +171,10 @@ Partial Class Devoluciones
         Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(572, 109)
+        Me.Label6.Location = New System.Drawing.Point(763, 134)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(55, 17)
+        Me.Label6.Size = New System.Drawing.Size(66, 20)
         Me.Label6.TabIndex = 12
         Me.Label6.Text = "ID Ruta"
         Me.Label6.Visible = False
@@ -172,38 +182,42 @@ Partial Class Devoluciones
         'txtb_CodChofer
         '
         Me.txtb_CodChofer.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_CodChofer.Location = New System.Drawing.Point(102, 55)
+        Me.txtb_CodChofer.Location = New System.Drawing.Point(136, 68)
+        Me.txtb_CodChofer.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_CodChofer.Name = "txtb_CodChofer"
         Me.txtb_CodChofer.ReadOnly = True
-        Me.txtb_CodChofer.Size = New System.Drawing.Size(100, 23)
+        Me.txtb_CodChofer.Size = New System.Drawing.Size(132, 26)
         Me.txtb_CodChofer.TabIndex = 15
         '
         'Label7
         '
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(4, 58)
+        Me.Label7.Location = New System.Drawing.Point(5, 71)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(100, 17)
+        Me.Label7.Size = New System.Drawing.Size(118, 20)
         Me.Label7.TabIndex = 14
         Me.Label7.Text = "Cod Empleado"
         '
         'txtb_NombreCofer
         '
         Me.txtb_NombreCofer.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_NombreCofer.Location = New System.Drawing.Point(274, 54)
+        Me.txtb_NombreCofer.Location = New System.Drawing.Point(365, 66)
+        Me.txtb_NombreCofer.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_NombreCofer.Name = "txtb_NombreCofer"
         Me.txtb_NombreCofer.ReadOnly = True
-        Me.txtb_NombreCofer.Size = New System.Drawing.Size(280, 23)
+        Me.txtb_NombreCofer.Size = New System.Drawing.Size(372, 26)
         Me.txtb_NombreCofer.TabIndex = 17
         '
         'Label8
         '
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(202, 59)
+        Me.Label8.Location = New System.Drawing.Point(269, 73)
+        Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(71, 17)
+        Me.Label8.Size = New System.Drawing.Size(83, 20)
         Me.Label8.TabIndex = 16
         Me.Label8.Text = "Empleado"
         '
@@ -211,10 +225,11 @@ Partial Class Devoluciones
         '
         Me.txtb_Ruta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Ruta.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Ruta.Location = New System.Drawing.Point(642, 130)
+        Me.txtb_Ruta.Location = New System.Drawing.Point(856, 160)
+        Me.txtb_Ruta.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Ruta.Name = "txtb_Ruta"
         Me.txtb_Ruta.ReadOnly = True
-        Me.txtb_Ruta.Size = New System.Drawing.Size(200, 23)
+        Me.txtb_Ruta.Size = New System.Drawing.Size(265, 26)
         Me.txtb_Ruta.TabIndex = 19
         Me.txtb_Ruta.Visible = False
         '
@@ -223,9 +238,10 @@ Partial Class Devoluciones
         Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(572, 136)
+        Me.Label9.Location = New System.Drawing.Point(763, 167)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(38, 17)
+        Me.Label9.Size = New System.Drawing.Size(44, 20)
         Me.Label9.TabIndex = 18
         Me.Label9.Text = "Ruta"
         Me.Label9.Visible = False
@@ -237,19 +253,21 @@ Partial Class Devoluciones
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Dtg_Devoluciones.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.Dtg_Devoluciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.Dtg_Devoluciones.Location = New System.Drawing.Point(7, 168)
+        Me.Dtg_Devoluciones.Location = New System.Drawing.Point(9, 207)
+        Me.Dtg_Devoluciones.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Dtg_Devoluciones.Name = "Dtg_Devoluciones"
         Me.Dtg_Devoluciones.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.Dtg_Devoluciones.Size = New System.Drawing.Size(835, 444)
+        Me.Dtg_Devoluciones.Size = New System.Drawing.Size(1113, 546)
         Me.Dtg_Devoluciones.TabIndex = 20
         '
         'btn_CrearSap
         '
         Me.btn_CrearSap.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_CrearSap.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_CrearSap.Location = New System.Drawing.Point(456, 677)
+        Me.btn_CrearSap.Location = New System.Drawing.Point(608, 833)
+        Me.btn_CrearSap.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_CrearSap.Name = "btn_CrearSap"
-        Me.btn_CrearSap.Size = New System.Drawing.Size(161, 37)
+        Me.btn_CrearSap.Size = New System.Drawing.Size(215, 46)
         Me.btn_CrearSap.TabIndex = 23
         Me.btn_CrearSap.Text = "Crear en SAP"
         Me.btn_CrearSap.UseVisualStyleBackColor = True
@@ -258,9 +276,10 @@ Partial Class Devoluciones
         '
         Me.btn_Buscar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Buscar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Buscar.Location = New System.Drawing.Point(88, 677)
+        Me.btn_Buscar.Location = New System.Drawing.Point(117, 833)
+        Me.btn_Buscar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Buscar.Name = "btn_Buscar"
-        Me.btn_Buscar.Size = New System.Drawing.Size(75, 37)
+        Me.btn_Buscar.Size = New System.Drawing.Size(100, 46)
         Me.btn_Buscar.TabIndex = 24
         Me.btn_Buscar.Text = "Buscar"
         Me.btn_Buscar.UseVisualStyleBackColor = True
@@ -270,9 +289,10 @@ Partial Class Devoluciones
         Me.btn_Anular.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Anular.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_Anular.ForeColor = System.Drawing.Color.Red
-        Me.btn_Anular.Location = New System.Drawing.Point(214, 677)
+        Me.btn_Anular.Location = New System.Drawing.Point(285, 833)
+        Me.btn_Anular.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Anular.Name = "btn_Anular"
-        Me.btn_Anular.Size = New System.Drawing.Size(75, 37)
+        Me.btn_Anular.Size = New System.Drawing.Size(100, 46)
         Me.btn_Anular.TabIndex = 25
         Me.btn_Anular.Text = "Anular"
         Me.btn_Anular.UseVisualStyleBackColor = True
@@ -280,19 +300,21 @@ Partial Class Devoluciones
         'txtb_DocNum
         '
         Me.txtb_DocNum.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_DocNum.Location = New System.Drawing.Point(102, 3)
+        Me.txtb_DocNum.Location = New System.Drawing.Point(136, 4)
+        Me.txtb_DocNum.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_DocNum.Name = "txtb_DocNum"
         Me.txtb_DocNum.ReadOnly = True
-        Me.txtb_DocNum.Size = New System.Drawing.Size(100, 23)
+        Me.txtb_DocNum.Size = New System.Drawing.Size(132, 26)
         Me.txtb_DocNum.TabIndex = 27
         '
         'Label12
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(4, 6)
+        Me.Label12.Location = New System.Drawing.Point(5, 7)
+        Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(48, 17)
+        Me.Label12.Size = New System.Drawing.Size(57, 20)
         Me.Label12.TabIndex = 26
         Me.Label12.Text = "Boleta"
         '
@@ -300,10 +322,11 @@ Partial Class Devoluciones
         '
         Me.txb_hora.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txb_hora.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txb_hora.Location = New System.Drawing.Point(642, 80)
+        Me.txb_hora.Location = New System.Drawing.Point(856, 98)
+        Me.txb_hora.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txb_hora.Name = "txb_hora"
         Me.txb_hora.ReadOnly = True
-        Me.txb_hora.Size = New System.Drawing.Size(200, 23)
+        Me.txb_hora.Size = New System.Drawing.Size(265, 26)
         Me.txb_hora.TabIndex = 29
         '
         'Label10
@@ -311,9 +334,10 @@ Partial Class Devoluciones
         Me.Label10.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(572, 84)
+        Me.Label10.Location = New System.Drawing.Point(763, 103)
+        Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(39, 17)
+        Me.Label10.Size = New System.Drawing.Size(46, 20)
         Me.Label10.TabIndex = 28
         Me.Label10.Text = "Hora"
         '
@@ -323,9 +347,10 @@ Partial Class Devoluciones
         Me.Btn_Atras.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Atras.BackgroundImage = CType(resources.GetObject("Btn_Atras.BackgroundImage"), System.Drawing.Image)
         Me.Btn_Atras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Btn_Atras.Location = New System.Drawing.Point(686, 4)
+        Me.Btn_Atras.Location = New System.Drawing.Point(915, 5)
+        Me.Btn_Atras.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Btn_Atras.Name = "Btn_Atras"
-        Me.Btn_Atras.Size = New System.Drawing.Size(75, 40)
+        Me.Btn_Atras.Size = New System.Drawing.Size(100, 49)
         Me.Btn_Atras.TabIndex = 85
         Me.Btn_Atras.UseVisualStyleBackColor = False
         '
@@ -335,17 +360,19 @@ Partial Class Devoluciones
         Me.Btn_Adelante.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Adelante.BackgroundImage = CType(resources.GetObject("Btn_Adelante.BackgroundImage"), System.Drawing.Image)
         Me.Btn_Adelante.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Btn_Adelante.Location = New System.Drawing.Point(767, 3)
+        Me.Btn_Adelante.Location = New System.Drawing.Point(1023, 4)
+        Me.Btn_Adelante.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Btn_Adelante.Name = "Btn_Adelante"
-        Me.Btn_Adelante.Size = New System.Drawing.Size(75, 40)
+        Me.Btn_Adelante.Size = New System.Drawing.Size(100, 49)
         Me.Btn_Adelante.TabIndex = 84
         Me.Btn_Adelante.UseVisualStyleBackColor = False
         '
         'PictureBox1
         '
-        Me.PictureBox1.Location = New System.Drawing.Point(601, 3)
+        Me.PictureBox1.Location = New System.Drawing.Point(801, 4)
+        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(75, 44)
+        Me.PictureBox1.Size = New System.Drawing.Size(100, 54)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.PictureBox1.TabIndex = 87
         Me.PictureBox1.TabStop = False
@@ -354,10 +381,11 @@ Partial Class Devoluciones
         '
         Me.txtb_SubTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_SubTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_SubTotal.Location = New System.Drawing.Point(706, 618)
+        Me.txtb_SubTotal.Location = New System.Drawing.Point(941, 761)
+        Me.txtb_SubTotal.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_SubTotal.Name = "txtb_SubTotal"
         Me.txtb_SubTotal.ReadOnly = True
-        Me.txtb_SubTotal.Size = New System.Drawing.Size(136, 23)
+        Me.txtb_SubTotal.Size = New System.Drawing.Size(180, 26)
         Me.txtb_SubTotal.TabIndex = 95
         '
         'Label14
@@ -365,9 +393,10 @@ Partial Class Devoluciones
         Me.Label14.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(629, 621)
+        Me.Label14.Location = New System.Drawing.Point(839, 764)
+        Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(65, 17)
+        Me.Label14.Size = New System.Drawing.Size(75, 20)
         Me.Label14.TabIndex = 94
         Me.Label14.Text = "SubTotal"
         '
@@ -375,10 +404,11 @@ Partial Class Devoluciones
         '
         Me.txtb_Desc.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Desc.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Desc.Location = New System.Drawing.Point(706, 643)
+        Me.txtb_Desc.Location = New System.Drawing.Point(941, 791)
+        Me.txtb_Desc.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Desc.Name = "txtb_Desc"
         Me.txtb_Desc.ReadOnly = True
-        Me.txtb_Desc.Size = New System.Drawing.Size(136, 23)
+        Me.txtb_Desc.Size = New System.Drawing.Size(180, 26)
         Me.txtb_Desc.TabIndex = 93
         '
         'Label15
@@ -386,9 +416,10 @@ Partial Class Devoluciones
         Me.Label15.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(629, 646)
+        Me.Label15.Location = New System.Drawing.Point(839, 795)
+        Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(76, 17)
+        Me.Label15.Size = New System.Drawing.Size(90, 20)
         Me.Label15.TabIndex = 92
         Me.Label15.Text = "Descuento"
         '
@@ -396,10 +427,11 @@ Partial Class Devoluciones
         '
         Me.txtb_Impuesto.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Impuesto.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Impuesto.Location = New System.Drawing.Point(706, 668)
+        Me.txtb_Impuesto.Location = New System.Drawing.Point(941, 822)
+        Me.txtb_Impuesto.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Impuesto.Name = "txtb_Impuesto"
         Me.txtb_Impuesto.ReadOnly = True
-        Me.txtb_Impuesto.Size = New System.Drawing.Size(136, 23)
+        Me.txtb_Impuesto.Size = New System.Drawing.Size(180, 26)
         Me.txtb_Impuesto.TabIndex = 91
         '
         'Label16
@@ -407,9 +439,10 @@ Partial Class Devoluciones
         Me.Label16.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label16.AutoSize = True
         Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label16.Location = New System.Drawing.Point(629, 671)
+        Me.Label16.Location = New System.Drawing.Point(839, 826)
+        Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(65, 17)
+        Me.Label16.Size = New System.Drawing.Size(77, 20)
         Me.Label16.TabIndex = 90
         Me.Label16.Text = "Impuesto"
         '
@@ -417,20 +450,22 @@ Partial Class Devoluciones
         '
         Me.TXTB_Comentario.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.TXTB_Comentario.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TXTB_Comentario.Location = New System.Drawing.Point(7, 618)
+        Me.TXTB_Comentario.Location = New System.Drawing.Point(9, 761)
+        Me.TXTB_Comentario.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TXTB_Comentario.Multiline = True
         Me.TXTB_Comentario.Name = "TXTB_Comentario"
-        Me.TXTB_Comentario.Size = New System.Drawing.Size(618, 54)
+        Me.TXTB_Comentario.Size = New System.Drawing.Size(823, 66)
         Me.TXTB_Comentario.TabIndex = 97
         '
         'txtb_Total
         '
         Me.txtb_Total.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Total.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Total.Location = New System.Drawing.Point(706, 694)
+        Me.txtb_Total.Location = New System.Drawing.Point(941, 854)
+        Me.txtb_Total.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Total.Name = "txtb_Total"
         Me.txtb_Total.ReadOnly = True
-        Me.txtb_Total.Size = New System.Drawing.Size(136, 23)
+        Me.txtb_Total.Size = New System.Drawing.Size(180, 26)
         Me.txtb_Total.TabIndex = 99
         '
         'Label18
@@ -438,9 +473,10 @@ Partial Class Devoluciones
         Me.Label18.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.Location = New System.Drawing.Point(629, 697)
+        Me.Label18.Location = New System.Drawing.Point(839, 858)
+        Me.Label18.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(45, 17)
+        Me.Label18.Size = New System.Drawing.Size(51, 20)
         Me.Label18.TabIndex = 98
         Me.Label18.Text = "Total"
         '
@@ -448,19 +484,21 @@ Partial Class Devoluciones
         '
         Me.lbl_devoluciones.AutoSize = True
         Me.lbl_devoluciones.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_devoluciones.Location = New System.Drawing.Point(202, 87)
+        Me.lbl_devoluciones.Location = New System.Drawing.Point(269, 107)
+        Me.lbl_devoluciones.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_devoluciones.Name = "lbl_devoluciones"
-        Me.lbl_devoluciones.Size = New System.Drawing.Size(66, 17)
+        Me.lbl_devoluciones.Size = New System.Drawing.Size(79, 20)
         Me.lbl_devoluciones.TabIndex = 8
         Me.lbl_devoluciones.Text = "DocEntry"
         '
         'txtb_DocEntry
         '
         Me.txtb_DocEntry.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_DocEntry.Location = New System.Drawing.Point(274, 83)
+        Me.txtb_DocEntry.Location = New System.Drawing.Point(365, 102)
+        Me.txtb_DocEntry.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_DocEntry.Name = "txtb_DocEntry"
         Me.txtb_DocEntry.ReadOnly = True
-        Me.txtb_DocEntry.Size = New System.Drawing.Size(121, 23)
+        Me.txtb_DocEntry.Size = New System.Drawing.Size(160, 26)
         Me.txtb_DocEntry.TabIndex = 9
         '
         'CBox_Motivo
@@ -468,18 +506,20 @@ Partial Class Devoluciones
         Me.CBox_Motivo.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CBox_Motivo.FormattingEnabled = True
         Me.CBox_Motivo.Items.AddRange(New Object() {"Anula Documento de Referencia", "Corrige Monto", "Otros"})
-        Me.CBox_Motivo.Location = New System.Drawing.Point(102, 111)
+        Me.CBox_Motivo.Location = New System.Drawing.Point(136, 137)
+        Me.CBox_Motivo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.CBox_Motivo.Name = "CBox_Motivo"
-        Me.CBox_Motivo.Size = New System.Drawing.Size(300, 25)
+        Me.CBox_Motivo.Size = New System.Drawing.Size(399, 28)
         Me.CBox_Motivo.TabIndex = 100
         '
         'Label11
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(4, 114)
+        Me.Label11.Location = New System.Drawing.Point(5, 140)
+        Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(49, 17)
+        Me.Label11.Size = New System.Drawing.Size(58, 20)
         Me.Label11.TabIndex = 101
         Me.Label11.Text = "Motivo"
         '
@@ -487,19 +527,21 @@ Partial Class Devoluciones
         '
         Me.CBox_Rutas.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CBox_Rutas.FormattingEnabled = True
-        Me.CBox_Rutas.Location = New System.Drawing.Point(102, 138)
+        Me.CBox_Rutas.Location = New System.Drawing.Point(136, 170)
+        Me.CBox_Rutas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.CBox_Rutas.Name = "CBox_Rutas"
-        Me.CBox_Rutas.Size = New System.Drawing.Size(300, 25)
+        Me.CBox_Rutas.Size = New System.Drawing.Size(399, 28)
         Me.CBox_Rutas.TabIndex = 102
         '
         'txtb_IdRuta
         '
         Me.txtb_IdRuta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_IdRuta.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_IdRuta.Location = New System.Drawing.Point(642, 106)
+        Me.txtb_IdRuta.Location = New System.Drawing.Point(856, 130)
+        Me.txtb_IdRuta.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_IdRuta.Name = "txtb_IdRuta"
         Me.txtb_IdRuta.ReadOnly = True
-        Me.txtb_IdRuta.Size = New System.Drawing.Size(200, 23)
+        Me.txtb_IdRuta.Size = New System.Drawing.Size(265, 26)
         Me.txtb_IdRuta.TabIndex = 13
         Me.txtb_IdRuta.Visible = False
         '
@@ -507,17 +549,18 @@ Partial Class Devoluciones
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(4, 144)
+        Me.Label13.Location = New System.Drawing.Point(5, 177)
+        Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(38, 17)
+        Me.Label13.Size = New System.Drawing.Size(44, 20)
         Me.Label13.TabIndex = 103
         Me.Label13.Text = "Ruta"
         '
         'Devoluciones
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(844, 718)
+        Me.ClientSize = New System.Drawing.Size(1125, 884)
         Me.Controls.Add(Me.Label13)
         Me.Controls.Add(Me.CBox_Rutas)
         Me.Controls.Add(Me.Label11)
@@ -561,7 +604,8 @@ Partial Class Devoluciones
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtb_Fecha)
         Me.Controls.Add(Me.btn_Guardar)
-        Me.MinimumSize = New System.Drawing.Size(860, 758)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.MinimumSize = New System.Drawing.Size(1141, 922)
         Me.Name = "Devoluciones"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Devoluciones"

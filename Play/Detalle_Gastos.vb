@@ -21,8 +21,8 @@
         End If
 
         Class_VariablesGlobales.frmDetGastos = Me
-        Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoGasto(Class_VariablesGlobales.SQL_Comman1)
-
+        'Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoGasto(Class_VariablesGlobales.SQL_Comman1)
+        Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivo(Class_VariablesGlobales.SQL_Comman1, "GASTOS")
 
         If Class_VariablesGlobales.Obj_Funciones_SQL.VerificaGastoLiqAge_Anulado(Class_VariablesGlobales.SQL_Comman1, Txtb_DocNum.Text) = "1" Then
             Lbl_Anulado.Visible = True
@@ -135,7 +135,8 @@
                 End If
                 If problema = False Then
 
-                    Class_VariablesGlobales.Obj_Funciones_SQL.ModificaConsecutivSistema(Class_VariablesGlobales.SQL_Comman1, CInt(Txtb_DocNum.Text) + 1)
+                    'Class_VariablesGlobales.Obj_Funciones_SQL.ModificaConsecutivSistema(Class_VariablesGlobales.SQL_Comman1, CInt(Txtb_DocNum.Text) + 1)
+                    Class_VariablesGlobales.Obj_Funciones_SQL.Aumenta_Consecutivos(Class_VariablesGlobales.SQL_Comman1, CInt(Txtb_DocNum.Text) + 1, "GASTOS")
                     If NuevoSistem = True Then
                         NuevoSistem = False
 
@@ -191,7 +192,8 @@
     End Sub
 
     Public Function limpiar()
-        Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoGasto(Class_VariablesGlobales.SQL_Comman1)
+        'Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoGasto(Class_VariablesGlobales.SQL_Comman1)
+        Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivo(Class_VariablesGlobales.SQL_Comman1, "GASTOS")
         txb_NumDoc.Text = ""
         txb_Monto.Text = ""
         txb_Descripcion.Text = ""
@@ -245,7 +247,9 @@
 
         btn_GoToLiq.Enabled = False
 
-        Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoGasto(Class_VariablesGlobales.SQL_Comman1)
+        'Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoGasto(Class_VariablesGlobales.SQL_Comman1)
+        Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivo(Class_VariablesGlobales.SQL_Comman1, "GASTOS")
+
         If Class_VariablesGlobales.Gastos_llamadaDesde = "LIQUIDACION" Then
             If Class_VariablesGlobales.LIQUIDANDO = "AGENTES" Then
                 dgv_DetGastos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneGastosAgentes(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.TipoLiqui, Class_VariablesGlobales.TituloDetalleGasto, Class_VariablesGlobales.Agente, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.FechaIni), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.FechaFin), "", "", False, CBox_IncluidoEnLiquidacion.Checked)
@@ -620,7 +624,8 @@
         txtb_EstadoMH.Text = "Nuevo"
         Class_VariablesGlobales.LimpiarGastoAgente = False
 
-        Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoGasto(Class_VariablesGlobales.SQL_Comman1)
+        'Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoGasto(Class_VariablesGlobales.SQL_Comman1)
+        Txtb_DocNum.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivo(Class_VariablesGlobales.SQL_Comman1, "GASTOS")
         btn_AgGuardar_Click(sender, e)
         'Anulamos el gasto actual
         Class_VariablesGlobales.Obj_Funciones_SQL.AnulaGastoLiqAge(Class_VariablesGlobales.SQL_Comman1, Trim(DocNumGastoAnterio))

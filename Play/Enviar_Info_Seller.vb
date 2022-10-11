@@ -39,7 +39,6 @@ Public Class Enviar_Info_Seller
 
             End Try
 
-
             Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\bancos.mbg")
             Dim Tbl_Bancos As New DataTable
 
@@ -55,6 +54,42 @@ Public Class Enviar_Info_Seller
             End If
 
             Tbl_Bancos.Dispose()
+        Catch ex As Exception
+
+        End Try
+    End Sub
+    Public Sub Carga_Descuentos(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String, Rutas_Unidicar() As String)
+        Try
+            Try
+                If Rutas_Unidicar Is Nothing Then
+
+
+
+                    Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg")
+                Else
+                    'Carga varias rutas a una sola
+                    For i As Integer = 0 To Rutas_Unidicar.Count - 1
+                        Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\Descuentos.mbg")
+                    Next
+                End If
+            Catch ex As Exception
+
+            End Try
+
+
+            Dim Tbl_Descuentos As New DataTable
+                Tbl_Descuentos = Class_VariablesGlobales.Obj_Funciones_SQL.Obtiene_Descuentos(SQL_Comman1, Ruta, Rutas_Unidicar)
+                Class_VariablesGlobales.Obj_Creaarchivo.Crear_InDescuentos(Tbl_Descuentos, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta)
+                If Class_VariablesGlobales.Obj_Creaarchivo.ObtieneTamanoFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg") <> "0 Kb" Then
+                    Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg", "Descuentos.mbg", Ruta2, "Completo", Servidor)
+                End If
+
+
+                Tbl_Descuentos.Dispose()
+
+
+
+
         Catch ex As Exception
 
         End Try
@@ -180,38 +215,18 @@ Public Class Enviar_Info_Seller
         End Try
     End Sub
 
-    Public Sub Carga_Descuentos(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String)
-        Try
-            Try
-                My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg")
-            Catch ex As Exception
 
-            End Try
-            Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg")
-
-            Dim Tbl_Descuentos As New DataTable
-            Tbl_Descuentos = Class_VariablesGlobales.Obj_Funciones_SQL.Obtiene_Descuentos(SQL_Comman1, Ruta)
-            Class_VariablesGlobales.Obj_Creaarchivo.Crear_InDescuentos(Tbl_Descuentos, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta)
-            If Class_VariablesGlobales.Obj_Creaarchivo.ObtieneTamanoFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg") <> "0 Kb" Then
-                Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg", "Descuentos.mbg", Ruta2, "Completo", Servidor)
-            End If
-
-            Tbl_Descuentos.Dispose()
-        Catch ex As Exception
-
-        End Try
-    End Sub
 
     Public Function Carga_Inventario(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String)
         Try
             Try
-                My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\inventario.mbg")
+                My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\inventario1.mbg")
             Catch ex As Exception
 
             End Try
 
 
-            Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\inventario.mbg")
+            Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\inventario1.mbg")
 
 
             Dim Tabla As New DataTable
@@ -225,10 +240,15 @@ Public Class Enviar_Info_Seller
             'CONSULTA LAS LINEAS PERMITIDAS DE LAS CASAS RESTRINGIDAS
             Tbl_Art_PermitidosDeCasasRestringidas = Class_VariablesGlobales.Obj_Funciones_SQL.ArticulosPermitidosDeCasaRestringida(Ruta, Tbl_Art_PermitidosDeCasasRestringidas, SQL_Comman1)
 
-            Class_VariablesGlobales.Obj_Creaarchivo.Crear(Tabla, Tbl_Art_Restringidos, Tbl_Art_PermitidosDeCasasRestringidas, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\inventario.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta)
+            Class_VariablesGlobales.Obj_Creaarchivo.Crear(Tabla,
+                                                          Tbl_Art_Restringidos,
+                                                          Tbl_Art_PermitidosDeCasasRestringidas,
+                                                          Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\inventario1.mbg",
+                                                          Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta,
+                                                          Ruta)
 
             'CARGA EN FTO Y ENVIA CORREO 
-            Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\inventario.mbg", "inventario.mbg", Ruta, "Completo", Servidor)
+            Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\inventario1.mbg", "inventario1.mbg", Ruta, "Completo", Servidor)
 
             Tabla.Dispose()
             Tabla.Clear()
@@ -253,25 +273,24 @@ Public Class Enviar_Info_Seller
             Dim Tabla_Universo As New DataTable
             Tabla_Universo = Class_VariablesGlobales.Obj_Funciones_SQL.Obtiene_Universo_Chofer_X_RepFactura(Class_VariablesGlobales.SQL_Comman1, Ruta, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaDesde.Value, "yyyy-MM-dd")), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaHasta.Value, "yyyy-MM-dd")), Rutas_Unidicar)
 
-            If Rutas_Unidicar Is Nothing Then
 
-                If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\clientes.mbg") Then
+            If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\clientes.mbg") Then
                     My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\clientes.mbg")
                 End If
 
 
-            Else
-                For i As Integer = 0 To Rutas_Unidicar.Count - 1
-                    If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\clientes.mbg") Then
-                        My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\clientes.mbg")
-                    End If
-                Next
-            End If
+                If Rutas_Unidicar IsNot Nothing Then
+                    For i As Integer = 0 To Rutas_Unidicar.Count - 1
+                        If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\clientes.mbg") Then
+                            My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\clientes.mbg")
+                        End If
+                    Next
+                End If
 
 
 
 
-            Class_VariablesGlobales.Obj_Creaarchivo.Crear_InClientes(Tabla_Universo, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\clientes.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta, False)
+                Class_VariablesGlobales.Obj_Creaarchivo.Crear_InClientes(Tabla_Universo, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\clientes.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta, False)
             Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\clientes.mbg", "clientes.mbg", Ruta2, "Completo", Servidor)
 
 
@@ -284,18 +303,18 @@ Public Class Enviar_Info_Seller
             Dim Tabla_CxC As New DataTable
             Tabla_CxC = Class_VariablesGlobales.Obj_Funciones_SQL.Obtiene_cxc_ExportaChoferes(Class_VariablesGlobales.SQL_Comman1, Ruta2, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaDesde.Value, "yyyy-MM-dd")), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaHasta.Value, "yyyy-MM-dd")), Rutas_Unidicar)
 
-            If Rutas_Unidicar Is Nothing Then
-                If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\cxc.mbg") Then
+
+            If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\cxc.mbg") Then
                     My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\cxc.mbg")
                 End If
-            Else
-                For i As Integer = 0 To Rutas_Unidicar.Count - 1
-                    If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\cxc.mbg") Then
-                        My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\cxc.mbg")
-                    End If
-                Next
-            End If
-            Class_VariablesGlobales.Obj_Creaarchivo.Crear_Cxc_Choferes(Tabla_CxC, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\cxc.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2, Ruta2)
+                If Rutas_Unidicar IsNot Nothing Then
+                    For i As Integer = 0 To Rutas_Unidicar.Count - 1
+                        If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\cxc.mbg") Then
+                            My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\cxc.mbg")
+                        End If
+                    Next
+                End If
+                Class_VariablesGlobales.Obj_Creaarchivo.Crear_Cxc_Choferes(Tabla_CxC, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\cxc.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2, Ruta2)
             Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\cxc.mbg", "cxc.mbg", Ruta2, "Completo", Servidor)
         Catch ex As Exception
 
@@ -305,12 +324,13 @@ Public Class Enviar_Info_Seller
         Try
             Dim tbl_Facturas As New DataTable
             tbl_Facturas = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneFacturas(Class_VariablesGlobales.SQL_Comman1, Ruta2, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaDesde.Value, "yyyy-MM-dd")), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaHasta.Value, "yyyy-MM-dd")), Rutas_Unidicar)
-            If Rutas_Unidicar Is Nothing Then
-                If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\Facturas.mbg") Then
+
+            If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\Facturas.mbg") Then
                     My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\Facturas.mbg")
                 End If
 
-            Else
+            If Rutas_Unidicar IsNot Nothing Then
+
                 For i As Integer = 0 To Rutas_Unidicar.Count - 1
                     If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\Facturas.mbg") Then
                         My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Rutas_Unidicar(i).ToString & "\Facturas.mbg")
@@ -343,6 +363,7 @@ Public Class Enviar_Info_Seller
 
         If CBox_VERPuestos.Text = "AGENTE" Then
             Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, ChBox_ClientexDia.Checked, Rutas_Unidicar)
+            Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
         Else
             If Cbox_Clientes.Checked = True Then
                 Carga_DeliverClientes(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
@@ -421,16 +442,17 @@ Public Class Enviar_Info_Seller
 
             If CBox_VERPuestos.Text = "AGENTE" Then
                 Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, ChBox_ClientexDia.Checked, Rutas_Unidicar)
-                Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+                Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
 
             Else
                 'CHOFER
                 Carga_DeliverClientes(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
                 Carga_DeliverCxC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
                 Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
-                Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+
             End If
 
+            Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             Carga_UbiacionesCR(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
@@ -488,6 +510,7 @@ Public Class Enviar_Info_Seller
             Ruta = CStr(Tbl_Agentes.Rows(cont).Item("CodAgente").ToString())
             lbl_DetalleCarga.Text = "Cargando info de agente [ " & Ruta & " ]"
             Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, ChBox_ClientexDia.Checked, Rutas_Unidicar)
+            Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, Rutas_Unidicar)
             Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)

@@ -54,16 +54,17 @@ Public Class LoginForm1
     End Sub
     Private Sub OK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK.Click
 
-
-
         Try
-
-
+            Dim ip = Objt_GlobalVar.Obj_InforComputadora.ObtnerIP()
+            Dim UsuarioWindows = Objt_GlobalVar.Obj_InforComputadora.ObtenerUsuarioWindows()
 
             'si la confirmacion de password es visible debe verificar que sean iguales y modificar la contraseña
             If Txtb_NuevoPass.Visible = True Then
 
                 If Txtb_NuevoPass.Text = Txtb_ConfirmaPass.Text Then
+
+
+
                     Objt_GlobalVar.Obj_Funciones_SQL.ModificaUsuario(Objt_GlobalVar.SQL_Comman2, Usuario, Txtb_NuevoPass.Text, "", "", "", id, "")
 
                     PasswordTextBox.Text = Txtb_NuevoPass.Text
@@ -78,11 +79,16 @@ Public Class LoginForm1
                     MsgBox("Contraseñas no son iguales , intente nuevamente")
                 End If
             Else
+
+                Objt_GlobalVar.Obj_Funciones_SQL.RegistrarInicioSesion(Objt_GlobalVar.SQL_Comman2, UsernameTextBox.Text, ip, UsuarioWindows)
+
+
                 Dim TABLA As DataTable = Objt_GlobalVar.Obj_Funciones_SQL.Login(Objt_GlobalVar.SQL_Comman2, UsernameTextBox.Text, PasswordTextBox.Text)
                 '' si no es visible de iniciar sesion
                 'Consulta usuario y password y tipo de usuario
 
                 If TABLA.Rows.Count > 0 Then
+
                     If UsernameTextBox.Text = Trim(TABLA.Rows(0).Item("Usuario").ToString()) Then
                         If PasswordTextBox.Text = Trim(TABLA.Rows(0).Item("Password").ToString()) Then
                             Objt_GlobalVar.Puesto = TABLA.Rows(0).Item("Puesto").ToString()
@@ -96,6 +102,8 @@ Public Class LoginForm1
                                 lbl_ConfirmaPass.Visible = True
                                 Txtb_ConfirmaPass.Visible = True
                             Else
+                                'Registrar inicio de sesion
+
 
                                 Me.Hide()
                                 Principal.Show()

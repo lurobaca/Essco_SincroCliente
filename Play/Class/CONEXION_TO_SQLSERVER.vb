@@ -27,14 +27,17 @@ Public Class CONEXION_TO_SQLSERVER
         Return CNX
     End Function
 
-    Public Sub Desconectar(ByVal SQL_Comman As SqlCommand, ByVal CNX As SqlConnection)
+    Public Sub Desconectar(ByRef SQL_Comman As SqlCommand)
         Try
-            If CNX.State = ConnectionState.Open Then
-                CNX.Close()
-                CNX.Dispose()
-                SQL_Comman.Connection.Close()
-                SQL_Comman = Nothing
-                'SQL_Comman.Dispose()
+            If SQL_Comman IsNot Nothing Then
+
+                If SQL_Comman.Connection.State = ConnectionState.Open Then
+                    SQL_Comman.Connection.Close()
+                    SQL_Comman.Connection.Dispose()
+                    SQL_Comman.Connection = Nothing
+                    SQL_Comman.Dispose()
+                    SQL_Comman = Nothing
+                End If
 
             End If
         Catch ex As Exception
@@ -42,6 +45,5 @@ Public Class CONEXION_TO_SQLSERVER
         End Try
     End Sub
 
-   
 
 End Class
