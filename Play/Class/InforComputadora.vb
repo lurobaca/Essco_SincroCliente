@@ -3,24 +3,38 @@ Imports System.Security.Principal
 
 Public Class InforComputadora
     Public Function ObtnerIP()
-        Dim direcciones As IPAddress() = Dns.GetHostAddresses(Dns.GetHostName())
         Dim IpPC = ""
 
-        IpPC = direcciones(5).ToString()
+        Dim direcciones As IPAddress()
+        Try
 
+
+            direcciones = Dns.GetHostAddresses(Dns.GetHostName())
+
+
+            IpPC = direcciones(1).ToString()
+        Catch ex As Exception
+            ' MsgBox("Error en ObtnerIP [" + ex.Message + " : " + direcciones.ToString() + "]")
+        End Try
         Return IpPC
     End Function
 
 
 
     Public Function ObtenerUsuarioWindows()
-
-        Dim currentUser As WindowsIdentity = WindowsIdentity.GetCurrent()
         Dim UsuarioWindows As String = ""
+        Try
 
-        Console.WriteLine(currentUser.User.Value)
-        UsuarioWindows = currentUser.Name
 
+            Dim currentUser As WindowsIdentity = WindowsIdentity.GetCurrent()
+
+
+            Console.WriteLine(currentUser.User.Value)
+            UsuarioWindows = currentUser.Name
+
+        Catch ex As Exception
+            MsgBox("Error en ObtenerUsuarioWindows [" + ex.Message + "]")
+        End Try
         Return UsuarioWindows
     End Function
 

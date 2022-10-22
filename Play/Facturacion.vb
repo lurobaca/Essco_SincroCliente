@@ -192,7 +192,7 @@
         '-100 es codigo de error de esso para impedir agregar el detalle ya que el numero de pedido ya existe
         If DocNum <> -100 Then
             'Al ser una insercion exitosa debe actualizar el consecutivo para la proxima factura
-            Class_VariablesGlobales.Obj_Funciones_SQL.AumentaConsecutivoProximoDocumento("FE", DocNum)
+            Class_VariablesGlobales.Obj_Funciones_SQL.AumentaConsecutivoProximoDocumento(DocType, DocNum)
 
             'guarda las lineas
 
@@ -520,6 +520,8 @@
             txtb_clave.Text = "506" & String.Format("{0:00}", Now.Day) & String.Format("{0:00}", Now.Month) & Now.Year.ToString.Substring(0, 2) & VariablesGlobales.Obj_SQL.ObtieneCedulaEmpresa(Class_VariablesGlobales.SQL_Comman1).PadLeft(12, "0") & txtb_Consecutivo.Text & Conectado & (DNum).PadLeft(8, "0")
             TablaTemporal()
 
+           ' ObtieneEmisor()
+
             Dim TblAgentes As DataTable = New DataTable
             TblAgentes = VariablesGlobales.Obj_SQL.ObtieneVendedores(Class_VariablesGlobales.SQL_Comman2)
 
@@ -528,6 +530,8 @@
                 .DisplayMember = "Nombre_Vendedor"
                 .ValueMember = "id_Vendedor"
             End With
+
+
 
         Catch ex As Exception
 
@@ -1099,6 +1103,10 @@
 
         Me.Text = "Nota de credito"
         btn_guardar_Click(sender, e)
+
+    End Sub
+
+    Private Sub Cmb_Moneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Moneda.SelectedIndexChanged
 
     End Sub
 End Class

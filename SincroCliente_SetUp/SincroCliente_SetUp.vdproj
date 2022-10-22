@@ -1670,7 +1670,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:SINCRO-CLIENTE"
         "ProductCode" = "8:{77834957-4646-4970-8F4E-C3D984B97DFE}"
-        "PackageCode" = "8:{CCEB4460-5E61-4805-BF48-6F6C0738A094}"
+        "PackageCode" = "8:{BB2E7818-2C92-4493-B514-9329FEEE158E}"
         "UpgradeCode" = "8:{A6507132-A787-4C04-9E84-2B3587CBFB34}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

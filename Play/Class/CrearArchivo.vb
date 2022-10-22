@@ -75,6 +75,7 @@ Public Class CrearArchivo
             Dim Server_SQL As String
             Dim User_SQL As String
             Dim Clave_SQL As String
+            Dim DiasExtencion As String
 
             For Each row As DataRow In TABLA.Rows
 
@@ -107,11 +108,11 @@ Public Class CrearArchivo
                 Server_SQL = TABLA.Rows(cont).Item("IPServidor").ToString()
                 User_SQL = TABLA.Rows(cont).Item("UserSQL").ToString()
                 Clave_SQL = TABLA.Rows(cont).Item("ClaveSQL").ToString()
-
+                DiasExtencion = TABLA.Rows(cont).Item("DiasExtencion").ToString()
 
                 '  Linea = "" + quote + CardCode + quote + "," & quote & CardName & quote & "," & quote & CntctPrsn & quote & "," & quote & GroupNum & quote & "," & quote & U_Visita & quote & "," & quote & U_Descuento & quote & "," & quote & U_ClaveWeb & quote & "," & quote & SlpCode & quote
                 'Linea = TABLA.Rows(cont).Item("id_agente").ToString() & "," & CInt(TABLA.Rows(cont).Item("Ulti_Consec_Pedidos").ToString()) & "," & TABLA.Rows(cont).Item("Ulti_Consec_Pagos").ToString() & "," & TABLA.Rows(cont).Item("Ulti_Consec_Depositos").ToString() & ",bourneycia.net,arquitect,tbh573,3-101-200575,Bourne&Cia S.A,Costa Rica,Guanacaste,Cañas,Frente a la escuela de sandillal,2669-6094"
-                Linea = CodAgente & "," & Nombre & "," & Telefono & "," & Conse_Pedido & "," & Conse_Pagos & "," & Conse_Deposito & "," & Correo & "," & Cedula & "," & Nombre_Empresa & "," & Telefono_Empresa & "," & Correo_Empresa & "," & Web_Empresa & "," & Direccion_Empresa & "," & Server_Ftp & "," & User_Ftp & "," & Clave_Ftp & "," & NumMaxFactura & "," & DescMax & "," & CedulaAgente & "," & Conse_Gastos & "," & Conse_NoVisita & "," & Conse_Devoluciones & "," & Obj_VSegLic.Encripta(Obj_VGlobal.MisPropiedades.Valida) & "," & DescMax & "," & Conse_ClientesNuevos & "," & Puesto & "," & RutaPadre_Ftp & "," & Server_SQL & "," & User_SQL & "," & Clave_SQL & ","
+                Linea = CodAgente & "," & Nombre & "," & Telefono & "," & Conse_Pedido & "," & Conse_Pagos & "," & Conse_Deposito & "," & Correo & "," & Cedula & "," & Nombre_Empresa & "," & Telefono_Empresa & "," & Correo_Empresa & "," & Web_Empresa & "," & Direccion_Empresa & "," & Server_Ftp & "," & User_Ftp & "," & Clave_Ftp & "," & NumMaxFactura & "," & DescMax & "," & CedulaAgente & "," & Conse_Gastos & "," & Conse_NoVisita & "," & Conse_Devoluciones & "," & Obj_VSegLic.Encripta(Obj_VGlobal.MisPropiedades.Valida) & "," & DescMax & "," & Conse_ClientesNuevos & "," & Puesto & "," & RutaPadre_Ftp & "," & Server_SQL & "," & User_SQL & "," & Clave_SQL & "," & DiasExtencion & ","
 
                 'ESCRIBE LA LINEA EN EL ARCHIVO
                 strStreamWriter.WriteLine(Linea)

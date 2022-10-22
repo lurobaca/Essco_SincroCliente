@@ -299,6 +299,7 @@ Public Class Stock_Manager
         , Txtb_IdArticulo.Text _
         , Txt_PorcUtilidad.Text _
         , Txtb_PrecioVenta.Text _
+          , CBox_Moneda.Text _
         , True)
 
 
@@ -343,6 +344,7 @@ Public Class Stock_Manager
         , Txtb_IdArticulo.Text _
         , Txt_PorcUtilidad.Text _
         , Txtb_PrecioVenta.Text _
+        , CBox_Moneda.Text _
         , False)
 
 

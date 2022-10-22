@@ -8482,19 +8482,23 @@ Public Class Class_funcionesSQL
 
 #Region "Login"
     'Almacena el registro cuando se verifique que el usuario no ah sido usado en otro equipo
-    Public Function RegistrarInicioSesion(ByVal SQL_Comman As SqlCommand, ByVal Usuario As String, ByVal IP As String, ByVal UsuarioWindows As String)
+    Public Function RegistrarInicioSesion(ByVal SQL_Comman As SqlCommand, ByVal Usuario As String, ByVal IP As String, ByVal UsuarioWindows As String, ByVal Accion As String)
         Try
 
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
             Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Sessiones] (
-                                    [UsuarioWindos]
+                                    [UsuarioWindows]
                                    ,[Ip]
-                                   ,[UsuarioSincro])
+                                   ,[UsuarioSincro]
+                                   ,[Accion]
+                                   ,[Fecha])
                                     VALUES
-                                   ('" & Usuario & "'
+                                   ('" & UsuarioWindows & "'
                                    ,'" & IP & "'
-                                   ,'" & UsuarioWindows & "')"
+                                   ,'" & Usuario & "'
+                                   ,'" & Accion & "'
+                                   ,'" & Now & "')"
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
@@ -9439,10 +9443,10 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
-    Public Function INSERTA_Empresa(ByVal SQL_Comman As SqlCommand, ByVal Cedula As String, ByVal Nombre As String, ByVal Telefono As String, ByVal Correo As String, ByVal Web As String, ByVal Direccion As String, ByVal Server_Ftp As String, ByVal User_Ftp As String, ByVal Clave_Ftp As String, ByVal NumMaxFactura As String, ByVal DescMax As String, ByVal ConseRepCarga As String, ByVal ConseRepDevoluciones As String, Nombre_Fantacia As String, id_Provincia As Integer, id_canton As Integer, id_distrito As Integer, id_barrio As Integer, Tipo_Cedula As Integer, Telefono2 As Integer, ClaveEmail As String, CodigoActividadEconomica As String, DescrActividadEconomica As String, Txtb_RutaPadreFtp As String, Txtb_ServidorSQL As String, Txtb_IPServidor As String, Txtb_UsuarioSQL As String, Txtb_ClaveSQL As String)
+    Public Function INSERTA_Empresa(ByVal SQL_Comman As SqlCommand, ByVal Cedula As String, ByVal Nombre As String, ByVal Telefono As String, ByVal Correo As String, ByVal Web As String, ByVal Direccion As String, ByVal Server_Ftp As String, ByVal User_Ftp As String, ByVal Clave_Ftp As String, ByVal NumMaxFactura As String, ByVal DescMax As String, ByVal ConseRepCarga As String, ByVal ConseRepDevoluciones As String, Nombre_Fantacia As String, id_Provincia As Integer, id_canton As Integer, id_distrito As Integer, id_barrio As Integer, Tipo_Cedula As Integer, Telefono2 As Integer, ClaveEmail As String, CodigoActividadEconomica As String, DescrActividadEconomica As String, Txtb_RutaPadreFtp As String, Txtb_ServidorSQL As String, Txtb_IPServidor As String, Txtb_UsuarioSQL As String, Txtb_ClaveSQL As String, Txtb_DiasExtencion As String)
         Try
             Dim Consulta As String
-            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa] ([Cedula],[Nombre] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica ,ServidorSQL,IPServidor,UserSQL,ClaveSQL) VALUES('" & Cedula & "','" & Nombre & "','" & Telefono & "','" & Correo & "','" & Web & "','" & Direccion & "','" & Server_Ftp & "','" & User_Ftp & "','" & Clave_Ftp & "','" & NumMaxFactura & "','" & DescMax & "','" & ConseRepCarga & "','" & ConseRepDevoluciones & "','" & Nombre_Fantacia & "','" & id_Provincia & "','" & id_canton & "','" & id_distrito & "','" & id_barrio & "','" & Tipo_Cedula & "','" & ClaveEmail & "','" & CodigoActividadEconomica & "','" & DescrActividadEconomica & "','" & Txtb_RutaPadreFtp & "','" & Txtb_ServidorSQL & "','" & Txtb_IPServidor & "','" & Txtb_UsuarioSQL & "','" & Txtb_ClaveSQL & "')"
+            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa] ([Cedula],[Nombre] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica ,ServidorSQL,IPServidor,UserSQL,ClaveSQL,DiasExtencion) VALUES('" & Cedula & "','" & Nombre & "','" & Telefono & "','" & Correo & "','" & Web & "','" & Direccion & "','" & Server_Ftp & "','" & User_Ftp & "','" & Clave_Ftp & "','" & NumMaxFactura & "','" & DescMax & "','" & ConseRepCarga & "','" & ConseRepDevoluciones & "','" & Nombre_Fantacia & "','" & id_Provincia & "','" & id_canton & "','" & id_distrito & "','" & id_barrio & "','" & Tipo_Cedula & "','" & ClaveEmail & "','" & CodigoActividadEconomica & "','" & DescrActividadEconomica & "','" & Txtb_RutaPadreFtp & "','" & Txtb_ServidorSQL & "','" & Txtb_IPServidor & "','" & Txtb_UsuarioSQL & "','" & Txtb_ClaveSQL & "','" & Txtb_DiasExtencion & "')"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
             Return 0
@@ -9455,14 +9459,14 @@ Public Class Class_funcionesSQL
 
     End Function
 
-    Public Function Actualiza_Empresa(ByVal SQL_Comman As SqlCommand, ByVal Cedula As String, ByVal Nombre As String, ByVal Telefono As String, ByVal Correo As String, ByVal Web As String, ByVal Direccion As String, ByVal Server_Ftp As String, ByVal User_Ftp As String, ByVal Clave_Ftp As String, ByVal NumMaxFactura As String, ByVal DescMax As String, ByVal ConseRepCarga As String, ByVal ConseRepDevoluciones As String, Nombre_Fantacia As String, id_Provincia As Integer, id_canton As Integer, id_distrito As Integer, id_barrio As Integer, Tipo_Cedula As Integer, Telefono2 As Integer, ClaveEmail As String, CodigoActividadEconomica As String, DescrActividadEconomica As String, RutaPadreFtp As String, Txtb_ServidorSQL As String, Txtb_IPServidor As String, Txtb_UsuarioSQL As String, Txtb_ClaveSQL As String)
+    Public Function Actualiza_Empresa(ByVal SQL_Comman As SqlCommand, ByVal Cedula As String, ByVal Nombre As String, ByVal Telefono As String, ByVal Correo As String, ByVal Web As String, ByVal Direccion As String, ByVal Server_Ftp As String, ByVal User_Ftp As String, ByVal Clave_Ftp As String, ByVal NumMaxFactura As String, ByVal DescMax As String, ByVal ConseRepCarga As String, ByVal ConseRepDevoluciones As String, Nombre_Fantacia As String, id_Provincia As Integer, id_canton As Integer, id_distrito As Integer, id_barrio As Integer, Tipo_Cedula As Integer, Telefono2 As Integer, ClaveEmail As String, CodigoActividadEconomica As String, DescrActividadEconomica As String, RutaPadreFtp As String, Txtb_ServidorSQL As String, Txtb_IPServidor As String, Txtb_UsuarioSQL As String, Txtb_ClaveSQL As String, DiasExtencion As String)
         Try
             Dim Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
             Dim cont As Integer = 0
 
             Dim Consulta As String = ""
             'Actualiza el estado dependiendo del numero de aplicacion que sea
-            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  Set [Cedula] = '" & Cedula & "' ,[Nombre] = '" & Nombre & "',[Telefono] = '" & Telefono & "' ,[Correo] = '" & Correo & "' ,[Web] = '" & Web & "',[Direccion] = '" & Direccion & "',[Server_Ftp]='" & Server_Ftp & "',[User_Ftp]='" & User_Ftp & "',[Clave_Ftp]='" & Clave_Ftp & "',[NumMaxFactura]='" & NumMaxFactura & "',DescMax='" & DescMax & "',Conse_RepCarga='" & ConseRepCarga & "',Conse_RepDevoluciones='" & ConseRepDevoluciones & "',Nombre_Fantacia='" & Nombre_Fantacia & "',id_Provincia='" & id_Provincia & "',id_canton='" & id_canton & "',id_distrito='" & id_distrito & "',id_barrio='" & id_barrio & "',Tipo_Cedula='" & Tipo_Cedula & "',Telefono2='" & Telefono2 & "',ClaveEmail='" & ClaveEmail & "',CodigoActividadEconomica='" & CodigoActividadEconomica & "', DescrActividadEconomica='" & DescrActividadEconomica & "', RutaPadre_Ftp='" & RutaPadreFtp & "', ServidorSQL='" & Txtb_ServidorSQL & "', IPServidor='" & Txtb_IPServidor & "', UserSQL='" & Txtb_UsuarioSQL & "', ClaveSQL='" & Txtb_ClaveSQL & "'"
+            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  Set [Cedula] = '" & Cedula & "' ,[Nombre] = '" & Nombre & "',[Telefono] = '" & Telefono & "' ,[Correo] = '" & Correo & "' ,[Web] = '" & Web & "',[Direccion] = '" & Direccion & "',[Server_Ftp]='" & Server_Ftp & "',[User_Ftp]='" & User_Ftp & "',[Clave_Ftp]='" & Clave_Ftp & "',[NumMaxFactura]='" & NumMaxFactura & "',DescMax='" & DescMax & "',Conse_RepCarga='" & ConseRepCarga & "',Conse_RepDevoluciones='" & ConseRepDevoluciones & "',Nombre_Fantacia='" & Nombre_Fantacia & "',id_Provincia='" & id_Provincia & "',id_canton='" & id_canton & "',id_distrito='" & id_distrito & "',id_barrio='" & id_barrio & "',Tipo_Cedula='" & Tipo_Cedula & "',Telefono2='" & Telefono2 & "',ClaveEmail='" & ClaveEmail & "',CodigoActividadEconomica='" & CodigoActividadEconomica & "', DescrActividadEconomica='" & DescrActividadEconomica & "', RutaPadre_Ftp='" & RutaPadreFtp & "', ServidorSQL='" & Txtb_ServidorSQL & "', IPServidor='" & Txtb_IPServidor & "', UserSQL='" & Txtb_UsuarioSQL & "', ClaveSQL='" & Txtb_ClaveSQL & "', DiasExtencion='" & DiasExtencion & "'"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
 
@@ -9481,20 +9485,15 @@ Public Class Class_funcionesSQL
 
             Dim Consulta As String = ""
 
-            Consulta = "SELECT [Cedula],[Nombre] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,Telefono2,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica, RutaPadre_Ftp,ServidorSQL,IPServidor,UserSQL,ClaveSQL FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  "
+            Consulta = "SELECT [Cedula],[Nombre] ,[NombreComercial] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,Telefono2,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica, RutaPadre_Ftp,ServidorSQL,IPServidor,UserSQL,ClaveSQL,DiasExtencion FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  "
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
-
-            Dim contardor As Integer = 0
-            Dim itemas As Integer = TABLA.Rows.Count
-            Dim Agentes(itemas) As String
-
             Return TABLA
         Catch ex As Exception
-            Return 2
-            'ERRORES = "[ " & Now & " ] ERROR CONSULTAPedidosHoyPendientes ( " & ex.Message & " )"
+
+            'ERRORES = "[ " & Now & " ] ERROR CONSULTA_Empresa ( " & ex.Message & " )"
         End Try
     End Function
 
@@ -11058,7 +11057,8 @@ where DocNum='" & DocNum & "'"
 
             Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_NC]
            (
-            [Clave]
+            [DocNum]
+            ,[Clave]
            ,[CodCliente]
            ,[Consecutivo]
            ,[DocDate]
@@ -11111,7 +11111,8 @@ where DocNum='" & DocNum & "'"
            ,[TotalExento]   
            ,[Vendedor])
      VALUES
-           (   '" & Clave &
+           (   '" & DocNum &
+               "','" & Clave &
                "','" & CodCliente &
                "','" & Consecutivo &
                "','" & DocDate &
@@ -11934,6 +11935,7 @@ where DocNum='" & DocNum & "'"
         , IdArticulo As String _
         , PorcUtilidad As String _
         , PrecioVenta As String _
+        , Moneda As String _
         , Guardando As Boolean)
 
         Try
@@ -11973,7 +11975,9 @@ where DocNum='" & DocNum & "'"
            ,[Cod_Tarifa]
            ,[IdLineaNuevaWms]
            ,[PorcUtilidad]
-           ,[PrecioVenta])
+           ,[PrecioVenta]  
+            ,[Moneda]
+)
      VALUES
            ('" & ItemCode & "'
            ,'" & Descripcion & "'
@@ -12003,7 +12007,8 @@ where DocNum='" & DocNum & "'"
            ,'" & CodTarifa & "'
            ,'" & IdArticuloNuevo & "'   
            ,'" & PorcUtilidad & "'  
-           ,'" & PrecioVenta & "'  
+           ,'" & PrecioVenta & "'        
+           ,'" & Moneda & "'  
            )"
             Else
 
@@ -12036,7 +12041,8 @@ where DocNum='" & DocNum & "'"
                            ,[Cod_Tarifa]='" & CodTarifa & "'
                            ,[IdLineaNuevaWms]='" & IdArticuloNuevo & "' 
                            ,[Utilidad_Porciento]='" & PorcUtilidad & "' 
-                           ,[PrecioVenta]='" & PrecioVenta & "' 
+                           ,[PrecioVenta]='" & PrecioVenta & "'   
+                           ,[Moneda]='" & Moneda & "' 
                          where  [Id]='" & IdArticulo & "'"
             End If
 

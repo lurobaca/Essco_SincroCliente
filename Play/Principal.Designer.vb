@@ -121,6 +121,7 @@ Partial Class Principal
         Me.ToolStripMenuItem11 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem12 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CerrarSesionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -337,7 +338,6 @@ Partial Class Principal
         Me.BodeguerosToolStripMenuItem.Name = "BodeguerosToolStripMenuItem"
         Me.BodeguerosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.BodeguerosToolStripMenuItem.Text = "Bodegueros"
-        Me.BodeguerosToolStripMenuItem.Visible = False
         '
         'EmpresaToolStripMenuItem
         '
@@ -378,7 +378,6 @@ Partial Class Principal
         Me.UsuariosToolStripMenuItem.Name = "UsuariosToolStripMenuItem"
         Me.UsuariosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.UsuariosToolStripMenuItem.Text = "Usuarios"
-        Me.UsuariosToolStripMenuItem.Visible = False
         '
         'CamionesToolStripMenuItem
         '
@@ -405,7 +404,6 @@ Partial Class Principal
         Me.LicenciasToolStripMenuItem.Name = "LicenciasToolStripMenuItem"
         Me.LicenciasToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.LicenciasToolStripMenuItem.Text = "Licencias"
-        Me.LicenciasToolStripMenuItem.Visible = False
         '
         'BancosToolStripMenuItem
         '
@@ -642,7 +640,6 @@ Partial Class Principal
         Me.VentasToolStripMenuItem.Name = "VentasToolStripMenuItem"
         Me.VentasToolStripMenuItem.Size = New System.Drawing.Size(64, 24)
         Me.VentasToolStripMenuItem.Text = "Ventas"
-        Me.VentasToolStripMenuItem.Visible = False
         '
         'OrdenDeCompraToolStripMenuItem
         '
@@ -716,7 +713,7 @@ Partial Class Principal
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.AliceBlue
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(17, 17)
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FacturacionToolStripMenuItem, Me.AdministrarToolStripMenuItem, Me.BodegaToolStripMenuItem, Me.LiquidacionesToolStripMenuItem, Me.ExportarToolStripMenuItem, Me.ReportesToolStripMenuItem, Me.InventarioToolStripMenuItem, Me.PlanillaToolStripMenuItem, Me.VentasToolStripMenuItem, Me.ToolStripMenuItem8, Me.ComprasToolStripMenuItem, Me.AcercaDeToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FacturacionToolStripMenuItem, Me.AdministrarToolStripMenuItem, Me.BodegaToolStripMenuItem, Me.LiquidacionesToolStripMenuItem, Me.ExportarToolStripMenuItem, Me.ReportesToolStripMenuItem, Me.InventarioToolStripMenuItem, Me.PlanillaToolStripMenuItem, Me.VentasToolStripMenuItem, Me.ToolStripMenuItem8, Me.ComprasToolStripMenuItem, Me.AcercaDeToolStripMenuItem, Me.CerrarSesionToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(8, 2, 0, 2)
@@ -730,7 +727,6 @@ Partial Class Principal
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
         Me.ToolStripMenuItem8.Size = New System.Drawing.Size(87, 24)
         Me.ToolStripMenuItem8.Text = "Inventario"
-        Me.ToolStripMenuItem8.Visible = False
         '
         'ToolStripMenuItem9
         '
@@ -761,6 +757,12 @@ Partial Class Principal
         Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
         Me.ToolStripMenuItem13.Size = New System.Drawing.Size(226, 26)
         Me.ToolStripMenuItem13.Text = "Bodegas"
+        '
+        'CerrarSesionToolStripMenuItem
+        '
+        Me.CerrarSesionToolStripMenuItem.Name = "CerrarSesionToolStripMenuItem"
+        Me.CerrarSesionToolStripMenuItem.Size = New System.Drawing.Size(108, 24)
+        Me.CerrarSesionToolStripMenuItem.Text = "Cerrar Sesion"
         '
         'Principal
         '
@@ -884,4 +886,5 @@ Partial Class Principal
     Friend WithEvents LicenciasToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ChequeoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BancosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CerrarSesionToolStripMenuItem As ToolStripMenuItem
 End Class

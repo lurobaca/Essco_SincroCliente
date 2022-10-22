@@ -16,7 +16,7 @@ Public Class frmReportes
     Public ImprecionesNCS As Integer = 1
     Public ImprecionesND As Integer = 1
     Public ImprecionesNDS As Integer = 1
-
+    Public IntentosDeExportarPDF As Integer = 10
     Private Sub frmReportes_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Try
             Obj_QR = New QR_CODE
@@ -106,7 +106,7 @@ Public Class frmReportes
             'End If
 
 
-            ExportToPDF_TE(cryRpt, CodSeguridad, "TE")
+            ExportToPDF_TE(cryRpt, CodSeguridad, "TE", IntentosDeExportarPDF)
             cryRpt.Dispose()
             cryRpt = Nothing
             MiConexion = Nothing
@@ -239,7 +239,7 @@ Public Class frmReportes
 
 
             'ElseIf VariablesGlobales.Obj_TestFactura.Chebx_Imprimir_FE.Checked = False Then
-            ExportToPDF_FE(cryRpt, CodSeguridad, "FE") 'Lo exportamos a PDF aqui para que aparesca como original
+            ExportToPDF_FE(cryRpt, CodSeguridad, "FE", IntentosDeExportarPDF) 'Lo exportamos a PDF aqui para que aparesca como original
             'End If
 
             cryRpt.Close()
@@ -374,7 +374,7 @@ Public Class frmReportes
             '    VariablesGlobales.Obj_Log.Log("Cambio estado a impreso [" & VariablesGlobales.ReporteFES_CodSeguridad & "]", "FES")
             '    Obj_Funciones.ActualizaEstadoImpresion(Trim(VariablesGlobales.ReporteFES_CodSeguridad), "FES")
             'ElseIf VariablesGlobales.Obj_TestFactura.Chebx_Imprimir_FES.Checked = False Then
-            ExportToPDF_FES(cryRpt, CodSeguridad, "FES") 'Lo exportamos a PDF aqui para que aparesca como original
+            ExportToPDF_FES(cryRpt, CodSeguridad, "FES", IntentosDeExportarPDF) 'Lo exportamos a PDF aqui para que aparesca como original
             'End If
             cryRpt.Close()
             cryRpt.Dispose()
@@ -428,9 +428,9 @@ Public Class frmReportes
 
             'cryRpt.Refresh()
 
-            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSAP_CompanyDB, False)
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
-            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 
@@ -507,7 +507,7 @@ Public Class frmReportes
             '    'Cambiamos el estado a impreso, para saber si ya fue mandado a imprimir
             '    Obj_Funciones.ActualizaEstadoImpresion(Trim(VariablesGlobales.ReporteNC_CodSeguridad), "NC")
             'ElseIf VariablesGlobales.Obj_TestFactura.Chebx_Imprimir_NC.Checked = False Then
-            ExportToPDF_NC(cryRpt, CodSeguridad, "NC") 'Lo exportamos a PDF aqui para que aparesca como original
+            ExportToPDF_NC(cryRpt, CodSeguridad, "NC", IntentosDeExportarPDF) 'Lo exportamos a PDF aqui para que aparesca como original
             'End If
 
             cryRpt.Close()
@@ -638,7 +638,7 @@ Public Class frmReportes
             '    Obj_Funciones.ActualizaEstadoImpresion(Trim(VariablesGlobales.ReporteNCS_CodSeguridad), "NCS")
 
             'ElseIf VariablesGlobales.Obj_TestFactura.Chebx_Imprimir_NCS.Checked = False Then
-            ExportToPDF_NCS(cryRpt, CodSeguridad, "NCS") 'Lo exportamos a PDF aqui para que aparesca como original
+            ExportToPDF_NCS(cryRpt, CodSeguridad, "NCS", IntentosDeExportarPDF) 'Lo exportamos a PDF aqui para que aparesca como original
             'End If
 
 
@@ -773,7 +773,7 @@ Public Class frmReportes
 
 
             'ElseIf VariablesGlobales.Obj_TestFactura.Chebx_Imprimir_ND.Checked = False Then
-            ExportToPDF_ND(cryRpt, CodSeguridad, "ND") 'Lo exportamos a PDF aqui para que aparesca como original
+            ExportToPDF_ND(cryRpt, CodSeguridad, "ND", IntentosDeExportarPDF) 'Lo exportamos a PDF aqui para que aparesca como original
             'End If
 
             cryRpt.Close()
@@ -901,7 +901,7 @@ Public Class frmReportes
             '    'Cambiamos el estado a impreso, para saber si ya fue mandado a imprimir
             '    Obj_Funciones.ActualizaEstadoImpresion(Trim(VariablesGlobales.ReporteNDS_CodSeguridad), "NDS")
             'ElseIf VariablesGlobales.Obj_TestFactura.Chebx_Imprimir_NDS.Checked = False Then
-            ExportToPDF_ND(cryRpt, CodSeguridad, "NDS") 'Lo exportamos a PDF aqui para que aparesca como original
+            ExportToPDF_ND(cryRpt, CodSeguridad, "NDS", IntentosDeExportarPDF) 'Lo exportamos a PDF aqui para que aparesca como original
             'End If
 
 
@@ -938,7 +938,7 @@ Public Class frmReportes
 
 
 #Region "EXPORTAR A PDF"
-    Public Shared Function ExportToPDF_FE(ByVal rpt As ReportDocument, ByVal Clave As String, ByVal Tipo As String) As String
+    Public Shared Function ExportToPDF_FE(ByVal rpt As ReportDocument, ByVal Clave As String, ByVal Tipo As String, Intentos As Integer) As String
         Dim vFileName As String = Nothing
         Dim diskOpts As New DiskFileDestinationOptions()
         Dim Path As String
@@ -995,12 +995,13 @@ Public Class frmReportes
         Catch ex As Exception
             'VariablesGlobales.Obj_Log.Log("ERROR ExportToPDF_FE [" & ex.Message & " ]", "FE")
 
-            If File.Exists(vFileName) = False Then
+            If File.Exists(vFileName) = False And Intentos <> 0 Then
+                Intentos -= 1
                 'VariablesGlobales.Obj_TestFactura.List_FE.Items.Insert(0, "ERROR EN ExportToPDF_FE [" & ex.Message & " ] Clave [ " & Clave & " ] [ " & Now.Date & "]")
                 vFileName = Nothing
                 diskOpts = Nothing
                 Path = Nothing
-                ExportToPDF_FE(rpt, Clave, Tipo)
+                ExportToPDF_FE(rpt, Clave, Tipo, Intentos)
             End If
             vFileName = Nothing
             diskOpts = Nothing
@@ -1011,7 +1012,7 @@ Public Class frmReportes
 
         Return vFileName
     End Function
-    Public Shared Function ExportToPDF_FES(ByVal rpt As ReportDocument, ByVal Clave As String, ByVal Tipo As String) As String
+    Public Shared Function ExportToPDF_FES(ByVal rpt As ReportDocument, ByVal Clave As String, ByVal Tipo As String, Intentos As Integer) As String
         Dim vFileName As String = Nothing
         Dim diskOpts As New DiskFileDestinationOptions()
         Dim Path As String
@@ -1067,12 +1068,13 @@ Public Class frmReportes
         Catch ex As Exception
             ' VariablesGlobales.Obj_Log.Log("ERROR ExportToPDF_FES [" & ex.Message & " ]", "FES")
 
-            If File.Exists(vFileName) = False Then
+            If File.Exists(vFileName) = False And Intentos <> 0 Then
+                Intentos -= 1
                 'VariablesGlobales.Obj_TestFactura.List_FES.Items.Insert(0, "ERROR EN ExportToPDF_FES [" & ex.Message & " ] Clave [ " & Clave & " ] [ " & Now.Date & "]")
                 vFileName = Nothing
                 diskOpts = Nothing
                 Path = Nothing
-                ExportToPDF_FES(rpt, Clave, Tipo)
+                ExportToPDF_FES(rpt, Clave, Tipo, Intentos)
             End If
             vFileName = Nothing
             diskOpts = Nothing
@@ -1083,10 +1085,11 @@ Public Class frmReportes
 
         Return vFileName
     End Function
-    Public Shared Function ExportToPDF_NC(rpt As ReportDocument, Clave As String, Tipo As String) As String
+    Public Shared Function ExportToPDF_NC(rpt As ReportDocument, Clave As String, Tipo As String, Intentos As Integer) As String
         Dim vFileName As String = Nothing
         Dim diskOpts As New DiskFileDestinationOptions()
         Dim Path As String
+
         Try
 
 
@@ -1140,10 +1143,10 @@ Public Class frmReportes
             'VariablesGlobales.Obj_Log.Log("ERROR ExportToPDF_NC [" & ex.Message & " ]", "NC")
             ' MessageBox.Show("ERROR EN ExportToPDF_NC [" & ex.Message & " ] Clave [ " & Clave & " ]")
 
-            If File.Exists(vFileName) = False Then
-
+            If File.Exists(vFileName) = False And Intentos <> 0 Then
+                Intentos -= 1
                 'VariablesGlobales.Obj_TestFactura.List_NC.Items.Insert(0, "ERROR EN ExportToPDF_NC [" & ex.Message & " ] Clave [ " & Clave & " ] [ " & Now.Date & "]")
-                ExportToPDF_NC(rpt, Clave, Tipo)
+                ExportToPDF_NC(rpt, Clave, Tipo, Intentos)
             End If
 
             vFileName = Nothing
@@ -1154,7 +1157,7 @@ Public Class frmReportes
 
         Return vFileName
     End Function
-    Public Shared Function ExportToPDF_NCS(rpt As ReportDocument, Clave As String, Tipo As String) As String
+    Public Shared Function ExportToPDF_NCS(rpt As ReportDocument, Clave As String, Tipo As String, Intentos As Integer) As String
         Dim vFileName As String = Nothing
         Dim diskOpts As New DiskFileDestinationOptions()
         Dim Path As String
@@ -1211,10 +1214,10 @@ Public Class frmReportes
             'VariablesGlobales.Obj_Log.Log("ERROR ExportToPDF_NCS [" & ex.Message & " ]", "NCS")
             ' MessageBox.Show("ERROR EN ExportToPDF_NC [" & ex.Message & " ] Clave [ " & Clave & " ]")
 
-            If File.Exists(vFileName) = False Then
-
+            If File.Exists(vFileName) = False And Intentos <> 0 Then
+                Intentos -= 1
                 'VariablesGlobales.Obj_TestFactura.List_NC.Items.Insert(0, "ERROR EN ExportToPDF_NCS [" & ex.Message & " ] Clave [ " & Clave & " ] [ " & Now.Date & "]")
-                ExportToPDF_NCS(rpt, Clave, Tipo)
+                ExportToPDF_NCS(rpt, Clave, Tipo, Intentos)
             End If
 
             vFileName = Nothing
@@ -1225,7 +1228,7 @@ Public Class frmReportes
 
         Return vFileName
     End Function
-    Public Shared Function ExportToPDF_ND(rpt As ReportDocument, Clave As String, Tipo As String) As String
+    Public Shared Function ExportToPDF_ND(rpt As ReportDocument, Clave As String, Tipo As String, Intentos As Integer) As String
         Dim vFileName As String = Nothing
         Dim diskOpts As New DiskFileDestinationOptions()
         Dim Path As String
@@ -1279,10 +1282,10 @@ Public Class frmReportes
 
         Catch ex As Exception
             'VariablesGlobales.Obj_Log.Log("ERROR ExportToPDF_ND [" & ex.Message & " ]", "ND")
-            If File.Exists(vFileName) = False Then
-
+            If File.Exists(vFileName) = False And Intentos <> 0 Then
+                Intentos -= 1
                 'VariablesGlobales.Obj_TestFactura.List_ND.Items.Insert(0, "ERROR EN ExportToPDF_ND [" & ex.Message & " ] Clave [ " & Clave & " ] [ " & Now.Date & "]")
-                ExportToPDF_ND(rpt, Clave, Tipo)
+                ExportToPDF_ND(rpt, Clave, Tipo, Intentos)
             End If
             vFileName = Nothing
             diskOpts = Nothing
@@ -1292,8 +1295,7 @@ Public Class frmReportes
 
         Return vFileName
     End Function
-
-    Public Shared Function ExportToPDF_NDS(rpt As ReportDocument, Clave As String, Tipo As String) As String
+    Public Shared Function ExportToPDF_NDS(rpt As ReportDocument, Clave As String, Tipo As String, Intentos As Integer) As String
         Dim vFileName As String = Nothing
         Dim diskOpts As New DiskFileDestinationOptions()
         Dim Path As String
@@ -1348,10 +1350,10 @@ Public Class frmReportes
 
         Catch ex As Exception
             ' VariablesGlobales.Obj_Log.Log("ERROR ExportToPDF_NDS [" & ex.Message & " ]", "NDS")
-            If File.Exists(vFileName) = False Then
-
+            If File.Exists(vFileName) = False And Intentos <> 0 Then
+                Intentos -= 1
                 'VariablesGlobales.Obj_TestFactura.List_ND.Items.Insert(0, "ERROR EN ExportToPDF_NDS [" & ex.Message & " ] Clave [ " & Clave & " ] [ " & Now.Date & "]")
-                ExportToPDF_NDS(rpt, Clave, Tipo)
+                ExportToPDF_NDS(rpt, Clave, Tipo, Intentos)
             End If
             vFileName = Nothing
             diskOpts = Nothing
@@ -1361,8 +1363,7 @@ Public Class frmReportes
 
         Return vFileName
     End Function
-
-    Public Shared Function ExportToPDF_TE(rpt As ReportDocument, Clave As String, Tipo As String) As String
+    Public Shared Function ExportToPDF_TE(rpt As ReportDocument, Clave As String, Tipo As String, Intentos As Integer) As String
         Dim vFileName As String = Nothing
         Dim diskOpts As New DiskFileDestinationOptions()
         Dim Path As String
@@ -1415,9 +1416,10 @@ Public Class frmReportes
         Catch ex As Exception
             'VariablesGlobales.Obj_Log.Log("ERROR ExportToPDF_TE [" & ex.Message & " ]", "TE")
 
-            If File.Exists(vFileName) = False Then
+            If File.Exists(vFileName) = False And Intentos <> 0 Then
+                Intentos -= 1
                 'VariablesGlobales.Obj_TestFactura.List_TE.Items.Insert(0, "ERROR EN ExportToPDF_TE [" & ex.Message & " ] Clave [ " & Clave & " ] [ " & Now.Date & "]")
-                ExportToPDF_TE(rpt, Clave, Tipo)
+                ExportToPDF_TE(rpt, Clave, Tipo, Intentos)
             End If
             vFileName = Nothing
             diskOpts = Nothing
