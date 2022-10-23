@@ -12,7 +12,7 @@
     Private Sub btn_Guardar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Guardar.Click
 
         If Txtb_Cedula.Text <> "" And Txtb_Nombre.Text <> "" And Txtb_Telefono.Text <> "" And Txtb_Email.Text <> "" And Txtb_Web.Text <> "" And Txtb_Direccion.Text <> "" And txtb_Fantacia.Text <> "" And Combo_Provincia.Text <> "" And Combo_Canton.Text <> "" And Combo_Distrito.Text <> "" And Combo_Barrio.Text <> "" And Txtb_ClaveEmail.Text <> "" And Txtb_RutaPadreFtp.Text <> "" And txtb_ServidorSQL.Text <> "" And Txtb_IPServidorSQL.Text <> "" And txtb_UsuarioSQL.Text <> "" And txtb_ClaveSQL.Text <> "" Then
-            If Class_VariablesGlobales.Obj_Funciones_SQL.INSERTA_Empresa(Class_VariablesGlobales.SQL_Comman2, Txtb_Cedula.Text, Txtb_Nombre.Text, Txtb_Telefono.Text, Txtb_Email.Text, Txtb_Web.Text, Txtb_Direccion.Text, Txtb_Servidor.Text, Txtb_Usuario.Text, Txtb_Clave.Text, Txtb_LinMax_Fac.Text, Txtb_DescMax.Text, Txtb_Conse_RepCarga.Text, Txtb_Conse_RepDevoluciones.Text, txtb_Fantacia.Text, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, Cmb_TipoCedula.SelectedIndex, Txtb_Telefono.Text, Txtb_ClaveEmail.Text, txtb_CodActividadEconomica.Text, txtb_DescrActividadEconomica.Text, Txtb_RutaPadreFtp.Text, txtb_ServidorSQL.Text, Txtb_IPServidorSQL.Text, txtb_UsuarioSQL.Text, txtb_ClaveSQL.Text) = 0 Then
+            If Class_VariablesGlobales.Obj_Funciones_SQL.INSERTA_Empresa(Class_VariablesGlobales.SQL_Comman2, Txtb_Cedula.Text, Txtb_Nombre.Text, Txtb_Telefono.Text, Txtb_Email.Text, Txtb_Web.Text, Txtb_Direccion.Text, Txtb_Servidor.Text, Txtb_Usuario.Text, Txtb_Clave.Text, Txtb_LinMax_Fac.Text, Txtb_DescMax.Text, Txtb_Conse_RepCarga.Text, Txtb_Conse_RepDevoluciones.Text, txtb_Fantacia.Text, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, Cmb_TipoCedula.SelectedIndex, Txtb_Telefono.Text, Txtb_ClaveEmail.Text, txtb_CodActividadEconomica.Text, txtb_DescrActividadEconomica.Text, Txtb_RutaPadreFtp.Text, txtb_ServidorSQL.Text, Txtb_IPServidorSQL.Text, txtb_UsuarioSQL.Text, txtb_ClaveSQL.Text, Txtb_DiasExtencion.Text) = 0 Then
                 Limpia()
                 Me.Close()
 
@@ -34,7 +34,7 @@
             Txtb_Telefono2.Text = "0"
         End If
 
-        Class_VariablesGlobales.Obj_Funciones_SQL.Actualiza_Empresa(Class_VariablesGlobales.SQL_Comman2, Txtb_Cedula.Text, Txtb_Nombre.Text, Txtb_Telefono.Text, Txtb_Email.Text, Txtb_Web.Text, Txtb_Direccion.Text, Txtb_Servidor.Text, Txtb_Usuario.Text, Txtb_Clave.Text, Txtb_LinMax_Fac.Text, Txtb_DescMax.Text, Txtb_Conse_RepCarga.Text, Txtb_Conse_RepDevoluciones.Text, txtb_Fantacia.Text, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, Cmb_TipoCedula.SelectedIndex, Txtb_Telefono2.Text, Txtb_ClaveEmail.Text, txtb_CodActividadEconomica.Text, txtb_DescrActividadEconomica.Text, Txtb_RutaPadreFtp.Text, txtb_ServidorSQL.Text, Txtb_IPServidorSQL.Text, txtb_UsuarioSQL.Text, txtb_ClaveSQL.Text)
+        Class_VariablesGlobales.Obj_Funciones_SQL.Actualiza_Empresa(Class_VariablesGlobales.SQL_Comman2, Txtb_Cedula.Text, Txtb_Nombre.Text, Txtb_Telefono.Text, Txtb_Email.Text, Txtb_Web.Text, Txtb_Direccion.Text, Txtb_Servidor.Text, Txtb_Usuario.Text, Txtb_Clave.Text, Txtb_LinMax_Fac.Text, Txtb_DescMax.Text, Txtb_Conse_RepCarga.Text, Txtb_Conse_RepDevoluciones.Text, txtb_Fantacia.Text, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, Cmb_TipoCedula.SelectedIndex, Txtb_Telefono2.Text, Txtb_ClaveEmail.Text, txtb_CodActividadEconomica.Text, txtb_DescrActividadEconomica.Text, Txtb_RutaPadreFtp.Text, txtb_ServidorSQL.Text, Txtb_IPServidorSQL.Text, txtb_UsuarioSQL.Text, txtb_ClaveSQL.Text, Txtb_DiasExtencion.Text)
         Limpia()
         MsgBox("Datos actualizados con existo")
         Me.Close()
@@ -139,6 +139,7 @@
                 Txtb_IPServidorSQL.Text = tabla.Rows(contardor).Item("IPServidor").ToString()
                 txtb_UsuarioSQL.Text = tabla.Rows(contardor).Item("UserSQL").ToString()
                 txtb_ClaveSQL.Text = tabla.Rows(contardor).Item("ClaveSQL").ToString()
+                Txtb_DiasExtencion.Text = tabla.Rows(contardor).Item("DiasExtencion").ToString()
 
                 contardor += 1
             End While

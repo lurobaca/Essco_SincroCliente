@@ -93,6 +93,8 @@ Partial Class Manager_Empresa
         Me.Label27 = New System.Windows.Forms.Label()
         Me.txtb_ClaveSQL = New System.Windows.Forms.TextBox()
         Me.CBox_UtilozoSAP = New System.Windows.Forms.CheckBox()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Txtb_DiasExtencion = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -366,10 +368,10 @@ Partial Class Manager_Empresa
         '
         'Txtb_LinMax_Fac
         '
-        Me.Txtb_LinMax_Fac.Location = New System.Drawing.Point(45, 55)
+        Me.Txtb_LinMax_Fac.Location = New System.Drawing.Point(18, 52)
         Me.Txtb_LinMax_Fac.Margin = New System.Windows.Forms.Padding(4)
         Me.Txtb_LinMax_Fac.Name = "Txtb_LinMax_Fac"
-        Me.Txtb_LinMax_Fac.Size = New System.Drawing.Size(192, 26)
+        Me.Txtb_LinMax_Fac.Size = New System.Drawing.Size(141, 26)
         Me.Txtb_LinMax_Fac.TabIndex = 22
         Me.Txtb_LinMax_Fac.Text = "1"
         '
@@ -377,7 +379,7 @@ Partial Class Manager_Empresa
         '
         Me.Label10.AutoSize = True
         Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(41, 30)
+        Me.Label10.Location = New System.Drawing.Point(14, 27)
         Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(139, 20)
@@ -386,7 +388,7 @@ Partial Class Manager_Empresa
         '
         'Txtb_DescMax
         '
-        Me.Txtb_DescMax.Location = New System.Drawing.Point(252, 55)
+        Me.Txtb_DescMax.Location = New System.Drawing.Point(167, 53)
         Me.Txtb_DescMax.Margin = New System.Windows.Forms.Padding(4)
         Me.Txtb_DescMax.Name = "Txtb_DescMax"
         Me.Txtb_DescMax.Size = New System.Drawing.Size(192, 26)
@@ -397,7 +399,7 @@ Partial Class Manager_Empresa
         '
         Me.Label11.AutoSize = True
         Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(248, 30)
+        Me.Label11.Location = New System.Drawing.Point(163, 28)
         Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
         Me.Label11.Size = New System.Drawing.Size(190, 20)
@@ -485,7 +487,7 @@ Partial Class Manager_Empresa
         '
         'Txtb_Conse_RepDevoluciones
         '
-        Me.Txtb_Conse_RepDevoluciones.Location = New System.Drawing.Point(252, 110)
+        Me.Txtb_Conse_RepDevoluciones.Location = New System.Drawing.Point(167, 108)
         Me.Txtb_Conse_RepDevoluciones.Margin = New System.Windows.Forms.Padding(4)
         Me.Txtb_Conse_RepDevoluciones.Name = "Txtb_Conse_RepDevoluciones"
         Me.Txtb_Conse_RepDevoluciones.Size = New System.Drawing.Size(192, 26)
@@ -496,7 +498,7 @@ Partial Class Manager_Empresa
         '
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(248, 87)
+        Me.Label14.Location = New System.Drawing.Point(163, 85)
         Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(197, 20)
@@ -505,10 +507,10 @@ Partial Class Manager_Empresa
         '
         'Txtb_Conse_RepCarga
         '
-        Me.Txtb_Conse_RepCarga.Location = New System.Drawing.Point(45, 110)
+        Me.Txtb_Conse_RepCarga.Location = New System.Drawing.Point(18, 107)
         Me.Txtb_Conse_RepCarga.Margin = New System.Windows.Forms.Padding(4)
         Me.Txtb_Conse_RepCarga.Name = "Txtb_Conse_RepCarga"
-        Me.Txtb_Conse_RepCarga.Size = New System.Drawing.Size(192, 26)
+        Me.Txtb_Conse_RepCarga.Size = New System.Drawing.Size(141, 26)
         Me.Txtb_Conse_RepCarga.TabIndex = 30
         Me.Txtb_Conse_RepCarga.Text = "1"
         '
@@ -516,7 +518,7 @@ Partial Class Manager_Empresa
         '
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(45, 83)
+        Me.Label15.Location = New System.Drawing.Point(18, 80)
         Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
         Me.Label15.Size = New System.Drawing.Size(141, 20)
@@ -645,6 +647,8 @@ Partial Class Manager_Empresa
         '
         'GroupBox3
         '
+        Me.GroupBox3.Controls.Add(Me.Label30)
+        Me.GroupBox3.Controls.Add(Me.Txtb_DiasExtencion)
         Me.GroupBox3.Controls.Add(Me.Label10)
         Me.GroupBox3.Controls.Add(Me.Txtb_LinMax_Fac)
         Me.GroupBox3.Controls.Add(Me.Label11)
@@ -836,6 +840,26 @@ Partial Class Manager_Empresa
         Me.CBox_UtilozoSAP.UseVisualStyleBackColor = True
         Me.CBox_UtilozoSAP.Visible = False
         '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label30.Location = New System.Drawing.Point(361, 28)
+        Me.Label30.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(122, 20)
+        Me.Label30.TabIndex = 33
+        Me.Label30.Text = "Dias Extencion"
+        '
+        'Txtb_DiasExtencion
+        '
+        Me.Txtb_DiasExtencion.Location = New System.Drawing.Point(365, 53)
+        Me.Txtb_DiasExtencion.Margin = New System.Windows.Forms.Padding(4)
+        Me.Txtb_DiasExtencion.Name = "Txtb_DiasExtencion"
+        Me.Txtb_DiasExtencion.Size = New System.Drawing.Size(118, 26)
+        Me.Txtb_DiasExtencion.TabIndex = 34
+        Me.Txtb_DiasExtencion.Text = "0"
+        '
         'Manager_Empresa
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -966,4 +990,6 @@ Partial Class Manager_Empresa
     Friend WithEvents Label28 As Label
     Friend WithEvents Txtb_IPServidorSQL As TextBox
     Friend WithEvents Label29 As Label
+    Friend WithEvents Label30 As Label
+    Friend WithEvents Txtb_DiasExtencion As TextBox
 End Class

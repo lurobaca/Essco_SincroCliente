@@ -137,6 +137,8 @@ Partial Class Stock_Manager
         Me.Label36 = New System.Windows.Forms.Label()
         Me.btn_CargarPlantilla = New System.Windows.Forms.Button()
         Me.btn_DescargarPlantilla = New System.Windows.Forms.Button()
+        Me.CBox_Moneda = New System.Windows.Forms.ComboBox()
+        Me.Label37 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -1351,17 +1353,17 @@ Partial Class Stock_Manager
         '
         'Txt_PorcUtilidad
         '
-        Me.Txt_PorcUtilidad.Location = New System.Drawing.Point(734, 128)
+        Me.Txt_PorcUtilidad.Location = New System.Drawing.Point(696, 128)
         Me.Txt_PorcUtilidad.Margin = New System.Windows.Forms.Padding(4)
         Me.Txt_PorcUtilidad.Name = "Txt_PorcUtilidad"
-        Me.Txt_PorcUtilidad.Size = New System.Drawing.Size(62, 22)
+        Me.Txt_PorcUtilidad.Size = New System.Drawing.Size(100, 22)
         Me.Txt_PorcUtilidad.TabIndex = 56
         Me.Txt_PorcUtilidad.Text = "1"
         '
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(655, 132)
+        Me.Label9.Location = New System.Drawing.Point(625, 132)
         Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(71, 17)
@@ -1414,11 +1416,35 @@ Partial Class Stock_Manager
         Me.btn_DescargarPlantilla.UseVisualStyleBackColor = True
         Me.btn_DescargarPlantilla.Visible = False
         '
+        'CBox_Moneda
+        '
+        Me.CBox_Moneda.FormattingEnabled = True
+        Me.CBox_Moneda.Items.AddRange(New Object() {"Colones", "Dolares"})
+        Me.CBox_Moneda.Location = New System.Drawing.Point(696, 158)
+        Me.CBox_Moneda.Margin = New System.Windows.Forms.Padding(4)
+        Me.CBox_Moneda.Name = "CBox_Moneda"
+        Me.CBox_Moneda.Size = New System.Drawing.Size(100, 24)
+        Me.CBox_Moneda.TabIndex = 81
+        Me.CBox_Moneda.Text = "Colones"
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.Enabled = False
+        Me.Label37.Location = New System.Drawing.Point(625, 163)
+        Me.Label37.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(59, 17)
+        Me.Label37.TabIndex = 80
+        Me.Label37.Text = "Moneda"
+        '
         'Stock_Manager
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1157, 729)
+        Me.Controls.Add(Me.CBox_Moneda)
+        Me.Controls.Add(Me.Label37)
         Me.Controls.Add(Me.btn_DescargarPlantilla)
         Me.Controls.Add(Me.btn_CargarPlantilla)
         Me.Controls.Add(Me.Txtb_PrecioVenta)
@@ -1596,4 +1622,6 @@ Partial Class Stock_Manager
     Friend WithEvents Label36 As Label
     Friend WithEvents btn_CargarPlantilla As Button
     Friend WithEvents btn_DescargarPlantilla As Button
+    Friend WithEvents CBox_Moneda As ComboBox
+    Friend WithEvents Label37 As Label
 End Class

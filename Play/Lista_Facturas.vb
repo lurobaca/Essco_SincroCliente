@@ -23,7 +23,7 @@
             Class_VariablesGlobales.frmFacturacion.txtb_Nombre.Text = DGV_Facturas.CurrentRow.Cells("Receptor_Nombre").Value.ToString
             Class_VariablesGlobales.frmFacturacion.txtb_NombreFantacia.Text = DGV_Facturas.CurrentRow.Cells("Receptor_NombreComercial").Value.ToString
             'Class_VariablesGlobales.frmFacturacion.txtb_DocReferencia.Text = DGV_Facturas.CurrentRow.Cells("Referencia_Numero").Value.ToString
-            Class_VariablesGlobales.frmFacturacion.txtb_DocReferencia.Text = DGV_Facturas.CurrentRow.Cells("NumeroPedido").Value.ToString
+            'Class_VariablesGlobales.frmFacturacion.txtb_DocReferencia.Text = DGV_Facturas.CurrentRow.Cells("NumeroPedido").Value.ToString
 
             ''--ESTOS DATOS SE OBTIENE AL SELECCIONAR EL CLIENTE
             Class_VariablesGlobales.frmFacturacion.Receptor_Nombre = DGV_Facturas.CurrentRow.Cells("Receptor_Nombre").Value.ToString

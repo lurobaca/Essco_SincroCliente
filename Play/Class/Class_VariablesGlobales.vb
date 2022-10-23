@@ -39,6 +39,9 @@ Public Class Class_VariablesGlobales
     Public Shared LiquidacionRecuperada As String
 
     Public Shared Log_Usuario As String
+    Public Shared IP As String
+    Public Shared UsuarioWindows As String
+
 
     Public Shared CheqRC_Consecutivo As String
     Public Shared CheqRC_ItemCode As String
@@ -334,6 +337,7 @@ Public Class Class_VariablesGlobales
     Public Shared Obj_CantiChequeada As New CantiChequeada
     Public Shared Obj_ListaAgentes As New ListaAgentes
 
+    Public Shared frmPrincipal As New Principal
     Public Shared frmEnviar_Info_Seller As New Enviar_Info_Seller
 
     Public Shared frmNotificacion_Cargando As New Notificacion_Cargando
@@ -377,6 +381,7 @@ Public Class Class_VariablesGlobales
     Public Shared frmNuevoConteo As New Inv_NuevoConteo
     Public Shared frmEmpleados As New Planilla_Empleados
     Public Shared frmPlanilla As New Planilla
+
     Public Shared frmDeduccionesAcreditaciones As New DeduccionesAcreditaciones
 
     Public Shared frmBuscaFactura As New BuscaFactura
@@ -412,7 +417,6 @@ Public Class Class_VariablesGlobales
     Public Shared frmWMS_PedidosChequeados As WMS_PedidosChequeados
     Public Shared frmWMS_PedidosChequeados_Detalle As WMS_PedidosChequeados_Detalle
     Public Shared frmWMS_BancosEssco As Admin_Bancos
-
 
 
 

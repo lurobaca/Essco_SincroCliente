@@ -8,6 +8,7 @@ Public Class LoginForm1
     Dim Obj_SQL_CONEXION_CONEXION As New CONEXION_TO_SQLSERVER
     Public Objt_GlobalVar As Class_VariablesGlobales
 
+
     ' TODO: inserte el código para realizar autenticación personalizada usando el nombre de usuario y la contraseña proporcionada 
     ' (Consulte http://go.microsoft.com/fwlink/?LinkId=35339).  
     ' El objeto principal personalizado se puede adjuntar al objeto principal del subproceso actual como se indica a continuación: 
@@ -80,8 +81,6 @@ Public Class LoginForm1
                 End If
             Else
 
-                Objt_GlobalVar.Obj_Funciones_SQL.RegistrarInicioSesion(Objt_GlobalVar.SQL_Comman2, UsernameTextBox.Text, ip, UsuarioWindows)
-
 
                 Dim TABLA As DataTable = Objt_GlobalVar.Obj_Funciones_SQL.Login(Objt_GlobalVar.SQL_Comman2, UsernameTextBox.Text, PasswordTextBox.Text)
                 '' si no es visible de iniciar sesion
@@ -93,6 +92,8 @@ Public Class LoginForm1
                         If PasswordTextBox.Text = Trim(TABLA.Rows(0).Item("Password").ToString()) Then
                             Objt_GlobalVar.Puesto = TABLA.Rows(0).Item("Puesto").ToString()
                             Objt_GlobalVar.Log_Usuario = Trim(TABLA.Rows(0).Item("Usuario").ToString())
+                            Objt_GlobalVar.IP = ip
+                            Objt_GlobalVar.UsuarioWindows = UsuarioWindows
                             id = Trim(TABLA.Rows(0).Item("id").ToString())
 
                             If Trim(TABLA.Rows(0).Item("Cambiar").ToString()) = "1" Then
@@ -103,10 +104,23 @@ Public Class LoginForm1
                                 Txtb_ConfirmaPass.Visible = True
                             Else
                                 'Registrar inicio de sesion
+                                Objt_GlobalVar.Obj_Funciones_SQL.RegistrarInicioSesion(Objt_GlobalVar.SQL_Comman2, Objt_GlobalVar.Log_Usuario, Objt_GlobalVar.IP, Objt_GlobalVar.UsuarioWindows, "Inicio Sesión")
+
 
 
                                 Me.Hide()
                                 Principal.Show()
+                                If VariablesGlobales.CerroSesion = False Then
+                                    Class_VariablesGlobales.frmPrincipal = Principal
+
+                                Else
+                                    VariablesGlobales.CerroSesion = False
+                                    Class_VariablesGlobales.frmPrincipal.Inicializar()
+                                End If
+
+                                Class_VariablesGlobales.frmPrincipal.Text = Class_VariablesGlobales.frmPrincipal.Text & " Ususario: " & Objt_GlobalVar.Log_Usuario
+
+
                             End If
 
                         Else

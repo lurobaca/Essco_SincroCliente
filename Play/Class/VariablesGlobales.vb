@@ -97,5 +97,6 @@
     Public Shared oCompany As SAPbobsCOM.Company
 
 
+    Public Shared CerroSesion As Boolean = False
 
 End Class
