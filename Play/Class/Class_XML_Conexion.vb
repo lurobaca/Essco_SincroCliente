@@ -25,9 +25,9 @@ Public Class Class_XML_Conexion
 
             'Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
 
-            If File.Exists(conectar) <> True Then
-                conectar = "C:\ConexionINFO_SANDBOX_esscocr.xml"
-            End If
+            'If File.Exists(conectar) <> True Then
+            '    conectar = "C:\ConexionINFO_SANDBOX_esscocr.xml"
+            'End If
 
             Dim conectar As String = "C:\ConexionINFO_BourneProduccion.xml"
 
