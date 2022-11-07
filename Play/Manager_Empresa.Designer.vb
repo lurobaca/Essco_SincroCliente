@@ -76,6 +76,8 @@ Partial Class Manager_Empresa
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Cmb_TipoCedula = New System.Windows.Forms.ComboBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Txtb_DiasExtencion = New System.Windows.Forms.TextBox()
         Me.Txtb_Telefono2 = New System.Windows.Forms.TextBox()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Txtb_ClaveEmail = New System.Windows.Forms.TextBox()
@@ -93,8 +95,6 @@ Partial Class Manager_Empresa
         Me.Label27 = New System.Windows.Forms.Label()
         Me.txtb_ClaveSQL = New System.Windows.Forms.TextBox()
         Me.CBox_UtilozoSAP = New System.Windows.Forms.CheckBox()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.Txtb_DiasExtencion = New System.Windows.Forms.TextBox()
         Me.Panel1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -271,6 +271,7 @@ Partial Class Manager_Empresa
         '
         'Txtb_Usuario
         '
+        Me.Txtb_Usuario.Enabled = False
         Me.Txtb_Usuario.Location = New System.Drawing.Point(141, 17)
         Me.Txtb_Usuario.Margin = New System.Windows.Forms.Padding(4)
         Me.Txtb_Usuario.Name = "Txtb_Usuario"
@@ -290,6 +291,7 @@ Partial Class Manager_Empresa
         '
         'Txtb_Clave
         '
+        Me.Txtb_Clave.Enabled = False
         Me.Txtb_Clave.Location = New System.Drawing.Point(139, 53)
         Me.Txtb_Clave.Margin = New System.Windows.Forms.Padding(4)
         Me.Txtb_Clave.Name = "Txtb_Clave"
@@ -309,6 +311,7 @@ Partial Class Manager_Empresa
         '
         'Txtb_Servidor
         '
+        Me.Txtb_Servidor.Enabled = False
         Me.Txtb_Servidor.Location = New System.Drawing.Point(140, 91)
         Me.Txtb_Servidor.Margin = New System.Windows.Forms.Padding(4)
         Me.Txtb_Servidor.Name = "Txtb_Servidor"
@@ -349,6 +352,7 @@ Partial Class Manager_Empresa
         'Txtb_RutaPadreFtp
         '
         Me.Txtb_RutaPadreFtp.AccessibleDescription = ""
+        Me.Txtb_RutaPadreFtp.Enabled = False
         Me.Txtb_RutaPadreFtp.Location = New System.Drawing.Point(140, 125)
         Me.Txtb_RutaPadreFtp.Margin = New System.Windows.Forms.Padding(4)
         Me.Txtb_RutaPadreFtp.Name = "Txtb_RutaPadreFtp"
@@ -667,6 +671,26 @@ Partial Class Manager_Empresa
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Consecutivos de:"
         '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label30.Location = New System.Drawing.Point(361, 28)
+        Me.Label30.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(122, 20)
+        Me.Label30.TabIndex = 33
+        Me.Label30.Text = "Dias Extencion"
+        '
+        'Txtb_DiasExtencion
+        '
+        Me.Txtb_DiasExtencion.Location = New System.Drawing.Point(365, 53)
+        Me.Txtb_DiasExtencion.Margin = New System.Windows.Forms.Padding(4)
+        Me.Txtb_DiasExtencion.Name = "Txtb_DiasExtencion"
+        Me.Txtb_DiasExtencion.Size = New System.Drawing.Size(118, 26)
+        Me.Txtb_DiasExtencion.TabIndex = 34
+        Me.Txtb_DiasExtencion.Text = "0"
+        '
         'Txtb_Telefono2
         '
         Me.Txtb_Telefono2.Location = New System.Drawing.Point(281, 199)
@@ -839,26 +863,6 @@ Partial Class Manager_Empresa
         Me.CBox_UtilozoSAP.Text = "Utilizo SAP"
         Me.CBox_UtilozoSAP.UseVisualStyleBackColor = True
         Me.CBox_UtilozoSAP.Visible = False
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label30.Location = New System.Drawing.Point(361, 28)
-        Me.Label30.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(122, 20)
-        Me.Label30.TabIndex = 33
-        Me.Label30.Text = "Dias Extencion"
-        '
-        'Txtb_DiasExtencion
-        '
-        Me.Txtb_DiasExtencion.Location = New System.Drawing.Point(365, 53)
-        Me.Txtb_DiasExtencion.Margin = New System.Windows.Forms.Padding(4)
-        Me.Txtb_DiasExtencion.Name = "Txtb_DiasExtencion"
-        Me.Txtb_DiasExtencion.Size = New System.Drawing.Size(118, 26)
-        Me.Txtb_DiasExtencion.TabIndex = 34
-        Me.Txtb_DiasExtencion.Text = "0"
         '
         'Manager_Empresa
         '

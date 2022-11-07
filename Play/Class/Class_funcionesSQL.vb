@@ -6505,7 +6505,7 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
-    Public Function GUARDA_Licencias(ByVal Cantidad As String, ByVal FechaInicio As String, ByVal FechaFin As String, ByVal TipoPasgo As String, ByVal Dias As String, SQL_Comman As SqlCommand)
+    Public Function GUARDA_Licencias(ByVal CantAgentes As String, ByVal CantChoferes As String, ByVal CantOficina As String, ByVal FechaInicio As String, ByVal FechaFin As String, ByVal Tipo As String, ByVal DiasAlerta As Integer, ByVal SQL_Comman As SqlCommand)
         Try
 
             Dim Consulta As String
@@ -6513,18 +6513,22 @@ Public Class Class_funcionesSQL
 
             Consulta = ""
 
-            Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & "[dbo].[Licencias]
-           ([Cantidad]
-           ,[FechaInicio]
-           ,[FechaFin]
-           ,[TipoPasgo]
-           ,[Dias])
+            Consulta = "INSERT INTO [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Licencias]
+           ([Cant_Agentes]
+           ,[Cant_Choferes]
+           ,[Cant_Oficina]
+           ,[FechaDesde]
+           ,[FechaHasta]
+           ,[Tipo]
+           ,[DiasAlerta])
      VALUES
-           ('" & Cantidad & "'
+           ('" & CantAgentes & "'
+           ,'" & CantChoferes & "'
+           ,'" & CantOficina & "'
            ,'" & FechaInicio & "'
            ,'" & FechaFin & "'
-           ,'" & TipoPasgo & "'
-           ,'" & Dias & "')"
+           ,'" & Tipo & "' 
+           ,'" & DiasAlerta & "')"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
             SQL_Comman = Nothing
@@ -8404,7 +8408,7 @@ Public Class Class_funcionesSQL
 
             Consulta = ""
 
-            Consulta = "SELECT [Usuario],[Password],[Puesto] ,[Cambiar] ,[id]  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Users] where [Usuario] = '" & Usuario & "' and [Password] = '" & Clave & "'"
+            Consulta = "SELECT [Usuario],[Password],[Puesto] ,[Cambiar] ,[id] ,[SesionIniciada] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Users] where [Usuario] = '" & Usuario & "' and [Password] = '" & Clave & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             ' Obj_SQL_CONEXION.Desconectar(SQL_Comman)
@@ -8476,11 +8480,46 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
+    Public Function EliminaUsusario(ByVal SQL_Comman As SqlCommand, ByVal id As String)
+        Try
 
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+
+            Consulta = ""
+            Consulta = "DELETE FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Users] WHERE [id]='" & id & "'"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
+
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en EliminaDescFijoExepciones [ " & ex.Message & " ]")
+        End Try
+
+    End Function
 #End Region
 
 
 #Region "Login"
+
+    Public Function IndicaSesionActiva(ByVal SQL_Comman As SqlCommand, ByVal ID As Integer, ByVal SesionIniciada As Integer)
+        Try
+            Dim Consulta As String
+            Consulta = ""
+
+            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Users] SET [SesionIniciada] = '" & SesionIniciada & "'WHERE id='" & ID & "'"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
+        Catch ex As Exception
+            MessageBox.Show("ERROR en IndicaSesionActiva [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
     'Almacena el registro cuando se verifique que el usuario no ah sido usado en otro equipo
     Public Function RegistrarInicioSesion(ByVal SQL_Comman As SqlCommand, ByVal Usuario As String, ByVal IP As String, ByVal UsuarioWindows As String, ByVal Accion As String)
         Try
@@ -9485,7 +9524,7 @@ Public Class Class_funcionesSQL
 
             Dim Consulta As String = ""
 
-            Consulta = "SELECT [Cedula],[Nombre] ,[NombreComercial] ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,Telefono2,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica, RutaPadre_Ftp,ServidorSQL,IPServidor,UserSQL,ClaveSQL,DiasExtencion FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  "
+            Consulta = "SELECT [Cedula],[Nombre]  ,[Telefono] ,[Correo] ,[Web] ,[Direccion],[Server_Ftp],[User_Ftp],[Clave_Ftp],[NumMaxFactura],[DescMax],[Conse_RepCarga],[Conse_RepDevoluciones],Nombre_Fantacia,id_Provincia,id_canton,id_distrito,id_barrio,Tipo_Cedula,Telefono2,ClaveEmail,CodigoActividadEconomica, DescrActividadEconomica, RutaPadre_Ftp,ServidorSQL,IPServidor,UserSQL,ClaveSQL,DiasExtencion FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]  "
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -12292,7 +12331,7 @@ where DocNum='" & DocNum & "'"
 #Region "FUNCIONES PARA CONTEOS DE TOMA FISICA (INVENTARIO TRIMESTRAL)"
 
 
-    Public Obj_VarGlobal As New Class_VariablesGlobales
+    'Public Obj_VarGlobal As New Class_VariablesGlobales
     Public Sub GuardaGrupo(ByVal CodGrupo As String, ByVal IdInventario As String, Unificando0 As Boolean)
         Try
             Dim Consulta As String

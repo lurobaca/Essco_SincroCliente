@@ -16,4 +16,11 @@
     Private Sub Admin_Bancos_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         DGV_Bancos.DataSource = (Obj_SQL_CONEXIONSERVER.ObtieneBancosEssco(Class_VariablesGlobales.SQL_Comman2))
     End Sub
+
+    Public Function limpiar()
+        txtb_Codigo.Text = ""
+        txtb_Nombre.Text = ""
+        txtb_Cuenta.Text = ""
+
+    End Function
 End Class

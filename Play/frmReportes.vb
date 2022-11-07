@@ -26,20 +26,17 @@ Public Class frmReportes
             If VariablesGlobales.IMPRIMIENDO = "FE" Then
                 'tr_Print = New Thread(AddressOf Imprimir_FE)
                 'Imprimir_FE()
-
             ElseIf VariablesGlobales.IMPRIMIENDO = "TE" Then
                 ' tr_Print = New Thread(AddressOf Imprimir_FES)
                 'Imprimir_TE()
             ElseIf VariablesGlobales.IMPRIMIENDO = "FES" Then
                 ' tr_Print = New Thread(AddressOf Imprimir_FES)
                 'Imprimir_FES()
-
             ElseIf VariablesGlobales.IMPRIMIENDO = "NC" Then
                 'tr_Print = New Thread(AddressOf Imprimir_NC)
                 'Imprimir_NC()
             ElseIf VariablesGlobales.IMPRIMIENDO = "NCS" Then
                 'Imprimir_NCS()
-
                 'tr_Print = New Thread(AddressOf Imprimir_NCS)
             ElseIf VariablesGlobales.IMPRIMIENDO = "ND" Then
                 'Imprimir_ND()
@@ -72,10 +69,10 @@ Public Class frmReportes
             Dim MiConexion As New CrystalDecisions.Shared.ConnectionInfo
             Dim myTables As CrystalDecisions.CrystalReports.Engine.Tables = cryRpt.Database.Tables
             Dim parametros As Integer = 0
-            cryRpt.SetDatabaseLogon(VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSAP_CompanyDB, False)
+            cryRpt.SetDatabaseLogon(VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
 
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
-            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 
@@ -129,7 +126,6 @@ Public Class frmReportes
             Me.Close()
         End Try
     End Function
-
     Public Function Imprimir_FE(CodSeguridad As String)
         Dim Obj_Funciones As New Class_funcionesSQL
         ' Dim obj_SAP As New SAP
@@ -147,12 +143,10 @@ Public Class frmReportes
             Dim myTables As CrystalDecisions.CrystalReports.Engine.Tables = cryRpt.Database.Tables
             Dim parametros As Integer = 0
 
-
-
-            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSAP_CompanyDB, False)
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
 
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
-            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 
@@ -278,7 +272,6 @@ Public Class frmReportes
             MessageBox.Show(ex.Message & " - " & VariablesGlobales.Patch_FE & "  ,  " & CodSeguridad, "Imprimir_FE", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
     End Function
-
     Public Function Imprimir_FES(CodSeguridad As String)
 
         Dim Obj_Funciones As New Class_funcionesSQL
@@ -298,10 +291,10 @@ Public Class frmReportes
             Dim parametros As Integer = 0
             cryRpt.Refresh()
 
-            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSAP_CompanyDB, False)
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
 
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
-            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 
@@ -409,7 +402,6 @@ Public Class frmReportes
             MessageBox.Show("Catch Imprimir_FES " & ex.Message, "Catch", MessageBoxButtons.OK, MessageBoxIcon.Information)
         End Try
     End Function
-
     Public Function Imprimir_NC(CodSeguridad As String)
         Dim Obj_Funciones As New Class_funcionesSQL
         'Dim obj_SAP As New SAP
@@ -541,7 +533,6 @@ Public Class frmReportes
 
         End Try
     End Function
-
     Public Function Imprimir_NCS(CodSeguridad As String)
         Dim Obj_Funciones As New Class_funcionesSQL
         'Dim obj_SAP As New SAP
@@ -560,10 +551,10 @@ Public Class frmReportes
 
             'cryRpt.Refresh()
 
-            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSAP_CompanyDB, False)
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
 
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
-            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 
@@ -672,7 +663,6 @@ Public Class frmReportes
             'End If
         End Try
     End Function
-
     Public Function Imprimir_ND(CodSeguridad As String)
         Dim Obj_Funciones As New Class_funcionesSQL
         ' Dim obj_SAP As New SAP
@@ -690,10 +680,10 @@ Public Class frmReportes
             Dim parametros As Integer = 0
             'cryRpt.Refresh()
 
-            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSAP_CompanyDB, False)
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
 
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
-            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 
@@ -806,7 +796,6 @@ Public Class frmReportes
             'End If
         End Try
     End Function
-
     Public Function Imprimir_NDS(CodSeguridad As String)
         Dim Obj_Funciones As New Class_funcionesSQL
         Dim impresora_predeterminada As String
@@ -825,10 +814,11 @@ Public Class frmReportes
 
             'cryRpt.Refresh()
 
-            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSAP_CompanyDB, False)
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
 
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
-            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            'NOTA CREO QUE SI EL CLIENTE TIENE SAP ESTA OPCION DEBERIA SER CON EL XML DE LA BASE DE SAP, ES DECIR FALTA UNA CONDICIONAL
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 
@@ -935,7 +925,6 @@ Public Class frmReportes
             'End If
         End Try
     End Function
-
 
 #Region "EXPORTAR A PDF"
     Public Shared Function ExportToPDF_FE(ByVal rpt As ReportDocument, ByVal Clave As String, ByVal Tipo As String, Intentos As Integer) As String

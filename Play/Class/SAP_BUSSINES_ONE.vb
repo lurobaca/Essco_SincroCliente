@@ -912,7 +912,7 @@ Public Class SAP_BUSSINES_ONE
 
                 'PARAMETROS DE CONEXION A SAP
                 oCompany = New SAPbobsCOM.Company
-                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2012
+                oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2019
                 If Class_VariablesGlobales.XMLParamSAP_CompanyDB.Trim <> "" Then
                     oCompany.CompanyDB = Class_VariablesGlobales.XMLParamSAP_CompanyDB.Trim
                 Else
@@ -1302,6 +1302,10 @@ Public Class SAP_BUSSINES_ONE
                 vPay.UserFields.Fields.Item("U_Latitud").Value() = Latitud
                 'Longitud
                 vPay.UserFields.Fields.Item("U_Longitud").Value() = Longitud
+                'Se establece el medio de pago 01 = Efectivo por defecto campo exclusivo para pronutre
+                vPay.UserFields.Fields.Item("U_NVT_Medio_Pago").Value() = "01"
+                'Se establece el Cargar CxC 01 =SI por defecto 
+                vPay.UserFields.Fields.Item("U_CargarCxC").Value() = "01"
                 vPay.Phone1 = Phone1
                 vPay.Phone2 = Phone2
                 vPay.SalesPersonCode = Agente
@@ -1447,13 +1451,14 @@ Public Class SAP_BUSSINES_ONE
                     'Frecuencia
                     'vPay.UserFields.Fields(0).value() = "01"
                     'Dia Visita
-                    vPay.UserFields.Fields("U_Visita").value() = U_Visita
+                    vPay.UserFields.Fields.Item("U_Visita").Value() = U_Visita
+
                     'clave Web
-                    vPay.UserFields.Fields("U_ClaveWeb").value() = U_ClaveWeb
+                    vPay.UserFields.Fields.Item("U_ClaveWeb").Value() = U_ClaveWeb
                     'Latitud
-                    vPay.UserFields.Fields("U_Latitud").value() = Latitud
+                    vPay.UserFields.Fields.Item("U_Latitud").Value() = Latitud
                     'Longitud
-                    vPay.UserFields.Fields("U_Longitud").value() = Longitud
+                    vPay.UserFields.Fields.Item("U_Longitud").Value() = Longitud
                     vPay.Phone1 = Phone1
                     vPay.Phone2 = Phone2
                     vPay.EmailAddress = E_Mail
@@ -1479,7 +1484,7 @@ Public Class SAP_BUSSINES_ONE
                     ''Combo_Barrio
                     'vPay.UserFields.Fields(17).value() = Combo_Barrio
                     'Comb_TipoId
-                    vPay.UserFields.Fields("U_Tipo_Cedula").value() = "0" & Comb_TipoId
+                    vPay.UserFields.Fields.Item("U_Tipo_Cedula").Value() = "0" & Comb_TipoId
 
                     '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
                     vPay.Addresses.SetCurrentLine(1) 'Establese la linea a la cual se le cargara la informacion
@@ -1552,6 +1557,7 @@ Public Class SAP_BUSSINES_ONE
             Return retorno
         Catch ex As Exception
             MsgBox("Update failed because: " & ex.Message)
+            Return 1
         End Try
 
 
@@ -1585,10 +1591,10 @@ Public Class SAP_BUSSINES_ONE
                     'Frecuencia
                     'vPay.UserFields.Fields(0).value() = "01"
                     'Dia Visita
-                    vPay.UserFields.Fields("U_AGENTE1").value() = "0"
-                    vPay.UserFields.Fields("U_AGENTE2").value() = "0"
-                    vPay.UserFields.Fields("U_AGENTE3").value() = "0"
-                    vPay.UserFields.Fields("U_AGENTE4").value() = "CL2"
+                    vPay.UserFields.Fields.Item("U_AGENTE1").Value() = "0"
+                    vPay.UserFields.Fields.Item("U_AGENTE2").Value() = "0"
+                    vPay.UserFields.Fields.Item("U_AGENTE3").Value() = "0"
+                    vPay.UserFields.Fields.Item("U_AGENTE4").Value() = "CL2"
 
                     vPay.SalesPersonCode = 9
 
@@ -1662,21 +1668,21 @@ Public Class SAP_BUSSINES_ONE
 
 
                 'U Vista
-                vPay.UserFields.Fields("U_Visita").value() = U_Visita
+                vPay.UserFields.Fields.Item("U_Visita").Value() = U_Visita
                 'Agente 1
-                vPay.UserFields.Fields("U_AGENTE1").value() = "0"
+                vPay.UserFields.Fields.Item("U_AGENTE1").Value() = "0"
                 'Agente 2
-                vPay.UserFields.Fields("U_AGENTE2").value() = "0"
+                vPay.UserFields.Fields.Item("U_AGENTE2").Value() = "0"
                 'Agente 3
-                vPay.UserFields.Fields("U_AGENTE3").value() = "0"
+                vPay.UserFields.Fields.Item("U_AGENTE3").Value() = "0"
                 'Estado
-                vPay.UserFields.Fields("U_AGENTE4").value() = "CL2"
+                vPay.UserFields.Fields.Item("U_AGENTE4").Value() = "CL2"
                 'clave Web
-                vPay.UserFields.Fields("U_ClaveWeb").value() = U_ClaveWeb
+                vPay.UserFields.Fields.Item("U_ClaveWeb").Value() = U_ClaveWeb
                 'Latitud
-                vPay.UserFields.Fields("U_Latitud").value() = Latitud
+                vPay.UserFields.Fields.Item("U_Latitud").Value() = Latitud
                 'Longitud
-                vPay.UserFields.Fields("U_Longitud").value() = Longitud
+                vPay.UserFields.Fields.Item("U_Longitud").Value() = Longitud
 
 
                 vPay.Phone1 = Phone1
@@ -1700,7 +1706,7 @@ Public Class SAP_BUSSINES_ONE
                 ''Combo_Barrio
                 'vPay.UserFields.Fields(17).value() = Combo_Barrio
                 'Comb_TipoId
-                vPay.UserFields.Fields("U_Tipo_Cedula").value() = "0" & Comb_TipoId
+                vPay.UserFields.Fields.Item("U_Tipo_Cedula").Value() = "0" & Comb_TipoId
 
                 '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
                 vPay.Addresses.SetCurrentLine(1) 'Establese la linea a la cual se le cargara la informacion

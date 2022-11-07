@@ -41,7 +41,7 @@ Public Class Principal
                 'conecta  a SAP
                 trd1 = Nothing
                 trd1 = New Thread(AddressOf ConnectarSAP)
-                trd1.IsBackground = Enabled
+                trd1.IsBackground = Visible
                 trd1.Priority = ThreadPriority.AboveNormal
                 trd1.Start()
                 'End If
@@ -70,6 +70,8 @@ Public Class Principal
 
 
 
+
+
     Public Function Iniciar()
 
         Try
@@ -82,182 +84,193 @@ Public Class Principal
             ToolStripMenuItem12.Visible = False
             ToolStripMenuItem13.Visible = False
 
-            ContadoToolStripMenuItem.Enabled = True
-            If Class_VariablesGlobales.Puesto = "Manager" Then
-                FacturacionToolStripMenuItem.Enabled = True
-                AdministrarToolStripMenuItem.Enabled = True
-                'LiquidacionesToolStripMenuItem.Enabled = True
-                ExportarToolStripMenuItem.Enabled = True
-                ReportesToolStripMenuItem.Enabled = True
-                PlanillaToolStripMenuItem.Enabled = True
+            CerrarSesionToolStripMenuItem.Visible = True
 
-                UsuariosToolStripMenuItem.Enabled = True
-                PlanillaToolStripMenuItem.Enabled = True
-                VentasToolStripMenuItem.Enabled = True
-                ToolStripMenuItem8.Enabled = True
-                LicenciasToolStripMenuItem.Enabled = True
-                UsuariosToolStripMenuItem.Enabled = True
-                ReportesDeCargaToolStripMenuItem.Enabled = True
-                ReporteDeFacturasToolStripMenuItem.Enabled = True
-                EmpresaToolStripMenuItem.Enabled = True
+            'Este es el usuario Manager
+            If Class_VariablesGlobales.Puesto = "SuperUsuario" Then
+
+
+                MostrarOcultarTodoMenu(True)
+
+
+
+            End If
+            If Class_VariablesGlobales.Puesto = "Manager" Then
+
+                FacturacionToolStripMenuItem.Visible = True
+                AdministrarToolStripMenuItem.Visible = True
+                LiquidacionesToolStripMenuItem.Visible = True
+                ExportarToolStripMenuItem.Visible = True
+                ReportesToolStripMenuItem.Visible = True
+                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Visible = True
+                'SubMenus
+                EstadoDeTransmisionesToolStripMenuItem.Visible = True
+                AgentesToolStripMenuItem.Visible = True
+                EmpresaToolStripMenuItem.Visible = True
+                ClientesModificadosToolStripMenuItem.Visible = True
+                InformacionToolStripMenuItem.Visible = True
+                CreditoToolStripMenuItem.Visible = True
+
+                BancosToolStripMenuItem.Visible = True
+
             End If
 
             If Class_VariablesGlobales.Puesto = "Facturacion" Then
-                FacturacionToolStripMenuItem.Enabled = True
-                AdministrarToolStripMenuItem.Enabled = True
+                FacturacionToolStripMenuItem.Visible = True
+                AdministrarToolStripMenuItem.Visible = True
 
 
-                AgentesToolStripMenuItem.Enabled = True
-                BodeguerosToolStripMenuItem.Enabled = False
+                AgentesToolStripMenuItem.Visible = True
+                BodeguerosToolStripMenuItem.Visible = False
 
-                ChoferesToolStripMenuItem.Enabled = False
-                RutasToolStripMenuItem.Enabled = False
-                UniversosToolStripMenuItem.Enabled = False
-                CambioInfoClienteToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
-                CamionesToolStripMenuItem.Enabled = False
-                ClientesModificadosToolStripMenuItem.Enabled = True
+                ChoferesToolStripMenuItem.Visible = False
+                RutasToolStripMenuItem.Visible = False
+                UniversosToolStripMenuItem.Visible = False
+                CambioInfoClienteToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
+                CamionesToolStripMenuItem.Visible = False
+                ClientesModificadosToolStripMenuItem.Visible = True
 
-                PlanillaToolStripMenuItem.Enabled = False
-                'LiquidacionesToolStripMenuItem.Enabled = False
-                ExportarToolStripMenuItem.Enabled = True
-                ReportesToolStripMenuItem.Enabled = True
-                BodegaToolStripMenuItem.Enabled = False
-                PlanillaToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
-                VentasToolStripMenuItem.Enabled = False
-                ToolStripMenuItem8.Enabled = False
-                LicenciasToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
-                ReportesDeCargaToolStripMenuItem.Enabled = True
-                ReporteDeFacturasToolStripMenuItem.Enabled = True
-                EmpresaToolStripMenuItem.Enabled = False
+                PlanillaToolStripMenuItem.Visible = False
+                'LiquidacionesToolStripMenuItem.Visible = False
+                ExportarToolStripMenuItem.Visible = True
+                ReportesToolStripMenuItem.Visible = True
+                BodegaToolStripMenuItem.Visible = False
+                PlanillaToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
+                VentasToolStripMenuItem.Visible = False
+                ToolStripMenuItem8.Visible = False
+                LicenciasToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
+                ReportesDeCargaToolStripMenuItem.Visible = True
+                ReporteDeFacturasToolStripMenuItem.Visible = True
+                EmpresaToolStripMenuItem.Visible = False
             End If
 
 
             If Class_VariablesGlobales.Puesto = "Administracion" Then
-                FacturacionToolStripMenuItem.Enabled = False
-                AdministrarToolStripMenuItem.Enabled = True
-                PlanillaToolStripMenuItem.Enabled = True
-                'LiquidacionesToolStripMenuItem.Enabled = True
-                ExportarToolStripMenuItem.Enabled = True
-                ReportesToolStripMenuItem.Enabled = True
-                RevisarDepositosToolStripMenuItem.Enabled = False
-                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Enabled = True
-                PlanillaToolStripMenuItem.Enabled = True
-                UsuariosToolStripMenuItem.Enabled = False
-                VentasToolStripMenuItem.Enabled = False
-                ToolStripMenuItem8.Enabled = False
-                LicenciasToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = True
-                ReportesDeCargaToolStripMenuItem.Enabled = False
-                ReporteDeFacturasToolStripMenuItem.Enabled = False
-                EmpresaToolStripMenuItem.Enabled = False
+                FacturacionToolStripMenuItem.Visible = False
+                AdministrarToolStripMenuItem.Visible = True
+                PlanillaToolStripMenuItem.Visible = True
+                'LiquidacionesToolStripMenuItem.Visible = True
+                ExportarToolStripMenuItem.Visible = True
+                ReportesToolStripMenuItem.Visible = True
+                RevisarDepositosToolStripMenuItem.Visible = False
+                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Visible = True
+                PlanillaToolStripMenuItem.Visible = True
+                UsuariosToolStripMenuItem.Visible = False
+                VentasToolStripMenuItem.Visible = False
+                ToolStripMenuItem8.Visible = False
+                LicenciasToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = True
+                ReportesDeCargaToolStripMenuItem.Visible = False
+                ReporteDeFacturasToolStripMenuItem.Visible = False
+                EmpresaToolStripMenuItem.Visible = False
             End If
             If Class_VariablesGlobales.Puesto = "CuentasXCobrar" Then
-                FacturacionToolStripMenuItem.Enabled = True
-                AdministrarToolStripMenuItem.Enabled = True
-                PlanillaToolStripMenuItem.Enabled = False
-                'LiquidacionesToolStripMenuItem.Enabled = True
-                ExportarToolStripMenuItem.Enabled = True
-                ReportesToolStripMenuItem.Enabled = True
-                RevisarDepositosToolStripMenuItem.Enabled = False
-                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Enabled = True
-                UsuariosToolStripMenuItem.Enabled = False
-                VentasToolStripMenuItem.Enabled = False
-                ToolStripMenuItem8.Enabled = False
-                LicenciasToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
-                ReportesDeCargaToolStripMenuItem.Enabled = False
-                ReporteDeFacturasToolStripMenuItem.Enabled = False
-                EmpresaToolStripMenuItem.Enabled = False
+                FacturacionToolStripMenuItem.Visible = True
+                AdministrarToolStripMenuItem.Visible = True
+                PlanillaToolStripMenuItem.Visible = False
+                'LiquidacionesToolStripMenuItem.Visible = True
+                ExportarToolStripMenuItem.Visible = True
+                ReportesToolStripMenuItem.Visible = True
+                RevisarDepositosToolStripMenuItem.Visible = False
+                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Visible = True
+                UsuariosToolStripMenuItem.Visible = False
+                VentasToolStripMenuItem.Visible = False
+                ToolStripMenuItem8.Visible = False
+                LicenciasToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
+                ReportesDeCargaToolStripMenuItem.Visible = False
+                ReporteDeFacturasToolStripMenuItem.Visible = False
+                EmpresaToolStripMenuItem.Visible = False
             End If
             If Class_VariablesGlobales.Puesto = "Bodega" Then
-                'LiquidacionesToolStripMenuItem.Enabled = False
-                ExportarToolStripMenuItem.Enabled = False
-                PlanillaToolStripMenuItem.Enabled = False
-                ReportesToolStripMenuItem.Enabled = False
-                AdministrarToolStripMenuItem.Enabled = True
-                AgentesToolStripMenuItem.Enabled = False
-                EmpresaToolStripMenuItem.Enabled = False
-                RutasToolStripMenuItem.Enabled = False
-                UniversosToolStripMenuItem.Enabled = False
-                CambioInfoClienteToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
+                'LiquidacionesToolStripMenuItem.Visible = False
+                ExportarToolStripMenuItem.Visible = False
+                PlanillaToolStripMenuItem.Visible = False
+                ReportesToolStripMenuItem.Visible = False
+                AdministrarToolStripMenuItem.Visible = True
+                AgentesToolStripMenuItem.Visible = False
+                EmpresaToolStripMenuItem.Visible = False
+                RutasToolStripMenuItem.Visible = False
+                UniversosToolStripMenuItem.Visible = False
+                CambioInfoClienteToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
 
-                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Enabled = False
+                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Visible = False
 
-                FacturacionToolStripMenuItem.Enabled = False
-                PlanillaToolStripMenuItem.Enabled = False
-                VentasToolStripMenuItem.Enabled = False
-                ToolStripMenuItem8.Enabled = False
-                LicenciasToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
-                ReportesDeCargaToolStripMenuItem.Enabled = True
-                ReporteDeFacturasToolStripMenuItem.Enabled = True
-                EmpresaToolStripMenuItem.Enabled = False
+                FacturacionToolStripMenuItem.Visible = False
+                PlanillaToolStripMenuItem.Visible = False
+                VentasToolStripMenuItem.Visible = False
+                ToolStripMenuItem8.Visible = False
+                LicenciasToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
+                ReportesDeCargaToolStripMenuItem.Visible = True
+                ReporteDeFacturasToolStripMenuItem.Visible = True
+                EmpresaToolStripMenuItem.Visible = False
             End If
 
 
             If Class_VariablesGlobales.Puesto = "Contabilidad" Then
 
-                BodegaToolStripMenuItem.Enabled = False
-                'LiquidacionesToolStripMenuItem.Enabled = True
-                PlanillaToolStripMenuItem.Enabled = True
-                ExportarToolStripMenuItem.Enabled = True
+                BodegaToolStripMenuItem.Visible = False
+                'LiquidacionesToolStripMenuItem.Visible = True
+                PlanillaToolStripMenuItem.Visible = True
+                ExportarToolStripMenuItem.Visible = True
 
-                ReportesToolStripMenuItem.Enabled = True
-                AdministrarToolStripMenuItem.Enabled = False
-                AgentesToolStripMenuItem.Enabled = False
+                ReportesToolStripMenuItem.Visible = True
+                AdministrarToolStripMenuItem.Visible = False
+                AgentesToolStripMenuItem.Visible = False
 
-                RutasToolStripMenuItem.Enabled = False
-                UniversosToolStripMenuItem.Enabled = False
-                CambioInfoClienteToolStripMenuItem.Enabled = False
-                FacturacionToolStripMenuItem.Enabled = False
-                PlanillaToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
-                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Enabled = True
-                VentasToolStripMenuItem.Enabled = False
-                ToolStripMenuItem8.Enabled = False
-                LicenciasToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
-                ReportesDeCargaToolStripMenuItem.Enabled = False
-                ReporteDeFacturasToolStripMenuItem.Enabled = False
-                EmpresaToolStripMenuItem.Enabled = False
+                RutasToolStripMenuItem.Visible = False
+                UniversosToolStripMenuItem.Visible = False
+                CambioInfoClienteToolStripMenuItem.Visible = False
+                FacturacionToolStripMenuItem.Visible = False
+                PlanillaToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
+                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Visible = True
+                VentasToolStripMenuItem.Visible = False
+                ToolStripMenuItem8.Visible = False
+                LicenciasToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
+                ReportesDeCargaToolStripMenuItem.Visible = False
+                ReporteDeFacturasToolStripMenuItem.Visible = False
+                EmpresaToolStripMenuItem.Visible = False
             End If
 
             If Class_VariablesGlobales.Puesto = "Recepcion" Then
 
 
-                'LiquidacionesToolStripMenuItem.Enabled = True
-                AdministrarToolStripMenuItem.Enabled = True
-                AgentesToolStripMenuItem.Enabled = False
+                'LiquidacionesToolStripMenuItem.Visible = True
+                AdministrarToolStripMenuItem.Visible = True
+                AgentesToolStripMenuItem.Visible = False
 
 
-                RutasToolStripMenuItem.Enabled = False
-                UniversosToolStripMenuItem.Enabled = False
-                CambioInfoClienteToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
+                RutasToolStripMenuItem.Visible = False
+                UniversosToolStripMenuItem.Visible = False
+                CambioInfoClienteToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
 
-                FacturacionToolStripMenuItem.Enabled = True
-                BodegaToolStripMenuItem.Enabled = False
+                FacturacionToolStripMenuItem.Visible = True
+                BodegaToolStripMenuItem.Visible = False
 
-                ExportarToolStripMenuItem.Enabled = True
-                InventarioToolStripMenuItem.Enabled = False
+                ExportarToolStripMenuItem.Visible = True
+                InventarioToolStripMenuItem.Visible = False
 
-                ReportesToolStripMenuItem.Enabled = True
-                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Enabled = True
+                ReportesToolStripMenuItem.Visible = True
+                FaltanteSobranteLiquidacionAgentesToolStripMenuItem.Visible = True
 
-                CreditoToolStripMenuItem.Enabled = False
-                RevisarDepositosToolStripMenuItem.Enabled = False
-                PlanillaToolStripMenuItem.Enabled = False
-                VentasToolStripMenuItem.Enabled = False
-                ToolStripMenuItem8.Enabled = False
-                LicenciasToolStripMenuItem.Enabled = False
-                UsuariosToolStripMenuItem.Enabled = False
-                ReportesDeCargaToolStripMenuItem.Enabled = False
-                ReporteDeFacturasToolStripMenuItem.Enabled = False
-                EmpresaToolStripMenuItem.Enabled = False
+                CreditoToolStripMenuItem.Visible = False
+                RevisarDepositosToolStripMenuItem.Visible = False
+                PlanillaToolStripMenuItem.Visible = False
+                VentasToolStripMenuItem.Visible = False
+                ToolStripMenuItem8.Visible = False
+                LicenciasToolStripMenuItem.Visible = False
+                UsuariosToolStripMenuItem.Visible = False
+                ReportesDeCargaToolStripMenuItem.Visible = False
+                ReporteDeFacturasToolStripMenuItem.Visible = False
+                EmpresaToolStripMenuItem.Visible = False
             End If
 
             Dim CNX_1 As New SqlConnection
@@ -311,6 +324,7 @@ Public Class Principal
     End Sub
 
     Private Sub Principal_FormClosed(ByVal sender As System.Object, ByVal e As System.Windows.Forms.FormClosedEventArgs) Handles MyBase.FormClosed
+        Class_VariablesGlobales.Obj_Funciones_SQL.IndicaSesionActiva(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Id_Usuario, 0)
         LoginForm1.Close()
 
     End Sub
@@ -958,10 +972,10 @@ Public Class Principal
         Pregunta = MsgBox("¿Esta Seguro que desea cerrar la sesión del usuario " & Class_VariablesGlobales.Log_Usuario & "?.", vbYesNo + vbExclamation + vbDefaultButton2, "Cerrar Sesión")
         If Pregunta = vbYes Then
 
-
+            MostrarOcultarTodoMenu(False)
             Class_VariablesGlobales.Obj_Funciones_SQL.RegistrarInicioSesion(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Log_Usuario, Class_VariablesGlobales.IP, Class_VariablesGlobales.UsuarioWindows, "Cerro Sesión")
             VariablesGlobales.CerroSesion = True
-
+            Class_VariablesGlobales.Obj_Funciones_SQL.IndicaSesionActiva(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Id_Usuario, 0)
             LoginForm1.Show()
             Me.Hide()
         Else
@@ -973,7 +987,13 @@ Public Class Principal
 
     End Sub
 
-    Private Sub CerrarSesionToolStripMenuItem1_Click(sender As Object, e As EventArgs)
+    Public Function MostrarOcultarTodoMenu(ByVal ver As Boolean)
+        For Each item As System.Windows.Forms.ToolStripMenuItem In MenuStrip1.Items
+            item.Visible = ver
 
-    End Sub
+            For Each SubItems As System.Windows.Forms.ToolStripMenuItem In item.DropDownItems
+                SubItems.Visible = ver
+            Next
+        Next
+    End Function
 End Class

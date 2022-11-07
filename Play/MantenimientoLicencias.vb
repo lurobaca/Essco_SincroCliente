@@ -17,8 +17,8 @@ Public Class MantenimientoLicencias
         Else
             Tipo = 1
         End If
-        Class_VariablesGlobales.Obj_Funciones_SQL.GUARDA_Licencias(Txtb_Total.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(DTP_Desde.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(DTP_Hasta.Value.Date), Tipo.ToString, Txtb_Dias.Text, Class_VariablesGlobales.SQL_Comman)
 
+        Class_VariablesGlobales.Obj_Funciones_SQL.GUARDA_Licencias(Txtb_Agentes.Text, Txtb_Choferes.Text, Txtb_Oficina.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(DTP_Desde.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(DTP_Hasta.Value.Date), Tipo.ToString(), Txtb_Dias.Text, Class_VariablesGlobales.SQL_Comman1)
 
 
     End Sub
@@ -53,6 +53,29 @@ Public Class MantenimientoLicencias
     End Sub
     Private Sub MantenimientoLicencias_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'TestEncoding()
-        TestDecoding()
+        'TestDecoding()
+    End Sub
+
+    Private Sub Txtb_Agentes_TextChanged(sender As Object, e As EventArgs) Handles Txtb_Agentes.TextChanged
+        SumaLicencias()
+    End Sub
+
+    Public Function SumaLicencias()
+        Try
+            Txtb_Total.Text = CInt(Txtb_Agentes.Text) + CInt(Txtb_Choferes.Text) + CInt(Txtb_Oficina.Text)
+        Catch ex As Exception
+
+        End Try
+
+
+
+    End Function
+
+    Private Sub Txtb_Choferes_TextChanged(sender As Object, e As EventArgs) Handles Txtb_Choferes.TextChanged
+        SumaLicencias()
+    End Sub
+
+    Private Sub Txtb_Oficina_TextChanged(sender As Object, e As EventArgs) Handles Txtb_Oficina.TextChanged
+        SumaLicencias()
     End Sub
 End Class

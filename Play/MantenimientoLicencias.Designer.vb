@@ -106,6 +106,7 @@ Partial Class MantenimientoLicencias
         Me.Txtb_Agentes.Name = "Txtb_Agentes"
         Me.Txtb_Agentes.Size = New System.Drawing.Size(200, 22)
         Me.Txtb_Agentes.TabIndex = 6
+        Me.Txtb_Agentes.Text = "0"
         '
         'Label3
         '
@@ -163,6 +164,7 @@ Partial Class MantenimientoLicencias
         Me.Txtb_Choferes.Name = "Txtb_Choferes"
         Me.Txtb_Choferes.Size = New System.Drawing.Size(200, 22)
         Me.Txtb_Choferes.TabIndex = 13
+        Me.Txtb_Choferes.Text = "0"
         '
         'Label7
         '
@@ -179,6 +181,7 @@ Partial Class MantenimientoLicencias
         Me.Txtb_Oficina.Name = "Txtb_Oficina"
         Me.Txtb_Oficina.Size = New System.Drawing.Size(200, 22)
         Me.Txtb_Oficina.TabIndex = 15
+        Me.Txtb_Oficina.Text = "0"
         '
         'Label8
         '
@@ -195,6 +198,7 @@ Partial Class MantenimientoLicencias
         Me.Txtb_Total.Name = "Txtb_Total"
         Me.Txtb_Total.Size = New System.Drawing.Size(200, 22)
         Me.Txtb_Total.TabIndex = 17
+        Me.Txtb_Total.Text = "0"
         '
         'Label9
         '
@@ -211,6 +215,7 @@ Partial Class MantenimientoLicencias
         Me.Txtb_Dias.Name = "Txtb_Dias"
         Me.Txtb_Dias.Size = New System.Drawing.Size(200, 22)
         Me.Txtb_Dias.TabIndex = 19
+        Me.Txtb_Dias.Text = "0"
         '
         'MantenimientoLicencias
         '
@@ -238,6 +243,7 @@ Partial Class MantenimientoLicencias
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.btn_Cancelar)
         Me.Name = "MantenimientoLicencias"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Mantenimiento Licencias"
         Me.ResumeLayout(False)
         Me.PerformLayout()

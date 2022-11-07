@@ -3,8 +3,8 @@
 Public Class LoginForm1
 
     Dim id As String = ""
-    Dim Usuario As String = "BestSoft1989"
-    Dim Password As String = "PasT1989BestSoft"
+    'Dim Usuario As String = "BestSoft1989"
+    'Dim Password As String = "PasT1989BestSoft"
     Dim Obj_SQL_CONEXION_CONEXION As New CONEXION_TO_SQLSERVER
     Public Objt_GlobalVar As Class_VariablesGlobales
 
@@ -48,7 +48,7 @@ Public Class LoginForm1
 
 
         Catch ex As Exception
-            MsgBox(ex.Message, MsgBoxStyle.Critical)
+            MsgBox("ERROR LoginForm1_Load : " & ex.Message, MsgBoxStyle.Critical)
 
         End Try
 
@@ -66,7 +66,7 @@ Public Class LoginForm1
 
 
 
-                    Objt_GlobalVar.Obj_Funciones_SQL.ModificaUsuario(Objt_GlobalVar.SQL_Comman2, Usuario, Txtb_NuevoPass.Text, "", "", "", id, "")
+                    Objt_GlobalVar.Obj_Funciones_SQL.ModificaUsuario(Objt_GlobalVar.SQL_Comman2, UsernameTextBox.Text, Txtb_NuevoPass.Text, "", "", "", id, "")
 
                     PasswordTextBox.Text = Txtb_NuevoPass.Text
                     lbl_NuevoPass.Visible = False
@@ -92,39 +92,48 @@ Public Class LoginForm1
                         If PasswordTextBox.Text = Trim(TABLA.Rows(0).Item("Password").ToString()) Then
                             Objt_GlobalVar.Puesto = TABLA.Rows(0).Item("Puesto").ToString()
                             Objt_GlobalVar.Log_Usuario = Trim(TABLA.Rows(0).Item("Usuario").ToString())
+                            Objt_GlobalVar.Id_Usuario = Trim(TABLA.Rows(0).Item("id").ToString())
+
                             Objt_GlobalVar.IP = ip
                             Objt_GlobalVar.UsuarioWindows = UsuarioWindows
                             id = Trim(TABLA.Rows(0).Item("id").ToString())
 
-                            If Trim(TABLA.Rows(0).Item("Cambiar").ToString()) = "1" Then
-                                lbl_NuevoPass.Visible = True
-                                Txtb_NuevoPass.Visible = True
-
-                                lbl_ConfirmaPass.Visible = True
-                                Txtb_ConfirmaPass.Visible = True
-                            Else
-                                'Registrar inicio de sesion
-                                Objt_GlobalVar.Obj_Funciones_SQL.RegistrarInicioSesion(Objt_GlobalVar.SQL_Comman2, Objt_GlobalVar.Log_Usuario, Objt_GlobalVar.IP, Objt_GlobalVar.UsuarioWindows, "Inicio Sesión")
-
-
-
-                                Me.Hide()
-                                Principal.Show()
-                                If VariablesGlobales.CerroSesion = False Then
-                                    Class_VariablesGlobales.frmPrincipal = Principal
-
-                                Else
-                                    VariablesGlobales.CerroSesion = False
-                                    Class_VariablesGlobales.frmPrincipal.Inicializar()
-                                End If
-
-                                Class_VariablesGlobales.frmPrincipal.Text = Class_VariablesGlobales.frmPrincipal.Text & " Ususario: " & Objt_GlobalVar.Log_Usuario
-
+                            If (Trim(TABLA.Rows(0).Item("SesionIniciada").ToString()).Equals("1")) Then
+                                'El usuario ya se encuentra logueado
+                                MsgBox("El usuario ya se encuentra con una sesión activa, cierre todas las sesiones he inténtelo de nuevo")
+                                Exit Sub
 
                             End If
 
-                        Else
-                            MsgBox("Verifique su Contraseña P#BS")
+                            If Trim(TABLA.Rows(0).Item("Cambiar").ToString()) = "1" Then
+                                    lbl_NuevoPass.Visible = True
+                                    Txtb_NuevoPass.Visible = True
+
+                                    lbl_ConfirmaPass.Visible = True
+                                    Txtb_ConfirmaPass.Visible = True
+                                Else
+                                    'Registrar inicio de sesion
+                                    Objt_GlobalVar.Obj_Funciones_SQL.RegistrarInicioSesion(Objt_GlobalVar.SQL_Comman2, Objt_GlobalVar.Log_Usuario, Objt_GlobalVar.IP, Objt_GlobalVar.UsuarioWindows, "Inicio Sesión")
+                                    Objt_GlobalVar.Obj_Funciones_SQL.IndicaSesionActiva(Objt_GlobalVar.SQL_Comman2, TABLA.Rows(0).Item("id").ToString(), 1)
+
+
+                                    Me.Hide()
+                                    Principal.Show()
+                                    If VariablesGlobales.CerroSesion = False Then
+                                        Class_VariablesGlobales.frmPrincipal = Principal
+
+                                    Else
+                                        VariablesGlobales.CerroSesion = False
+                                        Class_VariablesGlobales.frmPrincipal.Inicializar()
+                                    End If
+
+                                    Class_VariablesGlobales.frmPrincipal.Text = Class_VariablesGlobales.frmPrincipal.Text & " Ususario: " & Objt_GlobalVar.Log_Usuario & "Usuario SAP:" & Class_VariablesGlobales.XMLParamSAP_UserName
+
+
+                                End If
+
+                            Else
+                                MsgBox("Verifique su Contraseña P#BS")
                         End If
                     Else
                         MsgBox("Verifique su nombre de usuario BS#")

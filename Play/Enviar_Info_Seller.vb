@@ -42,7 +42,7 @@ Public Class Enviar_Info_Seller
             Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\bancos.mbg")
             Dim Tbl_Bancos As New DataTable
 
-            If Class_VariablesGlobales.XMLParamSAP_CompanyDB <> "" Then
+            If Class_VariablesGlobales.XMLParamCuentas_UsarBancosDeSAP = "SI" Then
                 Tbl_Bancos = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneBancos(SQL_Comman1)
             Else
                 Tbl_Bancos = (Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneBancosEssco(Class_VariablesGlobales.SQL_Comman2))

@@ -38,7 +38,7 @@
         btn_Modificar.Enabled = False
         Btn_Eliminar.Enabled = False
 
-        cbx_Cambiar.Enabled = False
+
         cbx_Cambiar.Checked = False
 
         DGV_Usuarios.DataSource = New DataTable
@@ -91,4 +91,24 @@
         txtb_Usuario.Enabled = True
         txtb_Clave.Enabled = True
     End Sub
+
+    Private Sub Btn_Eliminar_Click(sender As Object, e As EventArgs) Handles Btn_Eliminar.Click
+
+        Dim Pregunta As Integer
+        Pregunta = MsgBox("¿Esta Seguro que desea eliminar el usuario: " & txtb_Nombre.Text & "?.", vbYesNo + vbExclamation + vbDefaultButton2, "Eliminar Usurio")
+        If Pregunta = vbYes Then
+
+            Class_VariablesGlobales.Obj_Funciones_SQL.EliminaUsusario(Class_VariablesGlobales.SQL_Comman1, txtb_Codigo.Text)
+            Limpiar()
+        Else
+
+        End If
+
+    End Sub
+
+    Private Sub DGV_Usuarios_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_Usuarios.CellContentClick
+
+    End Sub
+
+
 End Class

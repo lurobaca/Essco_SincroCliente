@@ -35,7 +35,7 @@
 
 
 #Region "Estado Subida"
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_RecargaTodos.Click
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
 
             Dim Tbl_Agentes As New DataTable
@@ -76,7 +76,7 @@
     End Sub
 
 
-    Private Sub Button13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_RecargSubir.Click
+    Private Sub Button13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
 
             'Tbl_Clientes, XMLParamFTP_dirLocal & txt_SoloAg.Text & "\"&txt_SoloAg.Text&".mbg", XMLParamFTP_dirLocal & txt_SoloAg.Text
@@ -115,7 +115,7 @@
 
         End Try
     End Sub
-    Private Sub btn_subir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_subir.Click
+    Private Sub btn_subir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Try
             If (txt_SoloAg.Text = "") Then
                 MessageBox.Show("Debe Ingresar un numero de Agente en el campo Correspondiente")
@@ -243,7 +243,7 @@
         dgv.Columns(6).Width = 100 'reintento
 
     End Function
-    Private Sub txt_SoloAg_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txt_SoloAg.KeyPress
+    Private Sub txt_SoloAg_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         If Char.IsDigit(e.KeyChar) Then
             e.Handled = False
         ElseIf Char.IsControl(e.KeyChar) Then
