@@ -6,6 +6,7 @@ Public Class WMS_CroquisBodega
 
     Dim Top_Columnas As Integer = 20
     Dim Top_Filas As Integer = 20
+    Dim valorCarga As Integer = 0
 
     Dim Width As Integer = 45
     Dim Height As Integer = 25
@@ -14,7 +15,9 @@ Public Class WMS_CroquisBodega
     Dim X As Integer = Width
     Dim Y As Integer = Height
     Dim btnnew As Button
+#Region "Funciones"
 
+#End Region
 
     Friend WithEvents btn As System.Windows.Forms.Button
     Friend WithEvents Etiqueta As System.Windows.Forms.Label
@@ -23,7 +26,6 @@ Public Class WMS_CroquisBodega
 
 
     End Sub
-
 
 
     Private Sub CroquisBodega_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -41,15 +43,22 @@ Public Class WMS_CroquisBodega
         'CheckForIllegalCrossThreadCalls = True
         'trd1.Start()
         CreaCorquis()
+
         Principal.Cursor = Cursors.Default
 
         'BackgroundWorker1.RunWorkerAsync()
     End Sub
 
+    ''' <summary>
+    '''crear croquis de bodega
+    ''' </summary>
     Public Function CreaCorquis()
-        'Creamos un vector de botones para leugo agregarlos a la interfaz
+        'Creamos un vector de botones para luego agregarlos a la interfaz
 
         If Class_VariablesGlobales.Ubicaciones_Modo = "Diseño" Then
+            Top_Columnas = Class_VariablesGlobales.WMS_Top_Columnas
+            Top_Filas = Class_VariablesGlobales.WMS_Top_Filas
+            valorCarga = 100 / (Top_Filas + 1)
             Diseño()
         Else
             Visual()
@@ -66,6 +75,8 @@ Public Class WMS_CroquisBodega
 
     Private Function Diseño()
         Do
+            Class_VariablesGlobales.frmMantenimientoBodegas.pbCarga.Value = Class_VariablesGlobales.frmMantenimientoBodegas.pbCarga.Value + valorCarga
+
             Etiqueta = New System.Windows.Forms.Label
             Etiqueta.Location = New Point(0, Y)
             Etiqueta.Name = "Lbl_" & Count_Columnas & Count_Filas
@@ -102,12 +113,12 @@ Public Class WMS_CroquisBodega
                 End If
 
                 Dim Obj_sql As New Class_funcionesSQL
-                Dim Existe As Boolean = CInt(Obj_sql.ExisteUbicacion(Class_VariablesGlobales.SQL_Comman2, "B" & Count_Columnas & "-" & Count_Filas))
+                Dim Existe As Boolean = CInt(Obj_sql.ExisteUbicacion(Class_VariablesGlobales.SQL_Comman2, "B" & Count_Columnas & "-" & Count_Filas & Class_VariablesGlobales.WMS_Codigo_Bodega))
 
-                'Agregamos bolones hacia la derecha hasta el top de columna lo indique
+                'Agregamos botones hacia la derecha hasta el top de columna lo indique
                 btn = New System.Windows.Forms.Button
                 btn.Location = New Point(X, Y)
-                btn.Name = "B" & Count_Columnas & "-" & Count_Filas
+                btn.Name = "B" & Count_Columnas & "-" & Count_Filas & Class_VariablesGlobales.WMS_Codigo_Bodega
                 btn.Size = New Size(Width, Height)
                 btn.TabIndex = 6
                 btn.Text = ""
@@ -134,8 +145,8 @@ Public Class WMS_CroquisBodega
             Count_Columnas = 0
             Count_Filas += 1
 
-
         Loop Until Count_Filas > Top_Filas
+        Class_VariablesGlobales.frmMantenimientoBodegas.pbCarga.Value = 100
     End Function
     Private Function Visual()
         Dim cuenta As Integer = 0
@@ -191,7 +202,7 @@ Public Class WMS_CroquisBodega
                     'AddHandler Etiqueta.Click, AddressOf boton_click
                     Tap_Planta1.Controls.Add(Etiqueta)
                 End If
-                Dim Existe As Boolean = CInt(Obj_sql.ExisteUbicacion(Class_VariablesGlobales.SQL_Comman2, "B" & Count_Columnas & "-" & Count_Filas))
+                Dim Existe As Boolean = CInt(Obj_sql.ExisteUbicacion(Class_VariablesGlobales.SQL_Comman2, "B" & Count_Columnas & "-" & Count_Filas & Class_VariablesGlobales.WMS_Codigo_Bodega))
                 If Existe = True Then
 
 
@@ -204,7 +215,7 @@ Public Class WMS_CroquisBodega
                     'Agregamos bolones hacia la derecha hasta el top de columna lo indique
                     btn = New System.Windows.Forms.Button
                     btn.Location = New Point(X, Y)
-                    btn.Name = "B" & Count_Columnas & "-" & Count_Filas
+                    btn.Name = "B" & Count_Columnas & "-" & Count_Filas & Class_VariablesGlobales.WMS_Codigo_Bodega
                     btn.Size = New Size(Width, Height)
                     btn.TabIndex = 6
                     btn.Text = ""
@@ -252,7 +263,7 @@ Public Class WMS_CroquisBodega
                 Class_VariablesGlobales.frmAdmin_Ubicaciones.txtb_Columna.Text = Nombre.Substring(1, Nombre.IndexOf("-") - 1)
                 Class_VariablesGlobales.frmAdmin_Ubicaciones.txtb_Rack.Text = Nombre.Substring(Nombre.IndexOf("-") + 1, Nombre.Length - Nombre.IndexOf("-") - 1)
                 ' TabControl1.SelectedIndex Tap_Planta1
-                Class_VariablesGlobales.frmAdmin_Ubicaciones.txtb_Planta.Text = TabControl1.SelectedTab.Name.Substring(10, TabControl1.SelectedTab.Name.Length - 10)
+                Class_VariablesGlobales.frmAdmin_Ubicaciones.txtb_Planta.Text = tcPlantas.SelectedTab.Name.Substring(10, tcPlantas.SelectedTab.Name.Length - 10)
 
                 Class_VariablesGlobales.frmAdmin_Ubicaciones.Show()
             Else
@@ -336,7 +347,6 @@ Public Class WMS_CroquisBodega
                 End While
 
 
-
             End If
         Catch ex As Exception
 
@@ -353,10 +363,17 @@ Public Class WMS_CroquisBodega
     End Sub
 
     Private Sub btn_NuevaBodega_Click(sender As Object, e As EventArgs) Handles btn_NuevaBodega.Click
+
         Class_VariablesGlobales.frmMantenimientoBodegas = New WMS_MantenimientoBodegas
         Class_VariablesGlobales.frmMantenimientoBodegas.Text = "Mantenimiento de bodegas"
         Class_VariablesGlobales.frmMantenimientoBodegas.MdiParent = Principal
 
         Class_VariablesGlobales.frmMantenimientoBodegas.Show()
+        Me.Close()
+    End Sub
+
+    Private Sub btnCambiarBodega_Click(sender As Object, e As EventArgs) Handles btnCambiarBodega.Click
+        Class_VariablesGlobales.WMS_Abrir_Bodega = False
+        Me.Close()
     End Sub
 End Class

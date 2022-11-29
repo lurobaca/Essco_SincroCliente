@@ -453,6 +453,12 @@
     <Compile Include="Admin_Rutas.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UserControl1.Designer.vb">
+      <DependentUpon>UserControl1.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserControl1.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="WMS_Admin_Ubicaciones.Designer.vb">
       <DependentUpon>WMS_Admin_Ubicaciones.vb</DependentUpon>
     </Compile>
@@ -1387,6 +1393,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin_Rutas.resx">
       <DependentUpon>Admin_Rutas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControl1.resx">
+      <DependentUpon>UserControl1.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WMS_Admin_Ubicaciones.resx">
       <DependentUpon>WMS_Admin_Ubicaciones.vb</DependentUpon>

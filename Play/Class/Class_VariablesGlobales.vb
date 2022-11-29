@@ -66,6 +66,22 @@ Public Class Class_VariablesGlobales
 
     Public Shared frmArticulos As Articulos
     Public Shared Ubicaciones_Modo As String
+    ''' <summary>
+    '''Obtener y enviar la cantidad de Filas de la cuadrícula de diseñar bodega
+    ''' </summary>
+    Public Shared WMS_Top_Filas As String
+    ''' <summary>
+    '''Obtener y enviar la cantidad de Columnas de la cuadrícula de diseñar bodega
+    ''' </summary>
+    Public Shared WMS_Top_Columnas As String
+    ''' <summary>
+    '''Obtener y enviar si se desea abrir otra bodega o cerrar el diseñador por completo
+    ''' </summary>
+    Public Shared WMS_Abrir_Bodega As Boolean
+    ''' <summary>
+    '''Obtener y enviar el código de la bodega seleccionada
+    ''' </summary>
+    Public Shared WMS_Codigo_Bodega As Integer
 
 
     Public Shared ClientesLlamadoDesde As String = ""

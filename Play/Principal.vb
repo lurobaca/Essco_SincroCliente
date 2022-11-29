@@ -795,13 +795,10 @@ Public Class Principal
 
 
         If Class_VariablesGlobales.Ubicaciones_Modo = "" Then
-            Me.Cursor = Cursors.WaitCursor
-            Class_VariablesGlobales.Ubicaciones_Modo = "Diseño"
-
-            Class_VariablesGlobales.frmCroquisBodega = New WMS_CroquisBodega
-            Class_VariablesGlobales.frmCroquisBodega.Text = "Modo Diseño de la bodega"
-            Class_VariablesGlobales.frmCroquisBodega.MdiParent = Me
-            Class_VariablesGlobales.frmCroquisBodega.Show()
+            Class_VariablesGlobales.frmMantenimientoBodegas = New WMS_MantenimientoBodegas
+            Class_VariablesGlobales.frmMantenimientoBodegas.Text = "Mantenimiento de Bodegas | Modo Diseño de la bodega"
+            Class_VariablesGlobales.frmMantenimientoBodegas.MdiParent = Me
+            Class_VariablesGlobales.frmMantenimientoBodegas.Show()
         Else
             MsgBox("No se pueden ver las ubicaciones hasta que cierre el Modo Diseño")
         End If

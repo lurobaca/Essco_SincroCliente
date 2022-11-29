@@ -1,6 +1,13 @@
 ﻿Public Class WMS_Admin_Ubicaciones
 
+#Region "Funciones"
+    ''' <summary>
+    '''Crea el código de barras a partir del código generado en el txtb_CodBarras
+    ''' </summary>
+    Private Sub imprimirCodigoBarras()
 
+    End Sub
+#End Region
     Private Sub Admin_Ubicaciones_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim CodBarras As String
         '2 primeros digitos para el numero de planta
@@ -89,7 +96,7 @@
         'No debe permitir eliminar una ubicacion si esta tiene registrada mercaderia
 
         Dim Pregunta As Integer
-        Pregunta = MsgBox("Si elimina la ubicacion se borrara el croquis " & vbCrLf & "Esta Seguro que desea elimina la ubicacion?", vbYesNo + MsgBoxStyle.Critical + vbDefaultButton2, "ELIMINAR UBICACION")
+        Pregunta = MsgBox("Si elimina la ubicación se borrará del croquis " & vbCrLf & "¿Está Seguro que desea eliminar la ubicación?", vbYesNo + MsgBoxStyle.Critical + vbDefaultButton2, "ELIMINAR UBICACION")
         If Pregunta = vbYes Then
             Class_VariablesGlobales.Obj_Funciones_SQL.EliminaUbicaciones(Class_VariablesGlobales.SQL_Comman2, txtb_Nombre.Text)
 
@@ -107,59 +114,12 @@
         Me.Close()
     End Sub
 
-    Private Sub txtb_NumNiveles_TextChanged(sender As Object, e As EventArgs) Handles txtb_NumNiveles.TextChanged
-        Try
 
-
-            If CInt(txtb_NumNiveles.Text) >= 1 Then
-                txtb_N1.Text = txtb_CodBarras.Text.Substring(1, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 2 Then
-                txtb_N2.Text = txtb_CodBarras.Text.Substring(2, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 3 Then
-                txtb_N3.Text = txtb_CodBarras.Text.Substring(3, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 4 Then
-                txtb_N4.Text = txtb_CodBarras.Text.Substring(4, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 5 Then
-                txtb_N5.Text = txtb_CodBarras.Text.Substring(5, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 6 Then
-                txtb_N6.Text = txtb_CodBarras.Text.Substring(6, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 7 Then
-                txtb_N7.Text = txtb_CodBarras.Text.Substring(7, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 8 Then
-                txtb_N8.Text = txtb_CodBarras.Text.Substring(8, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 9 Then
-                txtb_N9.Text = txtb_CodBarras.Text.Substring(9, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-            If CInt(txtb_NumNiveles.Text) >= 10 Then
-                txtb_N10.Text = txtb_CodBarras.Text.Substring(10, txtb_CodBarras.Text.Length - 1) & "1"
-            End If
-
-        Catch ex As Exception
-
-        End Try
-    End Sub
 
     Private Sub txtb_NumNiveles_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtb_NumNiveles.KeyPress
-        If Not IsNumeric(e.KeyChar) Then
-            e.Handled = True
-        End If
+        'If Not IsNumeric(e.KeyChar) Or e.KeyChar = ChrW(8) Then
+        '    e.Handled = True
+        'End If
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
@@ -169,5 +129,30 @@
         Class_VariablesGlobales.IMPRIMIENDO = "Ubicaciones"
 
         frmReporte.Show()
+    End Sub
+
+    Private Sub txtb_NumNiveles_TextChanged(sender As Object, e As EventArgs) Handles txtb_NumNiveles.TextChanged
+        Try
+            Dim filaDGV As Integer = 0
+            Dim cantNiveles As Integer
+            DGV_Niveles.Rows.Clear()
+            If txtb_NumNiveles.Text <> "" Then
+                cantNiveles = txtb_NumNiveles.Text
+                Do
+                    DGV_Niveles.Rows.Add()
+                    DGV_Niveles.Rows(filaDGV).Cells(0).Value = cantNiveles
+                    If cantNiveles > 9 Then
+                        DGV_Niveles.Rows(filaDGV).Cells(1).Value = txtb_CodBarras.Text.Substring(1, txtb_CodBarras.Text.Length - 2) & cantNiveles
+                    Else
+                        DGV_Niveles.Rows(filaDGV).Cells(1).Value = txtb_CodBarras.Text.Substring(1, txtb_CodBarras.Text.Length - 1) & cantNiveles
+                    End If
+                    DGV_Niveles.Rows(filaDGV).Cells(2).Value = 0
+                    filaDGV += 1
+                    cantNiveles -= 1
+                Loop Until filaDGV >= txtb_NumNiveles.Text
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 End Class
