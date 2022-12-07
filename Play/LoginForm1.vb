@@ -98,7 +98,7 @@ Public Class LoginForm1
                             Objt_GlobalVar.UsuarioWindows = UsuarioWindows
                             id = Trim(TABLA.Rows(0).Item("id").ToString())
 
-                            If (Trim(TABLA.Rows(0).Item("SesionIniciada").ToString()).Equals("1")) Then
+                            If (Trim(TABLA.Rows(0).Item("SesionIniciada").ToString()).Equals("1") And Trim(TABLA.Rows(0).Item("Usuario").ToString()) <> "Manager") Then
                                 'El usuario ya se encuentra logueado
                                 MsgBox("El usuario ya se encuentra con una sesión activa, cierre todas las sesiones he inténtelo de nuevo")
                                 Exit Sub

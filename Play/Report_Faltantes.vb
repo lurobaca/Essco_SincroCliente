@@ -14,12 +14,10 @@ Public Class Report_Faltantes
     Private Sub btn_BuscaAgente_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_BuscaAgente.Click
         Class_VariablesGlobales.Lista_llamadaDesde = "REPORTE"
 
-
         Class_VariablesGlobales.Obj_ListaAgentes = New ListaAgentes
         Class_VariablesGlobales.Obj_ListaAgentes.MdiParent = Principal
         Class_VariablesGlobales.Obj_ListaAgentes.Puesto = "AGENTE"
         Class_VariablesGlobales.Obj_ListaAgentes.Show()
-
 
     End Sub
 

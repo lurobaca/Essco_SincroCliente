@@ -36,7 +36,7 @@ Public Class Class_XML_Conexion
             'End If
 
             If Principal IsNot Nothing Then
-                Principal.Text = "SINCRO CLIENTE [06.11.2022] v1 " & "  " & conectar
+                Principal.Text = "SINCRO CLIENTE 04.12.2022] v1 " & "  " & conectar
             End If
 
             'Creamos el "Document"
@@ -168,8 +168,8 @@ Public Class Class_XML_Conexion
             Next
         Catch ex As Exception
             'Error trapping
-            MessageBox.Show("NO SE ENCUENTRA EL ARCHIVO DE PARAMETROS DE CONEXION ,CONTACTESE CON LUIS ROBERTO BASTOS C AL TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com")
-            VariablesGlobales.Obj_Log.Log("NO SE ENCUENTRA EL ARCHIVO DE PARAMETROS DE CONEXION ,CONTACTESE CON LUIS ROBERTO BASTOS C AL TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com", "MR")
+            MessageBox.Show("NO SE ENCUENTRA EL ARCHIVO DE PARAMETROS DE CONEXION ,CONTACTESE CON LUIS ROBERTO BASTOS C AL TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com [ " & ex.Message & " ]")
+            VariablesGlobales.Obj_Log.Log("NO SE ENCUENTRA EL ARCHIVO DE PARAMETROS DE CONEXION ,CONTACTESE CON LUIS ROBERTO BASTOS C AL TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com  [ " & ex.Message & " ]", "MR")
             Return 1
         End Try
     End Function
@@ -227,14 +227,15 @@ Public Class Class_XML_Conexion
 
             Dim FechaVencimiento As String
 
-
-            FechaVencimiento = Obj_LicSeguridad.DesEncripta(Class_VariablesGlobales.XML_LicenciaSincroServer)
+            FechaVencimiento = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneFechaVencimientoLicencia()
+            FechaVencimiento = Obj_LicSeguridad.DesEncripta(FechaVencimiento)
+            ' FechaVencimiento = Obj_LicSeguridad.DesEncripta(Class_VariablesGlobales.XML_LicenciaSincroServer)
 
             'inicializa la propiedad de fecha de vencimiento
             Class_VariablesGlobales.MisPropiedades.Valida = FechaVencimiento
             Dim diasrestantes As Integer = Obj_HoraFecha.Dias(Now.Date, FechaVencimiento)
             If diasrestantes <= 0 Then
-                MessageBox.Show("LO SENTIMOS  LA LICENCIA HA CADUCADO " & vbCrLf & "CONTACTESE CON LUIS ROBERTO BASTOS CASTILLO " & vbCrLf & "TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com", "Sincro Server", MessageBoxButtons.OK)
+                MessageBox.Show("LO SENTIMOS  LA LICENCIA HA CADUCADO " & vbCrLf & "CONTACTE A LUIS ROBERTO BASTOS CASTILLO " & vbCrLf & "TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com", "Sincro Server", MessageBoxButtons.OK, MessageBoxIcon.Information)
 
 
 
@@ -256,13 +257,13 @@ Public Class Class_XML_Conexion
                 MSJ = Nothing
                 Return 1
             End If
-            If diasrestantes < 15 Then
-                MessageBox.Show("ALERTA !! Su Licencia Expirara en " & diasrestantes & " Dias  " & vbCrLf & " comuniquese con su proveedor de softwate " & vbCrLf & " evite que su sistema se bloquee " & vbCrLf & "CONTACTESE CON LUIS ROBERTO BASTOS CASTILLO " & vbCrLf & "TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com", "Sincro Server", MessageBoxButtons.OK)
-                VariablesGlobales.Obj_Log.Log("ALERTA !! Su Licencia Expirara en " & diasrestantes & " Dias  " & vbCrLf & " comuniquese con su proveedor de softwate " & vbCrLf & " evite que su sistema se bloquee " & vbCrLf & "CONTACTESE CON LUIS ROBERTO BASTOS CASTILLO " & vbCrLf & "TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com", "MR")
+            If diasrestantes < 7 Then
+                MessageBox.Show("Su Licencia expirara en " & diasrestantes & " Dias  " & vbCrLf & " comuníquese con su proveedor de software " & vbCrLf & " evite que su sistema se bloquee " & vbCrLf & "CONTACTESE CON LUIS ROBERTO BASTOS CASTILLO " & vbCrLf & "TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com", "ALERTA !! ", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)
+                VariablesGlobales.Obj_Log.Log("ALERTA !! Su Licencia expirara en " & diasrestantes & " Dias  " & vbCrLf & " comuníquese con su proveedor de software " & vbCrLf & " evite que su sistema se bloquee " & vbCrLf & "CONTACTE A LUIS ROBERTO BASTOS CASTILLO " & vbCrLf & "TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com", "MR")
                 Dim TABLA As New DataTable
                 TABLA = VariablesGlobales.Obj_SQL.CONSULTA_InfoContactoEmpresa(Class_VariablesGlobales.SQL_Comman2)
 
-                Dim MSJ As String = "Licencia pronta a vencerse, se vencera en [ " & diasrestantes & " ] dias del cliente: " & vbCrLf &
+                Dim MSJ As String = "Licencia pronta a vencerse, se vencerá en [ " & diasrestantes & " ] dias del cliente: " & vbCrLf &
                                         " Cedula: " & Trim(TABLA.Rows(0).Item("Cedula").ToString()) & vbCrLf &
                                         " Nombre: " & Trim(TABLA.Rows(0).Item("Nombre").ToString()) & vbCrLf &
                                         " Telefono: " & Trim(TABLA.Rows(0).Item("Telefono").ToString()) & vbCrLf &
@@ -283,9 +284,9 @@ Public Class Class_XML_Conexion
             Return 0
         Catch ex As Exception
             'Error trapping
-            MessageBox.Show("NO SE ENCUENTRA EL ARCHIVO DE LICENCIA [Verifique que el formato de fecha sea dd/mm/yyyy ] " & vbCrLf & "CONTACTESE CON LUIS ROBERTO BASTOS CASTILLO" & vbCrLf & " TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com", "Sincro Server", MessageBoxButtons.OK)
+            MessageBox.Show("NO SE ENCUENTRA EL ARCHIVO DE LICENCIA [Verifique que el formato de fecha sea dd/mm/yyyy ] " & vbCrLf & "CONTACTESE CON LUIS ROBERTO BASTOS CASTILLO" & vbCrLf & " TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com [ " & ex.Message & " ]", "Sincro Cliente", MessageBoxButtons.OK)
 
-            VariablesGlobales.Obj_Log.Log("NO SE ENCUENTRA EL ARCHIVO DE LICENCIA [Verifique que el formato de fecha sea dd/mm/yyyy ] " & vbCrLf & "CONTACTESE CON LUIS ROBERTO BASTOS CASTILLO" & vbCrLf & " TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com", "MR")
+            VariablesGlobales.Obj_Log.Log("NO SE ENCUENTRA EL ARCHIVO DE LICENCIA [Verifique que el formato de fecha sea dd/mm/yyyy ] " & vbCrLf & "CONTACTESE CON LUIS ROBERTO BASTOS CASTILLO" & vbCrLf & " TEL: 88801662 Ó AL CORREO : lurobaca@gmail.com/ilepilep@hotmail.com [ " & ex.Message & " ]", "MR")
 
             Return 1
         End Try

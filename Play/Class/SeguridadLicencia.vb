@@ -60,59 +60,65 @@
     End Function
 
     Public Function DesEncripta(ByVal Datos As String)
-
-        Dim cadena As String
-        Dim n As Integer
-        Dim Caracter As String
         Dim FechaVencimiento As String
-
-        For n = 0 To Len(Datos) - 1
-            Caracter = Datos.Chars(n)
-
-            If Caracter = "0" Then
-                FechaVencimiento = FechaVencimiento & "0"
-            End If
-            If Caracter = "9" Then
-                FechaVencimiento = FechaVencimiento & "/"
-            End If
-            If Caracter = "A" Then
-                FechaVencimiento = FechaVencimiento & "1"
-            End If
-            If Caracter = "B" Then
-                FechaVencimiento = FechaVencimiento & "2"
-            End If
-            If Caracter = "C" Then
-                FechaVencimiento = FechaVencimiento & "3"
-            End If
-            If Caracter = "D" Then
-                FechaVencimiento = FechaVencimiento & "4"
-            End If
-            If Caracter = "E" Then
-                FechaVencimiento = FechaVencimiento & "5"
-            End If
-            If Caracter = "F" Then
-                FechaVencimiento = FechaVencimiento & "6"
-            End If
-            If Caracter = "G" Then
-                FechaVencimiento = FechaVencimiento & "7"
-            End If
-            If Caracter = "H" Then
-                FechaVencimiento = FechaVencimiento & "8"
-            End If
-            If Caracter = "I" Then
-                FechaVencimiento = FechaVencimiento & "9"
-            End If
-
-            If Caracter = "-" Then
-
-            End If
-            If Caracter = "M" Then
-
-            End If
+        Try
 
 
-        Next n
+            Dim cadena As String
+            Dim n As Integer
+            Dim Caracter As String
 
+
+            For n = 0 To Len(Datos) - 1
+                Caracter = Datos.Chars(n)
+
+                If Caracter = "0" Then
+                    FechaVencimiento = FechaVencimiento & "0"
+                End If
+                If Caracter = "9" Then
+                    FechaVencimiento = FechaVencimiento & "/"
+                End If
+                If Caracter = "A" Then
+                    FechaVencimiento = FechaVencimiento & "1"
+                End If
+                If Caracter = "B" Then
+                    FechaVencimiento = FechaVencimiento & "2"
+                End If
+                If Caracter = "C" Then
+                    FechaVencimiento = FechaVencimiento & "3"
+                End If
+                If Caracter = "D" Then
+                    FechaVencimiento = FechaVencimiento & "4"
+                End If
+                If Caracter = "E" Then
+                    FechaVencimiento = FechaVencimiento & "5"
+                End If
+                If Caracter = "F" Then
+                    FechaVencimiento = FechaVencimiento & "6"
+                End If
+                If Caracter = "G" Then
+                    FechaVencimiento = FechaVencimiento & "7"
+                End If
+                If Caracter = "H" Then
+                    FechaVencimiento = FechaVencimiento & "8"
+                End If
+                If Caracter = "I" Then
+                    FechaVencimiento = FechaVencimiento & "9"
+                End If
+
+                If Caracter = "-" Then
+
+                End If
+                If Caracter = "M" Then
+
+                End If
+
+
+            Next n
+        Catch ex As Exception
+            MsgBox("Error al DesEncripta [" & ex.Message & "] [" & Datos & "]")
+
+        End Try
         Return FechaVencimiento
     End Function
 End Class

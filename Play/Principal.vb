@@ -96,7 +96,7 @@ Public Class Principal
 
             End If
             If Class_VariablesGlobales.Puesto = "Manager" Then
-
+                ContadoToolStripMenuItem.Visible = True
                 FacturacionToolStripMenuItem.Visible = True
                 AdministrarToolStripMenuItem.Visible = True
                 LiquidacionesToolStripMenuItem.Visible = True
@@ -112,6 +112,7 @@ Public Class Principal
                 CreditoToolStripMenuItem.Visible = True
 
                 BancosToolStripMenuItem.Visible = True
+                ReporteDeFacturasToolStripMenuItem.Visible = True
 
             End If
 
@@ -149,6 +150,7 @@ Public Class Principal
 
 
             If Class_VariablesGlobales.Puesto = "Administracion" Then
+                ContadoToolStripMenuItem.Visible = True
                 FacturacionToolStripMenuItem.Visible = False
                 AdministrarToolStripMenuItem.Visible = True
                 PlanillaToolStripMenuItem.Visible = True

@@ -281,6 +281,68 @@ Public Class CrearArchivo
         Return 0
 
     End Function
+    Public Function Crear_InLicencia(ByVal Tbl_Licencia As DataTable, ByVal RutaOrigen As String, ByVal carpeta As String)
+        Try
+            Dim sRenglon As String = Nothing
+            Dim strStreamW As Stream = Nothing
+            Dim strStreamWriter As StreamWriter = Nothing
+            Dim ContenidoArchivo As String = Nothing
+            Dim PathArchivo As String
+            Dim i As Integer
+
+            Dim cont As Integer = 0
+            Dim Linea As String = ""
+            Dim FechaEstado As String = ""
+
+
+            If Directory.Exists(carpeta) = False Then ' si no existe la carpeta se crea
+                Directory.CreateDirectory(carpeta)
+            End If
+
+            Cursor.Current = Cursors.WaitCursor
+            PathArchivo = RutaOrigen ' Se determina el nombre del archivo 
+
+            'verificamos si existe el archivo
+            If File.Exists(PathArchivo) Then
+                strStreamW = File.Open(PathArchivo, FileMode.Open) 'Abrimos el archivo
+            Else
+                strStreamW = File.Create(PathArchivo) ' lo creamos
+            End If
+            strStreamWriter = New StreamWriter(strStreamW, System.Text.Encoding.Default) ' tipo de codificacion para escritura
+
+            For Each row As DataRow In Tbl_Licencia.Rows
+                FechaEstado = Tbl_Licencia.Rows(cont).Item("FechaEstado").ToString()
+
+                Linea = FechaEstado + "^"
+                strStreamWriter.WriteLine(Linea)
+                Linea = ""
+                FechaEstado = ""
+
+                cont += 1
+            Next
+
+            '  DetalleCarga = "FIN DE GENERANDO ARCHIVO "
+            strStreamWriter.Close() ' cerramos
+            'INICIO DE LIBERIACION DE MEMORIA
+            sRenglon = Nothing
+            strStreamW.Dispose()
+            strStreamW = Nothing
+            strStreamWriter.Dispose()
+            strStreamWriter = Nothing
+            ContenidoArchivo = Nothing
+            PathArchivo = Nothing
+            i = Nothing
+            Linea = Nothing
+            Linea = Nothing
+            FechaEstado = Nothing
+
+
+        Catch ex As Exception
+            MsgBox("ERROR Crear_InLicencia [ " & ex.Message & " ]")
+        End Try
+        Return 0
+
+    End Function
 
     Public Function Crear_InUbicaciones(ByVal Tbl_Ubicaciones As DataTable, ByVal RutaOrigen As String, ByVal carpeta As String)
         Try
@@ -1976,7 +2038,7 @@ Public Class CrearArchivo
             Dim Ano As String = Now.Date.Year
 
             Dim Fecha As String = Dia & "-" & Mes & "-" & Ano
-            Dim RutaBase As String = "M:\IMPORTACION\Reporte_De_Facturas"
+            Dim RutaBase As String = Class_VariablesGlobales.XMLParamFTP_dirLocal & "Reporte_De_Facturas"
 
 
             'CREA LA CARPETA DEL DIA

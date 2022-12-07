@@ -1286,6 +1286,17 @@ Public Class SAP_BUSSINES_ONE
                 vPay.FederalTaxID = Cedula.PadLeft(12, "0")
                 'Comb_TipoId
                 vPay.UserFields.Fields.Item("U_Tipo_Cedula").Value() = "0" & Comb_TipoId
+
+                'GlblLocNum CAMPO EXLUSIVO DE PRONUTRE 
+                '01=CED FISICA
+                '02='CDU JURIDICA
+                '00=CLIENTE EXTRANGERO
+                '03=DIMEX
+                '04=NITE
+                vPay.GlobalLocationNumber = "0" & Comb_TipoId
+
+
+
                 'Dia Visita
                 vPay.UserFields.Fields.Item("U_Visita").Value() = U_Visita
                 'STATUS
@@ -1485,6 +1496,14 @@ Public Class SAP_BUSSINES_ONE
                     'vPay.UserFields.Fields(17).value() = Combo_Barrio
                     'Comb_TipoId
                     vPay.UserFields.Fields.Item("U_Tipo_Cedula").Value() = "0" & Comb_TipoId
+                    'GlblLocNum CAMPO EXLUSIVO DE PRONUTRE 
+                    '01=CED FISICA
+                    '02='CDU JURIDICA
+                    '00=CLIENTE EXTRANGERO
+                    '03=DIMEX
+                    '04=NITE
+                    vPay.GlobalLocationNumber = "0" & Comb_TipoId
+
 
                     '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
                     vPay.Addresses.SetCurrentLine(1) 'Establese la linea a la cual se le cargara la informacion
@@ -1707,7 +1726,15 @@ Public Class SAP_BUSSINES_ONE
                 'vPay.UserFields.Fields(17).value() = Combo_Barrio
                 'Comb_TipoId
                 vPay.UserFields.Fields.Item("U_Tipo_Cedula").Value() = "0" & Comb_TipoId
-
+                'Se establece el medio de pago 01 = Efectivo por defecto campo exclusivo para pronutre
+                vPay.UserFields.Fields.Item("U_NVT_Medio_Pago").Value() = "01"
+                'GlblLocNum CAMPO EXLUSIVO DE PRONUTRE 
+                '01=CED FISICA
+                '02='CDU JURIDICA
+                '00=CLIENTE EXTRANGERO
+                '03=DIMEX
+                '04=NITE
+                vPay.GlobalLocationNumber = "0" & Comb_TipoId
                 '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
                 vPay.Addresses.SetCurrentLine(1) 'Establese la linea a la cual se le cargara la informacion
 

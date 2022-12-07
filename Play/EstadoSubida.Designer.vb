@@ -88,6 +88,7 @@ Partial Class EstadoSubida
         Me.Button1.TabIndex = 20
         Me.Button1.Text = "Nube"
         Me.Button1.UseVisualStyleBackColor = False
+        Me.Button1.Visible = False
         '
         'Button5
         '
@@ -101,6 +102,7 @@ Partial Class EstadoSubida
         Me.Button5.TabIndex = 19
         Me.Button5.Text = "HOY BLOQUEADO"
         Me.Button5.UseVisualStyleBackColor = False
+        Me.Button5.Visible = False
         '
         'BTN_LocalFtp
         '

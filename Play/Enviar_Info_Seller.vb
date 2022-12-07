@@ -31,6 +31,34 @@ Public Class Enviar_Info_Seller
 
         End Try
     End Sub
+
+
+
+    Public Sub Carga_Licencia(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String)
+        Try
+            Try
+                My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Licencia.mbg")
+            Catch ex As Exception
+
+            End Try
+
+            Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Licencia.mbg")
+            Dim Tbl_Licencia As New DataTable
+
+
+            Tbl_Licencia = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneLicencia(SQL_Comman1)
+
+
+            Class_VariablesGlobales.Obj_Creaarchivo.Crear_InLicencia(Tbl_Licencia, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Licencia.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta)
+            If Class_VariablesGlobales.Obj_Creaarchivo.ObtieneTamanoFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Licencia.mbg") <> "0 Kb" Then
+                Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Licencia.mbg", "Licencia.mbg", Ruta2, "Completo", Servidor)
+            End If
+
+            Tbl_Licencia.Dispose()
+        Catch ex As Exception
+
+        End Try
+    End Sub
     Public Sub Carga_Bancos(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String)
         Try
             Try
@@ -191,8 +219,6 @@ Public Class Enviar_Info_Seller
         End If
 
     End Function
-
-
     Public Sub Carga_UbiacionesCR(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String)
         Try
             Try
@@ -214,8 +240,6 @@ Public Class Enviar_Info_Seller
 
         End Try
     End Sub
-
-
 
     Public Function Carga_Inventario(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String)
         Try
@@ -383,6 +407,7 @@ Public Class Enviar_Info_Seller
         'Generar datos del agente y cargadrlos en el otro agente
 
         Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
+        Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
 
         If Cbox_Bancos.Checked = True Then
             Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
@@ -456,6 +481,7 @@ Public Class Enviar_Info_Seller
             Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             Carga_UbiacionesCR(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+            Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
 
             If CBX_Param.Checked = True Then
 
@@ -514,6 +540,7 @@ Public Class Enviar_Info_Seller
             Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+            Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             If CBX_Param.Checked = True Then
 
                 ExportaParametros(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)

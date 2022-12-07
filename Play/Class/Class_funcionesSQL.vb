@@ -151,7 +151,25 @@ Public Class Class_funcionesSQL
 
     End Function
 
+    Public Function ObtieneFechaVencimientoLicencia()
+        Try
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
 
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Consulta = "Select [FechaEstado] From [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa]"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return Trim(TABLA.Rows(0).Item("FechaEstado").ToString())
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneFechaVencimientoLicencia [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
     Public Function ObtieneFechaComprobante(Clave As String)
         Try
             Dim SQL_Comman As New SqlCommand
@@ -2777,7 +2795,7 @@ Public Class Class_funcionesSQL
 
             Return TABLA
         Catch ex As Exception
-            MessageBox.Show("ERROR en VerificaGastoLiqAge_Anulado [ " & ex.Message & " ]")
+            MessageBox.Show("ERROR en ObtieneBancosEssco [ " & ex.Message & " ]")
         End Try
     End Function
     Public Function EliminaBancosEssco(ByVal SQL_Comman As SqlCommand, Codigo As String)
@@ -2844,7 +2862,7 @@ Public Class Class_funcionesSQL
 
             Return TABLA
         Catch ex As Exception
-            MessageBox.Show("ERROR en VerificaGastoLiqAge_Anulado [ " & ex.Message & " ]")
+            MessageBox.Show("ERROR en ComprobanteENHACIENDA [ " & ex.Message & " ]")
         End Try
     End Function
     Public Function Math_ENHACIENDA(ByVal SQL_Comman As SqlCommand, FechaINI As String, FechaFIN As String, Ver As String)
@@ -6540,12 +6558,14 @@ Public Class Class_funcionesSQL
 
     End Function
     Public Function GUARDA_ReporteFacturas(ByVal Consecutivo As String, ByVal DocNum As String, ByVal DocDate As String, ByVal Hora As String, ByVal Ruta As String, ByVal CardCode As String, ByVal CardName As String, ByVal DocTotal As String, ByVal DiscSum As String, ByVal VatSum As String, ByVal ItemCode As String, ByVal Dscription As String, ByVal Quantity As String, ByVal DiscPrcnt As String, ByVal Price As String, ByVal LineTotal As String, ByVal txt_FacturaINI As String, ByVal txt_FacturaFIN As String, ByVal Chofer As String, ByVal Ayudante As String, ByVal Saldo As String, ByVal Condicion As String, ByVal MostrarEnLiq As String, ByVal SlpCode As String, ByVal ConB1 As Integer, ByVal Usuario As String, Imp As String, DescFijo As String, DescPromo As String, ByVal SQL_Comman As SqlCommand)
+        Dim Consulta As String = ""
         Try
 
 
 
-            Dim Consulta As String
+
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+
 
             Consulta = ""
             Consulta = "INSERT INTO  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Rep_Facturas](" &
@@ -6592,7 +6612,7 @@ Public Class Class_funcionesSQL
 
 
         Catch ex As Exception
-            MessageBox.Show("ERROR en GUARDA_ReporteFacturas [ " & ex.Message & " ]")
+            MessageBox.Show("ERROR en GUARDA_ReporteFacturas [ " & Consulta & "] [ " & ex.Message & " ]")
 
             VariablesGlobales.Obj_Log.Log("ERROR en GUARDA_ReporteFacturas [" & Consecutivo & "] [ " & ex.Message & " ]", "MR")
         End Try
@@ -9027,7 +9047,23 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en Obtieneclientes_X_Agente [ " & ex.Message & " ]")
         End Try
     End Function 'obtiene los clientes segun un agente para cargarlos en el celular
+    Public Function ObtieneLicencia(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Tbl_Licencia As New DataTable
+            Dim ADATER As New SqlDataAdapter
 
+            Dim Consulta As String = ""
+            Consulta = "SELECT T0.[FechaEstado] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empresa] T0"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(Tbl_Licencia)
+            SQL_Comman = Nothing
+
+            Return Tbl_Licencia
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneLicencia [ " & ex.Message & " ]")
+        End Try
+    End Function 'obtiene los clientes segun un agente para cargarlos en el celular
     Public Function Obtiene_UbicacionesCR(ByVal SQL_Comman As SqlCommand)
         Try
             Dim Tbl_Ubicacion As New DataTable
@@ -10248,12 +10284,12 @@ Public Class Class_funcionesSQL
         End Try
     End Function
     Public Function ActualizoCliente(ByVal SQL_Comman As SqlCommand, ByVal Consecutivo As String)
-
+        Dim Consulta As String
         Try
             ' Dim SQL_Comman As New SqlCommand
             ' para la conexion al comman
             ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
-            Dim Consulta As String
+
             Consulta = ""
             Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesModificados]  SET [Aprobado]='1' WHERE [Consecutivo] = '" & Consecutivo & "'"
             SQL_Comman.CommandText = Consulta
@@ -10261,7 +10297,7 @@ Public Class Class_funcionesSQL
             'Obj_SQL_CONEXION.Desconectar(SQL_Comman)
             SQL_Comman = Nothing
         Catch ex As Exception
-
+            MessageBox.Show("ERROR EN ActualizoCliente [" & ex.Message & "]" & "[" & Consulta & "]")
         End Try
     End Function
 

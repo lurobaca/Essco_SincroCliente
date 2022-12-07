@@ -35,7 +35,7 @@
 
 
 #Region "Estado Subida"
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub RecargaTodos_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_RecargaTodos.Click
         Try
 
             Dim Tbl_Agentes As New DataTable
@@ -76,7 +76,7 @@
     End Sub
 
 
-    Private Sub Button13_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub RecargSubir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_RecargSubir.Click
         Try
 
             'Tbl_Clientes, XMLParamFTP_dirLocal & txt_SoloAg.Text & "\"&txt_SoloAg.Text&".mbg", XMLParamFTP_dirLocal & txt_SoloAg.Text
@@ -115,7 +115,7 @@
 
         End Try
     End Sub
-    Private Sub btn_subir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+    Private Sub btn_subir_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_subir.Click
         Try
             If (txt_SoloAg.Text = "") Then
                 MessageBox.Show("Debe Ingresar un numero de Agente en el campo Correspondiente")
@@ -403,6 +403,7 @@
         DGV_EstadoSubida.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.Consulta_Estado_SubidaSAP(txt_SoloAg.Text, CBox_Archivo.Text, "SUBIDO", Class_VariablesGlobales.SQL_Comman2)
 
     End Sub
+
 
 
 #End Region

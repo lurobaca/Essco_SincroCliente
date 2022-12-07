@@ -597,11 +597,7 @@ Public Class Reporte_Facturas
 
                 DiscFijo = tbl_reporte.Rows(CONT).Item("DiscFijo").ToString()
                 DiscPromo = tbl_reporte.Rows(CONT).Item("DiscPromo").ToString()
-                If Dscription = "MR DETERG ULTRAKLIN FUERZ EXTREM 5k 1X2 [026840]" Then
-                    Dim prueba As String
-                    prueba = "MR DETERG ULTRAKLIN FUERZ EXTREM 5k 1X2 [026840]"
 
-                End If
                 '------CON IMPUESO
                 'If Imp = "Y" Then
                 '    If DiscPrcnt > 0 Then
@@ -1063,8 +1059,8 @@ Public Class Reporte_Facturas
     Private Sub txtb_FACFIN_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtb_FACFIN.LostFocus
 
 
-        Class_VariablesGlobales.Lista_llamadaDesde = "REPORTE_FACTURAS"
-        ListaChoferes.Show()
+        'Class_VariablesGlobales.Lista_llamadaDesde = "REPORTE_FACTURAS"
+        'ListaChoferes.Show()
     End Sub
 
 

@@ -647,6 +647,8 @@
                 limpia()
             Else
                 'error
+                MsgBox("Ocurrio un error al actualizar el cliente en SAP")
+
             End If
 
         End If
