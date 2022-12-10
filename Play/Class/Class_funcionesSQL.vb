@@ -3374,9 +3374,9 @@ Public Class Class_funcionesSQL
                 If FechaIni <> "" And FechaFin <> "" And Agente <> "" Then
                     'Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.[JrnlMemo] not like '%Cancelado'and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
                     If Class_VariablesGlobales.LIQUIDANDO = "CHOFERES" Then
-                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' ORDER BY T0.[DocNum] ASC"
+                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  ='" & NumLiq & "'  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' ORDER BY T0.[DocNum] ASC"
                     Else
-                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE    T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE    T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
+                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE    T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' ORDER BY T0.[DocNum] ASC"
                     End If
 
                 End If
@@ -3384,9 +3384,9 @@ Public Class Class_funcionesSQL
             Else
                 If FechaIni <> "" And FechaFin <> "" And Agente <> "" Then
                     If Class_VariablesGlobales.LIQUIDANDO = "CHOFERES" Then
-                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM  [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
+                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM  [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_NumLiquidacion]  is null  and T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' ORDER BY T0.[DocNum] ASC"
                     Else
-                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' UNION SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [Historial_BD_Bourne].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y'  ORDER BY T0.[DocNum] ASC"
+                        Consulta = "SELECT T0.[DocNum], T0.[DocDate],CONVERT(varchar, CAST(T0.[DocTotal] AS money), 1) AS Total , T0.[CardCode], T0.[CardName]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORCT] T0 WHERE  T0.[U_BP_COBRADOR] ='" & Agente & "' AND  T0.[DocDate] BETWEEN   '" & FechaIni & "' AND '" & FechaFin & "' and T0.Canceled not like 'Y' ORDER BY T0.[DocNum] ASC"
                     End If
 
                 End If
@@ -3583,11 +3583,7 @@ Public Class Class_funcionesSQL
                                 T0.[DocNum],
                                 T0.[DocTotal] as Total,
                                 T0.[Consecutivo],
-                                CASE WHEN (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum]) IS NULL THEN 
-		                                (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [Historial_BD_Bourne].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
-                                ELSE 
-    	                                (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
-	                            END AS 'Saldo',
+                                (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum]) AS 'Saldo',
                                 T0.[NombreRuta],
                                 T0.[SlpCode]   
                             FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Rep_Facturas] T0 
@@ -3595,11 +3591,7 @@ Public Class Class_funcionesSQL
             Else
                 'si el Tipo no es contado es por que obtendra todas las facturas del reporte de carga especifico 
                 Consulta = "SELECT T0.[DocNum],T0.[DocTotal] as Total,T0.[Consecutivo],
-                            CASE WHEN (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum]) IS NULL THEN 
-		                         (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [Historial_BD_Bourne].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
-                            ELSE 
-    	                         (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum])
-	                        END AS 'Saldo',
+                            (SELECT T10.[DocTotal]-T10.[PaidToDate] AS 'Saldo' FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OINV T10 WHERE T10.[DocNum] =T0.[DocNum]) AS 'Saldo',
                             T0.[NombreRuta],
                             T0.[SlpCode]   
                             FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Rep_Facturas] T0 

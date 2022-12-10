@@ -235,49 +235,53 @@ Public Class Liquidacion_Choferes
         '    ListV_Reportes.Items.Remove(ListV_Reportes.Items(0))
         'Loop
 
+        If TnlRepFac IsNot Nothing Then
 
-        If TnlRepFac.Rows.Count > 0 Then
-            ConsecutivoRepFac = TnlRepFac.Rows(0).Item("Consecutivo").ToString()
-            txtb_Ruta.Text = TnlRepFac.Rows(0).Item("NombreRuta").ToString()
-            'agrega los agentes que tienen asinnadas las facturas
-            ListView_Agentes.Items.Add(TnlRepFac.Rows(0).Item("SlpCode").ToString())
+
+            If TnlRepFac.Rows.Count > 0 Then
+                ConsecutivoRepFac = TnlRepFac.Rows(0).Item("Consecutivo").ToString()
+                txtb_Ruta.Text = TnlRepFac.Rows(0).Item("NombreRuta").ToString()
+                'agrega los agentes que tienen asinnadas las facturas
+                ListView_Agentes.Items.Add(TnlRepFac.Rows(0).Item("SlpCode").ToString())
+
+            End If
+
+            dgv_Facturas.DataSource = TnlRepFac
+
+
+
+            dgv_Facturas.Columns(0).Width = 60
+            dgv_Facturas.Columns(1).Width = 60
+            dgv_Facturas.Columns(2).Visible = False
+            dgv_Facturas.Columns(3).Width = 60
+            dgv_Facturas.Columns(4).Visible = False
+            dgv_Facturas.Columns(5).Visible = False
+            Dim cont As Integer = 0
+            For Each rowLocal As DataRow In TnlRepFac.Rows
+
+                TotalFacturas += CDbl(TnlRepFac.Rows(cont).Item("Total").ToString())
+                TotalSaldo += CDbl(TnlRepFac.Rows(cont).Item("Saldo").ToString())
+                cont += 1
+            Next
+            cont = Nothing
+
+            'TotalFacturas = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalFacturas(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txt_CodChofer.Text))
+            txtb_TotalFacturas.Text = FormatCurrency(TotalFacturas, 2)
+            Txtb_TotalSaldo.Text = FormatCurrency(TotalSaldo, 2)
+            Try
+                dgv_Facturas.Columns(2).Visible = False
+            Catch ex As Exception
+
+            End Try
 
         End If
 
-        dgv_Facturas.DataSource = TnlRepFac
-
-
-
-        dgv_Facturas.Columns(0).Width = 60
-        dgv_Facturas.Columns(1).Width = 60
-        dgv_Facturas.Columns(2).Visible = False
-        dgv_Facturas.Columns(3).Width = 60
-        dgv_Facturas.Columns(4).Visible = False
-        dgv_Facturas.Columns(5).Visible = False
-        Dim cont As Integer = 0
-        For Each rowLocal As DataRow In TnlRepFac.Rows
-
-            TotalFacturas += CDbl(TnlRepFac.Rows(cont).Item("Total").ToString())
-            TotalSaldo += CDbl(TnlRepFac.Rows(cont).Item("Saldo").ToString())
-            cont += 1
-        Next
-        cont = Nothing
-
-        'TotalFacturas = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalFacturas(Class_VariablesGlobales.SQL_Comman1, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date), Trim(txt_CodChofer.Text))
-        txtb_TotalFacturas.Text = FormatCurrency(TotalFacturas, 2)
-        Txtb_TotalSaldo.Text = FormatCurrency(TotalSaldo, 2)
-        Try
-            dgv_Facturas.Columns(2).Visible = False
-        Catch ex As Exception
-
-        End Try
-
-        TnlRepFac = Nothing
 
 
         Dim Diferencia As Double = ((Convert.ToDouble(TotalDepositos) + Convert.ToDouble(TotalGastos)) - Convert.ToDouble(TotalRecibos))
         txtb_Diferencias.Text = CStr(FormatoMoneda(Diferencia))
 
+        TnlRepFac = Nothing
         TotalSaldo = Nothing
         TotalFacturas = Nothing
         TotalDepositos = Nothing

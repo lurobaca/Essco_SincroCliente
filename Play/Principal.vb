@@ -96,6 +96,9 @@ Public Class Principal
 
             End If
             If Class_VariablesGlobales.Puesto = "Manager" Then
+
+                LiquidacionesToolStripMenuItem.Visible = True
+
                 ContadoToolStripMenuItem.Visible = True
                 FacturacionToolStripMenuItem.Visible = True
                 AdministrarToolStripMenuItem.Visible = True

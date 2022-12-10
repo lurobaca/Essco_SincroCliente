@@ -36,7 +36,7 @@ Public Class Class_XML_Conexion
             'End If
 
             If Principal IsNot Nothing Then
-                Principal.Text = "SINCRO CLIENTE 04.12.2022] v1 " & "  " & conectar
+                Principal.Text = "SINCRO CLIENTE 09.12.2022] v1 " & "  " & conectar
             End If
 
             'Creamos el "Document"

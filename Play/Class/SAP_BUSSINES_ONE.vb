@@ -1374,7 +1374,7 @@ Public Class SAP_BUSSINES_ONE
                 'OtrasResenas
                 vPay.Addresses.Street = OtrasResenas
                 'Provincia segun sap
-                vPay.Addresses.State = Combo_Provincia
+                vPay.Addresses.State = IndexSAPProvincia
                 ''canton segun sap
                 vPay.Addresses.City = Combo_Canton
                 ''Distrito segun sap
@@ -1520,24 +1520,23 @@ Public Class SAP_BUSSINES_ONE
 
 
                     'esto se hace ya que los codigos de provincia no pegan entre seller y sap
-                    'Select Case Combo_Provincia
-                    '    Case 1
-                    '        IndexSAPProvincia = 1
-                    '    Case 2
-                    '        IndexSAPProvincia = 2
-                    '    Case 3
-                    '        IndexSAPProvincia = 4
-                    '    Case 4
-                    '        IndexSAPProvincia = 3
-                    '    Case 5
-                    '        IndexSAPProvincia = 5
-                    '    Case 6
-                    '        IndexSAPProvincia = 5
-                    '    Case 7
-                    '        IndexSAPProvincia = 6
-                    'End Select
+                    Select Case Combo_Provincia
+                        Case 1
+                            IndexSAPProvincia = 1
+                        Case 2
+                            IndexSAPProvincia = 2
+                        Case 3
+                            IndexSAPProvincia = 4
+                        Case 4
+                            IndexSAPProvincia = 3
+                        Case 5
+                            IndexSAPProvincia = 7
+                        Case 6
+                            IndexSAPProvincia = 5
+                        Case 7
+                            IndexSAPProvincia = 6
+                    End Select
 
-                    IndexSAPProvincia = Combo_Provincia
                     'OtrasResenas
                     vPay.Addresses.Street = OtrasResenas
                     'Provincia segun sap

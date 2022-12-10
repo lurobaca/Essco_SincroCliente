@@ -262,7 +262,7 @@ Public Class LiquidacionChoferes02
     
     <Browsable(false),  _
      DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)>  _
-    Public ReadOnly Property Parameter_ReporteFacturasDeContadoChoferesrpt_CodChofer() As CrystalDecisions.[Shared].IParameterField
+    Public ReadOnly Property Parameter_Recibos222rpt_FechaFIN() As CrystalDecisions.[Shared].IParameterField
         Get
             Return Me.DataDefinition.ParameterFields(16)
         End Get
@@ -270,9 +270,25 @@ Public Class LiquidacionChoferes02
     
     <Browsable(false),  _
      DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)>  _
-    Public ReadOnly Property Parameter_ReporteFacturasDeContadoChoferesrpt_NumLiq() As CrystalDecisions.[Shared].IParameterField
+    Public ReadOnly Property Parameter_Recibos222rpt_FechaINI() As CrystalDecisions.[Shared].IParameterField
         Get
             Return Me.DataDefinition.ParameterFields(17)
+        End Get
+    End Property
+    
+    <Browsable(false),  _
+     DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)>  _
+    Public ReadOnly Property Parameter_ReporteFacturasDeContadoChoferesrpt_CodChofer() As CrystalDecisions.[Shared].IParameterField
+        Get
+            Return Me.DataDefinition.ParameterFields(18)
+        End Get
+    End Property
+    
+    <Browsable(false),  _
+     DesignerSerializationVisibilityAttribute(System.ComponentModel.DesignerSerializationVisibility.Hidden)>  _
+    Public ReadOnly Property Parameter_ReporteFacturasDeContadoChoferesrpt_NumLiq() As CrystalDecisions.[Shared].IParameterField
+        Get
+            Return Me.DataDefinition.ParameterFields(19)
         End Get
     End Property
 End Class
