@@ -44,39 +44,45 @@
     End Sub
     Private Sub btn_AgGuardar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_AgGuardar.Click
         If txb_CodAgente.Text = "" Then
-            MessageBox.Show("Debe indicar el agente que hizo el deposito")
+            MessageBox.Show("Debe indicar el chfoer que hizo el deposito")
         Else
-
-            Dim Liq As String = Class_VariablesGlobales.Obj_Funciones_SQL.VerificaDeposito(Class_VariablesGlobales.SQL_Comman1, Trim(txb_NumDepo.Text))
-            If Liq <> "" Then
-                MsgBox("EL NUMERO DEL DEPOSITO [ " & Trim(txb_NumDepo.Text) & " ] YA EXISTE EN LA LIQUIDACION [ " & Liq & " ]")
-
+            If Class_VariablesGlobales.Obj_Funciones_SQL.ExisteDeposito(Class_VariablesGlobales.SQL_Comman1, Trim(txb_NumDepo.Text), Trim(cbbx_Banco.Text)) = 0 Then
+                InsertarDeposito()
             Else
-                Class_VariablesGlobales.Obj_Funciones_SQL.InsertaDeposito(Class_VariablesGlobales.SQL_Comman1, txb_consecutivo.Text, txb_NumDepo.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_Fecha.Value.Date), cbbx_Banco.Text, txb_Monto.Text, txb_CodAgente.Text, txb_Comentario.Text, txb_Liquidacion.Text, Class_VariablesGlobales.LIQUIDANDO, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaContable.Value.Date))
-                btn_AgElimina.Enabled = False
-                btn_AgGuardar.Enabled = True
-                btn_AgModif.Enabled = False
-                btn_GoToLiq.Enabled = False
-                btn_Agentes.Enabled = True
-                'INCREMENTA EN 1 EL CONSECUTIVO
-
-                Class_VariablesGlobales.Obj_Funciones_SQL.Aumenta_Consecutivos(Class_VariablesGlobales.SQL_Comman1, CInt(txb_consecutivo.Text) + 1, "OFICINA")
-
-                limpiar()
-
-
-
-                Class_VariablesGlobales.frmLiqChof.dgv_Depositos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneDepositos(Class_VariablesGlobales.SQL_Comman1, "VENTANA_DEPOSITO", "", Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.frmLiqChof.dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.frmLiqChof.dtp_FechaFin.Value.Date), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), "", Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text, "", "DPCONSECUTIVO", Class_VariablesGlobales.LIQUIDANDO, False, "")
-                Class_VariablesGlobales.frmLiqChof.txtb_TotalDepositos.Text = FormatCurrency(Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalDepositos(Class_VariablesGlobales.SQL_Comman1, "VENTANA_DEPOSITO", Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.frmLiqChof.dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.frmLiqChof.dtp_FechaFin.Value.Date), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text, Class_VariablesGlobales.LIQUIDANDO), 2)
-                txb_consecutivo.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivo(Class_VariablesGlobales.SQL_Comman1, "OFICINA")
-                txb_NumDepo.Focus()
-
-
+                MessageBox.Show("El Deposito número de deposito [" & Trim(txb_NumDepo.Text) & "] del banco [ " & Trim(cbbx_Banco.Text) & "] ya existe")
             End If
+
         End If
 
     End Sub
+    Public Function InsertarDeposito()
+        Dim Liq As String = Class_VariablesGlobales.Obj_Funciones_SQL.VerificaDeposito(Class_VariablesGlobales.SQL_Comman1, Trim(txb_NumDepo.Text))
+        If Liq <> "" Then
+            MsgBox("EL NUMERO DEL DEPOSITO [ " & Trim(txb_NumDepo.Text) & " ] YA EXISTE EN LA LIQUIDACION [ " & Liq & " ]")
 
+        Else
+            Class_VariablesGlobales.Obj_Funciones_SQL.InsertaDeposito(Class_VariablesGlobales.SQL_Comman1, txb_consecutivo.Text, txb_NumDepo.Text, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_Fecha.Value.Date), cbbx_Banco.Text, txb_Monto.Text, txb_CodAgente.Text, txb_Comentario.Text, txb_Liquidacion.Text, Class_VariablesGlobales.LIQUIDANDO, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaContable.Value.Date))
+            btn_AgElimina.Enabled = False
+            btn_AgGuardar.Enabled = True
+            btn_AgModif.Enabled = False
+            btn_GoToLiq.Enabled = False
+            btn_Agentes.Enabled = True
+            'INCREMENTA EN 1 EL CONSECUTIVO
+
+            Class_VariablesGlobales.Obj_Funciones_SQL.Aumenta_Consecutivos(Class_VariablesGlobales.SQL_Comman1, CInt(txb_consecutivo.Text) + 1, "OFICINA")
+
+            limpiar()
+
+
+
+            Class_VariablesGlobales.frmLiqChof.dgv_Depositos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneDepositos(Class_VariablesGlobales.SQL_Comman1, "VENTANA_DEPOSITO", "", Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.frmLiqChof.dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.frmLiqChof.dtp_FechaFin.Value.Date), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), "", Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text, "", "DPCONSECUTIVO", Class_VariablesGlobales.LIQUIDANDO, False, "")
+            Class_VariablesGlobales.frmLiqChof.txtb_TotalDepositos.Text = FormatCurrency(Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTotalDepositos(Class_VariablesGlobales.SQL_Comman1, "VENTANA_DEPOSITO", Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.frmLiqChof.dtp_FechaIni.Value.Date), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(Class_VariablesGlobales.frmLiqChof.dtp_FechaFin.Value.Date), Trim(Class_VariablesGlobales.frmLiqChof.txt_CodChofer.Text), Class_VariablesGlobales.frmLiqChof.txtb_Consecutivo.Text, Class_VariablesGlobales.LIQUIDANDO), 2)
+            txb_consecutivo.Text = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivo(Class_VariablesGlobales.SQL_Comman1, "OFICINA")
+            txb_NumDepo.Focus()
+
+
+        End If
+    End Function
     Private Sub btn_AgModif_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_AgModif.Click
         Try
             Dim Sube As String

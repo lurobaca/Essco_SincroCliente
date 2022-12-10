@@ -3058,6 +3058,57 @@ Public Class Class_funcionesSQL
 
         End Try
     End Function
+
+    ''' <summary>
+    ''' Valida si el consecutivo del banco indicado ya existe registrado
+    ''' </summary>
+    ''' <param name="SQL_Comman"></param>
+    ''' <param name="DPCODIGO"></param>
+    ''' <param name="DPBANCO"></param>
+    ''' <returns></returns>
+    Public Function ExisteDeposito(ByVal SQL_Comman As SqlCommand, ByVal DPCODIGO As String, ByVal DPBANCO As String)
+
+        Dim TABLA As New DataTable
+        Dim ADATER As New SqlDataAdapter
+        Dim Consulta As String = ""
+        Dim Valor
+        Try    ' para la conexion al comman
+
+            Consulta = ""
+            Consulta = "SELECT [DPCONSECUTIVO] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Depositos] T0 WHERE [DPCODIGO] = '" & Trim(DPCODIGO) & "' AND [DPBANCO] = '" & Trim(DPBANCO) & "' "
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Valor = Trim(TABLA.Rows(0).Item("DPCONSECUTIVO").ToString())
+
+
+
+            DPCODIGO = Nothing
+            DPBANCO = Nothing
+            TABLA = Nothing
+            ADATER = Nothing
+            Consulta = Nothing
+            TABLA = Nothing
+
+            If (Valor <> "" And Valor <> "0") Then
+                Return 1
+            Else
+                Return 0
+            End If
+
+        Catch ex As Exception
+
+            DPCODIGO = Nothing
+            DPBANCO = Nothing
+            TABLA = Nothing
+            ADATER = Nothing
+            Consulta = Nothing
+            TABLA = Nothing
+
+            MessageBox.Show("ERROR en ExisteDeposito [ " & ex.Message & " ]")
+            Return 0
+        End Try
+    End Function
     Public Function InsertaDeposito(ByVal SQL_Comman As SqlCommand, ByVal txb_consecutivo As String, ByVal txb_NumDepo As String, ByVal Fecha As String, ByVal BANCO As String, ByVal Monto As String, ByVal CodAgente As String, ByVal Notas As String, ByVal NumLiqui As String, ByVal TipoLiqui As String, ByVal FechaContable As String)
         Try
 
