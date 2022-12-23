@@ -10181,6 +10181,156 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
+    Public Function ObtieneNombreCanton(ByVal IdProvincia As String, ByVal IdCanton As String)
+
+
+        Dim SQLComman As New SqlCommand
+        Dim ADATER As New SqlDataAdapter
+        Dim Consulta As String = ""
+        Dim CantonNombre As String = ""
+        Dim TABLA As New DataTable
+
+        Try
+            If IdCanton.Length = 1 Then
+                IdCanton = IdCanton.PadLeft(2, "0")
+            End If
+
+            ' para la conexion al comman
+            SQLComman = Conectar()
+
+            Consulta = "SELECT TOP 1 [U_Des_Canton] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] WHERE [U_Cod_Provincia] ='" & IdProvincia & "' and [U_Cod_Canton] ='" + IdCanton + "' "
+            ADATER = New SqlDataAdapter(Consulta, SQLComman.Connection)
+            ADATER.Fill(TABLA)
+            'verifica que exista un agente en ejecucion si no existe dara error por lo que si da error se inserta un codigo de agente valido
+            Try
+                CantonNombre = TABLA.Rows(0).Item("U_Des_Canton").ToString()
+
+            Catch ex As Exception
+                'aqu obtiene un agente de la lista de rutas de agente y la inserta en agente en ejecucion luego vuelve a llamar a esta funcion 
+
+            End Try
+
+            Desconectar(SQLComman)
+            Consulta = Nothing
+            SQLComman = Nothing
+            ADATER = Nothing
+
+            Return CantonNombre
+
+        Catch ex As Exception
+            Desconectar(SQLComman)
+            Consulta = Nothing
+            SQLComman = Nothing
+            ADATER = Nothing
+            'Obj_Log.Log("ERROR EN ObtieneNombreCanton ( " & ex.Message & ")")
+            'ERRORES = "[ " & Now & " ] ERROR ObtieneNombreCanton( " & ex.Message & " )"
+        End Try
+    End Function
+
+    Public Function ObtieneNombreDistrito(ByVal IdProvincia As String, ByVal IdCanton As String, ByVal IdDistrito As String)
+        Dim SQLComman As New SqlCommand
+        Dim ADATER As New SqlDataAdapter
+        Dim Consulta As String = ""
+        Dim DistritoNombre As String = ""
+        Dim TABLA As New DataTable
+
+        Try
+
+            If IdCanton.Length = 1 Then
+                IdCanton = IdCanton.PadLeft(2, "0")
+            End If
+
+            If IdDistrito.Length = 1 Then
+                IdDistrito = IdDistrito.PadLeft(2, "0")
+            End If
+
+            ' para la conexion al comman
+            SQLComman = Conectar()
+
+            Consulta = "SELECT TOP 1 [U_Des_Distrito] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] WHERE [U_Cod_Provincia] ='" & IdProvincia & "' and [U_Cod_Canton] ='" + IdCanton + "' and [U_Cod_Distrito] ='" + IdDistrito + "'"
+            ADATER = New SqlDataAdapter(Consulta, SQLComman.Connection)
+            ADATER.Fill(TABLA)
+            'verifica que exista un agente en ejecucion si no existe dara error por lo que si da error se inserta un codigo de agente valido
+            Try
+                DistritoNombre = TABLA.Rows(0).Item("U_Des_Distrito").ToString()
+
+            Catch ex As Exception
+                'aqu obtiene un agente de la lista de rutas de agente y la inserta en agente en ejecucion luego vuelve a llamar a esta funcion 
+
+            End Try
+
+            Desconectar(SQLComman)
+            Consulta = Nothing
+            SQLComman = Nothing
+            ADATER = Nothing
+
+            Return DistritoNombre
+
+        Catch ex As Exception
+            Desconectar(SQLComman)
+            Consulta = Nothing
+            SQLComman = Nothing
+            ADATER = Nothing
+            'Obj_Log.Log("ERROR EN ObtieneNombreDistrito ( " & ex.Message & ")")
+            'ERRORES = "[ " & Now & " ] ERROR ObtieneNombreDistrito( " & ex.Message & " )"
+        End Try
+    End Function
+
+    Public Function ObtieneNombreBarrio(ByVal IdProvincia As String, ByVal IdCanton As String, ByVal IdDistrito As String, ByVal IdBarrio As String)
+
+
+        Dim SQLComman As New SqlCommand
+        Dim ADATER As New SqlDataAdapter
+        Dim Consulta As String = ""
+        Dim BarrioNombre As String = ""
+        Dim TABLA As New DataTable
+
+        Try
+
+            If IdCanton.Length = 1 Then
+                IdCanton = IdCanton.PadLeft(2, "0")
+            End If
+
+            If IdDistrito.Length = 1 Then
+                IdDistrito = IdDistrito.PadLeft(2, "0")
+            End If
+
+            If IdBarrio.Length = 1 Then
+                IdBarrio = IdBarrio.PadLeft(2, "0")
+            End If
+
+
+            ' para la conexion al comman
+            SQLComman = Conectar()
+
+            Consulta = "SELECT TOP 1 [U_Des_Barrio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[@NVT_UBICACIONES] WHERE [U_Cod_Provincia] ='" & IdProvincia & "' and [U_Cod_Canton] ='" + IdCanton + "' and [U_Cod_Distrito] ='" + IdDistrito + "' and [U_Cod_Barrio] ='" + IdBarrio + "'"
+            ADATER = New SqlDataAdapter(Consulta, SQLComman.Connection)
+            ADATER.Fill(TABLA)
+            'verifica que exista un agente en ejecucion si no existe dara error por lo que si da error se inserta un codigo de agente valido
+            Try
+                BarrioNombre = TABLA.Rows(0).Item("U_Des_Barrio").ToString()
+
+            Catch ex As Exception
+                'aqu obtiene un agente de la lista de rutas de agente y la inserta en agente en ejecucion luego vuelve a llamar a esta funcion 
+
+            End Try
+
+            Desconectar(SQLComman)
+            Consulta = Nothing
+            SQLComman = Nothing
+            ADATER = Nothing
+
+            Return BarrioNombre
+
+        Catch ex As Exception
+            Desconectar(SQLComman)
+            Consulta = Nothing
+            SQLComman = Nothing
+            ADATER = Nothing
+            'Obj_Log.Log("ERROR EN ObtieneNombreBarrio ( " & ex.Message & ")")
+            'ERRORES = "[ " & Now & " ] ERROR ObtieneNombreBarrio( " & ex.Message & " )"
+        End Try
+    End Function
 
     Public Function ObtieneLineaContacto(ByVal CardCode As String, ByVal SQL_Comman As SqlCommand)
         Try

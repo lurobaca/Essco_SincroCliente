@@ -5,7 +5,6 @@ Imports System.Data.SqlClient
 Public Class SAP_BUSSINES_ONE
 
     Public Obj_SQL_CONEXIONSERVER As New Class_funcionesSQL
-
 #Region "Crea Depositos"
     Public Function CreaDeposito(ByVal DPCODIGO As String, ByVal DPFECHA As String, ByVal DPBANCO As String, ByVal Total As Double, ByVal SQL_Comman2 As SqlCommand, ByVal Cuenta_Banco As String, ByVal NumLiq As String)
         Try
@@ -1280,7 +1279,7 @@ Public Class SAP_BUSSINES_ONE
                 End If
 
                 'Frecuencia
-                vPay.UserFields.Fields(0).value() = Frecuencia
+                'vPay.UserFields.Fields(0).value() = Frecuencia
 
                 'Cedula
                 vPay.FederalTaxID = Cedula.PadLeft(12, "0")
@@ -1371,19 +1370,34 @@ Public Class SAP_BUSSINES_ONE
                     vPay.Addresses.AddressName = OtrasResenas
                 End If
 
-                'OtrasResenas
                 vPay.Addresses.Street = OtrasResenas
                 'Provincia segun sap
                 vPay.Addresses.State = IndexSAPProvincia
                 ''canton segun sap
-                vPay.Addresses.City = Combo_Canton
+                vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(IndexSAPProvincia, Combo_Canton).ToString()
                 ''Distrito segun sap
-                vPay.Addresses.County = Combo_Distrito
+                vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(IndexSAPProvincia, Combo_Canton, Combo_Distrito).ToString()
                 ''Barrio segun sap
-                vPay.Addresses.Block = Combo_Barrio
+                vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(IndexSAPProvincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
+
+
+                ''OtrasResenas
+                'vPay.Addresses.Street = OtrasResenas
+                ''Provincia segun sap
+                'vPay.Addresses.State = IndexSAPProvincia
+                '''canton segun sap
+                'vPay.Addresses.City = Combo_Canton
+                '''Distrito segun sap
+                'vPay.Addresses.County = Combo_Distrito
+                '''Barrio segun sap
+                'vPay.Addresses.Block = Combo_Barrio
                 vPay.PayTermsGrpCode = (-1)
                 'ResponsableTributario
                 vPay.ContactPerson = ResponsableTributario
+
+
+
+
                 '----------- INFORMACION DE CONTACTO--------------
 
                 ' vPay.ContactEmployees.SetCurentLine(0) 'agrega la linea 0
@@ -1541,12 +1555,19 @@ Public Class SAP_BUSSINES_ONE
                     vPay.Addresses.Street = OtrasResenas
                     'Provincia segun sap
                     vPay.Addresses.State = IndexSAPProvincia
-                    ''canton segun sap
-                    vPay.Addresses.City = Combo_Canton
+
+                    vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(IndexSAPProvincia, Combo_Canton).ToString()
                     ''Distrito segun sap
-                    vPay.Addresses.County = Combo_Distrito
+                    vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(IndexSAPProvincia, Combo_Canton, Combo_Distrito).ToString()
                     ''Barrio segun sap
-                    vPay.Addresses.Block = Combo_Barrio
+                    vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(IndexSAPProvincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
+
+                    '''canton segun sap
+                    'vPay.Addresses.City = Combo_Canton
+                    '''Distrito segun sap
+                    'vPay.Addresses.County = Combo_Distrito
+                    '''Barrio segun sap
+                    'vPay.Addresses.Block = Combo_Barrio
 
                     'Cedula
                     vPay.FederalTaxID = Cedula.PadLeft(12, "0")
@@ -1769,12 +1790,19 @@ Public Class SAP_BUSSINES_ONE
                 vPay.Addresses.Street = OtrasResenas
                 'Provincia segun sap
                 vPay.Addresses.State = IndexSAPProvincia
-                ''canton segun sap
-                vPay.Addresses.City = Combo_Canton
+
+                vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(IndexSAPProvincia, Combo_Canton).ToString()
                 ''Distrito segun sap
-                vPay.Addresses.County = Combo_Distrito
+                vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(IndexSAPProvincia, Combo_Canton, Combo_Distrito).ToString()
                 ''Barrio segun sap
-                vPay.Addresses.Block = Combo_Barrio
+                vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(IndexSAPProvincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
+
+                ''canton segun sap
+                'vPay.Addresses.City = Combo_Canton
+                '''Distrito segun sap
+                'vPay.Addresses.County = Combo_Distrito
+                '''Barrio segun sap
+                'vPay.Addresses.Block = Combo_Barrio
 
                 'Cedula
                 vPay.FederalTaxID = Cedula.PadLeft(12, "0")
