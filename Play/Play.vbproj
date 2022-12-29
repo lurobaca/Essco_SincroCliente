@@ -683,10 +683,10 @@
     <Compile Include="WMS_CroquisBodega.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CrystalReport1.vb">
+    <Compile Include="Reportes\CrystalReports.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CrystalReport1.rpt</DependentUpon>
+      <DependentUpon>CrystalReports.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="DeduccionesAcreditaciones.Designer.vb">
@@ -1276,6 +1276,12 @@
     <Compile Include="WMS_PedidosChequeados_Detalle.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="WMS_VerBodegas.Designer.vb">
+      <DependentUpon>WMS_VerBodegas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="WMS_VerBodegas.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutBox1.resx">
@@ -1493,9 +1499,9 @@
     <EmbeddedResource Include="WMS_CroquisBodega.resx">
       <DependentUpon>WMS_CroquisBodega.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CrystalReport1.rpt">
+    <EmbeddedResource Include="Reportes\CrystalReports.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReport1.vb</LastGenOutput>
+      <LastGenOutput>CrystalReports.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="DeduccionesAcreditaciones.resx">
       <DependentUpon>DeduccionesAcreditaciones.vb</DependentUpon>
@@ -1774,6 +1780,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WMS_PedidosChequeados_Detalle.resx">
       <DependentUpon>WMS_PedidosChequeados_Detalle.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WMS_VerBodegas.resx">
+      <DependentUpon>WMS_VerBodegas.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

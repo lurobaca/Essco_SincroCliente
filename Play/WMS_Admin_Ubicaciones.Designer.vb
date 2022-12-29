@@ -43,10 +43,10 @@ Partial Class WMS_Admin_Ubicaciones
         Me.txtb_id = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.DGV_Niveles = New System.Windows.Forms.DataGridView()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.Nivel = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.codBarras = New System.Windows.Forms.DataGridViewTextBoxColumn()
         Me.Inventario = New System.Windows.Forms.DataGridViewTextBoxColumn()
+        Me.Button1 = New System.Windows.Forms.Button()
         CType(Me.DGV_Niveles, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -270,17 +270,6 @@ Partial Class WMS_Admin_Ubicaciones
         Me.DGV_Niveles.Size = New System.Drawing.Size(525, 327)
         Me.DGV_Niveles.TabIndex = 0
         '
-        'Button1
-        '
-        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.Button1.Location = New System.Drawing.Point(209, 722)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(109, 58)
-        Me.Button1.TabIndex = 46
-        Me.Button1.Text = "Imprimir"
-        Me.Button1.UseVisualStyleBackColor = True
-        '
         'Nivel
         '
         Me.Nivel.HeaderText = "Nivel"
@@ -304,6 +293,17 @@ Partial Class WMS_Admin_Ubicaciones
         Me.Inventario.Name = "Inventario"
         Me.Inventario.ReadOnly = True
         Me.Inventario.Width = 125
+        '
+        'Button1
+        '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.Button1.Location = New System.Drawing.Point(209, 722)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(109, 58)
+        Me.Button1.TabIndex = 46
+        Me.Button1.Text = "Imprimir"
+        Me.Button1.UseVisualStyleBackColor = True
         '
         'WMS_Admin_Ubicaciones
         '

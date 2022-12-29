@@ -10942,6 +10942,51 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
+    ''' <summary>
+    '''Busqueda de inventario dependiendo lo que digite el usuario en la ventana de Croquis Bodega
+    ''' </summary>
+    Public Function ObtieneInventarioCroquis(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataSet
+            Dim Consulta As String = ""
+            Consulta = "SELECT  T2.[ItemName] FROM  " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".[dbo].[ITM1] AS T0 INNER JOIN
+                  " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OPLN AS T1 ON T0.PriceList = T1.ListNum INNER JOIN
+                  " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OITM AS T2 ON T0.ItemCode = T2.ItemCode INNER JOIN
+                  " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OITW AS T3 ON T2.ItemCode = T3.ItemCode
+WHERE (T3.WhsCode = '01') AND (T2.frozenFor = 'N') AND (T2.CardCode NOT LIKE 'P091') AND (T2.CardCode NOT LIKE 'P005') AND (T2.CardCode NOT LIKE 'P095') AND (T2.CardCode NOT LIKE 'P034') AND (T2.ItemName NOT LIKE 'LICI-%') AND 
+                  (T0.PriceList <> 13) AND (T2.ItemName NOT LIKE 'ELECT%') AND (T2.CardCode NOT LIKE 'P099') 
+group by T2.[ItemName]"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneInventarioCroquis [ " & ex.Message & " ]")
+        End Try
+    End Function
+    ''' <summary>
+    '''Busqueda de inventario dependiendo lo que digite el usuario en la ventana de Croquis Bodega
+    ''' </summary>
+    Public Function ObtieneRacksDeBusqueda(ByVal SQL_Comman As SqlCommand, ByVal ItemName As String)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataSet
+            Dim Consulta As String = ""
+            Consulta = " Select 
+T2.Nombre
+from 
+" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OITM as T0 inner join
+" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & ".dbo.Picking_StockEnUbicaciones AS T1 ON T1.ItemCodes COLLATE SQL_Latin1_General_CP850_CI_AS = t0.ItemCode inner join
+" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & ".dbo.Picking_Ubicaciones AS T2 ON T2.id=T1.IdUbicacion
+where T0.ItemName like '%" & ItemName & "%'
+group by T2.Nombre"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneRacksDeBusqueda [ " & ex.Message & " ]")
+        End Try
+    End Function
     Public Function Obtiene_Nivel(ByVal SQL_Comman As SqlCommand, Nombre As String)
         Try
 

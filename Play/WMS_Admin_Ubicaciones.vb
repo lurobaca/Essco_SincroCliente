@@ -34,8 +34,31 @@
 
         CodBarras = txtb_Planta.Text & txtb_Rack.Text & txtb_Columna.Text & "00"
 
+
         txtb_CodBarras.Text = CodBarras.PadLeft(15, "0")
         txtb_NumNiveles.Focus()
+        Try
+            Dim filaDGV As Integer = 0
+            Dim cantNiveles As Integer
+            DGV_Niveles.Rows.Clear()
+            If txtb_NumNiveles.Text <> "" Then
+                cantNiveles = txtb_NumNiveles.Text
+                Do
+                    DGV_Niveles.Rows.Add()
+                    DGV_Niveles.Rows(filaDGV).Cells(0).Value = cantNiveles
+                    If cantNiveles > 9 Then
+                        DGV_Niveles.Rows(filaDGV).Cells(1).Value = txtb_CodBarras.Text.Substring(1, txtb_CodBarras.Text.Length - 2) & cantNiveles
+                    Else
+                        DGV_Niveles.Rows(filaDGV).Cells(1).Value = txtb_CodBarras.Text.Substring(1, txtb_CodBarras.Text.Length - 1) & cantNiveles
+                    End If
+                    DGV_Niveles.Rows(filaDGV).Cells(2).Value = 0
+                    filaDGV += 1
+                    cantNiveles -= 1
+                Loop Until filaDGV >= txtb_NumNiveles.Text
+            End If
+        Catch ex As Exception
+
+        End Try
 
     End Sub
 
@@ -79,8 +102,8 @@
             End If
 
             If txtb_Planta.Text = "02" Then
-                Class_VariablesGlobales.frmCroquisBodega.Tap_Planta2.Controls(txtb_Nombre.Text).BackColor = Color.Green
-            End If
+                    'Class_VariablesGlobales.frmCroquisBodega.Tap_Planta2.Controls(txtb_Nombre.Text).BackColor = Color.Green
+                End If
                 Cont += 1
 
             End While
@@ -106,7 +129,7 @@
             End If
 
             If txtb_Planta.Text = "02" Then
-                Class_VariablesGlobales.frmCroquisBodega.Tap_Planta2.Controls(txtb_Nombre.Text).BackColor = Color.White
+                'Class_VariablesGlobales.frmCroquisBodega.Tap_Planta2.Controls(txtb_Nombre.Text).BackColor = Color.White
             End If
         Else
 
@@ -125,7 +148,7 @@
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
 
 
-        Class_VariablesGlobales.WMS_AdminUbicaciones_Codigo = txtb_CodBarras.Text
+        Class_VariablesGlobales.WMS_AdminUbicaciones_Codigo = txtb_Nombre.Text
         Class_VariablesGlobales.IMPRIMIENDO = "Ubicaciones"
 
         frmReporte.Show()
@@ -155,4 +178,6 @@
 
         End Try
     End Sub
+
+
 End Class

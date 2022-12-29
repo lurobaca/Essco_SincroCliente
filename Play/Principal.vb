@@ -795,6 +795,7 @@ Public Class Principal
 
 
         If Class_VariablesGlobales.Ubicaciones_Modo = "" Then
+            Class_VariablesGlobales.Ubicaciones_Modo = "Diseno"
             Class_VariablesGlobales.frmMantenimientoBodegas = New WMS_MantenimientoBodegas
             Class_VariablesGlobales.frmMantenimientoBodegas.Text = "Mantenimiento de Bodegas | Modo Diseño de la bodega"
             Class_VariablesGlobales.frmMantenimientoBodegas.MdiParent = Me
@@ -806,13 +807,12 @@ Public Class Principal
 
     Private Sub VerToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles VerToolStripMenuItem.Click
         If Class_VariablesGlobales.Ubicaciones_Modo = "" Then
-            Me.Cursor = Cursors.WaitCursor
             Class_VariablesGlobales.Ubicaciones_Modo = "Visual"
 
-            Class_VariablesGlobales.frmCroquisBodega = New WMS_CroquisBodega
-            Class_VariablesGlobales.frmCroquisBodega.Text = "Modo Visual de la bodega"
-            Class_VariablesGlobales.frmCroquisBodega.MdiParent = Me
-            Class_VariablesGlobales.frmCroquisBodega.Show()
+            Class_VariablesGlobales.frmVerBodegas = New WMS_VerBodegas
+            Class_VariablesGlobales.frmVerBodegas.Text = "Modo Visual de la bodega"
+            Class_VariablesGlobales.frmVerBodegas.MdiParent = Me
+            Class_VariablesGlobales.frmVerBodegas.Show()
         Else
             MsgBox("No se pueden ver las ubicaciones hasta que cierre el Modo Diseño")
         End If

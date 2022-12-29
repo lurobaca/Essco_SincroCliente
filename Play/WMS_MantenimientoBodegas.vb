@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.Windows.Forms.VisualStyles
 
 Public Class WMS_MantenimientoBodegas
 #Region "Variables"
@@ -174,9 +175,9 @@ Public Class WMS_MantenimientoBodegas
             Class_VariablesGlobales.WMS_Top_Columnas = dgvBodegas.Item(columnaColumnas, dgvBodegas.CurrentRow.Index).Value.ToString() - 1
             Class_VariablesGlobales.WMS_Top_Filas = dgvBodegas.Item(columnaRack, dgvBodegas.CurrentRow.Index).Value.ToString() - 1
             Class_VariablesGlobales.WMS_Codigo_Bodega = dgvBodegas.Item(columnaIdBodega, dgvBodegas.CurrentRow.Index).Value.ToString()
-            If Class_VariablesGlobales.Ubicaciones_Modo = "" Then
+            If Class_VariablesGlobales.Ubicaciones_Modo = "Diseno" Then
                 Me.Cursor = Cursors.WaitCursor
-                Class_VariablesGlobales.Ubicaciones_Modo = "Diseño"
+                Class_VariablesGlobales.Ubicaciones_Modo = "Diseno"
 
                 Class_VariablesGlobales.frmCroquisBodega = New WMS_CroquisBodega
                 Class_VariablesGlobales.frmCroquisBodega.Text = "Modo Diseño de la bodega"
@@ -198,6 +199,7 @@ Public Class WMS_MantenimientoBodegas
     End Sub
 
     Private Sub btnCancelar_Click(sender As Object, e As EventArgs) Handles btnCancelar.Click
+        Class_VariablesGlobales.Ubicaciones_Modo = ""
         Me.Close()
     End Sub
 
@@ -214,4 +216,6 @@ Public Class WMS_MantenimientoBodegas
         End If
     End Sub
 
+    Private Sub WMS_MantenimientoBodegas_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+    End Sub
 End Class

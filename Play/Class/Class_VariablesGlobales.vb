@@ -415,6 +415,7 @@ Public Class Class_VariablesGlobales
     Public Shared frmCruzar As New Inv_Cruzar
     Public Shared frmCroquisBodega As New WMS_CroquisBodega
     Public Shared frmMantenimientoBodegas As New WMS_MantenimientoBodegas
+    Public Shared frmVerBodegas As New WMS_VerBodegas
     Public Shared frmStock_Manager As New Stock_Manager
     Public Shared frmFacturacion As New Facturacion
     Public Shared frmLista_Articulos As New Lista_Articulos

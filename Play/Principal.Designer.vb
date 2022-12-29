@@ -221,7 +221,6 @@ Partial Class Principal
         Me.DevolucionesToolStripMenuItem.Name = "DevolucionesToolStripMenuItem"
         Me.DevolucionesToolStripMenuItem.Size = New System.Drawing.Size(257, 26)
         Me.DevolucionesToolStripMenuItem.Text = "Devoluciones"
-        Me.DevolucionesToolStripMenuItem.Visible = False
         '
         'DevolucionesPendientesToolStripMenuItem
         '

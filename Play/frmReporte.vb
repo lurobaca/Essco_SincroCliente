@@ -429,7 +429,7 @@ Public Class frmReporte
     End Function
     Public Function ImprimirUbicaciones()
 
-        Dim cryRpte As EtiquetasUbicacionesVertica
+        Dim cryRpte As CrystalReports
 
         Dim MiConexion As New CrystalDecisions.Shared.ConnectionInfo
         Dim myTables As CrystalDecisions.CrystalReports.Engine.Tables
@@ -437,13 +437,13 @@ Public Class frmReporte
         Dim pd As New PrintDocument
         Try
             CheckForIllegalCrossThreadCalls = False
-            cryRpte = New EtiquetasUbicacionesVertica
+            cryRpte = New CrystalReports
             myTables = cryRpte.Database.Tables
 
-            cryRpte.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSAP_CompanyDB, False)
+            cryRpte.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
 
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
-            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 
@@ -454,17 +454,17 @@ Public Class frmReporte
             Next
             '----- PARAMETROS REPORTE PADRE  --------------
             '0:          Consecutivo()
-            cryRpte.SetParameterValue(0, Trim(Class_VariablesGlobales.ReporteCarga_Consecutivo))
+            cryRpte.SetParameterValue(0, Trim(Class_VariablesGlobales.WMS_AdminUbicaciones_Codigo))
 
-            'Se define el print Document.
-            impresora_predeterminada = "SATO CG408"
+
             'CrystalReportViewer1.Refresh()
             'CrystalReportViewer1.ReportSource = cryRpte
             'CrystalReportViewer1.Refresh()
 
             'Class_VariablesGlobales.WMS_AdminUbicaciones_Codigo
 
-            cryRpte.PrintOptions.PrinterName = impresora_predeterminada
+            'Se define el print Document.
+            impresora_predeterminada = pd.PrinterSettings.PrinterName
             cryRpte.PrintToPrinter(1, False, 0, 0)
 
             cryRpte = Nothing

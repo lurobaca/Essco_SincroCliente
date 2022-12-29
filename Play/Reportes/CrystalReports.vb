@@ -18,7 +18,7 @@ Imports System
 Imports System.ComponentModel
 
 
-Public Class CrystalReport1
+Public Class CrystalReports
     Inherits ReportClass
     
     Public Sub New()
@@ -27,7 +27,7 @@ Public Class CrystalReport1
     
     Public Overrides Property ResourceName() As String
         Get
-            Return "CrystalReport1.rpt"
+            Return "CrystalReports.rpt"
         End Get
         Set
             'Do nothing
@@ -45,7 +45,7 @@ Public Class CrystalReport1
     
     Public Overrides Property FullResourceName() As String
         Get
-            Return "SincroCliente.CrystalReport1.rpt"
+            Return "SincroCliente.CrystalReports.rpt"
         End Get
         Set
             'Do nothing
@@ -136,7 +136,7 @@ Public Class CachedCrystalReport1
     End Property
     
     Public Overridable Function CreateReport() As CrystalDecisions.CrystalReports.Engine.ReportDocument Implements CrystalDecisions.ReportSource.ICachedReport.CreateReport
-        Dim rpt As CrystalReport1 = New CrystalReport1()
+        Dim rpt As CrystalReports = New CrystalReports()
         rpt.Site = Me.Site
         Return rpt
     End Function
