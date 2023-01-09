@@ -23,17 +23,17 @@ Public Class Class_XML_Conexion
             '    conectar = "C:\ConexionINFO__Pronutre_SANDBOX.xml"
             'End If
 
-            Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
-
-            If File.Exists(conectar) <> True Then
-                conectar = "C:\ConexionINFO_SANDBOX_esscocr.xml"
-            End If
-
-            'Dim conectar As String = "C:\ConexionINFO_BourneProduccion.xml"
+            'Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
 
             'If File.Exists(conectar) <> True Then
-            '    conectar = "C:\ConexionINFO_BourneSANDBOX.xml"
+            '    conectar = "C:\ConexionINFO_SANDBOX_esscocr.xml"
             'End If
+
+            Dim conectar As String = "C:\ConexionINFO_BourneProduccion.xml"
+
+            If File.Exists(conectar) <> True Then
+                conectar = "C:\ConexionINFO_BourneSANDBOX.xml"
+            End If
 
             If Principal IsNot Nothing Then
                 Principal.Text = "SINCRO CLIENTE [14.10.2022] v2 " & "  " & conectar
