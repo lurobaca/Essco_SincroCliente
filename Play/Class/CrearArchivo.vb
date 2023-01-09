@@ -471,21 +471,24 @@ Public Class CrearArchivo
             strStreamWriter = New StreamWriter(strStreamW, System.Text.Encoding.Default) ' tipo de codificacion para escritura
 
             For Each row As DataRow In Tbl_Ubicaciones.Rows
-                CardCode = Tbl_Ubicaciones.Rows(cont).Item("CardCode").ToString()
-                ItemCode = Tbl_Ubicaciones.Rows(cont).Item("ItemCode").ToString()
-                Descuento = Tbl_Ubicaciones.Rows(cont).Item("Descuento").ToString()
 
-                If (CardCode <> "" And ItemCode <> "" And Descuento <> "") Then
-                    Linea = CardCode & "^" & ItemCode & "^" & Descuento & "^"
-                    strStreamWriter.WriteLine(Linea)
+                If row.Item("CardCode").ToString().Equals("") = False Then
+
+                    CardCode = row.Item("CardCode").ToString()
+                    ItemCode = row.Item("ItemCode").ToString()
+                    Descuento = row.Item("Descuento").ToString()
+
+                    If (CardCode <> "" And ItemCode <> "" And Descuento <> "") Then
+                        Linea = CardCode & "^" & ItemCode & "^" & Descuento & "^"
+                        strStreamWriter.WriteLine(Linea)
+                    End If
+
+                    Linea = ""
+
+                    CardCode = ""
+                    ItemCode = ""
+                    Descuento = ""
                 End If
-
-                Linea = ""
-
-                CardCode = ""
-                ItemCode = ""
-                Descuento = ""
-
                 cont += 1
             Next
 
@@ -1234,6 +1237,7 @@ Public Class CrearArchivo
             Dim Latitud As String = ""
             Dim Longitud As String = ""
 
+
             Dim Id_Provincia As String = ""
             Dim Id_Canton As String = ""
             Dim Id_Distrito As String = ""
@@ -1242,7 +1246,7 @@ Public Class CrearArchivo
             Dim DescMax As String = ""
             Dim TipoSocio As String = ""
             Dim EnviarFE As String = ""
-
+            Dim Categoria As String = ""
 
 
             Const quote As String = """"
@@ -1296,13 +1300,15 @@ Public Class CrearArchivo
                 Id_TipoCedula = Tbl_Clientes.Rows(cont).Item("TipoCedula").ToString()
                 TipoSocio = Tbl_Clientes.Rows(cont).Item("TipoSocio").ToString()
                 EnviarFE = Tbl_Clientes.Rows(cont).Item("EnviarFE").ToString()
+                Categoria = Tbl_Clientes.Rows(cont).Item("Categoria").ToString()
+
                 'Id_Provincia = 0
                 'Id_Canton = 0
                 'Id_Distrito = 0
                 'Id_Barrio = 0
                 'Id_TipoCedula = 0
 
-                Linea = CardCode + "^" & CardName & "^" & Cedula & "^" & Responsable_Tributario & "^" & CodCredito & "^" & U_Visita & "^" & DescuentoMAX & "^" & U_ClaveWeb & "^" & SlpCode & "^" & ListaPrecio & "^" & Phone1 & "^" & Phone2 & "^" & Street & "^" & E_Mail & "^" & Dias_Credito & "^" & NombreFicticio & "^" & Latitud & "^" & Longitud & "^" & VerDias & "^" & DescMax & "^" & Id_Provincia & "^" & Id_Canton & "^" & Id_Distrito & "^" & Id_Barrio & "^" & Id_TipoCedula & "^" & TipoSocio & "^" & EnviarFE & "^"
+                Linea = CardCode + "^" & CardName & "^" & Cedula & "^" & Responsable_Tributario & "^" & CodCredito & "^" & U_Visita & "^" & DescuentoMAX & "^" & U_ClaveWeb & "^" & SlpCode & "^" & ListaPrecio & "^" & Phone1 & "^" & Phone2 & "^" & Street & "^" & E_Mail & "^" & Dias_Credito & "^" & NombreFicticio & "^" & Latitud & "^" & Longitud & "^" & VerDias & "^" & DescMax & "^" & Id_Provincia & "^" & Id_Canton & "^" & Id_Distrito & "^" & Id_Barrio & "^" & Id_TipoCedula & "^" & TipoSocio & "^" & EnviarFE & "^" & Categoria & "^"
 
                 'ESCRIBE LA LINEA EN EL ARCHIVO
                 strStreamWriter.WriteLine(Linea)
@@ -1335,6 +1341,7 @@ Public Class CrearArchivo
                 Id_TipoCedula = ""
                 TipoSocio = ""
                 EnviarFE = ""
+                Categoria = ""
 
                 Linea = ""
                 cont += 1
@@ -1383,6 +1390,7 @@ Public Class CrearArchivo
             Id_Barrio = Nothing
             TipoSocio = Nothing
             EnviarFE = Nothing
+            Categoria = Nothing
 
             NombreFicticio = Nothing
 

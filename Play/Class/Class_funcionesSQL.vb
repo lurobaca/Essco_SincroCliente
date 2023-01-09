@@ -9215,15 +9215,7 @@ Public Class Class_funcionesSQL
                     Next i
                 End If
 
-
-
-
-
-
             Consulta = Consulta & " order by CardCode asc "
-
-
-
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(Tbl_Clientes)

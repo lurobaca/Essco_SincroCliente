@@ -104,16 +104,17 @@ Public Class Enviar_Info_Seller
 
             End Try
 
-
+            'OJO VER POR QUE SE DUPLICA LA INFORMACION DE LOS DESCUENTOS
+            'DEBE SER POR QUE AL CAMBIAR LOS DESCUENTOS O NO SE BORRA EL ARCHIVO O SE RECORRE DOBLE
             Dim Tbl_Descuentos As New DataTable
-                Tbl_Descuentos = Class_VariablesGlobales.Obj_Funciones_SQL.Obtiene_Descuentos(SQL_Comman1, Ruta, Rutas_Unidicar)
-                Class_VariablesGlobales.Obj_Creaarchivo.Crear_InDescuentos(Tbl_Descuentos, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta)
-                If Class_VariablesGlobales.Obj_Creaarchivo.ObtieneTamanoFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg") <> "0 Kb" Then
-                    Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\Descuentos.mbg", "Descuentos.mbg", Ruta2, "Completo", Servidor)
-                End If
+            Tbl_Descuentos = Class_VariablesGlobales.Obj_Funciones_SQL.Obtiene_Descuentos(SQL_Comman1, Ruta2, Rutas_Unidicar)
+            Class_VariablesGlobales.Obj_Creaarchivo.Crear_InDescuentos(Tbl_Descuentos, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\Descuentos.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2)
+            If Class_VariablesGlobales.Obj_Creaarchivo.ObtieneTamanoFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\Descuentos.mbg") <> "0 Kb" Then
+                Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\Descuentos.mbg", "Descuentos.mbg", Ruta2, "Completo", Servidor)
+            End If
 
 
-                Tbl_Descuentos.Dispose()
+            Tbl_Descuentos.Dispose()
 
 
 
