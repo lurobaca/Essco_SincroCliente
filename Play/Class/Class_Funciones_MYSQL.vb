@@ -23,7 +23,7 @@ Public Class Class_Funciones_MYSQL
 
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -43,7 +43,7 @@ Public Class Class_Funciones_MYSQL
 
             Return TABLA
         Catch ex As Exception
-            Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+            Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             ObtieneDevolucionesDelDia(ItemCode, Fecha)
 
             'MsgBox("Error al ObtieneDevolucionesDelDia " & ex.Message)
@@ -57,7 +57,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -77,7 +77,7 @@ Public Class Class_Funciones_MYSQL
 
             Return TABLA
         Catch ex As Exception
-            Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+            Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             ObtienePedidosDelDia(ItemCode, Fecha)
 
             'MsgBox("Error al ObtieneDevolucionesDelDia " & ex.Message)
@@ -89,7 +89,7 @@ Public Class Class_Funciones_MYSQL
         Try
             Dim Consulta As String
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Consulta = "INSERT INTO `arquitect_bourne`.`Inv_ConActivo`(`Grupo`, `Conteo`,`IdInventario`) VALUES ('" & CodGrupo & "','1','" & IdInventario & "');"
@@ -110,7 +110,7 @@ Public Class Class_Funciones_MYSQL
     Public Sub EliminaGrupo(ByVal CodGrupo As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -138,7 +138,7 @@ Public Class Class_Funciones_MYSQL
     Public Sub BorrarGrupos(ByVal Grupo As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -160,7 +160,7 @@ Public Class Class_Funciones_MYSQL
     Public Sub ConteoActivo()
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -176,7 +176,7 @@ Public Class Class_Funciones_MYSQL
     Public Sub BorraGrupoConteo(ByVal idGrupo As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -192,7 +192,7 @@ Public Class Class_Funciones_MYSQL
     Public Sub BorraConteo(ByVal idGrupo As String, ByVal IdInventario As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -210,7 +210,7 @@ Public Class Class_Funciones_MYSQL
     Public Sub InsertConteo(ByVal CodGrupo As String, ByVal CodArticulo As String, ByVal IdInventario As String, ByVal Conte As Integer, ByVal CodProveedor As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -228,7 +228,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -245,7 +245,7 @@ Public Class Class_Funciones_MYSQL
 
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -280,7 +280,7 @@ Public Class Class_Funciones_MYSQL
     Public Function ObtieneIdInventario()
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -307,7 +307,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -323,7 +323,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -341,7 +341,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             'Dim Consulta As String = "UPDATE  `Conteo` SET `Stock_b1`= '" & Stock_b1 & "',`Stock_b2`= '" & Stock_b2 & "',`Stock_b3`= '" & Stock_b3 & "',`Stock_b4`= '" & Stock_b4 & "',`Stock_b5`= '" & Stock_b5 & "',`Stock_b6`= '" & Stock_b6 & "' ,`Monto_B1`= " & Monto_B1 & ",`Monto_B2`= " & Monto_B2 & ",`Monto_B3`= " & Monto_B3 & ",`Monto_B4`= " & Monto_B4 & ",`Monto_B5`= " & Monto_B5 & ",`Monto_B6`= " & Monto_B6 & "  WHERE `IdInventario`='" & IdInventario & "' AND `Codigo`='" & Codigo & "'"
@@ -361,7 +361,7 @@ Public Class Class_Funciones_MYSQL
     Public Function NoRecuenta(ByVal idInventario As String, ByVal Codigo As String, ByVal idGrupo As String, ByVal NumConteo As Integer, ByVal Cuenta As Integer)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -386,7 +386,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -407,7 +407,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -427,7 +427,7 @@ Public Class Class_Funciones_MYSQL
     Public Function Stock(ByVal CodArticulo As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -457,7 +457,7 @@ Public Class Class_Funciones_MYSQL
     Public Function Costo(ByVal CodArticulo As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -487,7 +487,7 @@ Public Class Class_Funciones_MYSQL
     Public Function ConteoActivoDelGrupo(ByVal Grupo As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -514,7 +514,7 @@ Public Class Class_Funciones_MYSQL
     Public Function Unifica(ByVal Proveeodr As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -540,7 +540,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -566,7 +566,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String
@@ -588,7 +588,7 @@ Public Class Class_Funciones_MYSQL
         '
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
             Dim MyDataSet As DataSet
             Dim ADATER As New OdbcDataAdapter
@@ -673,7 +673,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -685,7 +685,7 @@ Public Class Class_Funciones_MYSQL
 
             Dim retorna As Integer = 0
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Consulta = "SELECT MAX(Conteo) as Conto FROM `Inv_ConActivo` where Grupo ='" & Grupo & "'"
@@ -778,7 +778,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             ' Dim Consulta As String = "UPDATE  `Conteo` SET `D1`= '" & D1 & "',`D2`= '" & D2 & "',`D3`= '" & D3 & "',`D4`= '" & D4 & "',`D5`= '" & D5 & "',`D6`= '" & D6 & "' ,`D7`= " & D7 & ",`D8`= " & D8 & ",`DF`= " & DF & ",`MD1`= " & MD1 & ",`MD2`= " & MD2 & ",`MD3`= " & MD3 & ",`MD4`= " & MD4 & ",`MD5`= " & MD5 & ",`MD6`= " & MD6 & ",`MD7`= " & MD7 & ",`MD8`= " & MD8 & ",`DFM`= " & MDF & ",`costo`= " & costo & " ,`CF`= " & CF & " WHERE `IdInventario`='" & IdInventario & "' AND `Codigo`='" & Codigo & "'"
@@ -798,7 +798,7 @@ Public Class Class_Funciones_MYSQL
     Public Function ObtieneInventarios()
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -823,7 +823,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -848,7 +848,7 @@ Public Class Class_Funciones_MYSQL
     Public Function GruposConteo()
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -874,7 +874,7 @@ Public Class Class_Funciones_MYSQL
     Public Function OptieneCasaXGRupo(ByVal idGrupo As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -900,7 +900,7 @@ Public Class Class_Funciones_MYSQL
         Try
             'Obtiene el inventario junto a todos los conteos hechos
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -990,7 +990,7 @@ Public Class Class_Funciones_MYSQL
     Public Function DetConteo(ByVal IdInventario As String, ByVal CodArticulo As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -1016,7 +1016,7 @@ Public Class Class_Funciones_MYSQL
     Public Function ObtieneMaxConteoHecho(ByVal IdInventario As String)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim ADATER As New OdbcDataAdapter
@@ -1059,7 +1059,7 @@ Public Class Class_Funciones_MYSQL
 
             Dim Consulta As String
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Consulta = "UPDATE `Inv_Inventario` SET `CF`='" & CF & "',`DF`='" & DF & "',`DFM`='" & DFM & "' WHERE `IdInventario`='" & IdInventario & "' and `Codigo`='" & Codigo & "'"
@@ -1077,7 +1077,7 @@ Public Class Class_Funciones_MYSQL
     Public Function CierraInventario(ByVal IdInventario As String, ByVal Entradas As Double, ByVal Salidas As Double, ByVal Diferencias As Double, ByVal InvFinal As Double)
         Try
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim Consulta As String = ""
@@ -1112,7 +1112,7 @@ Public Class Class_Funciones_MYSQL
 
             'Obtiene solo los conteos realizados en el conteo a cruzar y que esta activo del grupo indicado
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
 
@@ -1166,7 +1166,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim CodG As String
@@ -1204,7 +1204,7 @@ Public Class Class_Funciones_MYSQL
         Try
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             Dim CodG As String
@@ -1253,7 +1253,7 @@ Public Class Class_Funciones_MYSQL
             Dim TABLA As New DataTable
 
             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
             End If
 
             If VerificaInventarioAbiertos() = 1 Then
@@ -1289,7 +1289,7 @@ Public Class Class_Funciones_MYSQL
                         Try
 
                             If Class_VariablesGlobales.MYSQ_Comman.Connection.State = ConnectionState.Closed Then
-                                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                                Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
                             End If
                             Dim Sector As String = ""
 
@@ -1345,7 +1345,7 @@ Public Class Class_Funciones_MYSQL
                             MsgBox(ex.Message)
 
                             Class_VariablesGlobales.MYSQ_Comman = New OdbcCommand
-                            Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MYSQL.Conectar()
+                            Class_VariablesGlobales.MYSQ_Comman.Connection = Class_VariablesGlobales.Obj_CX_MySQL.Conectar()
 
                             Class_VariablesGlobales.MYSQ_Comman.CommandText = Consulta
                             Class_VariablesGlobales.MYSQ_Comman.ExecuteNonQuery()

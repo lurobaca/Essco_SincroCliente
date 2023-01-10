@@ -37,7 +37,7 @@ Public Class Class_VariablesGlobales
     Public Shared IMPRIMIENDO As String
     Public Shared Copias As Integer
     Public Shared LiquidacionRecuperada As String
-
+    Public Shared Id_Usuario As String
     Public Shared Log_Usuario As String
     Public Shared IP As String
     Public Shared UsuarioWindows As String
@@ -198,6 +198,7 @@ Public Class Class_VariablesGlobales
     Public Shared XMLParamCuentas_BancoLaFise As String
     Public Shared XMLParamCuentas_BancoCoocique As String
     Public Shared XMLParamCuentas_BancoBCT As String
+    Public Shared XMLParamCuentas_UsarBancosDeSAP As String
 
 
     Public Shared NumLiqui_Chofer As String
@@ -216,7 +217,7 @@ Public Class Class_VariablesGlobales
     'Public Shared frmLiqAge As Liquidacion_Agentes
     'Public Shared frmDetGastos As Detalle_Gastos
     'Public Shared frmDepos As Admin_Depositos
-    Public Obj_CX_MYSQL As New CONEXION_TO_MYSQL
+    Public Obj_CX_MySQL As New CONEXION_TO_MYSQL
     Public Shared MYSQ_Comman As New OdbcCommand
 
     'Public Shared Obj_LiqAgentes As New Liquidacion_Agentes

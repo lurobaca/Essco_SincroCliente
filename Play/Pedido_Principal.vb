@@ -259,7 +259,7 @@ Public Class Pedido_Principal
 
         'conecta  a SAP
         Dim Obj_VarGlobal As New Class_VariablesGlobales
-            Class_VariablesGlobales.MYSQ_Comman.Connection = Obj_VarGlobal.Obj_CX_MYSQL.Conectar()
+            Class_VariablesGlobales.MYSQ_Comman.Connection = Obj_VarGlobal.Obj_CX_MySQL.Conectar()
 
             nuevo()
             btn_anular.Enabled = False
