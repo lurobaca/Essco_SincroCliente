@@ -2,47 +2,15 @@
 Imports System.Data.Odbc
 
 Public Class Class_VariablesGlobales
+
     'Almacena del RowIndex para saber a cual fila le coloca la respuesta de hcianeda
-    Public Shared RoxIndexDGV As Hashtable
-    Public Shared obj_Validaconexion As ValidaConexion
-    Public Shared obj_SAP As SAP_BUSSINES_ONE
-    Public Shared oCompany As New SAPbobsCOM.Company ' si se genera una exepcion puede ser pro que el proyecto no esta complando en x86 posiblementeeste en AnyCPU en la propiedades del proyecto
-    Public Shared Obj_CX_MYSQL As CONEXION_TO_MYSQL
-    Public Shared MYSQ_Comman As OdbcCommand
+    Public Shared RoxIndexDGV As New Hashtable
 
-    Public Shared SQL_Comman1 As SqlCommand
-    'Public Shared Obj_SQL_CONEXION_CONEXION As New CONEXION_TO_SQLSERVER
-    Public Shared Tbl_RepCarga As DataTable
-    Public Shared SQL_Comman, SQL_Comman2 As SqlCommand
-    Public Shared Obj_InforComputadora As InforComputadora
-    Public Shared Obj_Funciones_SQL As Class_funcionesSQL
-    Public Shared Obj_SQL_CONEXION As CONEXION_TO_SQLSERVER
-    Public Shared Obj_Funciones_MYSQL As Class_Funciones_MYSQL
+    Public Shared obj_Validaconexion As New ValidaConexion
 
+    Public Shared obj_SAP As New SAP_BUSSINES_ONE
+       Public Shared oCompany As New SAPbobsCOM.Company ' si se genera una exepcion puede ser pro que el proyecto no esta complando en x86 posiblementeeste en AnyCPU en la propiedades del proyecto
 
-    ' El constructor del formulario
-    Public Sub New()
-        Try
-            RoxIndexDGV = New Hashtable
-            obj_Validaconexion = New ValidaConexion
-            obj_SAP = New SAP_BUSSINES_ONE
-            oCompany = New SAPbobsCOM.Company
-            Obj_CX_MYSQL = New CONEXION_TO_MYSQL
-            MYSQ_Comman = New OdbcCommand
-            SQL_Comman1 = New SqlCommand
-            Tbl_RepCarga = New DataTable
-            SQL_Comman = New SqlCommand
-            SQL_Comman2 = New SqlCommand
-
-            Obj_InforComputadora = New InforComputadora
-            Obj_Funciones_SQL = New Class_funcionesSQL
-            Obj_SQL_CONEXION = New CONEXION_TO_SQLSERVER
-            Obj_Funciones_MYSQL = New Class_Funciones_MYSQL
-        Catch ex As Exception
-            MessageBox.Show("ERROR Class_VariablesGlobales " & ex.Message)
-
-        End Try
-    End Sub
 
 
     Public Shared RutaExcellPedidos As String
@@ -69,10 +37,11 @@ Public Class Class_VariablesGlobales
     Public Shared IMPRIMIENDO As String
     Public Shared Copias As Integer
     Public Shared LiquidacionRecuperada As String
-    Public Shared Id_Usuario As String
+
     Public Shared Log_Usuario As String
     Public Shared IP As String
     Public Shared UsuarioWindows As String
+
 
     Public Shared CheqRC_Consecutivo As String
     Public Shared CheqRC_ItemCode As String
@@ -81,8 +50,10 @@ Public Class Class_VariablesGlobales
     Public Shared CheqRC_CodeBars As String
     Public Shared CheqRC_Bodega As String
 
+
     'Son de mis clases    
     Public Shared ConseRepDevoluciones As String = "0"
+
 
     'esto indica cuando es el chequeado de bodega el que esta entrando a la ventana Rutas-RepCarga 
     ' si esta en tru manda los datos a la ventana de chequeo por codigo de barras
@@ -91,8 +62,28 @@ Public Class Class_VariablesGlobales
 
 
     'Son de mis clases
+
+
     Public Shared frmArticulos As Articulos
     Public Shared Ubicaciones_Modo As String
+    ''' <summary>
+    '''Obtener y enviar la cantidad de Filas de la cuadrícula de diseñar bodega
+    ''' </summary>
+    Public Shared WMS_Top_Filas As String
+    ''' <summary>
+    '''Obtener y enviar la cantidad de Columnas de la cuadrícula de diseñar bodega
+    ''' </summary>
+    Public Shared WMS_Top_Columnas As String
+    ''' <summary>
+    '''Obtener y enviar si se desea abrir otra bodega o cerrar el diseñador por completo
+    ''' </summary>
+    Public Shared WMS_Abrir_Bodega As Boolean
+    ''' <summary>
+    '''Obtener y enviar el código de la bodega seleccionada
+    ''' </summary>
+    Public Shared WMS_Codigo_Bodega As Integer
+
+
     Public Shared ClientesLlamadoDesde As String = ""
     Public Shared ArticulosLlamadoDesde As String = ""
     Public Shared LlamadoDesde As String = ""
@@ -207,7 +198,7 @@ Public Class Class_VariablesGlobales
     Public Shared XMLParamCuentas_BancoLaFise As String
     Public Shared XMLParamCuentas_BancoCoocique As String
     Public Shared XMLParamCuentas_BancoBCT As String
-    Public Shared XMLParamCuentas_UsarBancosDeSAP As String
+
 
     Public Shared NumLiqui_Chofer As String
     Public Shared NumLiqui As String
@@ -225,7 +216,8 @@ Public Class Class_VariablesGlobales
     'Public Shared frmLiqAge As Liquidacion_Agentes
     'Public Shared frmDetGastos As Detalle_Gastos
     'Public Shared frmDepos As Admin_Depositos
-
+    Public Obj_CX_MYSQL As New CONEXION_TO_MYSQL
+    Public Shared MYSQ_Comman As New OdbcCommand
 
     'Public Shared Obj_LiqAgentes As New Liquidacion_Agentes
     'Public Shared Obj_Creaarchivo As New CrearArchivo
@@ -236,7 +228,18 @@ Public Class Class_VariablesGlobales
     'Public Shared Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
     'Public Shared Obj_Funciones_SQL As New Class_funcionesSQL
     'Public Shared Obj_Funciones_SQL As New Class_funcionesSQL
-
+    Public Shared SQL_Comman1 As New SqlCommand
+    'Public Shared Obj_SQL_CONEXION_CONEXION As New CONEXION_TO_SQLSERVER
+    Public Shared Tbl_RepCarga As New DataTable
+    Public Shared SQL_Comman, SQL_Comman2 As New SqlCommand
+    'Public Shared Obj_Clas_XML As New Class_XML_Conexion
+    'Public Shared Obj_Admin_Bodegueros As New Admin_Bodegueros
+    'Public Shared Obj_Fecha As New FechaManager
+    'Public Shared  oCompany As New SAPbobsCOM.Company
+    Public Shared Obj_InforComputadora As New InforComputadora
+    Public Shared Obj_Funciones_SQL As New Class_funcionesSQL
+    Public Shared Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
+    Public Shared Obj_Funciones_MYSQL As New Class_Funciones_MYSQL
 
 
     Public Shared LlamaListaChoferDesdeExportacion As Boolean = False
@@ -412,6 +415,7 @@ Public Class Class_VariablesGlobales
     Public Shared frmCruzar As New Inv_Cruzar
     Public Shared frmCroquisBodega As New WMS_CroquisBodega
     Public Shared frmMantenimientoBodegas As New WMS_MantenimientoBodegas
+    Public Shared frmVerBodegas As New WMS_VerBodegas
     Public Shared frmStock_Manager As New Stock_Manager
     Public Shared frmFacturacion As New Facturacion
     Public Shared frmLista_Articulos As New Lista_Articulos
@@ -421,7 +425,7 @@ Public Class Class_VariablesGlobales
     Public Shared frmInv_Math_Hacienda As New Math_Hacienda
 
     Public Shared frmInv_WMS_LineaNueva As New WMS_LineaNueva
-
+    Public Shared frmInv_MantenimientoLicencias As New MantenimientoLicencias
     Public Shared frmAdmin_Ubicaciones As New WMS_Admin_Ubicaciones
     Public Shared frmNivelesEnRack As New WMS_NivelesEnRack
     Public Shared frmControl As New Inv_Control
@@ -431,6 +435,6 @@ Public Class Class_VariablesGlobales
     Public Shared frmWMS_PedidosChequeados_Detalle As WMS_PedidosChequeados_Detalle
     Public Shared frmWMS_BancosEssco As Admin_Bancos
 
-    Public Shared frmInv_MantenimientoLicencias As New MantenimientoLicencias
+
 
 End Class

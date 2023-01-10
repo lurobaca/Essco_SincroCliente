@@ -75,9 +75,11 @@
         btn_Modificar.Enabled = True
         Btn_Eliminar.Enabled = True
 
+        Dim ColumnaCodigo As Integer = 0
+        Dim ColumnaCedula As Integer = 1
 
-        txtb_Codigo.Text = DGV_Usuarios.Item(0, DGV_Usuarios.CurrentRow.Index).Value.ToString()
-        txtb_Cedula.Text = DGV_Usuarios.Item(1, DGV_Usuarios.CurrentRow.Index).Value.ToString()
+        txtb_Codigo.Text = DGV_Usuarios.Item(ColumnaCodigo, DGV_Usuarios.CurrentRow.Index).Value.ToString()
+        txtb_Cedula.Text = DGV_Usuarios.Item(ColumnaCedula, DGV_Usuarios.CurrentRow.Index).Value.ToString()
         txtb_Nombre.Text = DGV_Usuarios.Item(2, DGV_Usuarios.CurrentRow.Index).Value.ToString()
         Cbx_Puestos.Text = DGV_Usuarios.Item(3, DGV_Usuarios.CurrentRow.Index).Value.ToString()
         txtb_Usuario.Text = DGV_Usuarios.Item(4, DGV_Usuarios.CurrentRow.Index).Value.ToString()

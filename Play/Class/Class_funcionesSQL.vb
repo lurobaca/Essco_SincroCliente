@@ -10998,8 +10998,255 @@ Public Class Class_funcionesSQL
 
 
 #Region "Funciones para WMS"
+    ''' <summary>
+    '''Obtiene el id máximo de las bodegas
+    ''' </summary>
+    Public Function Obtiene_Max_Bodega(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim TABLA As New DataTable
+            Dim ADAPTER As New SqlDataAdapter
 
+            Dim Consulta As String = ""
 
+            Consulta = "SELECT MAX(IdBodega) as IdBodega FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega]"
+
+            ADAPTER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADAPTER.Fill(TABLA)
+
+            Return CInt(TABLA.Rows(0).Item("IdBodega").ToString())
+
+        Catch ex As Exception
+            Return 0
+        End Try
+    End Function
+    ''' <summary>
+    '''Obtiene todas las bodegas
+    ''' </summary>
+    Public Function ObtieneBodegas(ByVal SQL_Comman As SqlCommand)
+        Try
+            ' Dim SQL_Comman As New SqlCommand
+            ' para la conexion al comman
+            'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "SELECT T0.[id], T0.[Nombre], T0.[Ubicacion] , T0.[Racks]  , T0.[Columnas], T0.[Predeterminado]  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] T0 "
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneBodegas [ " & ex.Message & " ]")
+        End Try
+    End Function
+    ''' <summary>
+    '''Obtiene la información solicitada de la bodega
+    ''' </summary>
+    Public Function ObtieneInfoBodega(ByVal SQL_Comman As SqlCommand, ByVal idBodega As String)
+        Try
+            ' Dim SQL_Comman As New SqlCommand
+            ' para la conexion al comman
+            'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "SELECT T0.[IdBodega], T0.[Nombre], T0.[Ubicacion] , T0.[Racks]  , T0.[Columnas], T0.[Predeterminado]  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] T0 WHERE T0.[IdBodega]=" & idBodega & ""
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            If TABLA.Rows.Count > 0 Then
+                Class_VariablesGlobales.WMS_Top_Filas = TABLA.Rows(0).Item("Racks").ToString()
+                Class_VariablesGlobales.WMS_Top_Columnas = TABLA.Rows(0).Item("Columnas").ToString()
+                Return True
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneInfoBodega [ " & ex.Message & " ]")
+        End Try
+    End Function
+    ''' <summary>
+    '''Obtiene el ID y el Nombre de todas las bodegas
+    ''' </summary>
+    Public Function ObtieneBodegasIdNombre(ByVal SQL_Comman As SqlCommand)
+        Try
+            ' Dim SQL_Comman As New SqlCommand
+            ' para la conexion al comman
+            'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "SELECT T0.[id], T0.[Nombre]  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] T0 "
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneBodegas [ " & ex.Message & " ]")
+        End Try
+    End Function
+    ''' <summary>
+    '''Verifica si una bodega es predeterminada o no
+    ''' </summary>
+    Public Function esPredeterminado(ByVal SQL_Comman As SqlCommand, ByVal idBodega As String)
+        Try
+            ' Dim SQL_Comman As New SqlCommand
+            ' para la conexion al comman
+            'SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "SELECT T0.[Predeterminado]  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] T0 where T0.[id]=" & idBodega & ""
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en esPredeterminado [ " & ex.Message & " ]")
+        End Try
+    End Function
+    ''' <summary>
+    '''Inserta bodegas a la tabla Picking_Bodega de la base de datos Sic_Local_Web
+    ''' </summary>
+    Public Function INSERTA_Bodega(ByVal SQL_Comman As SqlCommand, ByVal idBodega As String, ByVal Nombre As String, ByVal Ubicacion As String, ByVal Racks As String, ByVal Columnas As String, ByVal predeterminado As String)
+        Try
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] ([IdBodega],[Nombre],[Ubicacion],[Racks] ,[Columnas],[Predeterminado]) VALUES('" & idBodega & "','" & Nombre & "','" & Ubicacion & "','" & Racks & "','" & Columnas & "','" & predeterminado & "')"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+
+        Catch ex As Exception
+        End Try
+
+    End Function
+    ''' <summary>
+    '''Actualiza bodegas de la tabla Picking_Bodega de la base de datos Sic_Local_Web
+    ''' </summary>
+    Public Function ACTUALIZA_Bodega(ByVal SQL_Comman As SqlCommand, ByVal idBodega As String, ByVal Nombre As String, ByVal Ubicacion As String, ByVal Racks As String, ByVal Columnas As String, ByVal predeterminado As String)
+        Try
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder actualizarlos en la tabla articulos de MYSQL
+            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] SET 
+                         [Nombre]= '" & Nombre & "'
+                        ,[Ubicacion]= '" & Ubicacion & "'
+                        ,[Racks]= '" & Racks & "'
+                        ,[Columnas]= '" & Columnas & "'
+                        ,[Predeterminado]= '" & predeterminado & "' 
+                         WHERE IdBodega='" & idBodega & "'"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+
+        Catch ex As Exception
+        End Try
+
+    End Function
+    ''' <summary>
+    '''Elimina bodegas de la tabla Picking_Bodega de la base de datos Sic_Local_Web
+    ''' </summary>
+    Public Function ELIMINAR_Bodega(ByVal SQL_Comman As SqlCommand, ByVal idBodega As String)
+        Try
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Consulta = "Delete [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] 
+                         WHERE IdBodega='" & idBodega & "'"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+
+        Catch ex As Exception
+        End Try
+
+    End Function
+    ''' <summary>
+    '''Elimina la bodega predeterminada de la tabla Picking_Bodega de la base de datos Sic_Local_Web
+    ''' </summary>
+    Public Function ELIMINAR_Bodega_Pred(ByVal SQL_Comman As SqlCommand, ByVal idBodega As String)
+        Try
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] SET 
+                        [Predeterminado]= '0' 
+                         WHERE IdBodega='" & idBodega & "'"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+
+        Catch ex As Exception
+        End Try
+
+    End Function
+    ''' <summary>
+    '''Busca cual es la bodega predeterminada en la tabla Picking_Bodega de la tabla Sic_Local_Web
+    ''' </summary>
+    Public Function BUSCAR_Bodega_Pred(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim TABLA As New DataTable
+            Dim ADAPTER As New SqlDataAdapter
+
+            Dim Consulta As String = ""
+
+            Consulta = "SELECT [IdBodega] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Picking_Bodega] where [Predeterminado] = '1'"
+
+            ADAPTER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADAPTER.Fill(TABLA)
+
+            Return CInt(TABLA.Rows(0).Item("IdBodega").ToString())
+        Catch ex As Exception
+        End Try
+
+    End Function
+    ''' <summary>
+    '''Busqueda de inventario dependiendo lo que digite el usuario en la ventana de Croquis Bodega
+    ''' </summary>
+    Public Function ObtieneInventarioCroquis(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataSet
+            Dim Consulta As String = ""
+            Consulta = "SELECT  T2.[ItemName] FROM  " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".[dbo].[ITM1] AS T0 INNER JOIN
+                  " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OPLN AS T1 ON T0.PriceList = T1.ListNum INNER JOIN
+                  " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OITM AS T2 ON T0.ItemCode = T2.ItemCode INNER JOIN
+                  " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OITW AS T3 ON T2.ItemCode = T3.ItemCode
+WHERE (T3.WhsCode = '01') AND (T2.frozenFor = 'N') AND (T2.CardCode NOT LIKE 'P091') AND (T2.CardCode NOT LIKE 'P005') AND (T2.CardCode NOT LIKE 'P095') AND (T2.CardCode NOT LIKE 'P034') AND (T2.ItemName NOT LIKE 'LICI-%') AND 
+                  (T0.PriceList <> 13) AND (T2.ItemName NOT LIKE 'ELECT%') AND (T2.CardCode NOT LIKE 'P099') 
+group by T2.[ItemName]"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneInventarioCroquis [ " & ex.Message & " ]")
+        End Try
+    End Function
+    ''' <summary>
+    '''Busqueda de inventario dependiendo lo que digite el usuario en la ventana de Croquis Bodega
+    ''' </summary>
+    Public Function ObtieneRacksDeBusqueda(ByVal SQL_Comman As SqlCommand, ByVal ItemName As String)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataSet
+            Dim Consulta As String = ""
+            Consulta = " Select 
+T2.Nombre
+from 
+" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OITM as T0 inner join
+" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & ".dbo.Picking_StockEnUbicaciones AS T1 ON T1.ItemCodes COLLATE SQL_Latin1_General_CP850_CI_AS = t0.ItemCode inner join
+" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & ".dbo.Picking_Ubicaciones AS T2 ON T2.id=T1.IdUbicacion
+where T0.ItemName like '%" & ItemName & "%'
+group by T2.Nombre"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneRacksDeBusqueda [ " & ex.Message & " ]")
+        End Try
+    End Function
     Public Function Obtiene_Nivel(ByVal SQL_Comman As SqlCommand, Nombre As String)
         Try
 
