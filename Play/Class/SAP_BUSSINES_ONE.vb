@@ -1332,6 +1332,7 @@ Public Class SAP_BUSSINES_ONE
 
                 vPay.Currency = "COL"
 
+                vPay.Addresses.SetCurrentLine(0) 'Establese la linea a la cual se le cargara la informacion
 
                 '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
                 'Call vPay.Addresses.Add()
@@ -1374,11 +1375,11 @@ Public Class SAP_BUSSINES_ONE
                 'Provincia segun sap
                 vPay.Addresses.State = IndexSAPProvincia
                 ''canton segun sap
-                vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(IndexSAPProvincia, Combo_Canton).ToString()
+                vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(Combo_Provincia, Combo_Canton).ToString()
                 ''Distrito segun sap
-                vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(IndexSAPProvincia, Combo_Canton, Combo_Distrito).ToString()
+                vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(Combo_Provincia, Combo_Canton, Combo_Distrito).ToString()
                 ''Barrio segun sap
-                vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(IndexSAPProvincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
+                vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(Combo_Provincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
 
 
                 ''OtrasResenas
@@ -1520,7 +1521,7 @@ Public Class SAP_BUSSINES_ONE
 
 
                     '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
-                    vPay.Addresses.SetCurrentLine(1) 'Establese la linea a la cual se le cargara la informacion
+                    vPay.Addresses.SetCurrentLine(0) 'Establese la linea a la cual se le cargara la informacion
 
                     ' CAMPOS SAP      ' CAMPOS SELLER
                     '1 SANJOSE  ----- '1 SANJOSE
@@ -1556,11 +1557,11 @@ Public Class SAP_BUSSINES_ONE
                     'Provincia segun sap
                     vPay.Addresses.State = IndexSAPProvincia
 
-                    vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(IndexSAPProvincia, Combo_Canton).ToString()
+                    vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(Combo_Provincia, Combo_Canton).ToString()
                     ''Distrito segun sap
-                    vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(IndexSAPProvincia, Combo_Canton, Combo_Distrito).ToString()
+                    vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(Combo_Provincia, Combo_Canton, Combo_Distrito).ToString()
                     ''Barrio segun sap
-                    vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(IndexSAPProvincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
+                    vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(Combo_Provincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
 
                     '''canton segun sap
                     'vPay.Addresses.City = Combo_Canton
@@ -1791,11 +1792,11 @@ Public Class SAP_BUSSINES_ONE
                 'Provincia segun sap
                 vPay.Addresses.State = IndexSAPProvincia
 
-                vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(IndexSAPProvincia, Combo_Canton).ToString()
+                vPay.Addresses.City = Obj_SQL_CONEXIONSERVER.ObtieneNombreCanton(Combo_Provincia, Combo_Canton).ToString()
                 ''Distrito segun sap
-                vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(IndexSAPProvincia, Combo_Canton, Combo_Distrito).ToString()
+                vPay.Addresses.County = Obj_SQL_CONEXIONSERVER.ObtieneNombreDistrito(Combo_Provincia, Combo_Canton, Combo_Distrito).ToString()
                 ''Barrio segun sap
-                vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(IndexSAPProvincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
+                vPay.Addresses.Block = Obj_SQL_CONEXIONSERVER.ObtieneNombreBarrio(Combo_Provincia, Combo_Canton, Combo_Distrito, Combo_Barrio).ToString()
 
                 ''canton segun sap
                 'vPay.Addresses.City = Combo_Canton

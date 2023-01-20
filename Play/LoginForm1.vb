@@ -64,8 +64,6 @@ Public Class LoginForm1
 
                 If Txtb_NuevoPass.Text = Txtb_ConfirmaPass.Text Then
 
-
-
                     Objt_GlobalVar.Obj_Funciones_SQL.ModificaUsuario(Objt_GlobalVar.SQL_Comman2, UsernameTextBox.Text, Txtb_NuevoPass.Text, "", "", "", id, "")
 
                     PasswordTextBox.Text = Txtb_NuevoPass.Text

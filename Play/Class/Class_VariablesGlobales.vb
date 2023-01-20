@@ -217,7 +217,9 @@ Public Class Class_VariablesGlobales
     'Public Shared frmLiqAge As Liquidacion_Agentes
     'Public Shared frmDetGastos As Detalle_Gastos
     'Public Shared frmDepos As Admin_Depositos
-    Public Obj_CX_MySQL As New CONEXION_TO_MYSQL
+
+
+
     Public Shared MYSQ_Comman As New OdbcCommand
 
     'Public Shared Obj_LiqAgentes As New Liquidacion_Agentes
@@ -241,7 +243,7 @@ Public Class Class_VariablesGlobales
     Public Shared Obj_Funciones_SQL As New Class_funcionesSQL
     Public Shared Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
     Public Shared Obj_Funciones_MYSQL As New Class_Funciones_MYSQL
-
+    Public Shared Obj_MySQL As New CONEXION_TO_MYSQL
 
     Public Shared LlamaListaChoferDesdeExportacion As Boolean = False
 
