@@ -1333,6 +1333,10 @@ Public Class SAP_BUSSINES_ONE
                 vPay.Currency = "COL"
 
                 vPay.Addresses.SetCurrentLine(0) 'Establese la linea a la cual se le cargara la informacion
+                'indica que la direccion se creara en destinarario de factura
+                vPay.Addresses.TypeOfAddress = SAPbobsCOM.BoAddressType.bo_BillTo
+                vPay.Addresses.AddressType = BoAddressType.bo_BillTo
+
 
                 '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
                 'Call vPay.Addresses.Add()
@@ -1522,6 +1526,8 @@ Public Class SAP_BUSSINES_ONE
 
                     '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
                     vPay.Addresses.SetCurrentLine(0) 'Establese la linea a la cual se le cargara la informacion
+                    vPay.Addresses.TypeOfAddress = SAPbobsCOM.BoAddressType.bo_BillTo
+                    vPay.Addresses.AddressType = BoAddressType.bo_BillTo
 
                     ' CAMPOS SAP      ' CAMPOS SELLER
                     '1 SANJOSE  ----- '1 SANJOSE
@@ -1757,8 +1763,9 @@ Public Class SAP_BUSSINES_ONE
                 '04=NITE
                 vPay.GlobalLocationNumber = "0" & Comb_TipoId
                 '------------ LOS SIGUIENTES CAMPOS SON SEGUN SAP-----------------
-                vPay.Addresses.SetCurrentLine(1) 'Establese la linea a la cual se le cargara la informacion
-
+                vPay.Addresses.SetCurrentLine(0) 'Establese la linea a la cual se le cargara la informacion
+                vPay.Addresses.TypeOfAddress = SAPbobsCOM.BoAddressType.bo_BillTo
+                vPay.Addresses.AddressType = BoAddressType.bo_BillTo
                 ' CAMPOS SAP      ' CAMPOS SELLER
                 '1 SANJOSE  ----- '1 SANJOSE
                 '2 ALAJUELA ----- '2 ALAJUELA

@@ -529,7 +529,7 @@
             If result1 = DialogResult.Yes Then
                 'conecta  a SAP
                 oCompany = obj_SAP.ConectarSap()
-                Dim DiaVisita As String = ""
+                Dim DiaVisita As String = "01"
                 Select Case Comb_DiaVisita.SelectedIndex
                     Case 1
                         DiaVisita = "01"
@@ -546,7 +546,7 @@
                 End Select
 
 
-                Dim Frecuencia As String = ""
+                Dim Frecuencia As String = "01"
                 Select Case Comb_Frecuencia.SelectedIndex
                     Case 1
                         Frecuencia = "01"
