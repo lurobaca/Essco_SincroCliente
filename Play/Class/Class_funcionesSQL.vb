@@ -9738,9 +9738,9 @@ Public Class Class_funcionesSQL
                     Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3'  ORDER BY [CodAgente] ASC "
                 ElseIf VerPuesto = "CHOFER" Then
                     If CodAgente <> "" Then
-                        Consulta = "SELECT [CodAgente] as CodChofer,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
+                        Consulta = "SELECT [CodAgente] ,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
                     Else
-                        Consulta = "SELECT [CodAgente] as CodChofer,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
+                        Consulta = "SELECT [CodAgente] ,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
                     End If
                 Else
                     If CodAgente <> "" Then
