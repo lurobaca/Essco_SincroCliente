@@ -29,32 +29,39 @@ Partial Class ListaAgentes
         '
         'dgv_Agentes
         '
+        Me.dgv_Agentes.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_Agentes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv_Agentes.Location = New System.Drawing.Point(0, 0)
+        Me.dgv_Agentes.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dgv_Agentes.Name = "dgv_Agentes"
         Me.dgv_Agentes.ReadOnly = True
-        Me.dgv_Agentes.Size = New System.Drawing.Size(448, 336)
+        Me.dgv_Agentes.Size = New System.Drawing.Size(612, 383)
         Me.dgv_Agentes.TabIndex = 1
         Me.dgv_Agentes.VirtualMode = True
         '
         'btn_AgregarRep
         '
-        Me.btn_AgregarRep.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btn_AgregarRep.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_AgregarRep.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_AgregarRep.Location = New System.Drawing.Point(150, 341)
+        Me.btn_AgregarRep.Location = New System.Drawing.Point(200, 389)
+        Me.btn_AgregarRep.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_AgregarRep.Name = "btn_AgregarRep"
-        Me.btn_AgregarRep.Size = New System.Drawing.Size(146, 45)
+        Me.btn_AgregarRep.Size = New System.Drawing.Size(205, 55)
         Me.btn_AgregarRep.TabIndex = 8
         Me.btn_AgregarRep.Text = "Agregar"
         Me.btn_AgregarRep.UseVisualStyleBackColor = True
         '
         'ListaAgentes
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(448, 398)
+        Me.ClientSize = New System.Drawing.Size(612, 459)
         Me.Controls.Add(Me.btn_AgregarRep)
         Me.Controls.Add(Me.dgv_Agentes)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "ListaAgentes"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Lista Agentes"

@@ -29,7 +29,7 @@ Public Class Class_XML_Conexion
             '    conectar = "C:\ConexionINFO_SANDBOX_esscocr.xml"
             'End If
 
-            'Dim conectar As String = "C:\ConexionINFO_BourneProduccion.xml"
+            'Dim conectar As String = "C:\ConexionINFO_Bourne_PRODUCCION.xml"
 
             'If File.Exists(conectar) <> True Then
             '    conectar = "C:\ConexionINFO_BourneSANDBOX.xml"
