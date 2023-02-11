@@ -624,11 +624,7 @@ Public Class Enviar_Info_Seller
                 DTP_FechaDesde.Visible = False
                 DTP_FechaHasta.Visible = False
             End If
-
-
         End If
-
-
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
@@ -636,14 +632,11 @@ Public Class Enviar_Info_Seller
         Class_VariablesGlobales.Lista_llamadaDesde = "EXPORTAR"
 
         If CBox_VERPuestos.Text = "AGENTE" Then
-
-
             Class_VariablesGlobales.Obj_ListaAgentes = New ListaAgentes
             ' Class_VariablesGlobales.Obj_ListaAgentes.MdiParent = Principal
             Class_VariablesGlobales.Obj_ListaAgentes.Puesto = CBox_VERPuestos.Text
             Class_VariablesGlobales.Obj_ListaAgentes.TopMost = True
             Class_VariablesGlobales.Obj_ListaAgentes.Show()
-
 
         Else
 
