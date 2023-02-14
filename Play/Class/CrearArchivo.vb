@@ -1405,7 +1405,7 @@ Public Class CrearArchivo
         Return 0
 
     End Function
-    Public Function Crear_InCxc(ByVal Tbl_Clientes As DataTable, ByVal RutaOrigen As String, ByVal carpeta As String, ByVal Ruta As String, Rutas_Unidicar() As String)
+    Public Function Crear_InCxc(ByVal Tbl_Clientes As DataTable, ByVal RutaOrigen As String, ByVal carpeta As String, ByVal Ruta As String, Rutas_Unidicar() As String, FechaINI As String, FechaFin As String)
         Try
             ' DetalleCarga = "GENERANDO ARCHIVO"
             Dim sRenglon As String = Nothing
@@ -1455,7 +1455,7 @@ Public Class CrearArchivo
             'For Each row As DataRow In Tbl_Clientes.Rows
 
             Dim TABLACXC As New DataTable
-            TABLACXC = Obj_SQL_CONEXIONSERVER.Obtiene_cxc(Class_VariablesGlobales.SQL_Comman2, Ruta, Rutas_Unidicar)
+            TABLACXC = Obj_SQL_CONEXIONSERVER.Obtiene_cxc(Class_VariablesGlobales.SQL_Comman2, Ruta, Rutas_Unidicar, FechaINI, FechaFin)
 
 
             For Each row2 As DataRow In TABLACXC.Rows

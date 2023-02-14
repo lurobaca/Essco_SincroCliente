@@ -168,7 +168,7 @@ Public Class Enviar_Info_Seller
             End Try
             'Si lo tiene marcado obtiene la info y genera el archivo cxc
             If Cbox_Cxc.Checked = True Then
-                Class_VariablesGlobales.Obj_Creaarchivo.Crear_InCxc(Tbl_Clientes, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\cxc.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2, Ruta2, Rutas_Unidicar)
+                Class_VariablesGlobales.Obj_Creaarchivo.Crear_InCxc(Tbl_Clientes, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\cxc.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2, Ruta2, Rutas_Unidicar, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaDesde.Value, "yyyy-MM-dd")), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaHasta.Value, "yyyy-MM-dd")))
             Else
                 'Crea el archivo en blanco
                 Dim strStreamW As Stream = Nothing
@@ -474,9 +474,9 @@ Public Class Enviar_Info_Seller
                 'CHOFER
                 Carga_DeliverClientes(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
                 Carga_DeliverCxC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
-                Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
 
             End If
+            Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
 
             Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
@@ -608,22 +608,20 @@ Public Class Enviar_Info_Seller
 
             btn_HabilitarServidores.Enabled = True
 
-            If CBox_VERPuestos.Text <> "AGENTE" Then
-                cbx_CatalogoDivido.Visible = False
-                txb_Grupo.Visible = False
-                lbl_FechaReporte.Visible = True
-                DTP_FechaDesde.Visible = True
-                DTP_FechaHasta.Visible = True
-            End If
-            If CBox_VERPuestos.Text <> "CHOFER" Then
-
-
-                cbx_CatalogoDivido.Visible = True
-                txb_Grupo.Visible = True
-                lbl_FechaReporte.Visible = False
-                DTP_FechaDesde.Visible = False
-                DTP_FechaHasta.Visible = False
-            End If
+            'If CBox_VERPuestos.Text <> "AGENTE" Then
+            cbx_CatalogoDivido.Visible = True
+            txb_Grupo.Visible = True
+            lbl_FechaReporte.Visible = True
+            DTP_FechaDesde.Visible = True
+            DTP_FechaHasta.Visible = True
+            'End If
+            'If CBox_VERPuestos.Text <> "CHOFER" Then
+            'cbx_CatalogoDivido.Visible = True
+            'txb_Grupo.Visible = True
+            'lbl_FechaReporte.Visible = False
+            'DTP_FechaDesde.Visible = False
+            'DTP_FechaHasta.Visible = False
+            'End If
         End If
     End Sub
 

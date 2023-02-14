@@ -9166,7 +9166,9 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
 
             If Rutas_Unidicar Is Nothing Then
-
+                'VALIDAR ENVIAR EL GRUPO Y QUE EL UNVERSO SE UNA SEGUN LA FUNCION CORRESPONDIENTE
+                d
+                Consulta = Consulta & "Select * FROM [essco].ObtieneClientes('" & Agente & "','" & Grupo & "')"
 
                 If Grupo = "A" Then
                     Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Agente & "')  "
@@ -9187,8 +9189,8 @@ Public Class Class_funcionesSQL
                 End If
 
 
-                Else
-                    For i As Integer = 0 To Rutas_Unidicar.Count - 1
+            Else
+                For i As Integer = 0 To Rutas_Unidicar.Count - 1
                         If cont > 0 Then
                             Consulta = Consulta & " UNION "
                         End If
@@ -9280,7 +9282,7 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
-    Public Function Obtiene_cxc(ByVal SQL_Comman As SqlCommand, ByVal Agente As String, Rutas_Unidicar() As String)
+    Public Function Obtiene_cxc(ByVal SQL_Comman As SqlCommand, ByVal Agente As String, Rutas_Unidicar() As String, FechaINI As String, FechaFin As String)
         Try
 
             Dim ADATER As New SqlDataAdapter
@@ -9290,17 +9292,17 @@ Public Class Class_funcionesSQL
 
 
             If Rutas_Unidicar Is Nothing Then
-                Consulta = " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[FacturasPendientes] ('" & Agente & "') "
+                ' Consulta = " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[FacturasPendientes] ('" & Agente & "') "
+                Consulta = " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ObtieneCxC] ('" & Agente & "','" & FechaINI & "','" & FechaFin & "') "
             Else
                 For i As Integer = 0 To Rutas_Unidicar.Count - 1
 
                     If cont > 0 Then
                         Consulta = Consulta & " UNION "
                     End If
+                    'Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[FacturasPendientes] ('" & Rutas_Unidicar(i).ToString() & "') "
 
-
-                    '  Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[FacturasPendientes] ('" & CodCliente & "','" & Agente & "') ORDER BY 2 ASC"
-                    Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[FacturasPendientes] ('" & Rutas_Unidicar(i).ToString() & "') "
+                    Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ObtieneCxC] ('" & Rutas_Unidicar(i).ToString() & "','" & FechaINI & "','" & FechaFin & "') "
 
                     cont += 1
                 Next
