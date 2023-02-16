@@ -8617,9 +8617,9 @@ Public Class Class_funcionesSQL
 
 
 
-    Public Function AgregaDescFijo(ByVal SQL_Comman As SqlCommand, ByVal ID As Integer, ByVal CodCliente As String, ByVal NombCliente As String, _
-                                   ByVal CodProveedor As String, ByVal NombProveedor As String, ByVal familia As String, ByVal Categoria As String, _
-                                   ByVal Marca As String, ByVal CodArt As String, ByVal NombArticulo As String, ByVal Desc As String, ByVal Estado As Integer, _
+    Public Function AgregaDescFijo(ByVal SQL_Comman As SqlCommand, ByVal ID As Integer, ByVal CodCliente As String, ByVal NombCliente As String,
+                                   ByVal CodProveedor As String, ByVal NombProveedor As String, ByVal familia As String, ByVal Categoria As String,
+                                   ByVal Marca As String, ByVal CodArt As String, ByVal NombArticulo As String, ByVal Desc As String, ByVal Estado As Integer,
                                     ByVal PeriodoIndefinido As Integer, ByVal Fecha_INI As Date, ByVal Fecha_FIN As Date, ByVal FechaCreado As Date, ByVal FechaCerrado As Date, ByVal Usuario As String, ByVal Accion As String)
         Try
             Dim Consulta As String
@@ -9167,7 +9167,7 @@ Public Class Class_funcionesSQL
 
             If Rutas_Unidicar Is Nothing Then
                 'VALIDAR ENVIAR EL GRUPO Y QUE EL UNVERSO SE UNA SEGUN LA FUNCION CORRESPONDIENTE
-                d
+
                 Consulta = Consulta & "Select * FROM [essco].ObtieneClientes('" & Agente & "','" & Grupo & "')"
 
                 If Grupo = "A" Then
@@ -9185,24 +9185,21 @@ Public Class Class_funcionesSQL
                         Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Agente & "')  "
                     End If
 
-
                 End If
-
 
             Else
                 For i As Integer = 0 To Rutas_Unidicar.Count - 1
-                        If cont > 0 Then
-                            Consulta = Consulta & " UNION "
-                        End If
+                    If cont > 0 Then
+                        Consulta = Consulta & " UNION "
+                    End If
 
-                        If Grupo = "A" Then
+                    If Grupo = "A" Then
                         Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Rutas_Unidicar(i).ToString & "')  "
                     ElseIf Grupo = "B" Then
                         Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido_B('" & Rutas_Unidicar(i).ToString & "') "
                     ElseIf Grupo = "GPS" Then
                         Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unidicar(i).ToString & "') WHERE  U_Latitud IS NOT NULL  "
                     Else
-
 
                         If Class_VariablesGlobales.XMLParamSAP_CompanyDB = "" Then
                             'Obtiene los datos de la DB de essco
@@ -9213,9 +9210,9 @@ Public Class Class_funcionesSQL
 
                     End If
 
-                        cont += 1
-                    Next i
-                End If
+                    cont += 1
+                Next i
+            End If
 
             Consulta = Consulta & " order by CardCode asc "
 
