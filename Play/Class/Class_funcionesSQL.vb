@@ -8600,7 +8600,7 @@ Public Class Class_funcionesSQL
                                    ,'" & IP & "'
                                    ,'" & Usuario & "'
                                    ,'" & Accion & "'
-                                   ,'" & Now & "')"
+                                   ,'" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(Now.ToShortDateString, "yyyy-MM-dd")) & " " & Now.ToShortTimeString & "')"
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
