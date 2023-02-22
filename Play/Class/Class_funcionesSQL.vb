@@ -9158,7 +9158,7 @@ Public Class Class_funcionesSQL
 
 
 
-    Public Function Obtieneclientes_X_Agente(ByVal Grupo As String, ByVal Agente As String, ByVal Tbl_Clientes As DataTable, Rutas_Unidicar() As String, ByVal SQL_Comman As SqlCommand)
+    Public Function Obtieneclientes_X_Agente(ByVal Grupo As String, ByVal Agente As String, ByVal Tbl_Clientes As DataTable, Rutas_Unidicar() As String, FechaDesde As String, FechaHasta As String, ByVal SQL_Comman As SqlCommand)
         Try
 
             Dim ADATER As New SqlDataAdapter
@@ -9168,7 +9168,7 @@ Public Class Class_funcionesSQL
             If Rutas_Unidicar Is Nothing Then
                 'VALIDAR ENVIAR EL GRUPO Y QUE EL UNVERSO SE UNA SEGUN LA FUNCION CORRESPONDIENTE
 
-                Consulta = Consulta & "Select * FROM [essco].ObtieneClientes('" & Agente & "','" & Grupo & "')"
+                Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Agente & "','" & FechaDesde & "','" & FechaHasta & "')"
 
                 If Grupo = "A" Then
                     Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Agente & "')  "
@@ -9193,6 +9193,9 @@ Public Class Class_funcionesSQL
                         Consulta = Consulta & " UNION "
                     End If
 
+                    Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Rutas_Unidicar(i).ToString & "','" & FechaDesde & "','" & FechaHasta & "')"
+
+
                     If Grupo = "A" Then
                         Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Rutas_Unidicar(i).ToString & "')  "
                     ElseIf Grupo = "B" Then
@@ -9205,7 +9208,7 @@ Public Class Class_funcionesSQL
                             'Obtiene los datos de la DB de essco
                             Consulta = "SELECT * FROM [essco].UniversoXAgente('" & Agente & "')  "
                         Else
-                            Consulta = Consulta & "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unidicar(i).ToString & "')  "
+                            'Consulta = Consulta & "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unidicar(i).ToString & "')  "
                         End If
 
                     End If
@@ -9214,7 +9217,35 @@ Public Class Class_funcionesSQL
                 Next i
             End If
 
-            Consulta = Consulta & " order by CardCode asc "
+            Consulta = Consulta & " GROUP BY 
+                                    CardCode  ,
+	                                CardName,
+	                                Cedula  ,
+	                                Responsable_Tributario ,
+	                                CodCredito ,
+	                                U_Visita  ,
+	                                DescuentoMAX ,
+	                                U_ClaveWeb  ,
+	                                SlpCode  ,
+	                                ListaPrecio  ,
+	                                Phone1 ,
+	                                Phone2   ,
+	                                Street  ,
+	                                E_Mail ,
+	                                Dias_Credito  ,	
+	                                CardFName ,
+	                                U_Latitud   ,
+	                                U_Longitud   ,
+	                                DescMax   ,
+	                                Provincia   ,
+	                                Canton  ,
+	                                Distrito  ,
+	                                Barrio ,
+	                                TipoCedula ,
+	                                TipoSocio ,
+	                                EnviarFE ,
+	                                Categoria  
+	                                ORDER BY cardCode asc "
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(Tbl_Clientes)
@@ -9734,15 +9765,20 @@ Public Class Class_funcionesSQL
 
 
                 If VerPuesto = "TODOS" Then
-                    Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3'  ORDER BY [CodAgente] ASC "
-                ElseIf VerPuesto = "CHOFER" Then
                     If CodAgente <> "" Then
-                        Consulta = "SELECT [CodAgente] ,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
+                        Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND CodAgente='" & CodAgente & "'   ORDER BY [CodAgente] ASC "
                     Else
-                        Consulta = "SELECT [CodAgente] ,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
+                        Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3'  ORDER BY [CodAgente] ASC "
+
                     End If
-                Else
-                    If CodAgente <> "" Then
+                ElseIf VerPuesto = "CHOFER" Then
+                        If CodAgente <> "" Then
+                            Consulta = "SELECT [CodAgente] ,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
+                        Else
+                            Consulta = "SELECT [CodAgente] ,[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
+                        End If
+                    Else
+                        If CodAgente <> "" Then
                         Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' AND CodAgente='" & CodAgente & "' ORDER BY [CodAgente] ASC "
                     Else
                         Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where [CodAgente]<>'3' AND Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
@@ -9987,13 +10023,12 @@ Public Class Class_funcionesSQL
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = "SELECT [CodAgente] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] WHERE [Puesto]='CHOFER' and [Nombre] = '" & Nombre & "' ORDER BY [CodAgente] ASC "
+            Consulta = "SELECT [CodAgente] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] WHERE [Nombre] = '" & Nombre & "' ORDER BY [CodAgente] ASC "
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Return TABLA.Rows(0).Item("CodAgente")
         Catch ex As Exception
             Return 2
-            'Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR CONSULTAPedidosHoyPendientes ( " & ex.Message & " )"
         End Try
     End Function
     Public Function Actualiza_Choferes(ByVal SQL_Comman As SqlCommand, ByVal CodChofer As String, ByVal txtb_cedula As String, ByVal txtb_Nombre As String, ByVal txtb_telf As String, ByVal txtb_ConsPe As String, ByVal txtb_ConsePag As String, ByVal txtb_ConsDep As String, ByVal txtb_ConsGastos As String, ByVal txtb_ConsSinVisita As String, ByVal txtb_Correo As String, ByVal txtb_RutaFTP As String, ByVal txtb_Grupo As String, ByVal txtb_ConsDevolucion As String)

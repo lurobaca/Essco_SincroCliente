@@ -63,7 +63,7 @@ Public Class Reporte_Facturas
             Dim Consecutivo As String
             Dim FacGenerada As Boolean
 
-            Dim CodChofer As String = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneCodChofer(Class_VariablesGlobales.SQL_Comman2, "CHOFER", Cbx_Chofer.Text)
+            Dim CodChofer As String = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneCodChofer(Class_VariablesGlobales.SQL_Comman2, "TODOS", Cbx_Chofer.Text)
 
             If Rb_SinBod1.Checked = True Then
                 'sin crea un reporte de carga con bodega 1
@@ -357,7 +357,7 @@ Public Class Reporte_Facturas
                     End If
 
                     If tbl_reporte.Rows(CONT).Item("VatSum").ToString() <> "" Then
-                        DocImpuesto = CDbl(tbl_reporte.Rows(CONT).Item("LineTotal").ToString())
+                        DocImpuesto = CDbl(tbl_reporte.Rows(CONT).Item("VatSum").ToString())
                     Else
                         DocImpuesto = 0
                     End If
@@ -1266,10 +1266,10 @@ Public Class Reporte_Facturas
                 End If
 
                 'Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneChoferes(Class_VariablesGlobales.SQL_Comman2, "CHOFER", Chofer)
-                Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman1, "CHOFER", Chofer)
+                Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman1, "TODOS", Chofer)
                 cont = 0
                 For Each rowLocal As DataRow In Tbl.Rows
-                    If tabla.Rows(0).Item("Chofer").ToString() = Tbl.Rows(cont).Item("CodChofer").ToString() Then
+                    If tabla.Rows(0).Item("Chofer").ToString() = Tbl.Rows(cont).Item("CodAgente").ToString() Then
                         Class_VariablesGlobales.Obj_Reporte_Facturas.Cbx_Chofer.Text = Tbl.Rows(cont).Item("Nombre").ToString()
                     End If
                     cont += 1

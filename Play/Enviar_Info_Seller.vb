@@ -145,7 +145,7 @@ Public Class Enviar_Info_Seller
             Dim Tbl_Clientes As New DataTable
             'CONSULTA Los clientes
 
-            Tbl_Clientes = Class_VariablesGlobales.Obj_Funciones_SQL.Obtieneclientes_X_Agente(txb_Grupo.Text, Ruta2, Tbl_Clientes, Rutas_Unidicar, SQL_Comman1)
+            Tbl_Clientes = Class_VariablesGlobales.Obj_Funciones_SQL.Obtieneclientes_X_Agente(txb_Grupo.Text, Ruta2, Tbl_Clientes, Rutas_Unidicar, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaDesde.Value, "yyyy-MM-dd")), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaHasta.Value, "yyyy-MM-dd")), SQL_Comman1)
             Try
                 My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\clientes.mbg")
             Catch ex As Exception
@@ -384,30 +384,30 @@ Public Class Enviar_Info_Seller
             RutasOrigen = RutasOrigen & "-" & Class_VariablesGlobales.frmEnviar_Info_Seller.ListV_Reportes.Items(x).Text
         Next
 
-
-
-        If CBox_VERPuestos.Text = "AGENTE" Then
-            Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, ChBox_ClientexDia.Checked, Rutas_Unidicar)
+        'todo
+        'REVISAR QUE SE CARGUEN LAS CXC DEL REP Y LAS FAC PENDIENTE VINCULADAS A LOS CLIENTE DEL AGENTE
+        'If CBox_VERPuestos.Text = "AGENTE" Then
+        Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, ChBox_ClientexDia.Checked, Rutas_Unidicar)
             Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
-        Else
-            If Cbox_Clientes.Checked = True Then
-                Carga_DeliverClientes(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
-            End If
+            'Else
+            '    If Cbox_Clientes.Checked = True Then
+            '        Carga_DeliverClientes(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
+            '    End If
 
-            If Cbox_Cxc.Checked = True Then
-                Carga_DeliverCxC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
-            End If
+            '    If Cbox_Cxc.Checked = True Then
+            '        Carga_DeliverCxC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
+            '    End If
             If Cbox_Facturas.Checked = True Then
                 Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
             End If
 
 
-        End If
+            'End If
 
 
-        'Generar datos del agente y cargadrlos en el otro agente
+            'Generar datos del agente y cargadrlos en el otro agente
 
-        Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
+            Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
         Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
 
         If Cbox_Bancos.Checked = True Then

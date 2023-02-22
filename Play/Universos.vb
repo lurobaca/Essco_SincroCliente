@@ -41,7 +41,7 @@ Public Class Universos
             selectedItem = ComboBox1.SelectedItem
 
             ComboBox1.Items.GetEnumerator()
-            Tbl_Clientes = Class_VariablesGlobales.Obj_Funciones_SQL.Obtieneclientes_X_Agente("GPS", Has(selectedItem.ToString()), Tbl_Clientes, Rutas_Unidicar, Class_VariablesGlobales.SQL_Comman1)
+            Tbl_Clientes = Class_VariablesGlobales.Obj_Funciones_SQL.Obtieneclientes_X_Agente("GPS", Has(selectedItem.ToString()), Tbl_Clientes, Rutas_Unidicar, "", "", Class_VariablesGlobales.SQL_Comman1)
             DataGridView1.DataSource = Tbl_Clientes
             Tbl_Clientes = Nothing
             'MessageBox.Show("Selected Item Text: " & selectedItem.ToString() & Microsoft.VisualBasic.Constants.vbCrLf & _
