@@ -7,7 +7,7 @@
 
 
 
-        dgv_Choferes.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman1, "CHOFER", "")
+        dgv_Choferes.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman1, "TODOS", "")
 
 
         dgv_Choferes.Columns(0).Width = 40

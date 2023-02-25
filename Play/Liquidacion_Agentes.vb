@@ -91,7 +91,7 @@ Public Class Liquidacion_Agentes
 
             Class_VariablesGlobales.Obj_ListaAgentes = New ListaAgentes
             ' Class_VariablesGlobales.Obj_ListaAgentes.MdiParent = Principal
-            Class_VariablesGlobales.Obj_ListaAgentes.Puesto = "AGENTE"
+            Class_VariablesGlobales.Obj_ListaAgentes.Puesto = "TODOS"
             Class_VariablesGlobales.Obj_ListaAgentes.TopMost = True
             Class_VariablesGlobales.Obj_ListaAgentes.Show()
 
