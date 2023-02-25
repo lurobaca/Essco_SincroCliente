@@ -536,12 +536,14 @@ Public Class Enviar_Info_Seller
 
             Ruta = CStr(Tbl_Agentes.Rows(cont).Item("CodAgente").ToString())
             lbl_DetalleCarga.Text = "Cargando info de agente [ " & Ruta & " ]"
+
             Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, ChBox_ClientexDia.Checked, Rutas_Unidicar)
             Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, Rutas_Unidicar)
             Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+
             If CBX_Param.Checked = True Then
 
                 ExportaParametros(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
