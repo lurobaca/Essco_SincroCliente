@@ -88,9 +88,9 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox7.Enabled = False
         Me.GroupBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox7.Location = New System.Drawing.Point(13, 111)
-        Me.GroupBox7.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox7.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox7.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox7.Size = New System.Drawing.Size(1013, 438)
         Me.GroupBox7.TabIndex = 16
         Me.GroupBox7.TabStop = False
@@ -104,9 +104,9 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox3.Controls.Add(Me.TextB_Agente)
         Me.GroupBox3.Controls.Add(Me.txb_Grupo)
         Me.GroupBox3.Location = New System.Drawing.Point(11, 299)
-        Me.GroupBox3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox3.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox3.Name = "GroupBox3"
-        Me.GroupBox3.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox3.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox3.Size = New System.Drawing.Size(987, 123)
         Me.GroupBox3.TabIndex = 43
         Me.GroupBox3.TabStop = False
@@ -115,7 +115,7 @@ Partial Class Enviar_Info_Seller
         'btn_ExpoInfo
         '
         Me.btn_ExpoInfo.Location = New System.Drawing.Point(8, 32)
-        Me.btn_ExpoInfo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btn_ExpoInfo.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_ExpoInfo.Name = "btn_ExpoInfo"
         Me.btn_ExpoInfo.Size = New System.Drawing.Size(280, 59)
         Me.btn_ExpoInfo.TabIndex = 1
@@ -136,7 +136,7 @@ Partial Class Enviar_Info_Seller
         '
         Me.cbx_CatalogoDivido.AutoSize = True
         Me.cbx_CatalogoDivido.Location = New System.Drawing.Point(853, 21)
-        Me.cbx_CatalogoDivido.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.cbx_CatalogoDivido.Margin = New System.Windows.Forms.Padding(4)
         Me.cbx_CatalogoDivido.Name = "cbx_CatalogoDivido"
         Me.cbx_CatalogoDivido.Size = New System.Drawing.Size(93, 29)
         Me.cbx_CatalogoDivido.TabIndex = 19
@@ -147,7 +147,7 @@ Partial Class Enviar_Info_Seller
         'TextB_Agente
         '
         Me.TextB_Agente.Location = New System.Drawing.Point(391, 58)
-        Me.TextB_Agente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TextB_Agente.Margin = New System.Windows.Forms.Padding(4)
         Me.TextB_Agente.Name = "TextB_Agente"
         Me.TextB_Agente.Size = New System.Drawing.Size(132, 30)
         Me.TextB_Agente.TabIndex = 2
@@ -157,7 +157,7 @@ Partial Class Enviar_Info_Seller
         Me.txb_Grupo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txb_Grupo.Enabled = False
         Me.txb_Grupo.Location = New System.Drawing.Point(837, 58)
-        Me.txb_Grupo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txb_Grupo.Margin = New System.Windows.Forms.Padding(4)
         Me.txb_Grupo.Name = "txb_Grupo"
         Me.txb_Grupo.Size = New System.Drawing.Size(140, 30)
         Me.txb_Grupo.TabIndex = 20
@@ -171,7 +171,7 @@ Partial Class Enviar_Info_Seller
         Me.Cbox_Razones.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Razones.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Razones.Location = New System.Drawing.Point(873, 17)
-        Me.Cbox_Razones.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Cbox_Razones.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Razones.Name = "Cbox_Razones"
         Me.Cbox_Razones.Size = New System.Drawing.Size(119, 29)
         Me.Cbox_Razones.TabIndex = 42
@@ -187,9 +187,9 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox2.Controls.Add(Me.lbl_DetalleCarga)
         Me.GroupBox2.Controls.Add(Me.lbl_AgentesProcesados)
         Me.GroupBox2.Location = New System.Drawing.Point(11, 46)
-        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Size = New System.Drawing.Size(987, 121)
         Me.GroupBox2.TabIndex = 35
         Me.GroupBox2.TabStop = False
@@ -198,7 +198,7 @@ Partial Class Enviar_Info_Seller
         'btn_EnviarTodos
         '
         Me.btn_EnviarTodos.Location = New System.Drawing.Point(5, 37)
-        Me.btn_EnviarTodos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btn_EnviarTodos.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_EnviarTodos.Name = "btn_EnviarTodos"
         Me.btn_EnviarTodos.Size = New System.Drawing.Size(280, 59)
         Me.btn_EnviarTodos.TabIndex = 0
@@ -208,7 +208,7 @@ Partial Class Enviar_Info_Seller
         'Prgs_CargaAgentes
         '
         Me.Prgs_CargaAgentes.Location = New System.Drawing.Point(305, 68)
-        Me.Prgs_CargaAgentes.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Prgs_CargaAgentes.Margin = New System.Windows.Forms.Padding(4)
         Me.Prgs_CargaAgentes.Name = "Prgs_CargaAgentes"
         Me.Prgs_CargaAgentes.Size = New System.Drawing.Size(669, 28)
         Me.Prgs_CargaAgentes.TabIndex = 15
@@ -251,7 +251,7 @@ Partial Class Enviar_Info_Seller
         Me.Cbox_Bancos.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Bancos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Bancos.Location = New System.Drawing.Point(766, 17)
-        Me.Cbox_Bancos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Cbox_Bancos.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Bancos.Name = "Cbox_Bancos"
         Me.Cbox_Bancos.Size = New System.Drawing.Size(106, 29)
         Me.Cbox_Bancos.TabIndex = 41
@@ -271,9 +271,9 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox6.Controls.Add(Me.Label49)
         Me.GroupBox6.Controls.Add(Me.TextB_Agente2)
         Me.GroupBox6.Location = New System.Drawing.Point(11, 170)
-        Me.GroupBox6.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox6.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox6.Name = "GroupBox6"
-        Me.GroupBox6.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox6.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox6.Size = New System.Drawing.Size(987, 121)
         Me.GroupBox6.TabIndex = 13
         Me.GroupBox6.TabStop = False
@@ -286,7 +286,7 @@ Partial Class Enviar_Info_Seller
         Me.ListV_Reportes.Enabled = False
         Me.ListV_Reportes.HideSelection = False
         Me.ListV_Reportes.Location = New System.Drawing.Point(389, 54)
-        Me.ListV_Reportes.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ListV_Reportes.Margin = New System.Windows.Forms.Padding(4)
         Me.ListV_Reportes.Name = "ListV_Reportes"
         Me.ListV_Reportes.Size = New System.Drawing.Size(271, 43)
         Me.ListV_Reportes.TabIndex = 94
@@ -313,7 +313,7 @@ Partial Class Enviar_Info_Seller
         '
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.Location = New System.Drawing.Point(669, 54)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(77, 37)
         Me.Button1.TabIndex = 37
@@ -333,7 +333,7 @@ Partial Class Enviar_Info_Seller
         'btn_Cambiar
         '
         Me.btn_Cambiar.Location = New System.Drawing.Point(8, 39)
-        Me.btn_Cambiar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btn_Cambiar.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_Cambiar.Name = "btn_Cambiar"
         Me.btn_Cambiar.Size = New System.Drawing.Size(280, 59)
         Me.btn_Cambiar.TabIndex = 13
@@ -353,7 +353,7 @@ Partial Class Enviar_Info_Seller
         'TextB_Agente1
         '
         Me.TextB_Agente1.Location = New System.Drawing.Point(389, 54)
-        Me.TextB_Agente1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TextB_Agente1.Margin = New System.Windows.Forms.Padding(4)
         Me.TextB_Agente1.Name = "TextB_Agente1"
         Me.TextB_Agente1.Size = New System.Drawing.Size(132, 30)
         Me.TextB_Agente1.TabIndex = 7
@@ -381,7 +381,7 @@ Partial Class Enviar_Info_Seller
         'TextB_Agente2
         '
         Me.TextB_Agente2.Location = New System.Drawing.Point(836, 57)
-        Me.TextB_Agente2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TextB_Agente2.Margin = New System.Windows.Forms.Padding(4)
         Me.TextB_Agente2.Name = "TextB_Agente2"
         Me.TextB_Agente2.Size = New System.Drawing.Size(140, 30)
         Me.TextB_Agente2.TabIndex = 10
@@ -394,7 +394,7 @@ Partial Class Enviar_Info_Seller
         Me.Cbox_Ubicaciones.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Ubicaciones.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Ubicaciones.Location = New System.Drawing.Point(607, 17)
-        Me.Cbox_Ubicaciones.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Cbox_Ubicaciones.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Ubicaciones.Name = "Cbox_Ubicaciones"
         Me.Cbox_Ubicaciones.Size = New System.Drawing.Size(152, 29)
         Me.Cbox_Ubicaciones.TabIndex = 40
@@ -409,7 +409,7 @@ Partial Class Enviar_Info_Seller
         Me.Cbox_Cxc.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Cxc.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Cxc.Location = New System.Drawing.Point(284, 17)
-        Me.Cbox_Cxc.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Cbox_Cxc.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Cxc.Name = "Cbox_Cxc"
         Me.Cbox_Cxc.Size = New System.Drawing.Size(71, 29)
         Me.Cbox_Cxc.TabIndex = 37
@@ -424,7 +424,7 @@ Partial Class Enviar_Info_Seller
         Me.Cbox_Facturas.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Facturas.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Facturas.Location = New System.Drawing.Point(482, 17)
-        Me.Cbox_Facturas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Cbox_Facturas.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Facturas.Name = "Cbox_Facturas"
         Me.Cbox_Facturas.Size = New System.Drawing.Size(118, 29)
         Me.Cbox_Facturas.TabIndex = 39
@@ -439,7 +439,7 @@ Partial Class Enviar_Info_Seller
         Me.Cbox_Clientes.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Clientes.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Clientes.Location = New System.Drawing.Point(364, 17)
-        Me.Cbox_Clientes.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Cbox_Clientes.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Clientes.Name = "Cbox_Clientes"
         Me.Cbox_Clientes.Size = New System.Drawing.Size(112, 29)
         Me.Cbox_Clientes.TabIndex = 38
@@ -462,7 +462,7 @@ Partial Class Enviar_Info_Seller
         'DTP_FechaDesde
         '
         Me.DTP_FechaDesde.Location = New System.Drawing.Point(381, 54)
-        Me.DTP_FechaDesde.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.DTP_FechaDesde.Margin = New System.Windows.Forms.Padding(4)
         Me.DTP_FechaDesde.Name = "DTP_FechaDesde"
         Me.DTP_FechaDesde.Size = New System.Drawing.Size(280, 22)
         Me.DTP_FechaDesde.TabIndex = 32
@@ -475,7 +475,7 @@ Partial Class Enviar_Info_Seller
         Me.CBX_Param.Enabled = False
         Me.CBX_Param.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CBX_Param.Location = New System.Drawing.Point(846, 49)
-        Me.CBX_Param.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.CBX_Param.Margin = New System.Windows.Forms.Padding(4)
         Me.CBX_Param.Name = "CBX_Param"
         Me.CBX_Param.Size = New System.Drawing.Size(144, 29)
         Me.CBX_Param.TabIndex = 17
@@ -501,7 +501,7 @@ Partial Class Enviar_Info_Seller
         Me.ChBox_ClientexDia.Enabled = False
         Me.ChBox_ClientexDia.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ChBox_ClientexDia.Location = New System.Drawing.Point(837, 86)
-        Me.ChBox_ClientexDia.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.ChBox_ClientexDia.Margin = New System.Windows.Forms.Padding(4)
         Me.ChBox_ClientexDia.Name = "ChBox_ClientexDia"
         Me.ChBox_ClientexDia.Size = New System.Drawing.Size(181, 30)
         Me.ChBox_ClientexDia.TabIndex = 23
@@ -515,7 +515,7 @@ Partial Class Enviar_Info_Seller
         Me.RadioButton1.Enabled = False
         Me.RadioButton1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadioButton1.Location = New System.Drawing.Point(692, 53)
-        Me.RadioButton1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.RadioButton1.Margin = New System.Windows.Forms.Padding(4)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(125, 29)
         Me.RadioButton1.TabIndex = 24
@@ -529,7 +529,7 @@ Partial Class Enviar_Info_Seller
         Me.RadioButton2.Enabled = False
         Me.RadioButton2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadioButton2.Location = New System.Drawing.Point(692, 86)
-        Me.RadioButton2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.RadioButton2.Margin = New System.Windows.Forms.Padding(4)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(125, 29)
         Me.RadioButton2.TabIndex = 25
@@ -541,7 +541,7 @@ Partial Class Enviar_Info_Seller
         Me.btn_HabilitarServidores.Enabled = False
         Me.btn_HabilitarServidores.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_HabilitarServidores.Location = New System.Drawing.Point(692, 9)
-        Me.btn_HabilitarServidores.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btn_HabilitarServidores.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_HabilitarServidores.Name = "btn_HabilitarServidores"
         Me.btn_HabilitarServidores.Size = New System.Drawing.Size(317, 37)
         Me.btn_HabilitarServidores.TabIndex = 26
@@ -559,6 +559,7 @@ Partial Class Enviar_Info_Seller
         Me.Label2.Size = New System.Drawing.Size(238, 25)
         Me.Label2.TabIndex = 28
         Me.Label2.Text = "Enviar informacion a un"
+        Me.Label2.Visible = False
         '
         'CBox_VERPuestos
         '
@@ -566,15 +567,16 @@ Partial Class Enviar_Info_Seller
         Me.CBox_VERPuestos.FormattingEnabled = True
         Me.CBox_VERPuestos.Items.AddRange(New Object() {"AGENTE", "CHOFER"})
         Me.CBox_VERPuestos.Location = New System.Drawing.Point(27, 52)
-        Me.CBox_VERPuestos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.CBox_VERPuestos.Margin = New System.Windows.Forms.Padding(4)
         Me.CBox_VERPuestos.Name = "CBox_VERPuestos"
         Me.CBox_VERPuestos.Size = New System.Drawing.Size(247, 33)
         Me.CBox_VERPuestos.TabIndex = 31
+        Me.CBox_VERPuestos.Visible = False
         '
         'DTP_FechaHasta
         '
         Me.DTP_FechaHasta.Location = New System.Drawing.Point(381, 86)
-        Me.DTP_FechaHasta.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.DTP_FechaHasta.Margin = New System.Windows.Forms.Padding(4)
         Me.DTP_FechaHasta.Name = "DTP_FechaHasta"
         Me.DTP_FechaHasta.Size = New System.Drawing.Size(280, 22)
         Me.DTP_FechaHasta.TabIndex = 34
@@ -625,7 +627,7 @@ Partial Class Enviar_Info_Seller
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.CBX_Param)
         Me.Controls.Add(Me.GroupBox7)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "Enviar_Info_Seller"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "ExportarInformacion"

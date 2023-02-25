@@ -9171,18 +9171,22 @@ Public Class Class_funcionesSQL
                 Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Agente & "','" & FechaDesde & "','" & FechaHasta & "')"
 
                 If Grupo = "A" Then
-                    Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Agente & "')  "
+                    '   Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Agente & "')  "
                 ElseIf Grupo = "B" Then
-                    Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido_B('" & Agente & "') "
+                    '  Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido_B('" & Agente & "') "
                 ElseIf Grupo = "GPS" Then
-                    Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Agente & "') WHERE  U_Latitud IS NOT NULL  "
+                    'Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Agente & "') WHERE  U_Latitud IS NOT NULL  "
+                    Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Agente & "','" & FechaDesde & "','" & FechaHasta & "')  WHERE  U_Latitud IS NOT NULL"
+
                 Else
 
                     If Class_VariablesGlobales.XMLParamSAP_CompanyDB = "" Then
                         'Obtiene los datos de la DB de essco
                         Consulta = "SELECT * FROM [essco].UniversoXAgente('" & Agente & "')  "
                     Else
-                        Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Agente & "')  "
+                        Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Agente & "','" & FechaDesde & "','" & FechaHasta & "')"
+
+                        'Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Agente & "')  "
                     End If
 
                 End If
@@ -9197,11 +9201,13 @@ Public Class Class_funcionesSQL
 
 
                     If Grupo = "A" Then
-                        Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Rutas_Unidicar(i).ToString & "')  "
+                        ' Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido('" & Rutas_Unidicar(i).ToString & "')  "
                     ElseIf Grupo = "B" Then
-                        Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido_B('" & Rutas_Unidicar(i).ToString & "') "
+                        '  Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido_B('" & Rutas_Unidicar(i).ToString & "') "
                     ElseIf Grupo = "GPS" Then
-                        Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unidicar(i).ToString & "') WHERE  U_Latitud IS NOT NULL  "
+                        'Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unidicar(i).ToString & "') WHERE  U_Latitud IS NOT NULL  "
+                        Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Agente & "','" & FechaDesde & "','" & FechaHasta & "') WHERE  U_Latitud IS NOT NULL"
+
                     Else
 
                         If Class_VariablesGlobales.XMLParamSAP_CompanyDB = "" Then
@@ -9209,6 +9215,8 @@ Public Class Class_funcionesSQL
                             Consulta = "SELECT * FROM [essco].UniversoXAgente('" & Agente & "')  "
                         Else
                             'Consulta = Consulta & "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unidicar(i).ToString & "')  "
+                            Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Agente & "','" & FechaDesde & "','" & FechaHasta & "')"
+
                         End If
 
                     End If
