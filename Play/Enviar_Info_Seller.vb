@@ -620,7 +620,7 @@ Public Class Enviar_Info_Seller
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
 
-        Class_VariablesGlobales.Lista_llamadaDesde = "TODOS"
+        Class_VariablesGlobales.Lista_llamadaDesde = "EXPORTAR"
 
         'If CBox_VERPuestos.Text = "AGENTE" Then
         Class_VariablesGlobales.Obj_ListaAgentes = New ListaAgentes

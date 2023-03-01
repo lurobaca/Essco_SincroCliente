@@ -8467,6 +8467,7 @@ Public Class Class_funcionesSQL
             Dim TABLA As New DataTable
             ' para la conexion al comman
             Dim Consulta As String
+            SQL_Comman = Conectar()
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
 
             Consulta = ""
@@ -8521,7 +8522,7 @@ Public Class Class_funcionesSQL
         Try
             Dim cont As Integer = 0
             Dim Consulta As String
-
+            SQL_Comman = Conectar()
             Consulta = ""
             If Puesto = "" Then
                 'indica que esta modificando solo la clave desde la ventana login
