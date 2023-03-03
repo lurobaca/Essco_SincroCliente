@@ -815,7 +815,7 @@ Partial Class Facturacion
         '
         Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label28.Location = New System.Drawing.Point(950, 191)
-        Me.Label28.Margin = New System.Windows.Forms.Padding(0, 0, 0, 0)
+        Me.Label28.Margin = New System.Windows.Forms.Padding(0)
         Me.Label28.Name = "Label28"
         Me.Label28.Size = New System.Drawing.Size(61, 20)
         Me.Label28.TabIndex = 122
@@ -877,13 +877,13 @@ Partial Class Facturacion
         Me.Cmb_Moneda.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cmb_Moneda.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cmb_Moneda.FormattingEnabled = True
-        Me.Cmb_Moneda.Items.AddRange(New Object() {"Colones", "Dolares"})
+        Me.Cmb_Moneda.Items.AddRange(New Object() {"COL", "USD"})
         Me.Cmb_Moneda.Location = New System.Drawing.Point(821, 152)
         Me.Cmb_Moneda.Margin = New System.Windows.Forms.Padding(4)
         Me.Cmb_Moneda.Name = "Cmb_Moneda"
         Me.Cmb_Moneda.Size = New System.Drawing.Size(108, 28)
         Me.Cmb_Moneda.TabIndex = 125
-        Me.Cmb_Moneda.Text = "Colones"
+        Me.Cmb_Moneda.Text = "CRC"
         '
         'txtb_TipoCambio
         '

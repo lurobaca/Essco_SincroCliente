@@ -12,6 +12,9 @@
     Public DocSubType As String = ""
     Public Status As String = ""
     Public Printed As String = "0"
+    Public CodMoneda As String = ""
+    Public TipoCambio As String = ""
+
     Public ID_User As String = ""
     Public Nombre_User As String = ""
     Public Emisor_Nombre As String = ""
@@ -102,10 +105,21 @@
 
         End Try
     End Function
-    Private Sub btn_guardar_Click(sender As Object, e As EventArgs) Handles btn_guardar.Click
-        '
+    Private Function btn_guardar_Click(sender As Object, e As EventArgs) Handles btn_guardar.Click
+
 
         'Obj_Funciones.GuardaComprobante(TipoComprobante, Clave, Consecutivo, Fecha, Emisor_Nombre, Emisor_TipoCedula, Emisor_NumeroCedula, Emisor_NombreComercial, Emisor_Ubicacion_Provincia, Emisor_Ubicacion_Canton, Emisor_Ubicacion_Distrito, Emisor_Ubicacion_Barrio, Emisor_Ubicacion_OtrasSenas, Emisor_CodigoPais, Emisor_NumTelefono, Emisor_NumFax, Emisor_CorreoElectronico, Recepto_Nombre, Recepto_TipoCedula, Recepto_NumeroCedula, Recepto_IdentificacionExtranjero, Recepto_NombreComercial, Recepto_Ubicacion_Provincia, Recepto_Ubicacion_Canton, Recepto_Ubicacion_Distrito, Recepto_Ubicacion_Barrio, Recepto_OtraSenas, Recepto_CodigoPais, Recepto_NumTelefono, Recepto_NumFax, Recepto_CorreoElectronico, Recepto_CondicionVenta, Recepto_PlazoCredito, Recepto_MedioPago, DetalleServicio_NumeroLinea, DetalleServicio_TipoCodigo, DetalleServicio_Codigo, DetalleServicio_Cantidad, DetalleServicio_UnidadMedida, DetalleServicio_UnidadMedidaComercial, DetalleServicio_Detalle, DetalleServicio_PrecioUnitario, DetalleServicio_MontoTotal, DetalleServicio_MontoDescuento, DetalleServicio_NaturalezaDescuento, DetalleServicio_SubTotal, DetalleServicio_CodigoImpuesto, DetalleServicio_TarifaImpuesto, DetalleServicio_MontoImpuesto, Exoneracion_TipoDocumento, Exoneracion_NumeroDocumento, Exoneracion_MontoImpuesto, Exoneracion_NombreInstirucion, Exoneracion_FechaEmision, Exoneracion_PorcentajeCompra, ResumenFactura_CodigoMoneda, ResumenFactura_TipoCambio, ResumenFactura_TotalServGravados, ResumenFactura_TotalServExentos, ResumenFactura_TotalMercanciasGravadas, ResumenFactura_TotalMercanciasExentas, ResumenFactura_TotalGravado, ResumenFactura_TotalExento, ResumenFactura_TotalVenta, ResumenFactura_TotalDescuentos, ResumenFactura_TotalVentaNeta, ResumenFactura_TotalImpuesto, ResumenFactura_TotalComprobante, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, CodSeguridad, CodCliente, Agente, DetalleServicio_MontoTotalLinea, DocType, DocSubType, obj_Fecha.FormatoFechaSql(FechaComprobante), HoraComprobante)
+
+
+
+        CodMoneda = Cmb_Moneda.Text
+        TipoCambio = txtb_TipoCambio.Text
+
+        If CodMoneda = "USD" And TipoCambio = "" Or TipoCambio = "0" Then
+            MessageBox.Show("Debe indicar el tipo de cambio del dia de hoy")
+            Return True
+
+        End If
 
 
         CodCliente = txtb_CodCliente.Text
@@ -178,14 +192,14 @@
 
         'guarda el encabezado
         If Me.Text = "Nota de credito" Then
-            DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_NC(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor)
+            DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_NC(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor, CodMoneda, TipoCambio)
 
         ElseIf Me.Text = "Proforma" Then
-            DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FP(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor)
+            DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FP(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor, CodMoneda, TipoCambio)
         Else
 
 
-            DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor)
+            DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor, CodMoneda, TipoCambio)
 
         End If
 
@@ -329,7 +343,8 @@
             Comments = Nothing
             MH_Status = Nothing
             MH_Message = Nothing
-
+            CodMoneda = Nothing
+            TipoCambio = Nothing
 
             'Lineas detalladsa
             NumLinea = Nothing
@@ -360,7 +375,9 @@
             Limpiar()
             Inicio()
         End If
-    End Sub
+
+        Return True
+    End Function
     Public Function Limpiar()
         Try
             'Limpia campos
@@ -1107,6 +1124,12 @@
     End Sub
 
     Private Sub Cmb_Moneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Moneda.SelectedIndexChanged
+
+        If Cmb_Moneda.Text = "USD" Then
+            txtb_TipoCambio.Enabled = True
+            txtb_TipoCambio.BackColor = Color.LightGreen
+            txtb_TipoCambio.Focus()
+        End If
 
     End Sub
 End Class

@@ -11556,7 +11556,20 @@ where DocNum='" & DocNum & "'"
         End Try
 
     End Function
-    Public Function GuardarCE_NC(ByVal SQL_Comman As SqlCommand, ByVal CodCliente As String, ByVal DocNum As String, ByVal Clave As String, ByVal Consecutivo As String, ByVal DocDate As String, ByVal DocDueDate As String, ByVal DocTime As String, ByVal DocType As String, ByVal DocSubType As String, ByVal Status As String, ByVal Printed As String, ByVal ID_User As String, ByVal Nombre_User As String, ByVal Emisor_Nombre As String, ByVal Emisor_NombreComercial As String, ByVal Emisor_Tipo As String, ByVal Emisor_Numero As String, ByVal Emisor_Provincia As String, ByVal Emisor_Canton As String, ByVal Emisor_Distrito As String, ByVal Emisor_Barrio As String, ByVal Emisor_OtrasSenas As String, ByVal Emisor_CorreoElectronico As String, ByVal Receptor_Nombre As String, ByVal Receptor_NombreComercial As String, ByVal Receptor_Tipo As String, ByVal Receptor_Numero As String, ByVal Receptor_IdentificacionExtranjero As String, ByVal Receptor_Provincia As String, ByVal Receptor_Canton As String, ByVal Receptor_Distrito As String, ByVal Receptor_Barrio As String, ByVal Receptor_OtrasSenas As String, ByVal Receptor_CorreoElectronico As String, ByVal CondicionVenta As String, ByVal PlazoCredito As String, ByVal MedioPago As String, ByVal Referencia_Numero As String, ByVal Referencia_TipoDoc As String, ByVal Referencia_FechaEmision As String, ByVal Referencia_Codigo As String, ByVal Referencia_Razon As String, ByVal DocTotal As String, ByVal DocSubTotal As String, ByVal DocTotalImpuesto As String, ByVal DocTotalDescuento As String, ByVal DocSaldo As String, ByVal Comments As String, ByVal MH_Status As String, ByVal MH_Message As String, TotalGravado As String, TotalExento As String, Vendedor As String)
+    Public Function GuardarCE_NC(ByVal SQL_Comman As SqlCommand, ByVal CodCliente As String, ByVal DocNum As String, ByVal Clave As String, ByVal Consecutivo As String,
+                                 ByVal DocDate As String, ByVal DocDueDate As String, ByVal DocTime As String, ByVal DocType As String, ByVal DocSubType As String,
+                                 ByVal Status As String, ByVal Printed As String, ByVal ID_User As String, ByVal Nombre_User As String, ByVal Emisor_Nombre As String,
+                                 ByVal Emisor_NombreComercial As String, ByVal Emisor_Tipo As String, ByVal Emisor_Numero As String, ByVal Emisor_Provincia As String,
+                                 ByVal Emisor_Canton As String, ByVal Emisor_Distrito As String, ByVal Emisor_Barrio As String, ByVal Emisor_OtrasSenas As String,
+                                 ByVal Emisor_CorreoElectronico As String, ByVal Receptor_Nombre As String, ByVal Receptor_NombreComercial As String,
+                                 ByVal Receptor_Tipo As String, ByVal Receptor_Numero As String, ByVal Receptor_IdentificacionExtranjero As String,
+                                 ByVal Receptor_Provincia As String, ByVal Receptor_Canton As String, ByVal Receptor_Distrito As String,
+                                 ByVal Receptor_Barrio As String, ByVal Receptor_OtrasSenas As String, ByVal Receptor_CorreoElectronico As String,
+                                 ByVal CondicionVenta As String, ByVal PlazoCredito As String, ByVal MedioPago As String, ByVal Referencia_Numero As String,
+                                 ByVal Referencia_TipoDoc As String, ByVal Referencia_FechaEmision As String, ByVal Referencia_Codigo As String,
+                                 ByVal Referencia_Razon As String, ByVal DocTotal As String, ByVal DocSubTotal As String, ByVal DocTotalImpuesto As String,
+                                 ByVal DocTotalDescuento As String, ByVal DocSaldo As String, ByVal Comments As String, ByVal MH_Status As String,
+                                 ByVal MH_Message As String, TotalGravado As String, TotalExento As String, Vendedor As String, CodMoneda As String, TipoCambio As String)
         Try
 
 
@@ -11565,7 +11578,7 @@ where DocNum='" & DocNum & "'"
             Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_NC]
            (
             [DocNum]
-            ,[Clave]
+           ,[Clave]
            ,[CodCliente]
            ,[Consecutivo]
            ,[DocDate]
@@ -11616,7 +11629,10 @@ where DocNum='" & DocNum & "'"
            ,[MH_Message]
            ,[TotalGravado]
            ,[TotalExento]   
-           ,[Vendedor])
+           ,[Vendedor]
+           ,[CodigoMoneda]   
+           ,[TipoCambio]    
+)
      VALUES
            (   '" & DocNum &
                "','" & Clave &
@@ -11670,7 +11686,9 @@ where DocNum='" & DocNum & "'"
                "','" & MH_Message &
                "','" & TotalGravado &
                "','" & TotalExento &
-               "','" & Vendedor & "')"
+               "','" & Vendedor &
+               "','" & CodMoneda &
+               "','" & TipoCambio & "')"
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
@@ -11682,7 +11700,7 @@ where DocNum='" & DocNum & "'"
         End Try
     End Function
 
-    Public Function GuardarCE_FE(ByVal SQL_Comman As SqlCommand, ByVal CodCliente As String, ByVal DocNum As String, ByVal Clave As String, ByVal Consecutivo As String, ByVal DocDate As String, ByVal DocDueDate As String, ByVal DocTime As String, ByVal DocType As String, ByVal DocSubType As String, ByVal Status As String, ByVal Printed As String, ByVal ID_User As String, ByVal Nombre_User As String, ByVal Emisor_Nombre As String, ByVal Emisor_NombreComercial As String, ByVal Emisor_Tipo As String, ByVal Emisor_Numero As String, ByVal Emisor_Provincia As String, ByVal Emisor_Canton As String, ByVal Emisor_Distrito As String, ByVal Emisor_Barrio As String, ByVal Emisor_OtrasSenas As String, ByVal Emisor_CorreoElectronico As String, ByVal Receptor_Nombre As String, ByVal Receptor_NombreComercial As String, ByVal Receptor_Tipo As String, ByVal Receptor_Numero As String, ByVal Receptor_IdentificacionExtranjero As String, ByVal Receptor_Provincia As String, ByVal Receptor_Canton As String, ByVal Receptor_Distrito As String, ByVal Receptor_Barrio As String, ByVal Receptor_OtrasSenas As String, ByVal Receptor_CorreoElectronico As String, ByVal CondicionVenta As String, ByVal PlazoCredito As String, ByVal MedioPago As String, ByVal Referencia_Numero As String, ByVal Referencia_TipoDoc As String, ByVal Referencia_FechaEmision As String, ByVal Referencia_Codigo As String, ByVal Referencia_Razon As String, ByVal DocTotal As String, ByVal DocSubTotal As String, ByVal DocTotalImpuesto As String, ByVal DocTotalDescuento As String, ByVal DocSaldo As String, ByVal Comments As String, ByVal MH_Status As String, ByVal MH_Message As String, TotalGravado As String, TotalExento As String, Vendedor As String)
+    Public Function GuardarCE_FE(ByVal SQL_Comman As SqlCommand, ByVal CodCliente As String, ByVal DocNum As String, ByVal Clave As String, ByVal Consecutivo As String, ByVal DocDate As String, ByVal DocDueDate As String, ByVal DocTime As String, ByVal DocType As String, ByVal DocSubType As String, ByVal Status As String, ByVal Printed As String, ByVal ID_User As String, ByVal Nombre_User As String, ByVal Emisor_Nombre As String, ByVal Emisor_NombreComercial As String, ByVal Emisor_Tipo As String, ByVal Emisor_Numero As String, ByVal Emisor_Provincia As String, ByVal Emisor_Canton As String, ByVal Emisor_Distrito As String, ByVal Emisor_Barrio As String, ByVal Emisor_OtrasSenas As String, ByVal Emisor_CorreoElectronico As String, ByVal Receptor_Nombre As String, ByVal Receptor_NombreComercial As String, ByVal Receptor_Tipo As String, ByVal Receptor_Numero As String, ByVal Receptor_IdentificacionExtranjero As String, ByVal Receptor_Provincia As String, ByVal Receptor_Canton As String, ByVal Receptor_Distrito As String, ByVal Receptor_Barrio As String, ByVal Receptor_OtrasSenas As String, ByVal Receptor_CorreoElectronico As String, ByVal CondicionVenta As String, ByVal PlazoCredito As String, ByVal MedioPago As String, ByVal Referencia_Numero As String, ByVal Referencia_TipoDoc As String, ByVal Referencia_FechaEmision As String, ByVal Referencia_Codigo As String, ByVal Referencia_Razon As String, ByVal DocTotal As String, ByVal DocSubTotal As String, ByVal DocTotalImpuesto As String, ByVal DocTotalDescuento As String, ByVal DocSaldo As String, ByVal Comments As String, ByVal MH_Status As String, ByVal MH_Message As String, TotalGravado As String, TotalExento As String, Vendedor As String, CodMoneda As String, TipoCambio As String)
         Try
 
 
@@ -11744,7 +11762,10 @@ where DocNum='" & DocNum & "'"
            ,[TotalExento] 
            ,[Vendedor]
            ,[DocNum] 
-           ,[NumeroPedido])
+           ,[NumeroPedido]
+           ,[CodigoMoneda] 
+           ,[TipoCambio]
+     )
      VALUES
            (   '" & Clave &
                "','" & CodCliente &
@@ -11799,7 +11820,9 @@ where DocNum='" & DocNum & "'"
                "','" & TotalExento &
                "','" & Vendedor &
                "','" & DocNum &
-               "','" & DocNum & "')"
+               "','" & DocNum & 
+               "','" & CodMoneda &
+               "','" & TipoCambio & "')"
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
@@ -11807,12 +11830,10 @@ where DocNum='" & DocNum & "'"
         Catch ex As Exception
             Return -100
             MessageBox.Show("ERROR en GuardarCE_FE " & ex.Message)
-
-
         End Try
     End Function
 
-    Public Function GuardarCE_FP(ByVal SQL_Comman As SqlCommand, ByVal CodCliente As String, ByVal DocNum As String, ByVal Clave As String, ByVal Consecutivo As String, ByVal DocDate As String, ByVal DocDueDate As String, ByVal DocTime As String, ByVal DocType As String, ByVal DocSubType As String, ByVal Status As String, ByVal Printed As String, ByVal ID_User As String, ByVal Nombre_User As String, ByVal Emisor_Nombre As String, ByVal Emisor_NombreComercial As String, ByVal Emisor_Tipo As String, ByVal Emisor_Numero As String, ByVal Emisor_Provincia As String, ByVal Emisor_Canton As String, ByVal Emisor_Distrito As String, ByVal Emisor_Barrio As String, ByVal Emisor_OtrasSenas As String, ByVal Emisor_CorreoElectronico As String, ByVal Receptor_Nombre As String, ByVal Receptor_NombreComercial As String, ByVal Receptor_Tipo As String, ByVal Receptor_Numero As String, ByVal Receptor_IdentificacionExtranjero As String, ByVal Receptor_Provincia As String, ByVal Receptor_Canton As String, ByVal Receptor_Distrito As String, ByVal Receptor_Barrio As String, ByVal Receptor_OtrasSenas As String, ByVal Receptor_CorreoElectronico As String, ByVal CondicionVenta As String, ByVal PlazoCredito As String, ByVal MedioPago As String, ByVal Referencia_Numero As String, ByVal Referencia_TipoDoc As String, ByVal Referencia_FechaEmision As String, ByVal Referencia_Codigo As String, ByVal Referencia_Razon As String, ByVal DocTotal As String, ByVal DocSubTotal As String, ByVal DocTotalImpuesto As String, ByVal DocTotalDescuento As String, ByVal DocSaldo As String, ByVal Comments As String, ByVal MH_Status As String, ByVal MH_Message As String, TotalGravado As String, TotalExento As String, Vendedor As String)
+    Public Function GuardarCE_FP(ByVal SQL_Comman As SqlCommand, ByVal CodCliente As String, ByVal DocNum As String, ByVal Clave As String, ByVal Consecutivo As String, ByVal DocDate As String, ByVal DocDueDate As String, ByVal DocTime As String, ByVal DocType As String, ByVal DocSubType As String, ByVal Status As String, ByVal Printed As String, ByVal ID_User As String, ByVal Nombre_User As String, ByVal Emisor_Nombre As String, ByVal Emisor_NombreComercial As String, ByVal Emisor_Tipo As String, ByVal Emisor_Numero As String, ByVal Emisor_Provincia As String, ByVal Emisor_Canton As String, ByVal Emisor_Distrito As String, ByVal Emisor_Barrio As String, ByVal Emisor_OtrasSenas As String, ByVal Emisor_CorreoElectronico As String, ByVal Receptor_Nombre As String, ByVal Receptor_NombreComercial As String, ByVal Receptor_Tipo As String, ByVal Receptor_Numero As String, ByVal Receptor_IdentificacionExtranjero As String, ByVal Receptor_Provincia As String, ByVal Receptor_Canton As String, ByVal Receptor_Distrito As String, ByVal Receptor_Barrio As String, ByVal Receptor_OtrasSenas As String, ByVal Receptor_CorreoElectronico As String, ByVal CondicionVenta As String, ByVal PlazoCredito As String, ByVal MedioPago As String, ByVal Referencia_Numero As String, ByVal Referencia_TipoDoc As String, ByVal Referencia_FechaEmision As String, ByVal Referencia_Codigo As String, ByVal Referencia_Razon As String, ByVal DocTotal As String, ByVal DocSubTotal As String, ByVal DocTotalImpuesto As String, ByVal DocTotalDescuento As String, ByVal DocSaldo As String, ByVal Comments As String, ByVal MH_Status As String, ByVal MH_Message As String, TotalGravado As String, TotalExento As String, Vendedor As String, CodMoneda As String, TipoCambio As String)
         Try
 
 
@@ -11871,7 +11892,10 @@ where DocNum='" & DocNum & "'"
            ,[MH_Message]
            ,[TotalGravado]
            ,[TotalExento]  
-           ,[Vendedor])
+           ,[Vendedor]
+           ,[CodigoMoneda]  
+           ,[TipoCambio]
+) 
      VALUES
            (   '" & Clave &
                "','" & CodCliente &
@@ -11924,7 +11948,9 @@ where DocNum='" & DocNum & "'"
                "','" & MH_Message &
                "','" & TotalGravado &
                "','" & TotalExento &
-               "','" & Vendedor & "')"
+               "','" & Vendedor & 
+               "','" & CodMoneda &
+               "','" & TipoCambio & "')"
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
