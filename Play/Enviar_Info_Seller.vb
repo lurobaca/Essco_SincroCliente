@@ -145,7 +145,7 @@ Public Class Enviar_Info_Seller
             Dim Tbl_Clientes As New DataTable
             'CONSULTA Los clientes
 
-            Tbl_Clientes = Class_VariablesGlobales.Obj_Funciones_SQL.Obtieneclientes_X_Agente(txb_Grupo.Text, Ruta2, Tbl_Clientes, Rutas_Unidicar, SQL_Comman1)
+            Tbl_Clientes = Class_VariablesGlobales.Obj_Funciones_SQL.Obtieneclientes_X_Agente(txb_Grupo.Text, Ruta2, Tbl_Clientes, Rutas_Unidicar, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaDesde.Value, "yyyy-MM-dd")), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaHasta.Value, "yyyy-MM-dd")), SQL_Comman1)
             Try
                 My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\clientes.mbg")
             Catch ex As Exception
@@ -168,7 +168,7 @@ Public Class Enviar_Info_Seller
             End Try
             'Si lo tiene marcado obtiene la info y genera el archivo cxc
             If Cbox_Cxc.Checked = True Then
-                Class_VariablesGlobales.Obj_Creaarchivo.Crear_InCxc(Tbl_Clientes, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\cxc.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2, Ruta2, Rutas_Unidicar)
+                Class_VariablesGlobales.Obj_Creaarchivo.Crear_InCxc(Tbl_Clientes, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2 & "\cxc.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta2, Ruta2, Rutas_Unidicar, Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaDesde.Value, "yyyy-MM-dd")), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(String.Format(DTP_FechaHasta.Value, "yyyy-MM-dd")))
             Else
                 'Crea el archivo en blanco
                 Dim strStreamW As Stream = Nothing
@@ -384,28 +384,16 @@ Public Class Enviar_Info_Seller
             RutasOrigen = RutasOrigen & "-" & Class_VariablesGlobales.frmEnviar_Info_Seller.ListV_Reportes.Items(x).Text
         Next
 
-
-
-        If CBox_VERPuestos.Text = "AGENTE" Then
+        'todo
+        'REVISAR QUE SE CARGUEN LAS CXC DEL REP Y LAS FAC PENDIENTE VINCULADAS A LOS CLIENTE DEL AGENTE
+        If Cbox_Clientes.Checked = True Then
             Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, ChBox_ClientexDia.Checked, Rutas_Unidicar)
             Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
-        Else
-            If Cbox_Clientes.Checked = True Then
-                Carga_DeliverClientes(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
-            End If
-
-            If Cbox_Cxc.Checked = True Then
-                Carga_DeliverCxC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
-            End If
-            If Cbox_Facturas.Checked = True Then
-                Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
-            End If
-
-
         End If
 
-
-        'Generar datos del agente y cargadrlos en el otro agente
+        If Cbox_Facturas.Checked = True Then
+            Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
+        End If
 
         Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
         Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
@@ -465,23 +453,33 @@ Public Class Enviar_Info_Seller
         Try
 
             Dim Rutas_Unidicar() As String
-
-            If CBox_VERPuestos.Text = "AGENTE" Then
+            If Cbox_Clientes.Checked = True Then
                 Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, ChBox_ClientexDia.Checked, Rutas_Unidicar)
                 Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
-
-            Else
-                'CHOFER
-                Carga_DeliverClientes(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
-                Carga_DeliverCxC(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
-                Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
-
             End If
 
+            If Cbox_Facturas.Checked = True Then
+                Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
+            End If
+
+
             Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
-            Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
-            Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
-            Carga_UbiacionesCR(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+
+            If Cbox_Razones.Checked = True Then
+
+                Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+            End If
+
+
+            If Cbox_Bancos.Checked = True Then
+                Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+            End If
+
+
+            If Cbox_Ubicaciones.Checked = True Then
+                Carga_UbiacionesCR(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+            End If
+
             Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
 
             If CBX_Param.Checked = True Then
@@ -523,7 +521,7 @@ Public Class Enviar_Info_Seller
         Dim Tbl_Agentes As New DataTable
         Dim cont As Integer = 0
         Dim Ruta As String = "0"
-        Tbl_Agentes = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman2, CBox_VERPuestos.Text, "")
+        Tbl_Agentes = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman2, "TODOS", "")
         Dim Rutas_Unidicar() As String
 
         Prgs_CargaAgentes.Value = 0
@@ -537,13 +535,26 @@ Public Class Enviar_Info_Seller
             Ruta = CStr(Tbl_Agentes.Rows(cont).Item("CodAgente").ToString())
             lbl_DetalleCarga.Text = "Cargando info de agente [ " & Ruta & " ]"
 
-            Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, ChBox_ClientexDia.Checked, Rutas_Unidicar)
-            Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, Rutas_Unidicar)
-            Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
-            Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+            If Cbox_Clientes.Checked = True Then
+                Carga_Clientes_Y_CXC(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, ChBox_ClientexDia.Checked, Rutas_Unidicar)
+                Carga_Descuentos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, Rutas_Unidicar)
+            End If
+
+            If Cbox_Facturas.Checked = True Then
+                Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
+            End If
+
+            If Cbox_Razones.Checked = True Then
+                Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+            End If
+
+
+            If Cbox_Bancos.Checked = True Then
+                Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+            End If
+
             Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
-
             If CBX_Param.Checked = True Then
 
                 ExportaParametros(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
@@ -605,51 +616,35 @@ Public Class Enviar_Info_Seller
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBox_VERPuestos.SelectedIndexChanged
 
 
-        If CBox_VERPuestos.Text <> "" Then
-            GroupBox7.Enabled = True
-
-            btn_HabilitarServidores.Enabled = True
-
-            If CBox_VERPuestos.Text <> "AGENTE" Then
-                cbx_CatalogoDivido.Visible = False
-                txb_Grupo.Visible = False
-                lbl_FechaReporte.Visible = True
-                DTP_FechaDesde.Visible = True
-                DTP_FechaHasta.Visible = True
-            End If
-            If CBox_VERPuestos.Text <> "CHOFER" Then
-
-
-                cbx_CatalogoDivido.Visible = True
-                txb_Grupo.Visible = True
-                lbl_FechaReporte.Visible = False
-                DTP_FechaDesde.Visible = False
-                DTP_FechaHasta.Visible = False
-            End If
-        End If
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
 
         Class_VariablesGlobales.Lista_llamadaDesde = "EXPORTAR"
 
-        If CBox_VERPuestos.Text = "AGENTE" Then
-            Class_VariablesGlobales.Obj_ListaAgentes = New ListaAgentes
-            ' Class_VariablesGlobales.Obj_ListaAgentes.MdiParent = Principal
-            Class_VariablesGlobales.Obj_ListaAgentes.Puesto = CBox_VERPuestos.Text
-            Class_VariablesGlobales.Obj_ListaAgentes.TopMost = True
+        'If CBox_VERPuestos.Text = "AGENTE" Then
+        Class_VariablesGlobales.Obj_ListaAgentes = New ListaAgentes
+        ' Class_VariablesGlobales.Obj_ListaAgentes.MdiParent = Principal
+        Class_VariablesGlobales.Obj_ListaAgentes.Puesto = "TODOS"
+        Class_VariablesGlobales.Obj_ListaAgentes.TopMost = True
             Class_VariablesGlobales.Obj_ListaAgentes.Show()
 
-        Else
+        'Else
 
-            ListaChoferes.Show()
+        '    ListaChoferes.Show()
 
-        End If
+        'End If
 
     End Sub
 
     Private Sub Enviar_Info_Seller_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        GroupBox7.Enabled = True
+        btn_HabilitarServidores.Enabled = True
+        cbx_CatalogoDivido.Visible = True
+        txb_Grupo.Visible = True
+        lbl_FechaReporte.Visible = True
+        DTP_FechaDesde.Visible = True
+        DTP_FechaHasta.Visible = True
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs)

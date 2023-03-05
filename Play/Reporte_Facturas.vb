@@ -63,7 +63,7 @@ Public Class Reporte_Facturas
             Dim Consecutivo As String
             Dim FacGenerada As Boolean
 
-            Dim CodChofer As String = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneCodChofer(Class_VariablesGlobales.SQL_Comman2, "CHOFER", Cbx_Chofer.Text)
+            Dim CodChofer As String = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneCodChofer(Class_VariablesGlobales.SQL_Comman2, "TODOS", Cbx_Chofer.Text)
 
             If Rb_SinBod1.Checked = True Then
                 'sin crea un reporte de carga con bodega 1
@@ -155,134 +155,11 @@ Public Class Reporte_Facturas
 
                     bar_ProgresSector.Value = CONT
 
-                    '----------------------------------------------------------------------------------------------------------------
-                    '--------------------------------DEBE CREAR ARCHIVO CLIENTE PARA SISTEMA DE CHOFERES-----------------------------
-                    '----------------------------------------------------------------------------------------------------------------
-
-                    'Genera el archivo Facturas
-                    Try
-
-
-                        If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & "Reporte_De_Facturas\" & Fecha & "\Facturas.mbg") Then
-                            My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & "Reporte_De_Facturas\" & Fecha & "\Facturas.mbg")
-                        End If
-
-                        Class_VariablesGlobales.Obj_Creaarchivo.CreaArchivo_Facturas(tbl_reporte, Trim(CStr(txtb_Ruta.Text)), Trim(txtb_Ruta.Text), Trim(txtb_FACINI.Text), Trim(txtb_FACFIN.Text), Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneCodChofer(Class_VariablesGlobales.SQL_Comman2, "CHOFER", Cbx_Chofer.Text), Cbx_Ayuda.Text)
-
-                        'debo crear el archivo de clientes con base a las facturas que se generaron
-                        Tbl_Clientes = Class_VariablesGlobales.Obj_Funciones_SQL.Obtieneclientes_X_Factura(Tbl_Clientes, Trim(txtb_FACINI.Text), Trim(txtb_FACFIN.Text), Class_VariablesGlobales.SQL_Comman1)
-
-                        If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\clientes.mbg") Then
-                            My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\clientes.mbg")
-                        End If
-
-                        Class_VariablesGlobales.Obj_Creaarchivo.Crear_InClientes(Tbl_Clientes, Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\clientes.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer, False)
-                        'Try
-                        '    My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\clientes.mbg")
-                        'Catch ex As Exception
-                        'End Try
-                        Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\clientes.mbg", "clientes.mbg", CodChofer, "Completo", Servidor)
-
-                        'crea el archivo de cxc segun las facturas a generar en el reporte de facturas
-
-                        If File.Exists(Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\cxc.mbg") Then
-                            My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\cxc.mbg")
-                        End If
-
-                        Class_VariablesGlobales.Obj_Creaarchivo.Crear_InCxc_Choferes(Tbl_Clientes, Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\cxc.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer, CodChofer, Trim(txtb_FACINI.Text), Trim(txtb_FACFIN.Text))
-                        Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & CodChofer & "\cxc.mbg", "cxc.mbg", CodChofer, "Completo", Servidor)
-
-                    Catch ex As Exception
-                        'MsgBox("ERROR AL GENERAR ARCHIVOS PARA CHOFERES [ " & ex.Message & " ]")
-                        VariablesGlobales.Obj_Log.Log("ERROR AL GENERAR ARCHIVOS PARA CHOFERES [ " & ex.Message & " ]", "Otros")
-                    End Try
-
-                    'lbl_Sectores.Text = "Enviando Correo a Bodegueros "
-                    'Dim mensaje As String = "Nuevo Reporte de Carga por Sector De la ruta [" & txtb_Ruta.Text & "]" & vbCrLf & vbCrLf & _
-                    '                        "Desarrollador: Luis Roberto Bastos C" & vbCrLf & _
-                    '                        "Bach: Informatica Emplesarial and Lic: Desarrollo Paginas WEB" & vbCrLf & _
-                    '                        "E-mail: lurobaca@gmail.com" & vbCrLf & _
-                    '                        "Tel: 8880-1662" & vbCrLf
-
-                    'Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte Ruta [" & txtb_Ruta.Text & "]", "", "bodeguerosbourne@gmail.com", "", "", "")
-
-
-                    'DataGV_RepFacContado.DataSource = New DataTable
-
-                    'DataGV_RepFacContado.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ConsultaDetRepFacturas(Class_VariablesGlobales.SQL_Comman2, Consecutivo, "CONTADO")
-                    'Txb_TotalContado.Text = FormatCurrency(TotalContado)
-
-                    'Txb_TotalContado.Text = Format(CDec(TotalContado), "C2")
-                    'Txb_SubTotalContado.Text = Format(CDec(SubTotalContado), "C2")
-                    'Txb_ImpuestoContado.Text = Format(CDec(ImpuestoContado), "C2")
-
-                    'DataGV_RepFacContado.Columns(0).Width = 50
-                    'DataGV_RepFacContado.Columns(1).Width = 30
-                    'DataGV_RepFacContado.Columns(2).Width = 70
-                    'DataGV_RepFacContado.Columns(3).Width = 70
-                    'DataGV_RepFacContado.Columns(4).Width = 300
-                    'DataGV_RepFacContado.Columns(5).Width = 85
-                    'DataGV_RepFacContado.Columns(5).DefaultCellStyle.Format = "C2"
-                    'DataGV_RepFacContado.Columns(6).Width = 85
-                    'DataGV_RepFacContado.Columns(6).DefaultCellStyle.Format = "C2"
-                    'DataGV_RepFacContado.Columns(7).Width = 85
-                    'DataGV_RepFacContado.Columns(7).DefaultCellStyle.Format = "C2"
-                    'DataGV_RepFacContado.Columns(8).Visible = False
-                    'DataGV_RepFacContado.Columns(9).Visible = False
-                    'DataGV_RepFacContado.Columns(10).Visible = False
-                    'DataGV_RepFacContado.Columns(11).Visible = False
-                    'DataGV_RepFacContado.Columns(12).Visible = False
-                    'DataGV_RepFacContado.Columns(13).Visible = False
-                    'DataGV_RepFacContado.Columns(14).Visible = False
-                    'DataGV_RepFacContado.Columns(15).Visible = False
-                    'DataGV_RepFacContado.Columns(16).Visible = False
-                    'DataGV_RepFacContado.Columns(17).Visible = False
-                    'DataGV_RepFacContado.Columns(18).Visible = False
-                    'DataGV_RepFacContado.Columns(19).Visible = False
-
-                    'DataGV_RepFacCredito.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ConsultaDetRepFacturas(Class_VariablesGlobales.SQL_Comman2, Consecutivo, "CREDITO")
-                    'Txb_TotalCredito.Text = FormatCurrency(TotalCredito)
-
-
-                    'Txb_TotalCredito.Text = Format(CDec(TotalCredito), "C2")
-                    'Txb_SubTotalCredito.Text = Format(CDec(SubTotalCredito), "C2")
-                    'Txb_ImpuestoCredito.Text = Format(CDec(ImpuestoCredito), "C2")
-
-                    'DataGV_RepFacCredito.Columns(0).Width = 50
-                    'DataGV_RepFacCredito.Columns(1).Width = 30
-                    'DataGV_RepFacCredito.Columns(2).Width = 70
-                    'DataGV_RepFacCredito.Columns(3).Width = 70
-                    'DataGV_RepFacCredito.Columns(4).Width = 300
-                    'DataGV_RepFacCredito.Columns(5).Width = 85
-                    'DataGV_RepFacCredito.Columns(5).DefaultCellStyle.Format = "C2"
-                    'DataGV_RepFacCredito.Columns(6).Width = 85
-                    'DataGV_RepFacCredito.Columns(6).DefaultCellStyle.Format = "C2"
-                    'DataGV_RepFacCredito.Columns(7).Width = 85
-                    'DataGV_RepFacCredito.Columns(7).DefaultCellStyle.Format = "C2"
-                    'DataGV_RepFacCredito.Columns(8).Visible = False
-                    'DataGV_RepFacCredito.Columns(9).Visible = False
-                    'DataGV_RepFacCredito.Columns(10).Visible = False
-                    'DataGV_RepFacCredito.Columns(11).Visible = False
-                    'DataGV_RepFacCredito.Columns(12).Visible = False
-                    'DataGV_RepFacCredito.Columns(13).Visible = False
-                    'DataGV_RepFacCredito.Columns(14).Visible = False
-                    'DataGV_RepFacCredito.Columns(15).Visible = False
-                    'DataGV_RepFacCredito.Columns(16).Visible = False
-                    'DataGV_RepFacCredito.Columns(17).Visible = False
-                    'DataGV_RepFacCredito.Columns(18).Visible = False
-                    'DataGV_RepFacCredito.Columns(19).Visible = False
-
-
-                    'lbl_Total.Text = Format(CDec(TotalReporte), "C2")
-
-                    'TotalReporte = 0
 
                     Class_VariablesGlobales.Obj_Reporte_Facturas.CargaDetRepFacturas(Class_VariablesGlobales.SQL_Comman2, Trim(txb_Numero.Text))
 
                     If Class_VariablesGlobales.Puesto = "Facturacion" Then
                         Imprimir()
-
-
                     End If
 
 
@@ -480,7 +357,7 @@ Public Class Reporte_Facturas
                     End If
 
                     If tbl_reporte.Rows(CONT).Item("VatSum").ToString() <> "" Then
-                        DocImpuesto = CDbl(tbl_reporte.Rows(CONT).Item("LineTotal").ToString())
+                        DocImpuesto = CDbl(tbl_reporte.Rows(CONT).Item("VatSum").ToString())
                     Else
                         DocImpuesto = 0
                     End If
@@ -783,6 +660,7 @@ Public Class Reporte_Facturas
             TXB_Hora.Text = HoraDia
             dtp_FechaReporte.Text = Fecha
 
+            Class_VariablesGlobales.Lista_llamadaDesde = "REPFACTURAS"
             ObtieneEmpleado("CHOFER")
             ObtieneEmpleado("AYUDANTE")
             ObtieneRutas()
@@ -837,7 +715,7 @@ Public Class Reporte_Facturas
 
     Private Sub btn_GenerarEnviar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_GenerarEnviar.Click
         Try
-            If Class_VariablesGlobales.Puesto = "Facturacion" Then
+            If Class_VariablesGlobales.Puesto = "Facturacion" Or Class_VariablesGlobales.Puesto = "SuperUsuario" Then
 
 
                 VariablesGlobales.Obj_Log.Log("Click en btn_GenerarEnviar Copias 2 [" & Class_VariablesGlobales.Obj_Reporte_Facturas.txb_Numero.Text & " ]", "Otros")
@@ -905,7 +783,7 @@ Public Class Reporte_Facturas
             Dim Tbl As New DataTable
 
             'Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneChoferes(Class_VariablesGlobales.SQL_Comman2, Tipo, "")
-            Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman1, Tipo, "")
+            Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman1, "TODOS", "")
             If Tipo = "CHOFER" Then
                 Cbx_Chofer.DataSource = Tbl
                 Cbx_Chofer.DisplayMember = "Nombre"
@@ -1023,10 +901,6 @@ Public Class Reporte_Facturas
 
             VariablesGlobales.Obj_Log.Log("Manda a Imprimir RepFacturas", "Otros")
 
-            'Class_VariablesGlobales.LiquiChoferes_ConseLiq = txtb_Consecutivo.Text
-            'Class_VariablesGlobales.LiquiChoferes_FechaIni = Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaIni.Value.Date)
-            'Class_VariablesGlobales.LiquiChoferes_FechaFin = Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(dtp_FechaFin.Value.Date)
-            'Class_VariablesGlobales.LiquiChoferes_CodAgente = txt_CodChofer.Text
 
             If Rb_SinBod1.Checked Then
             Else
@@ -1392,10 +1266,10 @@ Public Class Reporte_Facturas
                 End If
 
                 'Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneChoferes(Class_VariablesGlobales.SQL_Comman2, "CHOFER", Chofer)
-                Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman1, "CHOFER", Chofer)
+                Tbl = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAgentes(Class_VariablesGlobales.SQL_Comman1, "TODOS", Chofer)
                 cont = 0
                 For Each rowLocal As DataRow In Tbl.Rows
-                    If tabla.Rows(0).Item("Chofer").ToString() = Tbl.Rows(cont).Item("CodChofer").ToString() Then
+                    If tabla.Rows(0).Item("Chofer").ToString() = Tbl.Rows(cont).Item("CodAgente").ToString() Then
                         Class_VariablesGlobales.Obj_Reporte_Facturas.Cbx_Chofer.Text = Tbl.Rows(cont).Item("Nombre").ToString()
                     End If
                     cont += 1
