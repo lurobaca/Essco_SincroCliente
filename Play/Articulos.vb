@@ -91,9 +91,9 @@ Public Class Articulos
 
                 ItemCode = Dgv_Articulos("ItemCode", row).Value.ToString()
                 ItemName = Dgv_Articulos("Descripcion", row).Value.ToString()
-
-
-
+                'La tarifa sera definida principalmente por el cliente seleccionado en factura por lo que
+                'se debe ir y validar si el cliente tiene un documento de exoneracion 
+                'se le debe restar el % que indica a las lineas que se indican
                 If Dgv_Articulos("Tarifa", row).Value.ToString().Trim = "" Then
                     Impuesto_Porciento = "0"
                     SubTotal = CDbl(Dgv_Articulos("Precio", row).Value.ToString())
@@ -113,22 +113,15 @@ Public Class Articulos
                     End If
                 End If
 
+                Class_VariablesGlobales.frmFacturacion.Cmb_Moneda.SelectedText = Dgv_Articulos("Moneda", row).Value.ToString()
 
-                'If Dgv_Articulos("SujetoAImpuesto", row).Value.ToString() = "True" Then
-                '    Impuesto_Porciento = "13"
-                '    SubTotal = CDbl(Cantidad) * CDbl(PrecioUnitario)
-                '    Impuesto_Monto = (CDbl(SubTotal) * 13) / 100
-                'Else
-                '    Impuesto_Porciento = "0"
-                '    SubTotal = CDbl(Cantidad) * CDbl(PrecioUnitario)
-                '    Impuesto_Monto = 0
-                'End If
                 Total = CDbl(SubTotal) + CDbl(Impuesto_Monto)
 
                 Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE1_temp(Class_VariablesGlobales.frmFacturacion.txtb_Consecutivo.Text, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa)
                 'llama a funcion cargar lineas de la factura temporal
                 Class_VariablesGlobales.frmFacturacion.ObtieneLineas(Class_VariablesGlobales.frmFacturacion.txtb_Consecutivo.Text)
                 Class_VariablesGlobales.frmFacturacion.CalculaTotal()
+
             ElseIf Class_VariablesGlobales.ArticulosLlamadoDesde = "Devoluciones" Then
 
 
@@ -221,6 +214,9 @@ Public Class Articulos
                 Class_VariablesGlobales.frmStock_Manager.CBox_TipoProducto.Text = Dgv_Articulos("TipoProducto", row).Value.ToString()
                 Class_VariablesGlobales.frmStock_Manager.txtb_imp.Text = Dgv_Articulos("Tarifa", row).Value.ToString()
                 Class_VariablesGlobales.frmStock_Manager.Txtb_IdArticulo.Text = Dgv_Articulos("Id", row).Value.ToString()
+
+                Class_VariablesGlobales.frmStock_Manager.CBox_Moneda.SelectedText = ""
+                Class_VariablesGlobales.frmStock_Manager.CBox_Moneda.SelectedText = Dgv_Articulos("Moneda", row).Value.ToString()
 
                 Dim tablaFotos As DataTable = Class_VariablesGlobales.frmStock_Manager.ObtieneFotos("")
 

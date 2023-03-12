@@ -1,4 +1,4 @@
-﻿Public Class Admin_ClientesModificados
+﻿Public Class Admin_Clientes
     Public Obj_SQL_CONEXIONSERVER As New Class_funcionesSQL
     Dim Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio As Integer
     Public obj_SAP As New SAP_BUSSINES_ONE
@@ -247,12 +247,12 @@
         End If
         'Obtiene los cantones segun la provincia elegida
         Id_Provincia = Combo_Provincia.SelectedIndex()
-            'Carga los cantones
-            With Class_VariablesGlobales.frmAdmin_ClientesModificados.Combo_Canton
-                .DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCantones(Class_VariablesGlobales.SQL_Comman2, Id_Provincia, 0)
-                .DisplayMember = "nombre_canton"
-                .ValueMember = "id_canton"
-            End With
+        'Carga los cantones
+        With Class_VariablesGlobales.frmAdmin_ClientesModificados.Combo_Canton
+            .DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCantones(Class_VariablesGlobales.SQL_Comman2, Id_Provincia, 0)
+            .DisplayMember = "nombre_canton"
+            .ValueMember = "id_canton"
+        End With
 
 
 
@@ -272,11 +272,11 @@
             Id_Barrio = 0
         End If
         Id_Canton = Combo_Canton.SelectedIndex()
-            With Class_VariablesGlobales.frmAdmin_ClientesModificados.Combo_Distrito
-                .DataSource = Obj_SQL_CONEXIONSERVER.ObtieneDistritos(Class_VariablesGlobales.SQL_Comman2, Id_Provincia, Id_Canton, 0)
-                .DisplayMember = "nombre_distrito"
-                .ValueMember = "id_distrito"
-            End With
+        With Class_VariablesGlobales.frmAdmin_ClientesModificados.Combo_Distrito
+            .DataSource = Obj_SQL_CONEXIONSERVER.ObtieneDistritos(Class_VariablesGlobales.SQL_Comman2, Id_Provincia, Id_Canton, 0)
+            .DisplayMember = "nombre_distrito"
+            .ValueMember = "id_distrito"
+        End With
 
     End Sub
 
@@ -292,10 +292,10 @@
         Id_Distrito = Combo_Distrito.SelectedIndex()
 
         With Class_VariablesGlobales.frmAdmin_ClientesModificados.Combo_Barrio
-                .DataSource = Obj_SQL_CONEXIONSERVER.ObtieneBarrios(Class_VariablesGlobales.SQL_Comman2, Id_Provincia, Id_Canton, Id_Distrito, 0)
-                .DisplayMember = "nombre_barrio"
-                .ValueMember = "id_barrio"
-            End With
+            .DataSource = Obj_SQL_CONEXIONSERVER.ObtieneBarrios(Class_VariablesGlobales.SQL_Comman2, Id_Provincia, Id_Canton, Id_Distrito, 0)
+            .DisplayMember = "nombre_barrio"
+            .ValueMember = "id_barrio"
+        End With
 
     End Sub
 
@@ -362,6 +362,38 @@
         End If
 
         If btn_Actualizar.Text = "Guardar" Or btn_Actualizar.Text = "Interno" Then
+
+
+            Dim ComprasAutorizadas As Int32 = 1
+            Dim VentasExentasADiplomáticos As Int32 = 2
+            Dim AutorizadoPorLeyEspecial As Int32 = 3
+            Dim ExencionesDireccionGeneralDeHacienda As Int32 = 4
+            Dim TransitorioV As Int32 = 5
+            Dim TransitorioIX As Int32 = 6
+            Dim TransitorioXVII As Int32 = 7
+            Dim Otros As Int32 = 99
+
+            Dim EXO_TipoDocumento As String = ""
+            Select Case CBox_ExoTipoDoc.SelectedIndex
+                Case ComprasAutorizadas
+                    EXO_TipoDocumento = "01"
+                Case VentasExentasADiplomáticos
+                    EXO_TipoDocumento = "02"
+                Case AutorizadoPorLeyEspecial
+                    EXO_TipoDocumento = "03"
+                Case ExencionesDireccionGeneralDeHacienda
+                    EXO_TipoDocumento = "04"
+                Case TransitorioV
+                    EXO_TipoDocumento = "05"
+                Case TransitorioIX
+                    EXO_TipoDocumento = "06"
+                Case TransitorioXVII
+                    EXO_TipoDocumento = "07"
+                Case Otros
+                    EXO_TipoDocumento = "99"
+            End Select
+
+
             Dim DiaVisita As String = ""
             Select Case Comb_DiaVisita.SelectedIndex
                 Case 1
@@ -442,10 +474,11 @@
                 Dim Aprobado As String = 0
                 Dim Consecutivo As String = txtb_Consecutivo.Text
 
-                Dim EXO_TipoDocumento As String = CBox_ExoTipoDoc.Text
+
                 Dim EXO_Numero As String = txtb_ExoNumero.Text
                 Dim EXO_NombreInstitucion As String = txtb_ExoNombreInstitucion.Text
                 Dim EXO_FechaEmision As String = DTP_ExoFechaEmision.Value.ToShortDateString
+                Dim EXO_FechaVencimiento As String = DTP_ExoFechaVencimiento.Value.ToShortDateString
                 Dim EXO_PorcentajeCompra As String
 
                 If txtb_ExoPorcentajeCompra.Text = "" Then
@@ -462,7 +495,7 @@
                     Guardar = False
                 End If
                 'Debemos Guardar un cliente en una tabla propia
-                Dim fallo = Class_VariablesGlobales.Obj_Funciones_SQL.GuardaCliente(CardCode, CardName, Cedula, Respolsabletributario, U_Visita, U_ClaveWeb, Phone1, Phone2, Street, E_Mail, NameFicticio, Latitud, Longitud, Agente, Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Estado, Tipo_Cedula, Fecha, Hora, Aprobado, Consecutivo, EXO_TipoDocumento, EXO_Numero, EXO_NombreInstitucion, EXO_FechaEmision, EXO_PorcentajeCompra, Guardar)
+                Dim fallo = Class_VariablesGlobales.Obj_Funciones_SQL.GuardaCliente(CardCode, CardName, Cedula, Respolsabletributario, U_Visita, U_ClaveWeb, Phone1, Phone2, Street, E_Mail, NameFicticio, Latitud, Longitud, Agente, Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Estado, Tipo_Cedula, Fecha, Hora, Aprobado, Consecutivo, EXO_TipoDocumento, EXO_Numero, EXO_NombreInstitucion, EXO_FechaEmision, EXO_PorcentajeCompra, EXO_FechaVencimiento, Guardar)
 
                 If fallo <> 1 Then
 
@@ -499,11 +532,11 @@
                     EXO_NombreInstitucion = Nothing
                     EXO_FechaEmision = Nothing
                     EXO_PorcentajeCompra = Nothing
-
+                    EXO_FechaVencimiento = Nothing
 
                     Limpiar()
 
-                    MsgBox("Su socio del negocio se ha guardado con existo", MsgBoxStyle.Information, "Atención")
+                    MsgBox("Su socio del negocio se ha guardado con exito", MsgBoxStyle.Information, "Atención")
 
                 End If
             Else
@@ -580,8 +613,8 @@
     Public Sub ModificaCliente()
 
         Dim result1 As DialogResult
-        result1 = MessageBox.Show("El Cliente se modificara en SAP \n Realmente desea Modificar este cliente en SAP?", _
-        "Important Question", _
+        result1 = MessageBox.Show("El Cliente se modificara en SAP \n Realmente desea Modificar este cliente en SAP?",
+        "Important Question",
         MessageBoxButtons.YesNo)
         If result1 = DialogResult.Yes Then
 
@@ -734,7 +767,17 @@
 
     End Sub
 
+    Private Sub CBox_ExoTipoDoc_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBox_ExoTipoDoc.SelectedIndexChanged
 
+    End Sub
+
+    Private Sub BtnAgregar_Click(sender As Object, e As EventArgs) Handles BtnAgregar.Click
+        Obj_SQL_CONEXIONSERVER.GuardaCodigosCabysExentos(txtb_Codigo.Text, TxtB_CabysExento.Text, True)
+    End Sub
+
+    Private Sub BtnEliminaCabysExento_Click(sender As Object, e As EventArgs) Handles BtnEliminaCabysExento.Click
+        Obj_SQL_CONEXIONSERVER.EliminaCabysExcento(txtb_Codigo.Text, TxtB_CabysExento.Text)
+    End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
         'ANULA EL MOVIMIENTO PARA QUE DEJE DE APARECER EN LA LISTA
@@ -774,7 +817,7 @@
     Public Function limpia()
         Try
 
-       
+
             txtb_Codigo.Text = ""
             txtb_Nombre.Text = ""
             txtb_Cedula.Text = ""

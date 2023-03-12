@@ -42,6 +42,8 @@
                 Class_VariablesGlobales.frmFacturacion.Receptor_OtrasSenas = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(9).Value)
                 Class_VariablesGlobales.frmFacturacion.Receptor_CorreoElectronico = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(10).Value)
 
+
+
             Else
 
 
@@ -53,7 +55,7 @@
                 '[E_Mail], [NameFicticio], [Latitud], [Longitud], [Agente], [Id_Provincia], [Id_Canton], [Id_Distrito], [Id_Barrio], [Estado], [Tipo_Cedula],
                 '[Fecha], [Hora], [Aprobado], [id]
 
-                Dim Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Id_DiaVisita, Id_TipoID, Id_TipoSocio As Integer
+                Dim Id_Provincia, Id_Canton, Id_Distrito, Id_Barrio, Id_DiaVisita, Id_TipoID, Id_TipoSocio, Id_TipoDocumentoExoneracion As Integer
 
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Consecutivo.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(0).Value)
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Codigo.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(1).Value)
@@ -177,6 +179,20 @@
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.DTP_Fecha.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(21).Value)
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Hora.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(22).Value)
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_id.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(24).Value)
+
+                If DGV_ListaClientesModificados.CurrentRow.Cells.Item(26).Value <> "" Then
+                    Id_TipoDocumentoExoneracion = CInt(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(26).Value))
+                Else
+                    Id_TipoDocumentoExoneracion = -1
+                End If
+
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.CBox_ExoTipoDoc.SelectedIndex = Id_TipoDocumentoExoneracion
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoNumero.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(27).Value())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoNombreInstitucion.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(28).Value())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.DTP_ExoFechaEmision.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(29).Value())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoPorcentajeCompra.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(30).Value())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Codigo.Text)
+
             End If
             Me.Close()
 

@@ -592,22 +592,63 @@
 
 
     Public Function CalculaTotal()
-        Dim total As Double
-        Dim Subtotal As Double
-        Dim Mont_Imp As Double
-        Dim Mont_Desc As Double
+
+        Dim LineaCantidad As Double
+        Dim LineaPrecio As Double
+        Dim LineaPorcImpuesto As Double
+        Dim LineaPorcDescuento As Double
+
+        Dim LineaTotal As Double
+        Dim LineaSubtotal As Double
+        Dim LineaMont_Imp As Double
+        Dim LineaMont_Desc As Double
+
         Dim Obj_Mformat As New MonedaFormat
 
         Dim TotalGravado As Double
         Dim TotalExento As Double
+        Dim TotalTotal As Double
+        Dim TotalSubtotal As Double
+        Dim TotalMont_Imp As Double
+        Dim TotalMont_Desc As Double
+
 
         For Each row As DataGridViewRow In DGV_DetalleFactura.Rows
 
 
-            Mont_Imp += CDbl(row.Cells("Impuesto_Monto").Value)
-            Subtotal += CDbl(row.Cells("SubTotal").Value)
-            Mont_Desc += CDbl(row.Cells("Descuento_Monto").Value)
-            total += CDbl(row.Cells("Total").Value)
+            'Reinicia valores
+            LineaCantidad = 0
+            LineaPrecio = 0
+            LineaPorcImpuesto = 0
+            LineaPorcDescuento = 0
+            LineaSubtotal = 0
+            LineaMont_Desc = 0
+            LineaMont_Imp = 0
+            LineaTotal = 0
+
+            LineaCantidad = CDbl(row.Cells("Cantidad").Value)
+            LineaPrecio = CDbl(row.Cells("PrecioUnitario").Value)
+            LineaPorcImpuesto = CDbl(row.Cells("Impuesto_Porciento").Value)
+            LineaPorcDescuento = CDbl(row.Cells("Descuento_Porciento").Value)
+
+            LineaSubtotal = LineaPrecio * LineaCantidad
+            LineaMont_Desc = (LineaSubtotal * LineaPorcDescuento) / 100
+            LineaSubtotal = LineaSubtotal - LineaMont_Desc
+            LineaMont_Imp = (LineaSubtotal * LineaPorcImpuesto) / 100
+            LineaTotal = LineaSubtotal + LineaMont_Imp
+
+            'Asignacion de nuevos calculos en la linea de la tabla
+            row.Cells("Impuesto_Monto").Value = LineaMont_Imp
+            row.Cells("SubTotal").Value = LineaSubtotal
+            row.Cells("Descuento_Monto").Value = LineaMont_Desc
+            row.Cells("Total").Value = LineaTotal
+
+            'Calculo de total generales de la factura
+            TotalMont_Imp += CDbl(row.Cells("Impuesto_Monto").Value)
+            TotalSubtotal += CDbl(row.Cells("SubTotal").Value)
+            TotalMont_Desc += CDbl(row.Cells("Descuento_Monto").Value)
+            TotalTotal += CDbl(row.Cells("Total").Value)
+
             If CDbl(row.Cells("Impuesto_Monto").Value) <> 0 Then
                 TotalGravado += CDbl(row.Cells("Subtotal").Value)
             Else
@@ -617,24 +658,37 @@
 
         Next
 
-
-        txtb_SubTotal.Text = Obj_Mformat.FormatoMoneda(Subtotal)
-        txtb_TotalDescuento.Text = Obj_Mformat.FormatoMoneda(Mont_Desc)
-        txtb_TotalImpuesto.Text = Obj_Mformat.FormatoMoneda(Mont_Imp)
-        txtb_TotalDocumento.Text = Obj_Mformat.FormatoMoneda(total)
-        txtb_TotalSaldo.Text = Obj_Mformat.FormatoMoneda(total)
+        'Asignacion de totales generales
+        txtb_SubTotal.Text = Obj_Mformat.FormatoMoneda(TotalSubtotal)
+        txtb_TotalDescuento.Text = Obj_Mformat.FormatoMoneda(TotalMont_Desc)
+        txtb_TotalImpuesto.Text = Obj_Mformat.FormatoMoneda(TotalMont_Imp)
+        txtb_TotalDocumento.Text = Obj_Mformat.FormatoMoneda(TotalTotal)
+        txtb_TotalSaldo.Text = Obj_Mformat.FormatoMoneda(TotalTotal)
 
         txtb_TotalGravado.Text = Obj_Mformat.FormatoMoneda(TotalGravado)
         txtb_TotalExento.Text = Obj_Mformat.FormatoMoneda(TotalExento)
-        total = Nothing
-        Subtotal = Nothing
-        Mont_Imp = Nothing
-        Mont_Desc = Nothing
+
+        'Limpieza de memroia
+        LineaCantidad = Nothing
+        LineaPrecio = Nothing
+        LineaPorcImpuesto = Nothing
+        LineaPorcDescuento = Nothing
+        LineaTotal = Nothing
+        LineaSubtotal = Nothing
+        LineaMont_Imp = Nothing
+        LineaMont_Desc = Nothing
+
+        TotalGravado = Nothing
+        TotalExento = Nothing
+        TotalTotal = Nothing
+        TotalSubtotal = Nothing
+        TotalMont_Imp = Nothing
+        TotalMont_Desc = Nothing
 
     End Function
     Public Function ObtieneLineas(Docnum As String)
         Try
-            DGV_DetalleFactura.DataSource = VariablesGlobales.Obj_SQL.ObtieneLineasTemp(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text)
+            DGV_DetalleFactura.DataSource = VariablesGlobales.Obj_SQL.ObtieneLineasTemp(Class_VariablesGlobales.SQL_Comman2, txtb_Consecutivo.Text, CBox_TipoDocumento.Text)
             DGV_DetalleFactura.Columns(20).Visible = False
         Catch ex As Exception
 
@@ -799,8 +853,6 @@
     Private Sub DGV_DetalleFactura_CellEndEdit(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_DetalleFactura.CellEndEdit
 
         Try
-
-
             '.Columns.Add("NumLinea")
             '.Columns.Add("ItemCode")
             '.Columns.Add("ItemName")
@@ -821,76 +873,67 @@
             '.Columns.Add("Descuento_Promo_Monto")
             '.Columns.Add("Descuento_Interno_Porciento")
             '.Columns.Add("Descuento_Interno_Monto")
+
             Dim xy As New Point
             Dim ItemCode As String
             Dim ItemName As String
             xy = DGV_DetalleFactura.CurrentCellAddress
+
+
+
             If xy.X = 1 Then
                 'Indica que esta buscando por codigo de articulos
-                ItemCode = DGV_DetalleFactura.Rows(xy.Y).Cells(xy.X).Value
+                ItemCode = DGV_DetalleFactura.Rows(xy.X).Cells(xy.Y).Value
             ElseIf xy.X = 2 Then
                 'Indica que esta buscando por descripcion del artuculo
-                ItemName = DGV_DetalleFactura.Rows(xy.Y).Cells(xy.X).Value
-
+                ItemName = DGV_DetalleFactura.Rows(xy.X).Cells(xy.Y).Value
             End If
 
+            'PrecioUnitario = DGV_DetalleFactura.Rows(xy.Y).Cells("PrecioUnitario").Value
+            'Cantidad = DGV_DetalleFactura.Rows(xy.Y).Cells("Cantidad").Value
+            'Descuento_Porciento = DGV_DetalleFactura.Rows(xy.Y).Cells("Descuento_Porciento").Value
+            'Descuento_Monto = DGV_DetalleFactura.Rows(xy.Y).Cells("Descuento_Monto").Value
+            'Impuesto_Porciento = DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Porciento").Value
+            'Impuesto_Monto = DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Monto").Value
+            'SubTotal = DGV_DetalleFactura.Rows(xy.Y).Cells("SubTotal").Value
+            'Total = DGV_DetalleFactura.Rows(xy.Y).Cells("Total").Value
 
+            'SubTotal = (Cantidad * PrecioUnitario)
 
-            PrecioUnitario = DGV_DetalleFactura.Rows(xy.Y).Cells("PrecioUnitario").Value
-            Cantidad = DGV_DetalleFactura.Rows(xy.Y).Cells("Cantidad").Value
-            Descuento_Porciento = DGV_DetalleFactura.Rows(xy.Y).Cells("Descuento_Porciento").Value
-            Descuento_Monto = DGV_DetalleFactura.Rows(xy.Y).Cells("Descuento_Monto").Value
-            Impuesto_Porciento = DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Porciento").Value
-            Impuesto_Monto = DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Monto").Value
-            SubTotal = DGV_DetalleFactura.Rows(xy.Y).Cells("SubTotal").Value
-            Total = DGV_DetalleFactura.Rows(xy.Y).Cells("Total").Value
+            'If Trim(Impuesto_Porciento) <> "" Then
+            '    Impuesto_Monto = (SubTotal * CDbl(Trim(Impuesto_Porciento))) / 100
+            'Else
+            '    Impuesto_Monto = 0
+            'End If
 
-            'Calcula totales de linea y de factura
-            If Trim(Impuesto_Porciento) = "13" Then
-                txtb_SubTotal.Text = (Cantidad * PrecioUnitario) + ((Cantidad * PrecioUnitario) * 13) / 100
-                DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Monto").Value = ((Cantidad * PrecioUnitario) * 13) / 100
-            ElseIf Trim(Impuesto_Porciento) = "2" Then
-                txtb_SubTotal.Text = (Cantidad * PrecioUnitario) + ((Cantidad * PrecioUnitario) * 2) / 100
-                DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Monto").Value = ((Cantidad * PrecioUnitario) * 2) / 100
-            ElseIf Trim(Impuesto_Porciento) = "4" Then
-                txtb_SubTotal.Text = (Cantidad * PrecioUnitario) + ((Cantidad * PrecioUnitario) * 4) / 100
-                DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Monto").Value = ((Cantidad * PrecioUnitario) * 4) / 100
-            ElseIf Trim(Impuesto_Porciento) = "8" Then
-                txtb_SubTotal.Text = (Cantidad * PrecioUnitario) + ((Cantidad * PrecioUnitario) * 8) / 100
-                DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Monto").Value = ((Cantidad * PrecioUnitario) * 8) / 100
-            Else
-                txtb_SubTotal.Text = (Cantidad * PrecioUnitario)
+            'SubTotal = SubTotal + Impuesto_Monto
 
-            End If
+            'If Descuento_Porciento <> "0" And Descuento_Porciento <> "" Then
+            '    Descuento_Monto = (SubTotal * Descuento_Porciento) / 100
+            '    SubTotal = SubTotal - Descuento_Monto
+            'End If
+            'Total = SubTotal + Impuesto_Monto
 
+            'DGV_DetalleFactura.Rows(xy.Y).Cells("Descuento_Monto").Value = Descuento_Monto
+            'DGV_DetalleFactura.Rows(xy.Y).Cells("Impuesto_Monto").Value = Impuesto_Monto
+            'DGV_DetalleFactura.Rows(xy.Y).Cells("SubTotal").Value = SubTotal
+            'DGV_DetalleFactura.Rows(xy.Y).Cells("Total").Value = Total
+            'txtb_SubTotal.Text = SubTotal
 
+            ''Hat que restarle o sumarle el nuevo monto segun sea mayor o menor al original de la linea
+            'txtb_TotalImpuesto.Text = ""
+            'txtb_TotalDescuento.Text = ""
+            'txtb_TotalDocumento.Text = ""
+            'txtb_TotalSaldo.Text = ""
 
-            DGV_DetalleFactura.Rows(xy.Y).Cells("SubTotal").Value = txtb_SubTotal.Text
-
-            If Descuento_Porciento <> "0" Then
-                DGV_DetalleFactura.Rows(xy.Y).Cells("Descuento_Monto").Value = (txtb_SubTotal.Text * Descuento_Porciento) / 100
-                txtb_SubTotal.Text = txtb_SubTotal.Text - (txtb_SubTotal.Text * Descuento_Porciento) / 100
-            End If
-
-            DGV_DetalleFactura.Rows(xy.Y).Cells("Total").Value = txtb_SubTotal.Text
-
-            'Hat que restarle o sumarle el nuevo monto segun sea mayor o menor al original de la linea
-
-            txtb_TotalImpuesto.Text = ""
-            txtb_TotalDescuento.Text = ""
-            txtb_TotalDocumento.Text = ""
-            txtb_TotalSaldo.Text = ""
-
-            'Limpia
-            PrecioUnitario = "0"
-            Cantidad = "0"
-            Descuento_Porciento = "0"
-            Descuento_Monto = "0"
+            ''Limpia
+            'PrecioUnitario = "0"
+            'Cantidad = "0"
+            'Descuento_Porciento = "0"
+            'Descuento_Monto = "0"
 
             If ItemCode <> "" Or ItemName <> "" Then
                 Class_VariablesGlobales.ArticulosLlamadoDesde = "Facturacion"
-
-
                 Class_VariablesGlobales.frmArticulos = New Articulos
                 Class_VariablesGlobales.frmArticulos.MdiParent = Principal
                 Class_VariablesGlobales.frmArticulos.Busca = ""
@@ -904,6 +947,8 @@
 
         'Buscar por codigo
     End Sub
+
+
 
     Private Sub DGV_DetalleFactura_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_DetalleFactura.CellContentClick
         Try
@@ -943,11 +988,11 @@
     Private Sub EliminarFila()
         Try
 
+            'Eliminar la linea de la tabla temporal
+            Class_VariablesGlobales.Obj_Funciones_SQL.EliminaLineCE_FE1_temp(Class_VariablesGlobales.frmFacturacion.txtb_Consecutivo.Text, Me.DGV_DetalleFactura.Rows(indice).Cells("NumLinea").Value, Me.DGV_DetalleFactura.Rows(indice).Cells("ItemCode").Value, CBox_TipoDocumento.Text)
 
 
             Me.DGV_DetalleFactura.Rows.RemoveAt(indice)
-            'Eliminar la linea de la tabla temporal
-            Class_VariablesGlobales.Obj_Funciones_SQL.EliminaLineCE_FE1_temp(Class_VariablesGlobales.frmFacturacion.txtb_Consecutivo.Text, Me.DGV_DetalleFactura.Rows(indice).Cells("NumLinea").Value, Me.DGV_DetalleFactura.Rows(indice).Cells("ItemCode").Value)
             'CalculaTotal()
             CalculaTotal()
         Catch ex As Exception
@@ -973,14 +1018,20 @@
 
     End Sub
     Private Sub AgregarFila()
-        Class_VariablesGlobales.ClientesLlamadoDesde = "Facturacion"
-        Class_VariablesGlobales.ArticulosLlamadoDesde = "Facturacion"
+        Try
+            Class_VariablesGlobales.ClientesLlamadoDesde = "Facturacion"
+            Class_VariablesGlobales.ArticulosLlamadoDesde = "Facturacion"
 
 
-        Class_VariablesGlobales.frmArticulos = New Articulos
-        Class_VariablesGlobales.frmArticulos.MdiParent = Principal
-        Class_VariablesGlobales.frmArticulos.Busca = ""
-        Class_VariablesGlobales.frmArticulos.Show()
+            Class_VariablesGlobales.frmArticulos = New Articulos
+            Class_VariablesGlobales.frmArticulos.MdiParent = Principal
+            Class_VariablesGlobales.frmArticulos.Busca = ""
+            Class_VariablesGlobales.frmArticulos.Show()
+        Catch ex As Exception
+            MsgBox(ex.Message)
+
+        End Try
+
 
     End Sub
     Public Function Inabilitar()
@@ -1027,9 +1078,6 @@
         'aqui lo que hariamos seria obtener la informacion segun el keyprss de la celda
     End Sub
 
-    Private Sub DGV_DetalleFactura_EditingControlShowing(sender As Object, e As DataGridViewEditingControlShowingEventArgs) Handles DGV_DetalleFactura.EditingControlShowing
-
-    End Sub
 
 
 
@@ -1037,18 +1085,53 @@
 
 
     Private Sub DGV_DetalleFactura_CellValueChanged(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_DetalleFactura.CellValueChanged
-        Dim xy As New Point
-        Dim ItemCode As String
-        Dim ItemName As String
-        xy = DGV_DetalleFactura.CurrentCellAddress
-        If xy.X = 1 Then
-            'Indica que esta buscando por codigo de articulos
-            ItemCode = DGV_DetalleFactura.Rows(xy.Y).Cells(xy.X).Value
-        ElseIf xy.X = 2 Then
-            'Indica que esta buscando por descripcion del artuculo
-            ItemName = DGV_DetalleFactura.Rows(xy.Y).Cells(xy.X).Value
+        Try
 
-        End If
+
+            Dim xy As New Point
+            Dim ItemCode As String
+            Dim ItemName As String
+            Dim CodigoTarifa As String = ""
+
+
+            xy = DGV_DetalleFactura.CurrentCellAddress
+            If xy.X = 1 Then
+                'Indica que esta buscando por codigo de articulos
+                ItemCode = DGV_DetalleFactura.Rows(xy.Y).Cells(xy.X).Value
+            ElseIf xy.X = 2 Then
+                'Indica que esta buscando por descripcion del artuculo
+                ItemName = DGV_DetalleFactura.Rows(xy.Y).Cells(xy.X).Value
+
+            End If
+
+
+            Cantidad = CDbl(DGV_DetalleFactura("Cantidad", e.RowIndex).Value.ToString())
+
+            If DGV_DetalleFactura("Tarifa", e.RowIndex).Value.ToString().Trim = "" Then
+                Impuesto_Porciento = "0"
+                SubTotal = CDbl(DGV_DetalleFactura("Precio", e.RowIndex).Value.ToString())
+                Impuesto_Monto = 0
+                CodigoTarifa = DGV_DetalleFactura("Cod_tarifa", e.RowIndex).Value.ToString()
+            Else
+                If Trim(DGV_DetalleFactura("Tarifa", e.RowIndex).Value.ToString()) <> "0" Then
+                    Impuesto_Porciento = DGV_DetalleFactura("Tarifa", e.RowIndex).Value.ToString()
+                    SubTotal = CDbl(DGV_DetalleFactura("Precio", e.RowIndex).Value.ToString())
+                    Impuesto_Monto = (SubTotal * CInt(Impuesto_Porciento)) / 100
+                    CodigoTarifa = DGV_DetalleFactura("Cod_tarifa", e.RowIndex).Value.ToString()
+                Else
+                    Impuesto_Porciento = "0"
+                    SubTotal = CDbl(DGV_DetalleFactura("Precio", e.RowIndex).Value.ToString())
+                    Impuesto_Monto = 0
+                    CodigoTarifa = DGV_DetalleFactura("Cod_tarifa", e.RowIndex).Value.ToString()
+                End If
+            End If
+            Total = CDbl(SubTotal) + CDbl(Impuesto_Monto)
+
+        Catch ex As Exception
+            '  MessageBox.Show(ex.Message)
+
+
+        End Try
     End Sub
 
     Private Sub Facturacion_FormClosing(sender As Object, e As FormClosingEventArgs) Handles MyBase.FormClosing

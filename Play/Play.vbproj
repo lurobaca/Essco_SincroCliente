@@ -417,10 +417,10 @@
     <Compile Include="Admin_Choferes.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Admin_ClientesModificados.Designer.vb">
-      <DependentUpon>Admin_ClientesModificados.vb</DependentUpon>
+    <Compile Include="Admin_Clientes.Designer.vb">
+      <DependentUpon>Admin_Clientes.vb</DependentUpon>
     </Compile>
-    <Compile Include="Admin_ClientesModificados.vb">
+    <Compile Include="Admin_Clientes.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Admin_Depositos_Agentes.Designer.vb">
@@ -1382,8 +1382,8 @@
     <EmbeddedResource Include="Admin_Choferes.resx">
       <DependentUpon>Admin_Choferes.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Admin_ClientesModificados.resx">
-      <DependentUpon>Admin_ClientesModificados.vb</DependentUpon>
+    <EmbeddedResource Include="Admin_Clientes.resx">
+      <DependentUpon>Admin_Clientes.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Admin_Depositos_Agentes.resx">
       <DependentUpon>Admin_Depositos_Agentes.vb</DependentUpon>

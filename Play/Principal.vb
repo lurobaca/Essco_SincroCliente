@@ -781,7 +781,7 @@ Public Class Principal
 
     Private Sub ClientesModificadosToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClientesModificadosToolStripMenuItem.Click
 
-        Class_VariablesGlobales.frmAdmin_ClientesModificados = New Admin_ClientesModificados
+        Class_VariablesGlobales.frmAdmin_ClientesModificados = New Admin_Clientes
         Class_VariablesGlobales.frmAdmin_ClientesModificados.MdiParent = Me
         Class_VariablesGlobales.frmAdmin_ClientesModificados.Show()
 

@@ -9769,7 +9769,13 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
 
             If Class_VariablesGlobales.Lista_llamadaDesde = "EXPORTAR" Then
-                Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
+                If VerPuesto = "TODOS" Then
+                    Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes]  ORDER BY [CodAgente] ASC "
+
+                Else
+                    Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes] where Puesto='" & VerPuesto & "' ORDER BY [CodAgente] ASC "
+
+                End If
             Else
 
 
@@ -10112,7 +10118,7 @@ Public Class Class_funcionesSQL
             Dim yawhere As Boolean = False
             Dim entro As Boolean = False
 
-           Consulta = "SELECT [Consecutivo],[CardCode],[CardName],[Cedula],[Respolsabletributario],[U_Visita],[U_ClaveWeb],[Phone1],[Phone2],[Street],[E_Mail],[NameFicticio],[Latitud],[Longitud],[Agente],[Id_Provincia],[Id_Canton],[Id_Distrito],[Id_Barrio],[Estado],[Tipo_Cedula],[Fecha],[Hora],[Aprobado],[id],[TipoSocio] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ClientesModificados] "
+            Consulta = "SELECT [Consecutivo],[CardCode],[CardName],[Cedula],[Respolsabletributario],[U_Visita],[U_ClaveWeb],[Phone1],[Phone2],[Street],[E_Mail],[NameFicticio],[Latitud],[Longitud],[Agente],[Id_Provincia],[Id_Canton],[Id_Distrito],[Id_Barrio],[Estado],[Tipo_Cedula],[Fecha],[Hora],[Aprobado],[id],[TipoSocio],[EXO_TipoDocumento],EXO_Numero,EXO_NombreInstitucion,EXO_FechaEmision,EXO_PorcentajeCompra FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ClientesModificados] "
 
             'Si busca por agente
             If Aprobados = True Then
@@ -10529,7 +10535,72 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
-    Public Function GuardaCliente(ByVal CardCode As String, ByVal CardName As String, ByVal Cedula As String, ByVal Respolsabletributario As String, ByVal U_Visita As String, ByVal U_ClaveWeb As String, ByVal Phone1 As String, ByVal Phone2 As String, ByVal Street As String, ByVal E_Mail As String, ByVal NameFicticio As String, ByVal Latitud As String, ByVal Longitud As String, ByVal Agente As String, ByVal Id_Provincia As String, ByVal Id_Canton As String, ByVal Id_Distrito As String, ByVal Id_Barrio As String, ByVal Estado As String, ByVal Tipo_Cedula As String, ByVal Fecha As String, ByVal Hora As String, ByVal Aprobado As String, ByVal Consecutivo As String, EXO_TipoDocumento As String, EXO_Numero As String, EXO_NombreInstitucion As String, EXO_FechaEmision As String, EXO_PorcentajeCompra As String, Guardar As Boolean)
+    Public Function ObtieneCabysExcento(ByVal CardCode As String)
+        Dim Consulta As String
+        Try
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            Consulta = ""
+            Consulta = "SELECT * from  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos]  WHERE CardCode = '" & CardCode & "'"
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
+        Catch ex As Exception
+            MessageBox.Show("ERROR EN ObtieneCabysExcento [" & ex.Message & "]")
+        End Try
+    End Function
+
+    Public Function EliminaCabysExcento(ByVal CardCode As String, ByVal Cabys As String)
+        Dim Consulta As String
+        Try
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            Consulta = ""
+            Consulta = "DELETE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos]  WHERE CardCode = '" & CardCode & "' AND Cabys = '" & Cabys & "'"
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
+        Catch ex As Exception
+            MessageBox.Show("ERROR EN EliminaCabysExcento [" & ex.Message & "]")
+        End Try
+    End Function
+
+
+    Public Function GuardaCodigosCabysExentos(ByVal CardCode As String, ByVal Cabys As String, Guardar As Boolean)
+        Try
+
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            'almance el cliente para poder usar el facturardor de Play
+            Dim Consulta As String = ""
+
+            If Guardar = True Then
+                Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ClientesCabysExentos]
+                           ([CardCode]
+                           ,[CodCabys]
+                           )VALUES
+                           ('" & CardCode &
+                           "','" & Cabys & "')"
+
+
+            Else
+
+            End If
+
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
+            Return 0
+        Catch ex As Exception
+
+            MessageBox.Show("ERROR en GuardaCodigosCabysExentos [ " & ex.Message & " ]")
+            Return 1
+        End Try
+
+    End Function
+
+    Public Function GuardaCliente(ByVal CardCode As String, ByVal CardName As String, ByVal Cedula As String, ByVal Respolsabletributario As String, ByVal U_Visita As String, ByVal U_ClaveWeb As String, ByVal Phone1 As String, ByVal Phone2 As String, ByVal Street As String, ByVal E_Mail As String, ByVal NameFicticio As String, ByVal Latitud As String, ByVal Longitud As String, ByVal Agente As String, ByVal Id_Provincia As String, ByVal Id_Canton As String, ByVal Id_Distrito As String, ByVal Id_Barrio As String, ByVal Estado As String, ByVal Tipo_Cedula As String, ByVal Fecha As String, ByVal Hora As String, ByVal Aprobado As String, ByVal Consecutivo As String, EXO_TipoDocumento As String, EXO_Numero As String, EXO_NombreInstitucion As String, EXO_FechaEmision As String, EXO_PorcentajeCompra As String, EXO_FechaVencimiento As String, Guardar As Boolean)
         Try
 
 
@@ -10569,7 +10640,8 @@ Public Class Class_funcionesSQL
            ,[EXO_Numero]
            ,[EXO_NombreInstitucion]
            ,[EXO_FechaEmision]
-           ,[EXO_PorcentajeCompra])
+           ,[EXO_PorcentajeCompra]
+           ,[EXO_FechaVencimiento])
      VALUES
            ('" & CardCode &
          "','" & CardName &
@@ -10599,7 +10671,8 @@ Public Class Class_funcionesSQL
          "','" & EXO_Numero &
          "','" & EXO_NombreInstitucion &
          "','" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(EXO_FechaEmision) &
-         "'," & EXO_PorcentajeCompra & ")"
+         "'," & EXO_PorcentajeCompra &
+         ",'" & EXO_FechaVencimiento & "')"
 
 
             Else
@@ -10631,7 +10704,8 @@ Public Class Class_funcionesSQL
                                    ,[EXO_Numero] = '" & EXO_Numero & "'
                                    ,[EXO_NombreInstitucion] = '" & EXO_NombreInstitucion & "'
                                    ,[EXO_FechaEmision] = '" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(EXO_FechaEmision) & "'
-                                   ,[EXO_PorcentajeCompra] = '" & EXO_PorcentajeCompra & "' 
+                                   ,[EXO_PorcentajeCompra] = " & EXO_PorcentajeCompra & " 
+                                   ,[EXO_FechaVencimiento] = '" & Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(EXO_FechaVencimiento) & "'
                               WHERE [CardCode] = '" & CardCode & "'"
             End If
 
@@ -11519,7 +11593,7 @@ group by T2.Nombre"
 
 
 
-    Public Function ObtieneLineasTemp(ByVal SQL_Comman As SqlCommand, DocNum As String)
+    Public Function ObtieneLineasTemp(ByVal SQL_Comman As SqlCommand, DocNum As String, TipoDocumento As String)
         Try
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
@@ -11546,9 +11620,17 @@ group by T2.Nombre"
       ,[Descuento_Promo_Monto]
       ,[Descuento_Interno_Porciento]
       ,[Descuento_Interno_Monto]
-      ,[CodigoTarifa]
-  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE1_Temp]
-where DocNum='" & DocNum & "'"
+      ,[CodigoTarifa]"
+
+            If TipoDocumento = "FE" Then
+
+                Consulta = Consulta & " FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE1_Temp]"
+            Else
+                Consulta = Consulta & " FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE1_Temp]"
+
+            End If
+
+            Consulta = Consulta & " where DocNum='" & DocNum & "'"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -12446,14 +12528,21 @@ where DocNum='" & DocNum & "'"
         End Try
     End Function
 
-    Public Function EliminaLineCE_FE1_temp(DocNum As String, NumLinea As String, Itemcode As String)
+    Public Function EliminaLineCE_FE1_temp(DocNum As String, NumLinea As String, Itemcode As String, TipoDocumento As String)
         Try
 
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
 
             Dim Consulta As String
-            Consulta = "DELETE FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE1_Temp] where DocNum='" & DocNum & "' AND NumLinea='" & NumLinea & "'"
+            If TipoDocumento = "FE" Then
+                Consulta = "DELETE FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE1_Temp] where DocNum='" & DocNum & "' AND NumLinea='" & NumLinea & "'"
+
+            Else
+                Consulta = "DELETE FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_NC1_Temp] where DocNum='" & DocNum & "' AND NumLinea='" & NumLinea & "'"
+
+            End If
+
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
             SQL_Comman = Nothing
@@ -14569,7 +14658,9 @@ GROUP By [idGrupo]) T0 "
            ,[Cod_tarifa] 
            ,[CreadoEnSap]
            ,[IdLineaNuevaWms]
-           ,[Id] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Articulos] "
+           ,[Id] 
+           ,[Moneda]
+            FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Articulos] "
             If TipoProducto = "*" Then
 
 
