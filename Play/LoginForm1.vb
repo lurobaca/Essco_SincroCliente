@@ -19,7 +19,6 @@ Public Class LoginForm1
     Private Sub LoginForm1_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
 
-
             Objt_GlobalVar = New Class_VariablesGlobales()
             ' Dim objVClas As Class_VarGlobales
             ' objVClas = New Class_VarGlobales
@@ -31,7 +30,6 @@ Public Class LoginForm1
             Else
 
             End If
-
 
             Dim CNX_2 As New SqlConnection
             Try
@@ -45,11 +43,8 @@ Public Class LoginForm1
                 Objt_GlobalVar.SQL_Comman2.Connection = CNX_2
             End Try
 
-
-
         Catch ex As Exception
             MsgBox("ERROR LoginForm1_Load : " & ex.Message, MsgBoxStyle.Critical)
-
         End Try
 
     End Sub

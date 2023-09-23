@@ -85,6 +85,11 @@ Partial Class Admin_Clientes
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.TxtB_IdExentoCabys = New System.Windows.Forms.TextBox()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.BtnEliminaCabysExento = New System.Windows.Forms.Button()
+        Me.BtnAgregar = New System.Windows.Forms.Button()
+        Me.DGV_ListaCabysExentos = New System.Windows.Forms.DataGridView()
         Me.Label32 = New System.Windows.Forms.Label()
         Me.DTP_ExoFechaVencimiento = New System.Windows.Forms.DateTimePicker()
         Me.txtb_ExoPorcentajeCompra = New System.Windows.Forms.TextBox()
@@ -93,7 +98,9 @@ Partial Class Admin_Clientes
         Me.DTP_ExoFechaEmision = New System.Windows.Forms.DateTimePicker()
         Me.txtb_ExoNombreInstitucion = New System.Windows.Forms.TextBox()
         Me.Label30 = New System.Windows.Forms.Label()
+        Me.TxtB_CabysExento = New System.Windows.Forms.TextBox()
         Me.txtb_ExoNumero = New System.Windows.Forms.TextBox()
+        Me.Label33 = New System.Windows.Forms.Label()
         Me.Label28 = New System.Windows.Forms.Label()
         Me.Label29 = New System.Windows.Forms.Label()
         Me.CBox_ExoTipoDoc = New System.Windows.Forms.ComboBox()
@@ -103,11 +110,6 @@ Partial Class Admin_Clientes
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Comb_Tipo = New System.Windows.Forms.ComboBox()
         Me.Label27 = New System.Windows.Forms.Label()
-        Me.DGV_ListaCabysExentos = New System.Windows.Forms.DataGridView()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.TxtB_CabysExento = New System.Windows.Forms.TextBox()
-        Me.BtnAgregar = New System.Windows.Forms.Button()
-        Me.BtnEliminaCabysExento = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -122,7 +124,7 @@ Partial Class Admin_Clientes
         Me.btn_Actualizar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_Actualizar.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_Actualizar.Location = New System.Drawing.Point(996, 640)
-        Me.btn_Actualizar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btn_Actualizar.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_Actualizar.Name = "btn_Actualizar"
         Me.btn_Actualizar.Size = New System.Drawing.Size(125, 76)
         Me.btn_Actualizar.TabIndex = 0
@@ -152,7 +154,7 @@ Partial Class Admin_Clientes
         'txtb_Codigo
         '
         Me.txtb_Codigo.Location = New System.Drawing.Point(205, 78)
-        Me.txtb_Codigo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Codigo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Codigo.Name = "txtb_Codigo"
         Me.txtb_Codigo.Size = New System.Drawing.Size(160, 22)
         Me.txtb_Codigo.TabIndex = 3
@@ -161,7 +163,7 @@ Partial Class Admin_Clientes
         '
         Me.Combo_Provincia.FormattingEnabled = True
         Me.Combo_Provincia.Location = New System.Drawing.Point(133, 28)
-        Me.Combo_Provincia.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Combo_Provincia.Margin = New System.Windows.Forms.Padding(4)
         Me.Combo_Provincia.Name = "Combo_Provincia"
         Me.Combo_Provincia.Size = New System.Drawing.Size(160, 24)
         Me.Combo_Provincia.TabIndex = 4
@@ -170,7 +172,7 @@ Partial Class Admin_Clientes
         '
         Me.Combo_Canton.FormattingEnabled = True
         Me.Combo_Canton.Location = New System.Drawing.Point(133, 62)
-        Me.Combo_Canton.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Combo_Canton.Margin = New System.Windows.Forms.Padding(4)
         Me.Combo_Canton.Name = "Combo_Canton"
         Me.Combo_Canton.Size = New System.Drawing.Size(160, 24)
         Me.Combo_Canton.TabIndex = 6
@@ -189,7 +191,7 @@ Partial Class Admin_Clientes
         '
         Me.Combo_Distrito.FormattingEnabled = True
         Me.Combo_Distrito.Location = New System.Drawing.Point(133, 95)
-        Me.Combo_Distrito.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Combo_Distrito.Margin = New System.Windows.Forms.Padding(4)
         Me.Combo_Distrito.Name = "Combo_Distrito"
         Me.Combo_Distrito.Size = New System.Drawing.Size(160, 24)
         Me.Combo_Distrito.TabIndex = 8
@@ -208,7 +210,7 @@ Partial Class Admin_Clientes
         '
         Me.Combo_Barrio.FormattingEnabled = True
         Me.Combo_Barrio.Location = New System.Drawing.Point(133, 128)
-        Me.Combo_Barrio.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Combo_Barrio.Margin = New System.Windows.Forms.Padding(4)
         Me.Combo_Barrio.Name = "Combo_Barrio"
         Me.Combo_Barrio.Size = New System.Drawing.Size(160, 24)
         Me.Combo_Barrio.TabIndex = 10
@@ -226,7 +228,7 @@ Partial Class Admin_Clientes
         'txtb_Nombre
         '
         Me.txtb_Nombre.Location = New System.Drawing.Point(205, 144)
-        Me.txtb_Nombre.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Nombre.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Nombre.Name = "txtb_Nombre"
         Me.txtb_Nombre.Size = New System.Drawing.Size(579, 22)
         Me.txtb_Nombre.TabIndex = 12
@@ -244,7 +246,7 @@ Partial Class Admin_Clientes
         'txtb_NombreComercial
         '
         Me.txtb_NombreComercial.Location = New System.Drawing.Point(205, 176)
-        Me.txtb_NombreComercial.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_NombreComercial.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_NombreComercial.Name = "txtb_NombreComercial"
         Me.txtb_NombreComercial.Size = New System.Drawing.Size(580, 22)
         Me.txtb_NombreComercial.TabIndex = 14
@@ -262,7 +264,7 @@ Partial Class Admin_Clientes
         'txtb_Cedula
         '
         Me.txtb_Cedula.Location = New System.Drawing.Point(460, 107)
-        Me.txtb_Cedula.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Cedula.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Cedula.Name = "txtb_Cedula"
         Me.txtb_Cedula.Size = New System.Drawing.Size(203, 22)
         Me.txtb_Cedula.TabIndex = 16
@@ -292,7 +294,7 @@ Partial Class Admin_Clientes
         Me.Comb_TipoId.FormattingEnabled = True
         Me.Comb_TipoId.Items.AddRange(New Object() {"", "Cedula Fisica", "Cedula Juridica", "DIMEX", "NITE"})
         Me.Comb_TipoId.Location = New System.Drawing.Point(205, 111)
-        Me.Comb_TipoId.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Comb_TipoId.Margin = New System.Windows.Forms.Padding(4)
         Me.Comb_TipoId.Name = "Comb_TipoId"
         Me.Comb_TipoId.Size = New System.Drawing.Size(160, 24)
         Me.Comb_TipoId.TabIndex = 4
@@ -302,7 +304,7 @@ Partial Class Admin_Clientes
         Me.Comb_DiaVisita.FormattingEnabled = True
         Me.Comb_DiaVisita.Items.AddRange(New Object() {"", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"})
         Me.Comb_DiaVisita.Location = New System.Drawing.Point(692, 242)
-        Me.Comb_DiaVisita.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Comb_DiaVisita.Margin = New System.Windows.Forms.Padding(4)
         Me.Comb_DiaVisita.Name = "Comb_DiaVisita"
         Me.Comb_DiaVisita.Size = New System.Drawing.Size(160, 24)
         Me.Comb_DiaVisita.TabIndex = 18
@@ -320,7 +322,7 @@ Partial Class Admin_Clientes
         'txtb_CalveWeb
         '
         Me.txtb_CalveWeb.Location = New System.Drawing.Point(205, 245)
-        Me.txtb_CalveWeb.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_CalveWeb.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_CalveWeb.Name = "txtb_CalveWeb"
         Me.txtb_CalveWeb.Size = New System.Drawing.Size(153, 22)
         Me.txtb_CalveWeb.TabIndex = 20
@@ -338,7 +340,7 @@ Partial Class Admin_Clientes
         'txtb_Credito
         '
         Me.txtb_Credito.Location = New System.Drawing.Point(437, 242)
-        Me.txtb_Credito.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Credito.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Credito.Name = "txtb_Credito"
         Me.txtb_Credito.Size = New System.Drawing.Size(160, 22)
         Me.txtb_Credito.TabIndex = 22
@@ -358,7 +360,7 @@ Partial Class Admin_Clientes
         'txtb_Telfono2
         '
         Me.txtb_Telfono2.Location = New System.Drawing.Point(437, 33)
-        Me.txtb_Telfono2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Telfono2.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Telfono2.Name = "txtb_Telfono2"
         Me.txtb_Telfono2.Size = New System.Drawing.Size(132, 22)
         Me.txtb_Telfono2.TabIndex = 24
@@ -376,7 +378,7 @@ Partial Class Admin_Clientes
         'txtb_Telfono1
         '
         Me.txtb_Telfono1.Location = New System.Drawing.Point(133, 33)
-        Me.txtb_Telfono1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Telfono1.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Telfono1.Name = "txtb_Telfono1"
         Me.txtb_Telfono1.Size = New System.Drawing.Size(160, 22)
         Me.txtb_Telfono1.TabIndex = 26
@@ -394,7 +396,7 @@ Partial Class Admin_Clientes
         'txtb_email
         '
         Me.txtb_email.Location = New System.Drawing.Point(133, 78)
-        Me.txtb_email.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_email.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_email.Name = "txtb_email"
         Me.txtb_email.Size = New System.Drawing.Size(436, 22)
         Me.txtb_email.TabIndex = 28
@@ -412,7 +414,7 @@ Partial Class Admin_Clientes
         'txtb_Latitud
         '
         Me.txtb_Latitud.Location = New System.Drawing.Point(448, 18)
-        Me.txtb_Latitud.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Latitud.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Latitud.Name = "txtb_Latitud"
         Me.txtb_Latitud.Size = New System.Drawing.Size(160, 22)
         Me.txtb_Latitud.TabIndex = 30
@@ -430,7 +432,7 @@ Partial Class Admin_Clientes
         'txtb_Longitud
         '
         Me.txtb_Longitud.Location = New System.Drawing.Point(699, 18)
-        Me.txtb_Longitud.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Longitud.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Longitud.Name = "txtb_Longitud"
         Me.txtb_Longitud.Size = New System.Drawing.Size(160, 22)
         Me.txtb_Longitud.TabIndex = 32
@@ -448,7 +450,7 @@ Partial Class Admin_Clientes
         'txtb_OtrasResenas
         '
         Me.txtb_OtrasResenas.Location = New System.Drawing.Point(448, 53)
-        Me.txtb_OtrasResenas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_OtrasResenas.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_OtrasResenas.Multiline = True
         Me.txtb_OtrasResenas.Name = "txtb_OtrasResenas"
         Me.txtb_OtrasResenas.Size = New System.Drawing.Size(411, 96)
@@ -479,7 +481,7 @@ Partial Class Admin_Clientes
         '
         Me.txtb_Caracteristicas.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.txtb_Caracteristicas.Location = New System.Drawing.Point(16, 649)
-        Me.txtb_Caracteristicas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Caracteristicas.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Caracteristicas.Multiline = True
         Me.txtb_Caracteristicas.Name = "txtb_Caracteristicas"
         Me.txtb_Caracteristicas.Size = New System.Drawing.Size(448, 73)
@@ -502,9 +504,9 @@ Partial Class Admin_Clientes
         Me.GroupBox1.Controls.Add(Me.Label16)
         Me.GroupBox1.Controls.Add(Me.Label5)
         Me.GroupBox1.Location = New System.Drawing.Point(8, 7)
-        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox1.Size = New System.Drawing.Size(868, 171)
         Me.GroupBox1.TabIndex = 37
         Me.GroupBox1.TabStop = False
@@ -520,9 +522,9 @@ Partial Class Admin_Clientes
         Me.GroupBox2.Controls.Add(Me.txtb_email)
         Me.GroupBox2.Controls.Add(Me.Label15)
         Me.GroupBox2.Location = New System.Drawing.Point(8, 7)
-        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Size = New System.Drawing.Size(868, 121)
         Me.GroupBox2.TabIndex = 38
         Me.GroupBox2.TabStop = False
@@ -547,7 +549,7 @@ Partial Class Admin_Clientes
         Me.Btn_Atras.BackgroundImage = CType(resources.GetObject("Btn_Atras.BackgroundImage"), System.Drawing.Image)
         Me.Btn_Atras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Btn_Atras.Location = New System.Drawing.Point(903, 11)
-        Me.Btn_Atras.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Btn_Atras.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Atras.Name = "Btn_Atras"
         Me.Btn_Atras.Size = New System.Drawing.Size(100, 49)
         Me.Btn_Atras.TabIndex = 75
@@ -561,7 +563,7 @@ Partial Class Admin_Clientes
         Me.Btn_Adelante.BackgroundImage = CType(resources.GetObject("Btn_Adelante.BackgroundImage"), System.Drawing.Image)
         Me.Btn_Adelante.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.Btn_Adelante.Location = New System.Drawing.Point(1032, 11)
-        Me.Btn_Adelante.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Btn_Adelante.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Adelante.Name = "Btn_Adelante"
         Me.Btn_Adelante.Size = New System.Drawing.Size(100, 49)
         Me.Btn_Adelante.TabIndex = 74
@@ -571,7 +573,7 @@ Partial Class Admin_Clientes
         'txtb_ResponsableTributario
         '
         Me.txtb_ResponsableTributario.Location = New System.Drawing.Point(205, 208)
-        Me.txtb_ResponsableTributario.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_ResponsableTributario.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_ResponsableTributario.Name = "txtb_ResponsableTributario"
         Me.txtb_ResponsableTributario.Size = New System.Drawing.Size(579, 22)
         Me.txtb_ResponsableTributario.TabIndex = 77
@@ -590,7 +592,7 @@ Partial Class Admin_Clientes
         '
         Me.txtb_id.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_id.Location = New System.Drawing.Point(1005, 22)
-        Me.txtb_id.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_id.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_id.Name = "txtb_id"
         Me.txtb_id.Size = New System.Drawing.Size(23, 22)
         Me.txtb_id.TabIndex = 78
@@ -602,7 +604,7 @@ Partial Class Admin_Clientes
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.Location = New System.Drawing.Point(863, 640)
-        Me.Button2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(4)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(125, 76)
         Me.Button2.TabIndex = 79
@@ -612,7 +614,7 @@ Partial Class Admin_Clientes
         'DTP_Fecha
         '
         Me.DTP_Fecha.Location = New System.Drawing.Point(917, 78)
-        Me.DTP_Fecha.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.DTP_Fecha.Margin = New System.Windows.Forms.Padding(4)
         Me.DTP_Fecha.Name = "DTP_Fecha"
         Me.DTP_Fecha.Size = New System.Drawing.Size(203, 22)
         Me.DTP_Fecha.TabIndex = 80
@@ -620,7 +622,7 @@ Partial Class Admin_Clientes
         'txtb_Hora
         '
         Me.txtb_Hora.Location = New System.Drawing.Point(917, 110)
-        Me.txtb_Hora.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Hora.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Hora.Name = "txtb_Hora"
         Me.txtb_Hora.Size = New System.Drawing.Size(203, 22)
         Me.txtb_Hora.TabIndex = 82
@@ -658,7 +660,7 @@ Partial Class Admin_Clientes
         'txtb_Agente
         '
         Me.txtb_Agente.Location = New System.Drawing.Point(917, 182)
-        Me.txtb_Agente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Agente.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Agente.Name = "txtb_Agente"
         Me.txtb_Agente.Size = New System.Drawing.Size(203, 22)
         Me.txtb_Agente.TabIndex = 16
@@ -667,7 +669,7 @@ Partial Class Admin_Clientes
         '
         Me.txtb_Consecutivo.Enabled = False
         Me.txtb_Consecutivo.Location = New System.Drawing.Point(205, 42)
-        Me.txtb_Consecutivo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Consecutivo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Consecutivo.Name = "txtb_Consecutivo"
         Me.txtb_Consecutivo.Size = New System.Drawing.Size(160, 22)
         Me.txtb_Consecutivo.TabIndex = 86
@@ -685,7 +687,7 @@ Partial Class Admin_Clientes
         'txtb_Saldo
         '
         Me.txtb_Saldo.Location = New System.Drawing.Point(917, 146)
-        Me.txtb_Saldo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Saldo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Saldo.Name = "txtb_Saldo"
         Me.txtb_Saldo.Size = New System.Drawing.Size(203, 22)
         Me.txtb_Saldo.TabIndex = 88
@@ -706,7 +708,7 @@ Partial Class Admin_Clientes
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
         Me.TabControl1.Location = New System.Drawing.Point(21, 288)
-        Me.TabControl1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabControl1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(1105, 337)
@@ -716,9 +718,9 @@ Partial Class Admin_Clientes
         '
         Me.TabPage1.Controls.Add(Me.GroupBox1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(4)
         Me.TabPage1.Size = New System.Drawing.Size(1097, 308)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Ubicacion"
@@ -728,9 +730,9 @@ Partial Class Admin_Clientes
         '
         Me.TabPage2.Controls.Add(Me.GroupBox2)
         Me.TabPage2.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage2.Margin = New System.Windows.Forms.Padding(4)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(4)
         Me.TabPage2.Size = New System.Drawing.Size(1097, 308)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Contacto"
@@ -738,6 +740,8 @@ Partial Class Admin_Clientes
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.TxtB_IdExentoCabys)
+        Me.TabPage3.Controls.Add(Me.Label34)
         Me.TabPage3.Controls.Add(Me.BtnEliminaCabysExento)
         Me.TabPage3.Controls.Add(Me.BtnAgregar)
         Me.TabPage3.Controls.Add(Me.DGV_ListaCabysExentos)
@@ -763,6 +767,59 @@ Partial Class Admin_Clientes
         Me.TabPage3.Text = "Exoneracion"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'TxtB_IdExentoCabys
+        '
+        Me.TxtB_IdExentoCabys.Location = New System.Drawing.Point(648, 13)
+        Me.TxtB_IdExentoCabys.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtB_IdExentoCabys.Name = "TxtB_IdExentoCabys"
+        Me.TxtB_IdExentoCabys.Size = New System.Drawing.Size(160, 22)
+        Me.TxtB_IdExentoCabys.TabIndex = 109
+        Me.TxtB_IdExentoCabys.Visible = False
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.Location = New System.Drawing.Point(521, 17)
+        Me.Label34.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(19, 17)
+        Me.Label34.TabIndex = 108
+        Me.Label34.Text = "Id"
+        Me.Label34.Visible = False
+        '
+        'BtnEliminaCabysExento
+        '
+        Me.BtnEliminaCabysExento.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BtnEliminaCabysExento.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnEliminaCabysExento.Location = New System.Drawing.Point(954, 36)
+        Me.BtnEliminaCabysExento.Margin = New System.Windows.Forms.Padding(4)
+        Me.BtnEliminaCabysExento.Name = "BtnEliminaCabysExento"
+        Me.BtnEliminaCabysExento.Size = New System.Drawing.Size(125, 35)
+        Me.BtnEliminaCabysExento.TabIndex = 107
+        Me.BtnEliminaCabysExento.Text = "Eliminar"
+        Me.BtnEliminaCabysExento.UseVisualStyleBackColor = True
+        '
+        'BtnAgregar
+        '
+        Me.BtnAgregar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BtnAgregar.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnAgregar.Location = New System.Drawing.Point(821, 36)
+        Me.BtnAgregar.Margin = New System.Windows.Forms.Padding(4)
+        Me.BtnAgregar.Name = "BtnAgregar"
+        Me.BtnAgregar.Size = New System.Drawing.Size(125, 35)
+        Me.BtnAgregar.TabIndex = 96
+        Me.BtnAgregar.Text = "Agregar"
+        Me.BtnAgregar.UseVisualStyleBackColor = True
+        '
+        'DGV_ListaCabysExentos
+        '
+        Me.DGV_ListaCabysExentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DGV_ListaCabysExentos.Location = New System.Drawing.Point(520, 72)
+        Me.DGV_ListaCabysExentos.Name = "DGV_ListaCabysExentos"
+        Me.DGV_ListaCabysExentos.RowTemplate.Height = 24
+        Me.DGV_ListaCabysExentos.Size = New System.Drawing.Size(560, 221)
+        Me.DGV_ListaCabysExentos.TabIndex = 106
+        '
         'Label32
         '
         Me.Label32.AutoSize = True
@@ -775,18 +832,18 @@ Partial Class Admin_Clientes
         '
         'DTP_ExoFechaVencimiento
         '
-        Me.DTP_ExoFechaVencimiento.Location = New System.Drawing.Point(146, 175)
-        Me.DTP_ExoFechaVencimiento.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.DTP_ExoFechaVencimiento.Location = New System.Drawing.Point(162, 175)
+        Me.DTP_ExoFechaVencimiento.Margin = New System.Windows.Forms.Padding(4)
         Me.DTP_ExoFechaVencimiento.Name = "DTP_ExoFechaVencimiento"
-        Me.DTP_ExoFechaVencimiento.Size = New System.Drawing.Size(203, 22)
+        Me.DTP_ExoFechaVencimiento.Size = New System.Drawing.Size(298, 22)
         Me.DTP_ExoFechaVencimiento.TabIndex = 104
         '
         'txtb_ExoPorcentajeCompra
         '
-        Me.txtb_ExoPorcentajeCompra.Location = New System.Drawing.Point(146, 232)
-        Me.txtb_ExoPorcentajeCompra.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_ExoPorcentajeCompra.Location = New System.Drawing.Point(162, 230)
+        Me.txtb_ExoPorcentajeCompra.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_ExoPorcentajeCompra.Name = "txtb_ExoPorcentajeCompra"
-        Me.txtb_ExoPorcentajeCompra.Size = New System.Drawing.Size(160, 22)
+        Me.txtb_ExoPorcentajeCompra.Size = New System.Drawing.Size(298, 22)
         Me.txtb_ExoPorcentajeCompra.TabIndex = 103
         '
         'lbl_PorcentajeCompra
@@ -811,18 +868,18 @@ Partial Class Admin_Clientes
         '
         'DTP_ExoFechaEmision
         '
-        Me.DTP_ExoFechaEmision.Location = New System.Drawing.Point(146, 133)
-        Me.DTP_ExoFechaEmision.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.DTP_ExoFechaEmision.Location = New System.Drawing.Point(162, 133)
+        Me.DTP_ExoFechaEmision.Margin = New System.Windows.Forms.Padding(4)
         Me.DTP_ExoFechaEmision.Name = "DTP_ExoFechaEmision"
-        Me.DTP_ExoFechaEmision.Size = New System.Drawing.Size(203, 22)
+        Me.DTP_ExoFechaEmision.Size = New System.Drawing.Size(298, 22)
         Me.DTP_ExoFechaEmision.TabIndex = 100
         '
         'txtb_ExoNombreInstitucion
         '
-        Me.txtb_ExoNombreInstitucion.Location = New System.Drawing.Point(146, 90)
-        Me.txtb_ExoNombreInstitucion.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_ExoNombreInstitucion.Location = New System.Drawing.Point(162, 90)
+        Me.txtb_ExoNombreInstitucion.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_ExoNombreInstitucion.Name = "txtb_ExoNombreInstitucion"
-        Me.txtb_ExoNombreInstitucion.Size = New System.Drawing.Size(314, 22)
+        Me.txtb_ExoNombreInstitucion.Size = New System.Drawing.Size(298, 22)
         Me.txtb_ExoNombreInstitucion.TabIndex = 99
         '
         'Label30
@@ -835,13 +892,31 @@ Partial Class Admin_Clientes
         Me.Label30.TabIndex = 98
         Me.Label30.Text = "Nombre Institucion"
         '
+        'TxtB_CabysExento
+        '
+        Me.TxtB_CabysExento.Location = New System.Drawing.Point(648, 43)
+        Me.TxtB_CabysExento.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtB_CabysExento.Name = "TxtB_CabysExento"
+        Me.TxtB_CabysExento.Size = New System.Drawing.Size(160, 22)
+        Me.TxtB_CabysExento.TabIndex = 97
+        '
         'txtb_ExoNumero
         '
-        Me.txtb_ExoNumero.Location = New System.Drawing.Point(146, 52)
-        Me.txtb_ExoNumero.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_ExoNumero.Location = New System.Drawing.Point(162, 53)
+        Me.txtb_ExoNumero.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_ExoNumero.Name = "txtb_ExoNumero"
-        Me.txtb_ExoNumero.Size = New System.Drawing.Size(160, 22)
+        Me.txtb_ExoNumero.Size = New System.Drawing.Size(298, 22)
         Me.txtb_ExoNumero.TabIndex = 97
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.Location = New System.Drawing.Point(521, 47)
+        Me.Label33.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(101, 17)
+        Me.Label33.TabIndex = 96
+        Me.Label33.Text = "Cabys Excento"
         '
         'Label28
         '
@@ -867,10 +942,10 @@ Partial Class Admin_Clientes
         '
         Me.CBox_ExoTipoDoc.FormattingEnabled = True
         Me.CBox_ExoTipoDoc.Items.AddRange(New Object() {"", "Compras autorizadas", "Ventas exentas a diplomáticos", "Autorizado por Ley especial", "Exenciones Dirección General de Hacienda", "Transitorio V ", "Transitorio IX ", "Transitorio XVII ", "Otros "})
-        Me.CBox_ExoTipoDoc.Location = New System.Drawing.Point(146, 14)
-        Me.CBox_ExoTipoDoc.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.CBox_ExoTipoDoc.Location = New System.Drawing.Point(162, 14)
+        Me.CBox_ExoTipoDoc.Margin = New System.Windows.Forms.Padding(4)
         Me.CBox_ExoTipoDoc.Name = "CBox_ExoTipoDoc"
-        Me.CBox_ExoTipoDoc.Size = New System.Drawing.Size(160, 24)
+        Me.CBox_ExoTipoDoc.Size = New System.Drawing.Size(298, 24)
         Me.CBox_ExoTipoDoc.TabIndex = 5
         '
         'Comb_Frecuencia
@@ -878,7 +953,7 @@ Partial Class Admin_Clientes
         Me.Comb_Frecuencia.FormattingEnabled = True
         Me.Comb_Frecuencia.Items.AddRange(New Object() {"", "8 Dias", "15 Dias", "22 Dias", "30 Dias"})
         Me.Comb_Frecuencia.Location = New System.Drawing.Point(960, 244)
-        Me.Comb_Frecuencia.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Comb_Frecuencia.Margin = New System.Windows.Forms.Padding(4)
         Me.Comb_Frecuencia.Name = "Comb_Frecuencia"
         Me.Comb_Frecuencia.Size = New System.Drawing.Size(160, 24)
         Me.Comb_Frecuencia.TabIndex = 91
@@ -898,7 +973,7 @@ Partial Class Admin_Clientes
         Me.btn_Nuevo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_Nuevo.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_Nuevo.Location = New System.Drawing.Point(728, 640)
-        Me.btn_Nuevo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.btn_Nuevo.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_Nuevo.Name = "btn_Nuevo"
         Me.btn_Nuevo.Size = New System.Drawing.Size(125, 76)
         Me.btn_Nuevo.TabIndex = 92
@@ -912,7 +987,7 @@ Partial Class Admin_Clientes
         Me.Button1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.Location = New System.Drawing.Point(473, 671)
-        Me.Button1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(55, 46)
         Me.Button1.TabIndex = 93
@@ -923,7 +998,7 @@ Partial Class Admin_Clientes
         Me.Comb_Tipo.FormattingEnabled = True
         Me.Comb_Tipo.Items.AddRange(New Object() {"", "CLIENTE", "PROVEEDOR"})
         Me.Comb_Tipo.Location = New System.Drawing.Point(460, 76)
-        Me.Comb_Tipo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Comb_Tipo.Margin = New System.Windows.Forms.Padding(4)
         Me.Comb_Tipo.Name = "Comb_Tipo"
         Me.Comb_Tipo.Size = New System.Drawing.Size(203, 24)
         Me.Comb_Tipo.TabIndex = 95
@@ -937,57 +1012,6 @@ Partial Class Admin_Clientes
         Me.Label27.Size = New System.Drawing.Size(36, 17)
         Me.Label27.TabIndex = 94
         Me.Label27.Text = "Tipo"
-        '
-        'DGV_ListaCabysExentos
-        '
-        Me.DGV_ListaCabysExentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DGV_ListaCabysExentos.Location = New System.Drawing.Point(520, 72)
-        Me.DGV_ListaCabysExentos.Name = "DGV_ListaCabysExentos"
-        Me.DGV_ListaCabysExentos.RowTemplate.Height = 24
-        Me.DGV_ListaCabysExentos.Size = New System.Drawing.Size(560, 221)
-        Me.DGV_ListaCabysExentos.TabIndex = 106
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(521, 47)
-        Me.Label33.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(101, 17)
-        Me.Label33.TabIndex = 96
-        Me.Label33.Text = "Cabys Excento"
-        '
-        'TxtB_CabysExento
-        '
-        Me.TxtB_CabysExento.Location = New System.Drawing.Point(648, 43)
-        Me.TxtB_CabysExento.Margin = New System.Windows.Forms.Padding(4)
-        Me.TxtB_CabysExento.Name = "TxtB_CabysExento"
-        Me.TxtB_CabysExento.Size = New System.Drawing.Size(160, 22)
-        Me.TxtB_CabysExento.TabIndex = 97
-        '
-        'BtnAgregar
-        '
-        Me.BtnAgregar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnAgregar.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnAgregar.Location = New System.Drawing.Point(821, 36)
-        Me.BtnAgregar.Margin = New System.Windows.Forms.Padding(4)
-        Me.BtnAgregar.Name = "BtnAgregar"
-        Me.BtnAgregar.Size = New System.Drawing.Size(125, 35)
-        Me.BtnAgregar.TabIndex = 96
-        Me.BtnAgregar.Text = "Agregar"
-        Me.BtnAgregar.UseVisualStyleBackColor = True
-        '
-        'BtnEliminaCabysExento
-        '
-        Me.BtnEliminaCabysExento.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnEliminaCabysExento.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnEliminaCabysExento.Location = New System.Drawing.Point(954, 36)
-        Me.BtnEliminaCabysExento.Margin = New System.Windows.Forms.Padding(4)
-        Me.BtnEliminaCabysExento.Name = "BtnEliminaCabysExento"
-        Me.BtnEliminaCabysExento.Size = New System.Drawing.Size(125, 35)
-        Me.BtnEliminaCabysExento.TabIndex = 107
-        Me.BtnEliminaCabysExento.Text = "Eliminar"
-        Me.BtnEliminaCabysExento.UseVisualStyleBackColor = True
         '
         'Admin_Clientes
         '
@@ -1036,7 +1060,7 @@ Partial Class Admin_Clientes
         Me.Controls.Add(Me.Label9)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.btn_Actualizar)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.MaximizeBox = False
         Me.Name = "Admin_Clientes"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -1140,4 +1164,6 @@ Partial Class Admin_Clientes
     Friend WithEvents TxtB_CabysExento As TextBox
     Friend WithEvents Label33 As Label
     Friend WithEvents BtnEliminaCabysExento As Button
+    Friend WithEvents TxtB_IdExentoCabys As TextBox
+    Friend WithEvents Label34 As Label
 End Class

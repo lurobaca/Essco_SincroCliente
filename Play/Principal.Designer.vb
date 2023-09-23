@@ -25,10 +25,7 @@ Partial Class Principal
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Principal))
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
-        Me.LbL_Errorres = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.DetErrores = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.ToolStripStatusLabel2 = New System.Windows.Forms.ToolStripStatusLabel()
         Me.Time_BorraError = New System.Windows.Forms.Timer(Me.components)
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.FacturacionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -129,7 +126,7 @@ Partial Class Principal
         'StatusStrip1
         '
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(17, 17)
-        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.LbL_Errorres, Me.ToolStripStatusLabel1, Me.DetErrores, Me.ToolStripStatusLabel2})
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DetErrores})
         Me.StatusStrip1.Location = New System.Drawing.Point(0, 582)
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 19, 0)
@@ -137,32 +134,12 @@ Partial Class Principal
         Me.StatusStrip1.TabIndex = 3
         Me.StatusStrip1.Text = "StatusStrip1"
         '
-        'LbL_Errorres
-        '
-        Me.LbL_Errorres.ForeColor = System.Drawing.Color.Red
-        Me.LbL_Errorres.Name = "LbL_Errorres"
-        Me.LbL_Errorres.Size = New System.Drawing.Size(0, 20)
-        '
-        'ToolStripStatusLabel1
-        '
-        Me.ToolStripStatusLabel1.BackColor = System.Drawing.Color.Red
-        Me.ToolStripStatusLabel1.ForeColor = System.Drawing.Color.White
-        Me.ToolStripStatusLabel1.Name = "ToolStripStatusLabel1"
-        Me.ToolStripStatusLabel1.Size = New System.Drawing.Size(0, 20)
-        '
         'DetErrores
         '
         Me.DetErrores.ForeColor = System.Drawing.Color.Red
         Me.DetErrores.Name = "DetErrores"
         Me.DetErrores.Size = New System.Drawing.Size(128, 20)
         Me.DetErrores.Text = "Detalle de Errores"
-        '
-        'ToolStripStatusLabel2
-        '
-        Me.ToolStripStatusLabel2.Name = "ToolStripStatusLabel2"
-        Me.ToolStripStatusLabel2.Size = New System.Drawing.Size(741, 20)
-        Me.ToolStripStatusLabel2.Text = " es Desarrollado por Luis Roberto Bastos Castillo Cedula 603820988 Tel: 88801662 " &
-    "Email: lurobaca@gmail.com"
         '
         'Time_BorraError
         '
@@ -426,63 +403,63 @@ Partial Class Principal
         '
         Me.ContadoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NuevaToolStripMenuItem, Me.GastosToolStripMenuItem1, Me.DepositosToolStripMenuItem1, Me.BuscarFacturaToolStripMenuItem})
         Me.ContadoToolStripMenuItem.Name = "ContadoToolStripMenuItem"
-        Me.ContadoToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.ContadoToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.ContadoToolStripMenuItem.Text = "Choferes"
         Me.ContadoToolStripMenuItem.Visible = False
         '
         'NuevaToolStripMenuItem
         '
         Me.NuevaToolStripMenuItem.Name = "NuevaToolStripMenuItem"
-        Me.NuevaToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.NuevaToolStripMenuItem.Size = New System.Drawing.Size(178, 26)
         Me.NuevaToolStripMenuItem.Text = "Nueva"
         '
         'GastosToolStripMenuItem1
         '
         Me.GastosToolStripMenuItem1.Name = "GastosToolStripMenuItem1"
-        Me.GastosToolStripMenuItem1.Size = New System.Drawing.Size(216, 26)
+        Me.GastosToolStripMenuItem1.Size = New System.Drawing.Size(178, 26)
         Me.GastosToolStripMenuItem1.Text = "Gastos"
         '
         'DepositosToolStripMenuItem1
         '
         Me.DepositosToolStripMenuItem1.Name = "DepositosToolStripMenuItem1"
-        Me.DepositosToolStripMenuItem1.Size = New System.Drawing.Size(216, 26)
+        Me.DepositosToolStripMenuItem1.Size = New System.Drawing.Size(178, 26)
         Me.DepositosToolStripMenuItem1.Text = "Depositos"
         '
         'BuscarFacturaToolStripMenuItem
         '
         Me.BuscarFacturaToolStripMenuItem.Name = "BuscarFacturaToolStripMenuItem"
-        Me.BuscarFacturaToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.BuscarFacturaToolStripMenuItem.Size = New System.Drawing.Size(178, 26)
         Me.BuscarFacturaToolStripMenuItem.Text = "Buscar Factura"
         '
         'CreditoToolStripMenuItem
         '
         Me.CreditoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NuevaToolStripMenuItem1, Me.GastosToolStripMenuItem2, Me.DepositosToolStripMenuItem2})
         Me.CreditoToolStripMenuItem.Name = "CreditoToolStripMenuItem"
-        Me.CreditoToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.CreditoToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.CreditoToolStripMenuItem.Text = "Agentes"
         '
         'NuevaToolStripMenuItem1
         '
         Me.NuevaToolStripMenuItem1.Name = "NuevaToolStripMenuItem1"
-        Me.NuevaToolStripMenuItem1.Size = New System.Drawing.Size(216, 26)
+        Me.NuevaToolStripMenuItem1.Size = New System.Drawing.Size(151, 26)
         Me.NuevaToolStripMenuItem1.Text = "Nueva"
         '
         'GastosToolStripMenuItem2
         '
         Me.GastosToolStripMenuItem2.Name = "GastosToolStripMenuItem2"
-        Me.GastosToolStripMenuItem2.Size = New System.Drawing.Size(216, 26)
+        Me.GastosToolStripMenuItem2.Size = New System.Drawing.Size(151, 26)
         Me.GastosToolStripMenuItem2.Text = "Gastos"
         '
         'DepositosToolStripMenuItem2
         '
         Me.DepositosToolStripMenuItem2.Name = "DepositosToolStripMenuItem2"
-        Me.DepositosToolStripMenuItem2.Size = New System.Drawing.Size(216, 26)
+        Me.DepositosToolStripMenuItem2.Size = New System.Drawing.Size(151, 26)
         Me.DepositosToolStripMenuItem2.Text = "Depositos"
         '
         'RevisarDepositosToolStripMenuItem
         '
         Me.RevisarDepositosToolStripMenuItem.Name = "RevisarDepositosToolStripMenuItem"
-        Me.RevisarDepositosToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.RevisarDepositosToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.RevisarDepositosToolStripMenuItem.Text = "Revisar Depositos"
         Me.RevisarDepositosToolStripMenuItem.Visible = False
         '
@@ -795,10 +772,7 @@ Partial Class Principal
 
     End Sub
     Friend WithEvents StatusStrip1 As System.Windows.Forms.StatusStrip
-    Friend WithEvents LbL_Errorres As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Time_BorraError As System.Windows.Forms.Timer
-    Friend WithEvents ToolStripStatusLabel1 As System.Windows.Forms.ToolStripStatusLabel
-    Friend WithEvents ToolStripStatusLabel2 As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents DetErrores As System.Windows.Forms.ToolStripStatusLabel
     Friend WithEvents Timer1 As System.Windows.Forms.Timer
     Friend WithEvents FacturacionToolStripMenuItem As ToolStripMenuItem

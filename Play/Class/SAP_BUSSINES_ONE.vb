@@ -912,6 +912,7 @@ Public Class SAP_BUSSINES_ONE
                 'PARAMETROS DE CONEXION A SAP
                 oCompany = New SAPbobsCOM.Company
                 oCompany.DbServerType = SAPbobsCOM.BoDataServerTypes.dst_MSSQL2019
+
                 If Class_VariablesGlobales.XMLParamSAP_CompanyDB.Trim <> "" Then
                     oCompany.CompanyDB = Class_VariablesGlobales.XMLParamSAP_CompanyDB.Trim
                 Else
@@ -931,7 +932,7 @@ Public Class SAP_BUSSINES_ONE
                 'connect to database server
                 If oCompany.Connected = False Then
 
-                    nResult = oCompany.Connect
+                    nResult = oCompany.Connect()
 
 
                     If nResult <> 0 Then
@@ -941,7 +942,7 @@ Public Class SAP_BUSSINES_ONE
                         'MsgBox("GetLastError(" + Str(nResult) + ", " + strErrString + ")")
 
                         Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ConectarSap Codigo (" & nResult & ")  (" & strErrString & ") "
-                        Principal.StatusStrip1.Items(2).Text = "Desconectado de SAP " & Now
+                        Class_VariablesGlobales.frmPrincipal.DetErrores.Text = "Desconectado de SAP " & Now
 
                         Dim result1 As DialogResult = MessageBox.Show("ERROR ConectarSap Codigo (" & nResult & ") (" & vbLf &
                         " CompanyDB: " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & vbLf &
@@ -950,9 +951,11 @@ Public Class SAP_BUSSINES_ONE
                         " SAP_Server: " & Class_VariablesGlobales.XMLParamSAP_Server & vbLf &
                         " SAP_DbUserName: " & Class_VariablesGlobales.XMLParamSAP_DbUserName & vbLf &
                         " SAP_DbPassword: " & Class_VariablesGlobales.XMLParamSAP_DbPassword & vbLf &
-                        " SAP_LicenseServer: " & Class_VariablesGlobales.XMLParamSAP_LicenseServer & vbLf & ") (" & strErrString & ")  \N Si no se conecta los cambios no se aplicaran en SAP\n Desea volver a intentar conectar con SAP?",
-       "Important Question",
-       MessageBoxButtons.YesNo)
+                        " SAP_LicenseServer: " & Class_VariablesGlobales.XMLParamSAP_LicenseServer & ") " & vbLf & vbLf &
+                        "(" & strErrString & ") " & vbLf & vbLf &
+                        "Si no se conecta los cambios no se aplicaran en SAP\n Desea volver a intentar conectar con SAP?",
+                       "Important Question",
+                       MessageBoxButtons.YesNo)
 
                         If result1 = DialogResult.Yes Then
 
@@ -980,7 +983,8 @@ Public Class SAP_BUSSINES_ONE
                         End If
                         'Exit Function
                     Else
-                        Principal.StatusStrip1.Items(2).Text = "Conectado a SAP " & Class_VariablesGlobales.XMLParamSAP_UserName.Trim & "  " & Now
+
+                        Class_VariablesGlobales.frmPrincipal.DetErrores.Text = "Conectado a SAP " & Class_VariablesGlobales.XMLParamSAP_UserName.Trim & "  " & Now
 
                         'CONECTO CON EXITO
 
@@ -996,7 +1000,7 @@ Public Class SAP_BUSSINES_ONE
 
         Catch ex As Exception
             Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR ConectarSap (" & ex.Message & ")"
-            Principal.StatusStrip1.Items(2).Text = "[ " & Now & " ] ERROR ConectarSap (" & ex.Message & ")" & Class_VariablesGlobales.XMLParamSAP_UserName.Trim & "  " & Now
+            Class_VariablesGlobales.frmPrincipal.DetErrores.Text = "[ " & Now & " ] ERROR ConectarSap (" & ex.Message & ")" & Class_VariablesGlobales.XMLParamSAP_UserName.Trim & "  " & Now
         End Try
     End Function
 

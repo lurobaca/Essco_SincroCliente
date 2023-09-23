@@ -180,18 +180,20 @@
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Hora.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(22).Value)
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_id.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(24).Value)
 
-                If DGV_ListaClientesModificados.CurrentRow.Cells.Item(26).Value <> "" Then
+                If DGV_ListaClientesModificados.CurrentRow.Cells.Item(26).Value.ToString() <> "" Then
                     Id_TipoDocumentoExoneracion = CInt(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(26).Value))
                 Else
                     Id_TipoDocumentoExoneracion = -1
                 End If
 
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.CBox_ExoTipoDoc.SelectedIndex = Id_TipoDocumentoExoneracion
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoNumero.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(27).Value())
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoNombreInstitucion.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(28).Value())
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.DTP_ExoFechaEmision.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(29).Value())
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoPorcentajeCompra.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(30).Value())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoNumero.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(27).Value().ToString())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoNombreInstitucion.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(28).Value().ToString())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.DTP_ExoFechaEmision.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(29).Value().ToString())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoPorcentajeCompra.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(30).Value().ToString())
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.DTP_ExoFechaVencimiento.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(31).Value().ToString())
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Codigo.Text)
+
 
             End If
             Me.Close()

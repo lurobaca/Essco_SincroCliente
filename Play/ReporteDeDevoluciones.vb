@@ -73,7 +73,7 @@ Public Class ReporteDeDevoluciones
                                             "E-mail: lurobaca@gmail.com" & vbCrLf & _
                                             "Tel: 8880-1662" & vbCrLf
 
-                    Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte de Devoluciones [ " & Trim(Txtb_Desde.Text) & "," & Trim(Txtb_Hasta.Text) & " ]", "", "bodeguerosbourne@gmail.com", "", "", "")
+                    Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte de Devoluciones [ " & Trim(Txtb_Desde.Text) & "," & Trim(Txtb_Hasta.Text) & " ]", "", "", "", "", "")
 
                     'SEGUNDO GENERAMOS UN ARCHIVO CON EL INVENTARIO ACTUAL
                     'Dim table As New DataTable
@@ -286,7 +286,7 @@ Public Class ReporteDeDevoluciones
             strStreamWriter.Dispose()
             strStreamWriter = Nothing
 
-            ftp_Admin.Subir(PathArchivo, "ftp://bourneycia.net/bourneycia.net/Picking/RepDevo/impo/" & Trim(Consecutivo) & ".mbg", "arquitect", "tbh573")
+            'ftp_Admin.Subir(PathArchivo, "ftp://bourneycia.net/bourneycia.net/Picking/RepDevo/impo/" & Trim(Consecutivo) & ".mbg", "arquitect", "tbh573")
         Catch ex As Exception
             MessageBox.Show("ERROR EN CreaArchivo  " & ex.Message)
 
@@ -383,7 +383,7 @@ Public Class ReporteDeDevoluciones
             strStreamWriter = Nothing
 
             'Sube el archivo Bodeguero
-            ftp_Admin.Subir(PathArchivo, "ftp://bourneycia.net/bourneycia.net/Bodegueros/RepDevo/impo/Inventario.mbg", "arquitect", "tbh573")
+            'ftp_Admin.Subir(PathArchivo, "ftp://bourneycia.net/bourneycia.net/Bodegueros/RepDevo/impo/Inventario.mbg", "arquitect", "tbh573")
         Catch ex As Exception
             MessageBox.Show("ERROR EN CreaArchivo  " & ex.Message)
         End Try

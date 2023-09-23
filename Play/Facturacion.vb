@@ -107,10 +107,7 @@
     End Function
     Private Function btn_guardar_Click(sender As Object, e As EventArgs) Handles btn_guardar.Click
 
-
         'Obj_Funciones.GuardaComprobante(TipoComprobante, Clave, Consecutivo, Fecha, Emisor_Nombre, Emisor_TipoCedula, Emisor_NumeroCedula, Emisor_NombreComercial, Emisor_Ubicacion_Provincia, Emisor_Ubicacion_Canton, Emisor_Ubicacion_Distrito, Emisor_Ubicacion_Barrio, Emisor_Ubicacion_OtrasSenas, Emisor_CodigoPais, Emisor_NumTelefono, Emisor_NumFax, Emisor_CorreoElectronico, Recepto_Nombre, Recepto_TipoCedula, Recepto_NumeroCedula, Recepto_IdentificacionExtranjero, Recepto_NombreComercial, Recepto_Ubicacion_Provincia, Recepto_Ubicacion_Canton, Recepto_Ubicacion_Distrito, Recepto_Ubicacion_Barrio, Recepto_OtraSenas, Recepto_CodigoPais, Recepto_NumTelefono, Recepto_NumFax, Recepto_CorreoElectronico, Recepto_CondicionVenta, Recepto_PlazoCredito, Recepto_MedioPago, DetalleServicio_NumeroLinea, DetalleServicio_TipoCodigo, DetalleServicio_Codigo, DetalleServicio_Cantidad, DetalleServicio_UnidadMedida, DetalleServicio_UnidadMedidaComercial, DetalleServicio_Detalle, DetalleServicio_PrecioUnitario, DetalleServicio_MontoTotal, DetalleServicio_MontoDescuento, DetalleServicio_NaturalezaDescuento, DetalleServicio_SubTotal, DetalleServicio_CodigoImpuesto, DetalleServicio_TarifaImpuesto, DetalleServicio_MontoImpuesto, Exoneracion_TipoDocumento, Exoneracion_NumeroDocumento, Exoneracion_MontoImpuesto, Exoneracion_NombreInstirucion, Exoneracion_FechaEmision, Exoneracion_PorcentajeCompra, ResumenFactura_CodigoMoneda, ResumenFactura_TipoCambio, ResumenFactura_TotalServGravados, ResumenFactura_TotalServExentos, ResumenFactura_TotalMercanciasGravadas, ResumenFactura_TotalMercanciasExentas, ResumenFactura_TotalGravado, ResumenFactura_TotalExento, ResumenFactura_TotalVenta, ResumenFactura_TotalDescuentos, ResumenFactura_TotalVentaNeta, ResumenFactura_TotalImpuesto, ResumenFactura_TotalComprobante, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, CodSeguridad, CodCliente, Agente, DetalleServicio_MontoTotalLinea, DocType, DocSubType, obj_Fecha.FormatoFechaSql(FechaComprobante), HoraComprobante)
-
-
 
         CodMoneda = Cmb_Moneda.Text
         TipoCambio = txtb_TipoCambio.Text
@@ -118,9 +115,7 @@
         If CodMoneda = "USD" And TipoCambio = "" Or TipoCambio = "0" Then
             MessageBox.Show("Debe indicar el tipo de cambio del dia de hoy")
             Return True
-
         End If
-
 
         CodCliente = txtb_CodCliente.Text
         DocNum = Txtb_DocNum.Text
@@ -131,7 +126,6 @@
         '  DocTime = DTP_TransaccionDesde.Value.ToString("hh:mm:ss")
         DocTime = Replace(Now.ToString("HH:mm:ss"), ":", "") 'formato 24 horas
         Vendedor = CBox_Vendedor.Text
-
 
         If CBox_TipoProducto.Text = "Servicio" Then
 
@@ -167,10 +161,9 @@
             Referencia_Razon = "Anula Documento de Referencia"
         End If
 
-
         DocTotal = CDbl(txtb_TotalDocumento.Text)
         DocSubTotal = CDbl(txtb_SubTotal.Text)
-        DocTotalImpuesto = CDbl(txtb_TotalImpuesto.Text)
+        DocTotalImpuesto = CDbl(txtb_TotalImpuestoNeto.Text)
         DocTotalDescuento = CDbl(txtb_TotalDescuento.Text)
         DocSaldo = CDbl(txtb_TotalSaldo.Text)
         Comments = txtb_Comentarios.Text
@@ -184,23 +177,15 @@
         ID_User = "0"
         Nombre_User = ""
 
-
-
         'cuando sea anulada la factura entrara aqui
-
-
 
         'guarda el encabezado
         If Me.Text = "Nota de credito" Then
             DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_NC(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor, CodMoneda, TipoCambio)
-
         ElseIf Me.Text = "Proforma" Then
             DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FP(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor, CodMoneda, TipoCambio)
         Else
-
-
             DocNum = Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE(Class_VariablesGlobales.SQL_Comman2, CodCliente, DocNum, Clave, Consecutivo, DocDate, DocDueDate, DocTime, DocType, DocSubType, Status, Printed, ID_User, Nombre_User, Emisor_Nombre, Emisor_NombreComercial, Emisor_Tipo, Emisor_Numero, Emisor_Provincia, Emisor_Canton, Emisor_Distrito, Emisor_Barrio, Emisor_OtrasSenas, Emisor_CorreoElectronico, Receptor_Nombre, Receptor_NombreComercial, Receptor_Tipo, Receptor_Numero, Receptor_IdentificacionExtranjero, Receptor_Provincia, Receptor_Canton, Receptor_Distrito, Receptor_Barrio, Receptor_OtrasSenas, Receptor_CorreoElectronico, CondicionVenta, PlazoCredito, MedioPago, Referencia_Numero, Referencia_TipoDoc, Referencia_FechaEmision, Referencia_Codigo, Referencia_Razon, DocTotal, DocSubTotal, DocTotalImpuesto, DocTotalDescuento, DocSaldo, Comments, MH_Status, MH_Message, TotalGravado, TotalExento, Vendedor, CodMoneda, TipoCambio)
-
         End If
 
         '-100 es codigo de error de esso para impedir agregar el detalle ya que el numero de pedido ya existe
@@ -231,12 +216,16 @@
             Dim Descuento_Promo_Monto = ""
             Dim Descuento_Interno_Porciento = ""
             Dim Descuento_Interno_Monto = ""
+            Dim Exoneracion_PorcentajeCompra = ""
+            Dim Exoneracion_MontoImpuesto = ""
+            Dim CodCabys = ""
 
             For i As Integer = 0 To DGV_DetalleFactura.RowCount - 2
 
 
                 NumLinea = DGV_DetalleFactura("NumLinea", i).Value.ToString()
                 ItemCode = DGV_DetalleFactura("ItemCode", i).Value.ToString()
+                CodCabys = DGV_DetalleFactura("Cabys", i).Value.ToString()
                 ItemName = DGV_DetalleFactura("ItemName", i).Value.ToString()
                 Pack = DGV_DetalleFactura("Pack", i).Value.ToString()
                 UnidadMedida = DGV_DetalleFactura("UnidadMedida", i).Value.ToString()
@@ -257,17 +246,22 @@
                 Descuento_Interno_Porciento = DGV_DetalleFactura("Descuento_Interno_Porciento", i).Value.ToString()
                 Descuento_Interno_Monto = DGV_DetalleFactura("Descuento_Interno_Monto", i).Value.ToString()
 
+                Exoneracion_PorcentajeCompra = DGV_DetalleFactura("Exoneracion_PorcentajeCompra", i).Value.ToString()
+                Exoneracion_MontoImpuesto = DGV_DetalleFactura("Exoneracion_MontoImpuesto", i).Value.ToString()
+
+
                 If Me.Text = "Nota de credito" Then
-                    Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_NC1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa)
+                    Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_NC1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa, CodCabys, Exoneracion_PorcentajeCompra, Exoneracion_MontoImpuesto)
 
                 Else
-                    Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa)
+                    Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa, CodCabys, Exoneracion_PorcentajeCompra, Exoneracion_MontoImpuesto)
 
                 End If
 
                 NumLinea = ""
                 ItemCode = ""
                 ItemName = ""
+                CodCabys = ""
                 Pack = ""
                 UnidadMedida = ""
                 Costo = ""
@@ -401,10 +395,13 @@
             Me.txtb_TotalGravado.Text = "0.00"
             Me.txtb_TotalExento.Text = "0.00"
             Me.txtb_SubTotal.Text = "0.00"
-            Me.txtb_TotalImpuesto.Text = "0.00"
+            Me.txtb_TotalImpuestoNeto.Text = "0.00"
             Me.txtb_TotalDescuento.Text = "0.00"
             Me.txtb_TotalDocumento.Text = "0.00"
             Me.txtb_TotalSaldo.Text = "0.00"
+            Me.txtb_TotalImpuestoExonerado.Text = "0.00"
+
+
             'Limpia las tablas temporales
             VariablesGlobales.Obj_SQL.Elimina_TblTemporadoresFacturacion(Class_VariablesGlobales.SQL_Comman1)
             'Limpia finalas
@@ -519,8 +516,6 @@
                 txtb_Consecutivo.Text = "0010000102" & CStr(CInt(DNum)).PadLeft(10, "0") '"0000000033"
                 Me.Text = "Notas de debito"
                 CBox_TipoDocumento.Text = "ND"
-
-
             ElseIf Class_VariablesGlobales.ComprobanteACrear = "Proforma" Then
                 Txtb_DocNum.Text = CInt(VariablesGlobales.Obj_SQL.ObtieneConsecutivoACrear("Proforma"))
                 DNum = CInt(Txtb_DocNum.Text)
@@ -529,15 +524,11 @@
                 CBox_TipoDocumento.Text = "Proforma"
             End If
 
-
-
-
-
             ' txtb_Consecutivo.Text = CInt(VariablesGlobales.Obj_SQL.ObtieneConsecutivoFacturas(Class_VariablesGlobales.SQL_Comman2, "FE"))
             txtb_clave.Text = "506" & String.Format("{0:00}", Now.Day) & String.Format("{0:00}", Now.Month) & Now.Year.ToString.Substring(0, 2) & VariablesGlobales.Obj_SQL.ObtieneCedulaEmpresa(Class_VariablesGlobales.SQL_Comman1).PadLeft(12, "0") & txtb_Consecutivo.Text & Conectado & (DNum).PadLeft(8, "0")
             TablaTemporal()
 
-           ' ObtieneEmisor()
+            ' ObtieneEmisor()
 
             Dim TblAgentes As DataTable = New DataTable
             TblAgentes = VariablesGlobales.Obj_SQL.ObtieneVendedores(Class_VariablesGlobales.SQL_Comman2)
@@ -581,15 +572,9 @@
 
     Private Sub Facturacion_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         'Obtiene informacion del emisor
-
         Limpiar()
         Inicio()
-
-
-
-
     End Sub
-
 
     Public Function CalculaTotal()
 
@@ -597,10 +582,13 @@
         Dim LineaPrecio As Double
         Dim LineaPorcImpuesto As Double
         Dim LineaPorcDescuento As Double
+        Dim LineaPorcentajeCompra As Double
 
         Dim LineaTotal As Double
         Dim LineaSubtotal As Double
         Dim LineaMont_Imp As Double
+        Dim LineaMont_ImpExonerado As Double
+        Dim LineaMont_ImpNeto As Double
         Dim LineaMont_Desc As Double
 
         Dim Obj_Mformat As New MonedaFormat
@@ -610,6 +598,8 @@
         Dim TotalTotal As Double
         Dim TotalSubtotal As Double
         Dim TotalMont_Imp As Double
+        Dim TotalMont_ImpExonerado As Double
+        Dim TotalMont_ImpNeto As Double
         Dim TotalMont_Desc As Double
 
 
@@ -621,30 +611,43 @@
             LineaPrecio = 0
             LineaPorcImpuesto = 0
             LineaPorcDescuento = 0
+            LineaPorcentajeCompra = 0
             LineaSubtotal = 0
             LineaMont_Desc = 0
             LineaMont_Imp = 0
+            LineaMont_ImpExonerado = 0
+            LineaMont_ImpNeto = 0
             LineaTotal = 0
 
             LineaCantidad = CDbl(row.Cells("Cantidad").Value)
             LineaPrecio = CDbl(row.Cells("PrecioUnitario").Value)
             LineaPorcImpuesto = CDbl(row.Cells("Impuesto_Porciento").Value)
             LineaPorcDescuento = CDbl(row.Cells("Descuento_Porciento").Value)
+            LineaPorcentajeCompra = CDbl(row.Cells("Exoneracion_PorcentajeCompra").Value)
 
             LineaSubtotal = LineaPrecio * LineaCantidad
             LineaMont_Desc = (LineaSubtotal * LineaPorcDescuento) / 100
+
+
             LineaSubtotal = LineaSubtotal - LineaMont_Desc
             LineaMont_Imp = (LineaSubtotal * LineaPorcImpuesto) / 100
-            LineaTotal = LineaSubtotal + LineaMont_Imp
+            LineaMont_ImpExonerado = (LineaSubtotal * LineaPorcentajeCompra) / 100
+            LineaMont_ImpNeto = LineaMont_Imp - LineaMont_ImpExonerado
+            LineaTotal = LineaSubtotal + LineaMont_ImpNeto
 
             'Asignacion de nuevos calculos en la linea de la tabla
             row.Cells("Impuesto_Monto").Value = LineaMont_Imp
+            row.Cells("Exoneracion_MontoImpuesto").Value = LineaMont_ImpExonerado
+
             row.Cells("SubTotal").Value = LineaSubtotal
             row.Cells("Descuento_Monto").Value = LineaMont_Desc
             row.Cells("Total").Value = LineaTotal
 
             'Calculo de total generales de la factura
             TotalMont_Imp += CDbl(row.Cells("Impuesto_Monto").Value)
+            TotalMont_ImpExonerado += CDbl(row.Cells("Exoneracion_MontoImpuesto").Value)
+
+            TotalMont_ImpNeto += LineaMont_ImpNeto
             TotalSubtotal += CDbl(row.Cells("SubTotal").Value)
             TotalMont_Desc += CDbl(row.Cells("Descuento_Monto").Value)
             TotalTotal += CDbl(row.Cells("Total").Value)
@@ -661,7 +664,10 @@
         'Asignacion de totales generales
         txtb_SubTotal.Text = Obj_Mformat.FormatoMoneda(TotalSubtotal)
         txtb_TotalDescuento.Text = Obj_Mformat.FormatoMoneda(TotalMont_Desc)
-        txtb_TotalImpuesto.Text = Obj_Mformat.FormatoMoneda(TotalMont_Imp)
+        txtb_TotalImpuestoNeto.Text = Obj_Mformat.FormatoMoneda(TotalMont_Imp)
+        txtb_TotalImpuestoExonerado.Text = Obj_Mformat.FormatoMoneda(TotalMont_ImpExonerado)
+        txtb_TotalImpuestoNeto.Text = Obj_Mformat.FormatoMoneda(TotalMont_ImpNeto)
+
         txtb_TotalDocumento.Text = Obj_Mformat.FormatoMoneda(TotalTotal)
         txtb_TotalSaldo.Text = Obj_Mformat.FormatoMoneda(TotalTotal)
 
@@ -1056,7 +1062,7 @@
         Me.txtb_TotalGravado.Enabled = False
         Me.txtb_TotalExento.Enabled = False
         Me.txtb_SubTotal.Enabled = False
-        Me.txtb_TotalImpuesto.Enabled = False
+        Me.txtb_TotalImpuestoNeto.Enabled = False
         Me.txtb_TotalDescuento.Enabled = False
         Me.txtb_TotalDocumento.Enabled = False
         Me.txtb_TotalSaldo.Enabled = False
@@ -1143,7 +1149,14 @@
 
     End Sub
 
-    Private Sub btn_Anular_Click(sender As Object, e As EventArgs) Handles btn_Anular.Click
+    Private Function btn_Anular_Click(sender As Object, e As EventArgs) Handles btn_Anular.Click
+
+
+
+        If CodMoneda = "USD" And TipoCambio = "" Or TipoCambio = "0" Then
+            MessageBox.Show("Debe indicar el tipo de cambio del dia de hoy")
+            Return True
+        End If
         'Este boton generara una NC, basicamente almacenara la misma informacion de la factura con la unica diferencia de que en el sutipo del documento almacenara NC
 
         Dim TipoRef As String = CBox_TipoDocumento.Text
@@ -1204,7 +1217,7 @@
         Me.Text = "Nota de credito"
         btn_guardar_Click(sender, e)
 
-    End Sub
+    End Function
 
     Private Sub Cmb_Moneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Moneda.SelectedIndexChanged
 
@@ -1214,5 +1227,27 @@
             txtb_TipoCambio.Focus()
         End If
 
+    End Sub
+
+    Private Sub Label32_Click(sender As Object, e As EventArgs) Handles Label32.Click
+
+    End Sub
+
+    Private Sub txtb_TipoCambio_TextChanged(sender As Object, e As EventArgs) Handles txtb_TipoCambio.TextChanged
+        RemoveDecimalPart()
+    End Sub
+
+    Private Sub RemoveDecimalPart()
+        Dim inputText As String = txtb_TipoCambio.Text.Trim()
+
+        Dim indexOfDecimal As Integer = inputText.IndexOf("."c) ' Busca el punto decimal
+        If indexOfDecimal = -1 Then
+            indexOfDecimal = inputText.IndexOf(","c) ' Si no hay punto, busca la coma
+        End If
+
+        If indexOfDecimal >= 0 Then
+            Dim newText As String = inputText.Substring(0, indexOfDecimal)
+            txtb_TipoCambio.Text = newText
+        End If
     End Sub
 End Class

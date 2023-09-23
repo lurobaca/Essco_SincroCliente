@@ -158,8 +158,9 @@
                         Class_VariablesGlobales.frmDeposAgente.txb_Comentario.Enabled = False
                         Class_VariablesGlobales.frmDeposAgente.cbbx_Subido.Enabled = False
                         Class_VariablesGlobales.frmDeposAgente.dtp_FechaContable.Enabled = False
-                        Class_VariablesGlobales.frmDeposAgente.btn_AgModif.Enabled = False
-                        Class_VariablesGlobales.frmDeposAgente.btn_AgElimina.Enabled = False
+                    Class_VariablesGlobales.frmDeposAgente.btn_AgModif.Enabled = False
+                    Class_VariablesGlobales.frmDeposChofer.btn_AgGuardar.Enabled = False
+                    Class_VariablesGlobales.frmDeposAgente.btn_AgElimina.Enabled = False
                     Else
                         Class_VariablesGlobales.frmDeposAgente.lbl_Anulado.Visible = False
                         Class_VariablesGlobales.frmDeposAgente.txb_consecutivo.Enabled = True
@@ -173,8 +174,9 @@
                         Class_VariablesGlobales.frmDeposAgente.txb_Comentario.Enabled = True
                         Class_VariablesGlobales.frmDeposAgente.cbbx_Subido.Enabled = True
                         Class_VariablesGlobales.frmDeposAgente.dtp_FechaContable.Enabled = True
-                        Class_VariablesGlobales.frmDeposAgente.btn_AgModif.Enabled = True
-                        Class_VariablesGlobales.frmDeposAgente.btn_AgElimina.Enabled = True
+                    Class_VariablesGlobales.frmDeposAgente.btn_AgModif.Enabled = True
+                    Class_VariablesGlobales.frmDeposChofer.btn_AgGuardar.Enabled = False
+                    Class_VariablesGlobales.frmDeposAgente.btn_AgElimina.Enabled = True
                     End If
 
 
@@ -271,6 +273,10 @@
     End Sub
 
     Private Sub txtb_NumLiq_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtb_NumLiq.KeyPress
+
+    End Sub
+
+    Private Sub dgv_Liquidaciones_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_Liquidaciones.CellContentClick
 
     End Sub
 End Class

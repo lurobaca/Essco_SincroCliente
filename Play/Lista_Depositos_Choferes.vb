@@ -170,6 +170,7 @@
                     Class_VariablesGlobales.frmDeposAgente.cbbx_Subido.Enabled = False
                     Class_VariablesGlobales.frmDeposAgente.dtp_FechaContable.Enabled = False
                     Class_VariablesGlobales.frmDeposAgente.btn_AgModif.Enabled = False
+                    Class_VariablesGlobales.frmDeposChofer.btn_AgGuardar.Enabled = False
                     Class_VariablesGlobales.frmDeposAgente.btn_AgElimina.Enabled = False
                 Else
                     Class_VariablesGlobales.frmDeposAgente.lbl_Anulado.Visible = False
@@ -185,6 +186,7 @@
                     Class_VariablesGlobales.frmDeposAgente.cbbx_Subido.Enabled = True
                     Class_VariablesGlobales.frmDeposAgente.dtp_FechaContable.Enabled = True
                     Class_VariablesGlobales.frmDeposAgente.btn_AgModif.Enabled = True
+                    Class_VariablesGlobales.frmDeposChofer.btn_AgGuardar.Enabled = False
                     Class_VariablesGlobales.frmDeposAgente.btn_AgElimina.Enabled = True
                 End If
 
@@ -279,5 +281,9 @@
 
 
         End Try
+    End Sub
+
+    Private Sub dgv_Liquidaciones_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv_Liquidaciones.CellContentClick
+
     End Sub
 End Class

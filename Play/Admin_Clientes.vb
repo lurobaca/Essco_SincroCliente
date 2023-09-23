@@ -95,8 +95,6 @@
 
     End Sub
 
-
-
     Public Function Navegar(ByVal id As Integer)
 
         Dim Tbl As New DataTable
@@ -105,9 +103,6 @@
         'Tbl = Obj_SQL_CONEXIONSERVER.ObtieneClientesModificados("Modifcado", Class_VariablesGlobales.SQL_Comman2, id, False, 1, "")
 
         For Each row As DataRow In Tbl.Rows
-
-
-
 
             txtb_Codigo.Text = Trim(Tbl.Rows(0).Item(0).ToString())
             txtb_Nombre.Text = Trim(Tbl.Rows(0).Item(1).ToString())
@@ -192,7 +187,6 @@
 
                 btn_Actualizar.Enabled = False
 
-
                 lbl_Estado.Text = Trim(Tbl.Rows(0).Item(18).ToString())
 
             Else
@@ -200,10 +194,7 @@
 
                 btn_Actualizar.Enabled = True
 
-
             End If
-
-
 
         Next
     End Function
@@ -212,20 +203,6 @@
     Dim idCanton As Integer = 0
     Dim idDistrito As Integer = 0
     Dim idBarrio As Integer = 0
-    Public Function Provincias()
-
-
-    End Function
-
-    Public Function Cantones()
-
-    End Function
-    Public Function Distritos()
-
-    End Function
-    Public Function Barrios()
-
-    End Function
 
     Private Sub Combo_Provincia_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Combo_Provincia.SelectedIndexChanged
         If Combo_Canton.Items.Count > 0 Then
@@ -721,7 +698,6 @@
     Public Function Limpiar()
         Try
 
-
             btn_Actualizar.Text = "Guardar"
 
             txtb_Codigo.Text = ""
@@ -758,25 +734,36 @@
             Comb_Tipo.SelectedIndex = 0
 
 
+            CBox_ExoTipoDoc.SelectedIndex = 0
+            txtb_ExoNumero.Text = ""
+            txtb_ExoNombreInstitucion.Text = ""
+            txtb_ExoPorcentajeCompra.Text = ""
+            DTP_ExoFechaEmision.Value = Date.Now
+            DTP_ExoFechaVencimiento.Value = Date.Now
+
+
+            DGV_ListaCabysExentos.DataSource = New DataTable
+
         Catch ex As Exception
 
         End Try
     End Function
 
-    Private Sub Label28_Click(sender As Object, e As EventArgs) Handles Label28.Click
-
-    End Sub
-
-    Private Sub CBox_ExoTipoDoc_SelectedIndexChanged(sender As Object, e As EventArgs) Handles CBox_ExoTipoDoc.SelectedIndexChanged
-
-    End Sub
-
     Private Sub BtnAgregar_Click(sender As Object, e As EventArgs) Handles BtnAgregar.Click
         Obj_SQL_CONEXIONSERVER.GuardaCodigosCabysExentos(txtb_Codigo.Text, TxtB_CabysExento.Text, True)
+        DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(txtb_Codigo.Text)
+        TxtB_CabysExento.Text = ""
     End Sub
 
     Private Sub BtnEliminaCabysExento_Click(sender As Object, e As EventArgs) Handles BtnEliminaCabysExento.Click
         Obj_SQL_CONEXIONSERVER.EliminaCabysExcento(txtb_Codigo.Text, TxtB_CabysExento.Text)
+        DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(txtb_Codigo.Text)
+        TxtB_CabysExento.Text = ""
+    End Sub
+
+    Private Sub DGV_ListaCabysExentos_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_ListaCabysExentos.CellContentClick
+        Dim row = DGV_ListaCabysExentos.CurrentRow.Index
+        TxtB_CabysExento.Text = DGV_ListaCabysExentos("CodCabys", row).Value()
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
@@ -793,7 +780,6 @@
         result1 = MessageBox.Show("El Cliente se cerrara y no se lo podra vender mas\n Realmente desea Cerrar este cliente en SAP?",
         "Important Question",
         MessageBoxButtons.YesNo)
-
 
         If result1 = DialogResult.Yes Then
             'Cambia el agente a Cerrado

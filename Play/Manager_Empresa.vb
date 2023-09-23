@@ -11,8 +11,22 @@
 
     Private Sub btn_Guardar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Guardar.Click
 
+        Dim TipoGrupoDescuento As Integer
+        Dim SocioDeNeogicioEspecifico As Integer = 2
+        Dim GrupoDeClientes As Integer = 10
+
+        If RBtn_SocioNegocioEspecifico.Checked Then
+            TipoGrupoDescuento = SocioDeNeogicioEspecifico
+        End If
+
+        If RBtn_GrupoClientes.Checked Then
+            TipoGrupoDescuento = GrupoDeClientes
+        End If
+
+
+
         If Txtb_Cedula.Text <> "" And Txtb_Nombre.Text <> "" And Txtb_Telefono.Text <> "" And Txtb_Email.Text <> "" And Txtb_Web.Text <> "" And Txtb_Direccion.Text <> "" And txtb_Fantacia.Text <> "" And Combo_Provincia.Text <> "" And Combo_Canton.Text <> "" And Combo_Distrito.Text <> "" And Combo_Barrio.Text <> "" And Txtb_ClaveEmail.Text <> "" And Txtb_RutaPadreFtp.Text <> "" And txtb_ServidorSQL.Text <> "" And Txtb_IPServidorSQL.Text <> "" And txtb_UsuarioSQL.Text <> "" And txtb_ClaveSQL.Text <> "" Then
-            If Class_VariablesGlobales.Obj_Funciones_SQL.INSERTA_Empresa(Class_VariablesGlobales.SQL_Comman2, Txtb_Cedula.Text, Txtb_Nombre.Text, Txtb_Telefono.Text, Txtb_Email.Text, Txtb_Web.Text, Txtb_Direccion.Text, Txtb_Servidor.Text, Txtb_Usuario.Text, Txtb_Clave.Text, Txtb_LinMax_Fac.Text, Txtb_DescMax.Text, Txtb_Conse_RepCarga.Text, Txtb_Conse_RepDevoluciones.Text, txtb_Fantacia.Text, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, Cmb_TipoCedula.SelectedIndex, Txtb_Telefono.Text, Txtb_ClaveEmail.Text, txtb_CodActividadEconomica.Text, txtb_DescrActividadEconomica.Text, Txtb_RutaPadreFtp.Text, txtb_ServidorSQL.Text, Txtb_IPServidorSQL.Text, txtb_UsuarioSQL.Text, txtb_ClaveSQL.Text, Txtb_DiasExtencion.Text) = 0 Then
+            If Class_VariablesGlobales.Obj_Funciones_SQL.INSERTA_Empresa(Class_VariablesGlobales.SQL_Comman2, Txtb_Cedula.Text, Txtb_Nombre.Text, Txtb_Telefono.Text, Txtb_Email.Text, Txtb_Web.Text, Txtb_Direccion.Text, Txtb_Servidor.Text, Txtb_Usuario.Text, Txtb_Clave.Text, Txtb_LinMax_Fac.Text, Txtb_DescMax.Text, Txtb_Conse_RepCarga.Text, Txtb_Conse_RepDevoluciones.Text, txtb_Fantacia.Text, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, Cmb_TipoCedula.SelectedIndex, Txtb_Telefono.Text, Txtb_ClaveEmail.Text, txtb_CodActividadEconomica.Text, txtb_DescrActividadEconomica.Text, Txtb_RutaPadreFtp.Text, txtb_ServidorSQL.Text, Txtb_IPServidorSQL.Text, txtb_UsuarioSQL.Text, txtb_ClaveSQL.Text, Txtb_DiasExtencion.Text, TipoGrupoDescuento) = 0 Then
                 Limpia()
                 Me.Close()
 
@@ -26,6 +40,18 @@
     End Sub
 
     Private Sub btn_Modificar_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Modificar.Click
+        Dim TipoGrupoDescuento As Integer
+        Dim SocioDeNeogicioEspecifico As Integer = 2
+        Dim GrupoDeClientes As Integer = 10
+
+        If RBtn_SocioNegocioEspecifico.Checked Then
+            TipoGrupoDescuento = SocioDeNeogicioEspecifico
+        End If
+
+        If RBtn_GrupoClientes.Checked Then
+            TipoGrupoDescuento = GrupoDeClientes
+        End If
+
         If Txtb_Telefono.Text = "" Then
             Txtb_Telefono.Text = "0"
         End If
@@ -34,7 +60,7 @@
             Txtb_Telefono2.Text = "0"
         End If
 
-        Class_VariablesGlobales.Obj_Funciones_SQL.Actualiza_Empresa(Class_VariablesGlobales.SQL_Comman2, Txtb_Cedula.Text, Txtb_Nombre.Text, Txtb_Telefono.Text, Txtb_Email.Text, Txtb_Web.Text, Txtb_Direccion.Text, Txtb_Servidor.Text, Txtb_Usuario.Text, Txtb_Clave.Text, Txtb_LinMax_Fac.Text, Txtb_DescMax.Text, Txtb_Conse_RepCarga.Text, Txtb_Conse_RepDevoluciones.Text, txtb_Fantacia.Text, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, Cmb_TipoCedula.SelectedIndex, Txtb_Telefono2.Text, Txtb_ClaveEmail.Text, txtb_CodActividadEconomica.Text, txtb_DescrActividadEconomica.Text, Txtb_RutaPadreFtp.Text, txtb_ServidorSQL.Text, Txtb_IPServidorSQL.Text, txtb_UsuarioSQL.Text, txtb_ClaveSQL.Text, Txtb_DiasExtencion.Text)
+        Class_VariablesGlobales.Obj_Funciones_SQL.Actualiza_Empresa(Class_VariablesGlobales.SQL_Comman2, Txtb_Cedula.Text, Txtb_Nombre.Text, Txtb_Telefono.Text, Txtb_Email.Text, Txtb_Web.Text, Txtb_Direccion.Text, Txtb_Servidor.Text, Txtb_Usuario.Text, Txtb_Clave.Text, Txtb_LinMax_Fac.Text, Txtb_DescMax.Text, Txtb_Conse_RepCarga.Text, Txtb_Conse_RepDevoluciones.Text, txtb_Fantacia.Text, Combo_Provincia.SelectedIndex, Combo_Canton.SelectedIndex, Combo_Distrito.SelectedIndex, Combo_Barrio.SelectedIndex, Cmb_TipoCedula.SelectedIndex, Txtb_Telefono2.Text, Txtb_ClaveEmail.Text, txtb_CodActividadEconomica.Text, txtb_DescrActividadEconomica.Text, Txtb_RutaPadreFtp.Text, txtb_ServidorSQL.Text, Txtb_IPServidorSQL.Text, txtb_UsuarioSQL.Text, txtb_ClaveSQL.Text, Txtb_DiasExtencion.Text, TipoGrupoDescuento)
         Limpia()
         MsgBox("Datos actualizados con existo")
         Me.Close()
@@ -43,6 +69,9 @@
 
     Private Sub Manager_Empresa_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
+
+            Dim SocioDeNeogicioEspecifico As Integer = 2
+            Dim GrupoDeClientes As Integer = 10
 
 
             'Obtiene las provincias
@@ -101,6 +130,7 @@
 
             Dim tabla As New DataTable
             Dim contardor As Integer = 0
+
             tabla = Class_VariablesGlobales.Obj_Funciones_SQL.CONSULTA_Empresa(Class_VariablesGlobales.SQL_Comman2)
 
             While contardor < tabla.Rows.Count
@@ -141,6 +171,14 @@
                 txtb_ClaveSQL.Text = tabla.Rows(contardor).Item("ClaveSQL").ToString()
                 Txtb_DiasExtencion.Text = tabla.Rows(contardor).Item("DiasExtencion").ToString()
 
+                If tabla.Rows(contardor).Item("TipoGrupoDescuento").ToString() = SocioDeNeogicioEspecifico Then
+                    RBtn_SocioNegocioEspecifico.Checked = True
+                End If
+
+                If tabla.Rows(contardor).Item("TipoGrupoDescuento").ToString() = GrupoDeClientes Then
+                    RBtn_GrupoClientes.Checked = True
+                End If
+
                 contardor += 1
             End While
             If Txtb_Cedula.Text <> "" Then
@@ -150,7 +188,7 @@
 
             CargaRazonesNoVisita()
         Catch ex As Exception
-            MsgBox("Error al cargar la empresa", ex.Message)
+            MsgBox(ex.Message, MsgBoxStyle.Critical, "Error al cargar la empresa")
         End Try
     End Sub
 
@@ -183,7 +221,7 @@
         Txtb_Conse_RepDevoluciones.Text = ""
     End Function
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_Razon.Click
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If btn_Razon.Text = "Nuevo" Then
             Txtb_Razon.Enabled = True
             btn_Razon.Text = "Guardar"
@@ -206,7 +244,7 @@
 
     End Sub
 
-    Private Sub CboBox_Razones_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CboBox_Razones.SelectedIndexChanged
+    Private Sub CboBox_Razones_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Dim selectedIndex As Integer
         selectedIndex = CboBox_Razones.SelectedIndex
         Dim selectedItem As Object
@@ -218,7 +256,7 @@
         btn_EliminaRazon.Visible = True
     End Sub
 
-    Private Sub btn_EliminaRazon_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btn_EliminaRazon.Click
+    Private Sub btn_EliminaRazon_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Class_VariablesGlobales.Obj_Funciones_SQL.Elimina_Razon(Class_VariablesGlobales.SQL_Comman2, Trim(Txtb_Razon.Text))
         btn_EliminaRazon.Visible = False
         Txtb_Razon.Enabled = False
@@ -358,16 +396,18 @@
 
 
 
-            End If
+        End If
     End Sub
 
-    Private Sub Label13_Click(sender As Object, e As EventArgs) Handles Label13.Click
+    Private Sub Label13_Click(sender As Object, e As EventArgs)
 
     End Sub
 
-    Private Sub GroupBox4_Enter(sender As Object, e As EventArgs) Handles GroupBox4.Enter
+    Private Sub GroupBox4_Enter(sender As Object, e As EventArgs)
 
     End Sub
+
+
 
     Private Sub Combo_Canton_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Combo_Canton.SelectedIndexChanged
         Try

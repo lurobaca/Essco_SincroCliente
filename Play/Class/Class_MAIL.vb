@@ -119,9 +119,9 @@ Public Class Class_MAIL
 
 
 
-            Destinatario1 = "facturacionbourne@gmail.com"
-            Destinatario2 = "roberto.bastos@bourneycia.net"
-            Destinatario3 = "ivette.bonilla@bourneycia.net"
+            Destinatario1 = ""
+            Destinatario2 = ""
+            Destinatario3 = ""
             'If Tipo = "FE" Then
             '    Asunto = "FACTURA NO SE ENVIO [ " & Clave & " ]"
             'End If
@@ -296,10 +296,10 @@ Public Class Class_MAIL
             Dim Destinatario3 As String
             Dim Destinatario4 As String
 
-            Destinatario1 = "facturacionbourne@gmail.com"
-            Destinatario2 = "roberto.bastos@bourneycia.net"
-            Destinatario3 = "ivette.bonilla@bourneycia.net"
-            Destinatario4 = "bourneruta" & Agente.PadLeft(2, "0") & "@gmail.com"
+            Destinatario1 = ""
+            Destinatario2 = ""
+            Destinatario3 = ""
+            Destinatario4 = ""
 
             'If Tipo = "FE" Then
             '    Asunto = "FACTURA NO SE ENVIO [ " & Clave & " ]"
@@ -367,6 +367,10 @@ Public Class Class_MAIL
 
         Try
 
+            If Destinatario1.Equals("") And Destinatario2.Equals("") And Destinatario3.Equals("") And Destinatario4.Equals("") Then
+                Exit Sub
+                'no existe destinatario
+            End If
             ' Capturo cada uno de los campos del formulario
             Dim TABLA As New DataTable
             TABLA = VariablesGlobales.Obj_SQL.ObtieneInfoEmmail(Class_VariablesGlobales.SQL_Comman2)
@@ -427,7 +431,7 @@ Public Class Class_MAIL
     Sub EnviarMail_Demo(ByVal Mensaje As String, ByVal Asunto As String, ByVal file As String, ByVal filePdf As String, ByVal Destinatario1 As String)
         Try
             Dim Correo As New MailMessage
-            Correo.From = New MailAddress("roberto.bastos@bourneycia.net")
+            Correo.From = New MailAddress("")
 
             For Each mail As String In Destinatario1.Split(New Char() {","c})
                 Correo.To.Add(New System.Net.Mail.MailAddress(mail))
@@ -460,7 +464,7 @@ Public Class Class_MAIL
             Servidor.Host = SMTP
             Servidor.Port = Puerto
             Servidor.EnableSsl = True
-            Servidor.Credentials = New NetworkCredential("bourneenlace@gmail.com", "DiapTy7403")
+            Servidor.Credentials = New NetworkCredential("", "")
 
             Servidor.Send(Correo)
         Catch ex As Exception

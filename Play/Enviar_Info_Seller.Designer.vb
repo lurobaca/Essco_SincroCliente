@@ -68,6 +68,7 @@ Partial Class Enviar_Info_Seller
         Me.DTP_FechaHasta = New System.Windows.Forms.DateTimePicker()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -76,6 +77,7 @@ Partial Class Enviar_Info_Seller
         '
         'GroupBox7
         '
+        Me.GroupBox7.Controls.Add(Me.CheckBox1)
         Me.GroupBox7.Controls.Add(Me.GroupBox3)
         Me.GroupBox7.Controls.Add(Me.Cbox_Razones)
         Me.GroupBox7.Controls.Add(Me.GroupBox2)
@@ -186,7 +188,7 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox2.Controls.Add(Me.lbl_TotalAgentes)
         Me.GroupBox2.Controls.Add(Me.lbl_DetalleCarga)
         Me.GroupBox2.Controls.Add(Me.lbl_AgentesProcesados)
-        Me.GroupBox2.Location = New System.Drawing.Point(11, 46)
+        Me.GroupBox2.Location = New System.Drawing.Point(11, 58)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
@@ -270,7 +272,7 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox6.Controls.Add(Me.Label50)
         Me.GroupBox6.Controls.Add(Me.Label49)
         Me.GroupBox6.Controls.Add(Me.TextB_Agente2)
-        Me.GroupBox6.Location = New System.Drawing.Point(11, 170)
+        Me.GroupBox6.Location = New System.Drawing.Point(11, 176)
         Me.GroupBox6.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Padding = New System.Windows.Forms.Padding(4)
@@ -603,6 +605,21 @@ Partial Class Enviar_Info_Seller
         Me.Label5.TabIndex = 36
         Me.Label5.Text = "Hasta"
         '
+        'CheckBox1
+        '
+        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox1.Location = New System.Drawing.Point(128, 21)
+        Me.CheckBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(148, 29)
+        Me.CheckBox1.TabIndex = 44
+        Me.CheckBox1.Text = "Descuentos"
+        Me.CheckBox1.UseVisualStyleBackColor = True
+        '
         'Enviar_Info_Seller
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -684,4 +701,5 @@ Partial Class Enviar_Info_Seller
     Friend WithEvents ColumnHeader6 As ColumnHeader
     Friend WithEvents ColumnHeader7 As ColumnHeader
     Friend WithEvents ColumnHeader8 As ColumnHeader
+    Friend WithEvents CheckBox1 As CheckBox
 End Class

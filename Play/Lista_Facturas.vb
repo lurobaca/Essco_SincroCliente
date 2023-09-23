@@ -44,6 +44,16 @@
                 Class_VariablesGlobales.frmFacturacion.CBox_TipoProducto.Text = "Articulo"
             End If
 
+            If DGV_Facturas.CurrentRow.Cells("CodigoMoneda").Value.ToString = "USD" Then
+                Class_VariablesGlobales.frmFacturacion.Cmb_Moneda.Text = DGV_Facturas.CurrentRow.Cells("CodigoMoneda").Value.ToString()
+                Class_VariablesGlobales.frmFacturacion.txtb_TipoCambio.Text = DGV_Facturas.CurrentRow.Cells("TipoCambio").Value.ToString()
+            Else
+                Class_VariablesGlobales.frmFacturacion.Cmb_Moneda.Text = DGV_Facturas.CurrentRow.Cells("CodigoMoneda").Value.ToString()
+            End If
+
+
+
+
             Class_VariablesGlobales.frmFacturacion.CBox_TipoVenta.Text = DGV_Facturas.CurrentRow.Cells("CondicionVenta").Value.ToString
             Class_VariablesGlobales.frmFacturacion.Txtb_plazoCredito.Text = DGV_Facturas.CurrentRow.Cells("PlazoCredito").Value.ToString
 
@@ -60,7 +70,7 @@
             'Class_VariablesGlobales.frmFacturacion.txtb_TotalGravado.Text = DGV_Facturas.CurrentRow.Cells("Emisor_Barrio").Value.ToString
             'Class_VariablesGlobales.frmFacturacion.txtb_TotalExento.Text = DGV_Facturas.CurrentRow.Cells("Emisor_OtrasSenas").Value.ToString
             Class_VariablesGlobales.frmFacturacion.txtb_SubTotal.Text = DGV_Facturas.CurrentRow.Cells("DocSubTotal").Value.ToString
-            Class_VariablesGlobales.frmFacturacion.txtb_TotalImpuesto.Text = DGV_Facturas.CurrentRow.Cells("DocTotalImpuesto").Value.ToString
+            Class_VariablesGlobales.frmFacturacion.txtb_TotalImpuestoNeto.Text = DGV_Facturas.CurrentRow.Cells("DocTotalImpuesto").Value.ToString
             Class_VariablesGlobales.frmFacturacion.txtb_TotalDescuento.Text = DGV_Facturas.CurrentRow.Cells("DocTotalDescuento").Value.ToString
             Class_VariablesGlobales.frmFacturacion.txtb_TotalDocumento.Text = DGV_Facturas.CurrentRow.Cells("DocTotal").Value.ToString
             Class_VariablesGlobales.frmFacturacion.txtb_TotalSaldo.Text = DGV_Facturas.CurrentRow.Cells("DocSaldo").Value.ToString

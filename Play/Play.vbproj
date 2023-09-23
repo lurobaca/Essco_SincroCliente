@@ -191,7 +191,7 @@
     </Reference>
     <Reference Include="SAPBusinessOneSDK, Version=1.0.0.1, Culture=neutral, PublicKeyToken=c7c3cb60e45d119f, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Windows\sap 10\SAPBusinessOneSDK.dll</HintPath>
+      <HintPath>Resources\DLLs\sap 10\SAPBusinessOneSDK.dll</HintPath>
     </Reference>
     <Reference Include="Skybound.Gecko, Version=1.9.1.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

@@ -442,9 +442,9 @@ Public Class Principal
     End Sub
 
     Private Sub Time_BorraError_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Time_BorraError.Tick
-        ToolStripStatusLabel1.Text = ""
+
         Time_BorraError.Stop()
-        Me.LbL_Errorres.Text = ""
+        Me.DetErrores.Text = ""
 
     End Sub
 
@@ -589,7 +589,7 @@ Public Class Principal
 
 
         Else
-            ToolStripStatusLabel1.Text = "Solo se permite una ventana abierta"
+            DetErrores.Text = "Solo se permite una ventana abierta"
 
             Time_BorraError.Start()
         End If
@@ -616,7 +616,7 @@ Public Class Principal
             Class_VariablesGlobales.frmLiqAge.Show()
 
         Else
-            ToolStripStatusLabel1.Text = "Solo se permite una ventana abierta"
+            DetErrores.Text = "Solo se permite una ventana abierta"
 
             Time_BorraError.Start()
         End If
@@ -990,12 +990,18 @@ Public Class Principal
     End Sub
 
     Public Function MostrarOcultarTodoMenu(ByVal ver As Boolean)
-        For Each item As System.Windows.Forms.ToolStripMenuItem In MenuStrip1.Items
-            item.Visible = ver
+        Try
+            For Each item As System.Windows.Forms.ToolStripMenuItem In MenuStrip1.Items
+                item.Visible = ver
 
-            For Each SubItems As System.Windows.Forms.ToolStripMenuItem In item.DropDownItems
-                SubItems.Visible = ver
+                For Each SubItems As System.Windows.Forms.ToolStripMenuItem In item.DropDownItems
+                    SubItems.Visible = ver
+                Next
             Next
-        Next
+        Catch ex As Exception
+
+        End Try
+
+
     End Function
 End Class

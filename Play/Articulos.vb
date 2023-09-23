@@ -8,6 +8,7 @@ Public Class Articulos
     Public NumLinea As String = ""
     Public ItemCode As String = ""
     Public ItemName As String = ""
+    Public CodCabys As String = ""
     Public Pack As String = ""
     Public UnidadMedida As String = ""
     Public Costo As String = ""
@@ -21,6 +22,8 @@ Public Class Articulos
     Public CodigoTarifa As String = ""
     Public Impuesto_Porciento As String = ""
     Public Impuesto_Monto As String = ""
+    Public ExentaTarifaCliente As Double
+    Public ExentaImpuestoMonto As String = ""
     Public SubTotal As String = ""
     Public Total As String = ""
     Public Descuento_Promo_Porciento As String = ""
@@ -91,41 +94,59 @@ Public Class Articulos
 
                 ItemCode = Dgv_Articulos("ItemCode", row).Value.ToString()
                 ItemName = Dgv_Articulos("Descripcion", row).Value.ToString()
+                CodCabys = Dgv_Articulos("CodCabys", row).Value.ToString()
+
+
+
+
                 'La tarifa sera definida principalmente por el cliente seleccionado en factura por lo que
                 'se debe ir y validar si el cliente tiene un documento de exoneracion 
                 'se le debe restar el % que indica a las lineas que se indican
+
                 If Dgv_Articulos("Tarifa", row).Value.ToString().Trim = "" Then
                     Impuesto_Porciento = "0"
                     SubTotal = CDbl(Dgv_Articulos("Precio", row).Value.ToString())
                     Impuesto_Monto = 0
                     CodigoTarifa = Dgv_Articulos("Cod_tarifa", row).Value.ToString()
                 Else
+
+                    'Si tiene tarifa exenta se calcula el monto de exoneracion por aparte 
+                    ExentaTarifaCliente = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneTarifaExoneracionSegunCabysYCliente(Class_VariablesGlobales.frmFacturacion.txtb_CodCliente.Text, CodCabys)
+
                     If Trim(Dgv_Articulos("Tarifa", row).Value.ToString()) <> "0" Then
                         Impuesto_Porciento = Dgv_Articulos("Tarifa", row).Value.ToString()
                         SubTotal = CDbl(Dgv_Articulos("Precio", row).Value.ToString())
                         Impuesto_Monto = (SubTotal * CInt(Impuesto_Porciento)) / 100
-                        CodigoTarifa = Dgv_Articulos("Cod_tarifa", row).Value.ToString()
+                        ExentaImpuestoMonto = (SubTotal * CInt(ExentaTarifaCliente)) / 100
+                        ' CodigoTarifa = Dgv_Articulos("Cod_tarifa", row).Value.ToString()
                     Else
-                        Impuesto_Porciento = "0"
-                        SubTotal = CDbl(Dgv_Articulos("Precio", row).Value.ToString())
-                        Impuesto_Monto = 0
-                        CodigoTarifa = Dgv_Articulos("Cod_tarifa", row).Value.ToString()
+                            Impuesto_Porciento = "0"
+                            SubTotal = CDbl(Dgv_Articulos("Precio", row).Value.ToString())
+                            Impuesto_Monto = 0
+                        ' CodigoTarifa = Dgv_Articulos("Cod_tarifa", row).Value.ToString()
                     End If
+
+
+                    CodigoTarifa = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneCodigoSegunTarifa(Impuesto_Porciento)
+
+
+
                 End If
 
                 Class_VariablesGlobales.frmFacturacion.Cmb_Moneda.SelectedText = Dgv_Articulos("Moneda", row).Value.ToString()
-
+                If Dgv_Articulos("Moneda", row).Value.ToString() = "USD" Then
+                    Class_VariablesGlobales.frmFacturacion.txtb_TipoCambio.Enabled = True
+                    Class_VariablesGlobales.frmFacturacion.txtb_TipoCambio.BackColor = Color.LightGreen
+                    Class_VariablesGlobales.frmFacturacion.txtb_TipoCambio.Focus()
+                End If
                 Total = CDbl(SubTotal) + CDbl(Impuesto_Monto)
 
-                Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE1_temp(Class_VariablesGlobales.frmFacturacion.txtb_Consecutivo.Text, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa)
+                Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE1_temp(Class_VariablesGlobales.frmFacturacion.txtb_Consecutivo.Text, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa, CodCabys, ExentaTarifaCliente, ExentaImpuestoMonto)
                 'llama a funcion cargar lineas de la factura temporal
                 Class_VariablesGlobales.frmFacturacion.ObtieneLineas(Class_VariablesGlobales.frmFacturacion.txtb_Consecutivo.Text)
                 Class_VariablesGlobales.frmFacturacion.CalculaTotal()
 
             ElseIf Class_VariablesGlobales.ArticulosLlamadoDesde = "Devoluciones" Then
-
-
-
 
                 Dim UltimaFila As Integer = CInt(Class_VariablesGlobales.frmDevoluciones.Dtg_Devoluciones(0, Class_VariablesGlobales.frmDevoluciones.Dtg_Devoluciones.RowCount - 2).Value.ToString())
                 Dim IV As String
@@ -235,8 +256,6 @@ Public Class Articulos
                 If Dgv_Articulos("CreadoEnSap", row).Value.ToString() = 1 Then
                     Class_VariablesGlobales.frmStock_Manager.btn_CrearEnSAP.Visible = False
                 End If
-
-
 
                 If Dgv_Articulos("Cod_Tarifa", row).Value.ToString() = "01" Then
                     Class_VariablesGlobales.frmStock_Manager.ComBox_CodTarifa.SelectedIndex = 0

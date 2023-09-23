@@ -1337,7 +1337,7 @@ Public Class Pedido_Principal
 
             MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
             MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
-            'MiConexion.DatabaseName = "DB_BOURNE_PRUEBAS"
+
             MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
             MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
 

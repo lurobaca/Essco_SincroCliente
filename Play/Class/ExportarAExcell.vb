@@ -51,7 +51,7 @@ Public Class ExportarAExcell
                 .Activate()
                 'Encabezado  
                 .Range("A1:C1").Merge()
-                .Range("A1:C1").Value = "ORDEN DE COMPRA BOURNE Y CIA "
+                .Range("A1:C1").Value = "ORDEN DE COMPRA"
                 '.Range("A1:L1").Font.Bold = True
                 '.Range("A1:L1").Font.Size = 15
                 'Copete  
@@ -225,7 +225,7 @@ Public Class ExportarAExcell
                 .Activate()
                 'Encabezado  
                 .Range("A1:C1").Merge()
-                .Range("A1:C1").Value = "ORDEN DE COMPRA BOURNE Y CIA "
+                .Range("A1:C1").Value = "ORDEN DE COMPRA"
                 '.Range("A1:L1").Font.Bold = True
                 '.Range("A1:L1").Font.Size = 15
                 'Copete  
@@ -252,7 +252,7 @@ Public Class ExportarAExcell
                 objCelda.Value = "Alterno"
 
                 objCelda = .Range("B3", Type.Missing)
-                objCelda.Value = "CodBourne"
+                objCelda.Value = "Codigo"
 
 
                 objCelda = .Range("C3", Type.Missing)

@@ -50,99 +50,111 @@ Partial Class Lista_Depositos
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_Liquidaciones.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgv_Liquidaciones.Location = New System.Drawing.Point(3, 103)
+        Me.dgv_Liquidaciones.Location = New System.Drawing.Point(4, 127)
+        Me.dgv_Liquidaciones.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dgv_Liquidaciones.Name = "dgv_Liquidaciones"
         Me.dgv_Liquidaciones.ReadOnly = True
-        Me.dgv_Liquidaciones.Size = New System.Drawing.Size(960, 339)
+        Me.dgv_Liquidaciones.Size = New System.Drawing.Size(1280, 417)
         Me.dgv_Liquidaciones.TabIndex = 1
         '
         'DTP_Desde
         '
-        Me.DTP_Desde.Location = New System.Drawing.Point(15, 27)
+        Me.DTP_Desde.Location = New System.Drawing.Point(20, 33)
+        Me.DTP_Desde.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.DTP_Desde.Name = "DTP_Desde"
-        Me.DTP_Desde.Size = New System.Drawing.Size(250, 20)
+        Me.DTP_Desde.Size = New System.Drawing.Size(332, 22)
         Me.DTP_Desde.TabIndex = 2
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 9)
+        Me.Label1.Location = New System.Drawing.Point(16, 11)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(43, 15)
+        Me.Label1.Size = New System.Drawing.Size(49, 17)
         Me.Label1.TabIndex = 3
         Me.Label1.Text = "Desde"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(280, 9)
+        Me.Label2.Location = New System.Drawing.Point(373, 11)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(39, 15)
+        Me.Label2.Size = New System.Drawing.Size(45, 17)
         Me.Label2.TabIndex = 5
         Me.Label2.Text = "Hasta"
         '
         'DTP_Hasta
         '
-        Me.DTP_Hasta.Location = New System.Drawing.Point(283, 27)
+        Me.DTP_Hasta.Location = New System.Drawing.Point(377, 33)
+        Me.DTP_Hasta.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.DTP_Hasta.Name = "DTP_Hasta"
-        Me.DTP_Hasta.Size = New System.Drawing.Size(250, 20)
+        Me.DTP_Hasta.Size = New System.Drawing.Size(332, 22)
         Me.DTP_Hasta.TabIndex = 2
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(118, 59)
+        Me.Label3.Location = New System.Drawing.Point(157, 73)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(63, 15)
+        Me.Label3.Size = New System.Drawing.Size(72, 17)
         Me.Label3.TabIndex = 6
         Me.Label3.Text = "#Deposito"
         '
         'Txb_NumDepo
         '
-        Me.Txb_NumDepo.Location = New System.Drawing.Point(121, 77)
+        Me.Txb_NumDepo.Location = New System.Drawing.Point(161, 95)
+        Me.Txb_NumDepo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Txb_NumDepo.Name = "Txb_NumDepo"
-        Me.Txb_NumDepo.Size = New System.Drawing.Size(100, 20)
+        Me.Txb_NumDepo.Size = New System.Drawing.Size(132, 22)
         Me.Txb_NumDepo.TabIndex = 0
         '
         'Txb_Consecutivo
         '
-        Me.Txb_Consecutivo.Location = New System.Drawing.Point(15, 77)
+        Me.Txb_Consecutivo.Location = New System.Drawing.Point(20, 95)
+        Me.Txb_Consecutivo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Txb_Consecutivo.Name = "Txb_Consecutivo"
-        Me.Txb_Consecutivo.Size = New System.Drawing.Size(100, 20)
+        Me.Txb_Consecutivo.Size = New System.Drawing.Size(132, 22)
         Me.Txb_Consecutivo.TabIndex = 1
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(12, 59)
+        Me.Label4.Location = New System.Drawing.Point(16, 73)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(80, 15)
+        Me.Label4.Size = New System.Drawing.Size(93, 17)
         Me.Label4.TabIndex = 8
         Me.Label4.Text = "#Consecutivo"
         '
         'btn_BuscaAgente
         '
         Me.btn_BuscaAgente.Image = CType(resources.GetObject("btn_BuscaAgente.Image"), System.Drawing.Image)
-        Me.btn_BuscaAgente.Location = New System.Drawing.Point(465, 73)
+        Me.btn_BuscaAgente.Location = New System.Drawing.Point(620, 90)
+        Me.btn_BuscaAgente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_BuscaAgente.Name = "btn_BuscaAgente"
-        Me.btn_BuscaAgente.Size = New System.Drawing.Size(32, 24)
+        Me.btn_BuscaAgente.Size = New System.Drawing.Size(43, 30)
         Me.btn_BuscaAgente.TabIndex = 56
         Me.btn_BuscaAgente.UseVisualStyleBackColor = True
         '
         'txtb_CodAgente
         '
         Me.txtb_CodAgente.BackColor = System.Drawing.Color.White
-        Me.txtb_CodAgente.Location = New System.Drawing.Point(359, 77)
+        Me.txtb_CodAgente.Location = New System.Drawing.Point(479, 95)
+        Me.txtb_CodAgente.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_CodAgente.Name = "txtb_CodAgente"
-        Me.txtb_CodAgente.Size = New System.Drawing.Size(100, 20)
+        Me.txtb_CodAgente.Size = New System.Drawing.Size(132, 22)
         Me.txtb_CodAgente.TabIndex = 55
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(356, 59)
+        Me.Label5.Location = New System.Drawing.Point(475, 73)
+        Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(89, 15)
+        Me.Label5.Size = New System.Drawing.Size(100, 17)
         Me.Label5.TabIndex = 54
         Me.Label5.Text = "Cod Empleado"
         '
@@ -150,26 +162,29 @@ Partial Class Lista_Depositos
         '
         Me.Button2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button2.Location = New System.Drawing.Point(852, 8)
+        Me.Button2.Location = New System.Drawing.Point(1136, 10)
+        Me.Button2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(101, 57)
+        Me.Button2.Size = New System.Drawing.Size(135, 70)
         Me.Button2.TabIndex = 72
         Me.Button2.Text = "LIMPIAR"
         Me.Button2.UseVisualStyleBackColor = True
         '
         'txtb_Monto
         '
-        Me.txtb_Monto.Location = New System.Drawing.Point(232, 77)
+        Me.txtb_Monto.Location = New System.Drawing.Point(309, 95)
+        Me.txtb_Monto.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Monto.Name = "txtb_Monto"
-        Me.txtb_Monto.Size = New System.Drawing.Size(121, 20)
+        Me.txtb_Monto.Size = New System.Drawing.Size(160, 22)
         Me.txtb_Monto.TabIndex = 73
         '
         'Label6
         '
         Me.Label6.AutoSize = True
-        Me.Label6.Location = New System.Drawing.Point(229, 59)
+        Me.Label6.Location = New System.Drawing.Point(305, 73)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(42, 15)
+        Me.Label6.Size = New System.Drawing.Size(47, 17)
         Me.Label6.TabIndex = 74
         Me.Label6.Text = "Monto"
         '
@@ -179,9 +194,10 @@ Partial Class Lista_Depositos
         Me.chbx_VerAnulado.AutoSize = True
         Me.chbx_VerAnulado.Checked = True
         Me.chbx_VerAnulado.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.chbx_VerAnulado.Location = New System.Drawing.Point(555, 29)
+        Me.chbx_VerAnulado.Location = New System.Drawing.Point(756, 36)
+        Me.chbx_VerAnulado.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.chbx_VerAnulado.Name = "chbx_VerAnulado"
-        Me.chbx_VerAnulado.Size = New System.Drawing.Size(98, 19)
+        Me.chbx_VerAnulado.Size = New System.Drawing.Size(115, 21)
         Me.chbx_VerAnulado.TabIndex = 75
         Me.chbx_VerAnulado.Text = "Ver Anulados"
         Me.chbx_VerAnulado.UseVisualStyleBackColor = True
@@ -189,27 +205,29 @@ Partial Class Lista_Depositos
         'txtb_NumLiq
         '
         Me.txtb_NumLiq.BackColor = System.Drawing.Color.White
-        Me.txtb_NumLiq.Location = New System.Drawing.Point(553, 77)
+        Me.txtb_NumLiq.Location = New System.Drawing.Point(737, 95)
+        Me.txtb_NumLiq.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_NumLiq.Name = "txtb_NumLiq"
-        Me.txtb_NumLiq.Size = New System.Drawing.Size(100, 20)
+        Me.txtb_NumLiq.Size = New System.Drawing.Size(132, 22)
         Me.txtb_NumLiq.TabIndex = 77
         Me.txtb_NumLiq.Visible = False
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(552, 59)
+        Me.Label7.Location = New System.Drawing.Point(736, 73)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(101, 15)
+        Me.Label7.Size = New System.Drawing.Size(113, 17)
         Me.Label7.TabIndex = 76
         Me.Label7.Text = "Num Liquidacion"
         Me.Label7.Visible = False
         '
         'Lista_Depositos
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(965, 443)
+        Me.ClientSize = New System.Drawing.Size(1287, 545)
         Me.Controls.Add(Me.txtb_NumLiq)
         Me.Controls.Add(Me.Label7)
         Me.Controls.Add(Me.chbx_VerAnulado)
@@ -228,6 +246,7 @@ Partial Class Lista_Depositos
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.DTP_Desde)
         Me.Controls.Add(Me.dgv_Liquidaciones)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "Lista_Depositos"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Lista_Depositos Agentes"

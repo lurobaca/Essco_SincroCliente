@@ -158,9 +158,9 @@ Public Class Reporte_Facturas
 
                     Class_VariablesGlobales.Obj_Reporte_Facturas.CargaDetRepFacturas(Class_VariablesGlobales.SQL_Comman2, Trim(txb_Numero.Text))
 
-                    If Class_VariablesGlobales.Puesto = "Facturacion" Then
-                        Imprimir()
-                    End If
+                    'If Class_VariablesGlobales.Puesto = "Facturacion" Then
+                    '    Imprimir()
+                    'End If
 
 
                     'no guarda la ultima factura del reporte que se genere con bodega 1
@@ -175,11 +175,11 @@ Public Class Reporte_Facturas
                     'SOLO PARA EL FACTURADOR  'AQUI DEBERA LLAMAR A LA FUNCION QUE CREARA EL REPORTE DE CARGA
 
                     If Class_VariablesGlobales.Puesto = "Facturacion" Then
-                        GuardaRepCarga(txb_Numero.Text)
+                        'GuardaRepCarga(txb_Numero.Text)
 
-                        Class_VariablesGlobales.IMPRIMIENDO = "RepCarga"
-                        Class_VariablesGlobales.ReporteCarga_Consecutivo = Trim(txb_Numero.Text)
-                        frmReporte.Show()
+                        'Class_VariablesGlobales.IMPRIMIENDO = "RepCarga"
+                        'Class_VariablesGlobales.ReporteCarga_Consecutivo = Trim(txb_Numero.Text)
+                        'frmReporte.Show()
                     Else
                         'Generado por otro usuario que no es el facturador por loq
                         Dim Pregunta As Integer
@@ -275,7 +275,7 @@ Public Class Reporte_Facturas
                                     "E-mail: lurobaca@gmail.com" & vbCrLf & _
                                     "Tel: 8880-1662" & vbCrLf
 
-            Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte Ruta [" & txtb_Ruta.Text & "]", "", "bodeguerosbourne@gmail.com", "", "", "")
+            Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte Ruta [" & txtb_Ruta.Text & "]", "", "", "", "", "")
 
 
             Dim Pregunta As Integer
