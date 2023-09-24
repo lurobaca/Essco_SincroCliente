@@ -84,26 +84,9 @@ Partial Class Admin_Clientes
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.TxtB_IdExentoCabys = New System.Windows.Forms.TextBox()
-        Me.Label34 = New System.Windows.Forms.Label()
-        Me.BtnEliminaCabysExento = New System.Windows.Forms.Button()
-        Me.BtnAgregar = New System.Windows.Forms.Button()
-        Me.DGV_ListaCabysExentos = New System.Windows.Forms.DataGridView()
-        Me.Label32 = New System.Windows.Forms.Label()
-        Me.DTP_ExoFechaVencimiento = New System.Windows.Forms.DateTimePicker()
-        Me.txtb_ExoPorcentajeCompra = New System.Windows.Forms.TextBox()
-        Me.lbl_PorcentajeCompra = New System.Windows.Forms.Label()
-        Me.Label31 = New System.Windows.Forms.Label()
-        Me.DTP_ExoFechaEmision = New System.Windows.Forms.DateTimePicker()
-        Me.txtb_ExoNombreInstitucion = New System.Windows.Forms.TextBox()
-        Me.Label30 = New System.Windows.Forms.Label()
-        Me.TxtB_CabysExento = New System.Windows.Forms.TextBox()
-        Me.txtb_ExoNumero = New System.Windows.Forms.TextBox()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.Label28 = New System.Windows.Forms.Label()
-        Me.Label29 = New System.Windows.Forms.Label()
-        Me.CBox_ExoTipoDoc = New System.Windows.Forms.ComboBox()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.DGV_DocumentosExoneracion = New System.Windows.Forms.DataGridView()
         Me.Comb_Frecuencia = New System.Windows.Forms.ComboBox()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.btn_Nuevo = New System.Windows.Forms.Button()
@@ -115,8 +98,8 @@ Partial Class Admin_Clientes
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
-        Me.TabPage3.SuspendLayout()
-        CType(Me.DGV_ListaCabysExentos, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage4.SuspendLayout()
+        CType(Me.DGV_DocumentosExoneracion, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btn_Actualizar
@@ -706,7 +689,7 @@ Partial Class Admin_Clientes
         '
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Controls.Add(Me.TabPage4)
         Me.TabControl1.Location = New System.Drawing.Point(21, 288)
         Me.TabControl1.Margin = New System.Windows.Forms.Padding(4)
         Me.TabControl1.Name = "TabControl1"
@@ -738,215 +721,37 @@ Partial Class Admin_Clientes
         Me.TabPage2.Text = "Contacto"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
-        'TabPage3
+        'TabPage4
         '
-        Me.TabPage3.Controls.Add(Me.TxtB_IdExentoCabys)
-        Me.TabPage3.Controls.Add(Me.Label34)
-        Me.TabPage3.Controls.Add(Me.BtnEliminaCabysExento)
-        Me.TabPage3.Controls.Add(Me.BtnAgregar)
-        Me.TabPage3.Controls.Add(Me.DGV_ListaCabysExentos)
-        Me.TabPage3.Controls.Add(Me.Label32)
-        Me.TabPage3.Controls.Add(Me.DTP_ExoFechaVencimiento)
-        Me.TabPage3.Controls.Add(Me.txtb_ExoPorcentajeCompra)
-        Me.TabPage3.Controls.Add(Me.lbl_PorcentajeCompra)
-        Me.TabPage3.Controls.Add(Me.Label31)
-        Me.TabPage3.Controls.Add(Me.DTP_ExoFechaEmision)
-        Me.TabPage3.Controls.Add(Me.txtb_ExoNombreInstitucion)
-        Me.TabPage3.Controls.Add(Me.Label30)
-        Me.TabPage3.Controls.Add(Me.TxtB_CabysExento)
-        Me.TabPage3.Controls.Add(Me.txtb_ExoNumero)
-        Me.TabPage3.Controls.Add(Me.Label33)
-        Me.TabPage3.Controls.Add(Me.Label28)
-        Me.TabPage3.Controls.Add(Me.Label29)
-        Me.TabPage3.Controls.Add(Me.CBox_ExoTipoDoc)
-        Me.TabPage3.Location = New System.Drawing.Point(4, 25)
-        Me.TabPage3.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(1097, 308)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Exoneracion"
-        Me.TabPage3.UseVisualStyleBackColor = True
+        Me.TabPage4.Controls.Add(Me.Button3)
+        Me.TabPage4.Controls.Add(Me.DGV_DocumentosExoneracion)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(1097, 308)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "Documentos Exoneracion"
+        Me.TabPage4.UseVisualStyleBackColor = True
         '
-        'TxtB_IdExentoCabys
+        'Button3
         '
-        Me.TxtB_IdExentoCabys.Location = New System.Drawing.Point(648, 13)
-        Me.TxtB_IdExentoCabys.Margin = New System.Windows.Forms.Padding(4)
-        Me.TxtB_IdExentoCabys.Name = "TxtB_IdExentoCabys"
-        Me.TxtB_IdExentoCabys.Size = New System.Drawing.Size(160, 22)
-        Me.TxtB_IdExentoCabys.TabIndex = 109
-        Me.TxtB_IdExentoCabys.Visible = False
+        Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Button3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button3.Location = New System.Drawing.Point(892, 4)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(4)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(201, 44)
+        Me.Button3.TabIndex = 96
+        Me.Button3.Text = "Agregar Documento"
+        Me.Button3.UseVisualStyleBackColor = True
         '
-        'Label34
+        'DGV_DocumentosExoneracion
         '
-        Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(521, 17)
-        Me.Label34.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(19, 17)
-        Me.Label34.TabIndex = 108
-        Me.Label34.Text = "Id"
-        Me.Label34.Visible = False
-        '
-        'BtnEliminaCabysExento
-        '
-        Me.BtnEliminaCabysExento.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnEliminaCabysExento.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnEliminaCabysExento.Location = New System.Drawing.Point(954, 36)
-        Me.BtnEliminaCabysExento.Margin = New System.Windows.Forms.Padding(4)
-        Me.BtnEliminaCabysExento.Name = "BtnEliminaCabysExento"
-        Me.BtnEliminaCabysExento.Size = New System.Drawing.Size(125, 35)
-        Me.BtnEliminaCabysExento.TabIndex = 107
-        Me.BtnEliminaCabysExento.Text = "Eliminar"
-        Me.BtnEliminaCabysExento.UseVisualStyleBackColor = True
-        '
-        'BtnAgregar
-        '
-        Me.BtnAgregar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnAgregar.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnAgregar.Location = New System.Drawing.Point(821, 36)
-        Me.BtnAgregar.Margin = New System.Windows.Forms.Padding(4)
-        Me.BtnAgregar.Name = "BtnAgregar"
-        Me.BtnAgregar.Size = New System.Drawing.Size(125, 35)
-        Me.BtnAgregar.TabIndex = 96
-        Me.BtnAgregar.Text = "Agregar"
-        Me.BtnAgregar.UseVisualStyleBackColor = True
-        '
-        'DGV_ListaCabysExentos
-        '
-        Me.DGV_ListaCabysExentos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DGV_ListaCabysExentos.Location = New System.Drawing.Point(520, 72)
-        Me.DGV_ListaCabysExentos.Name = "DGV_ListaCabysExentos"
-        Me.DGV_ListaCabysExentos.RowTemplate.Height = 24
-        Me.DGV_ListaCabysExentos.Size = New System.Drawing.Size(560, 221)
-        Me.DGV_ListaCabysExentos.TabIndex = 106
-        '
-        'Label32
-        '
-        Me.Label32.AutoSize = True
-        Me.Label32.Location = New System.Drawing.Point(19, 181)
-        Me.Label32.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(128, 17)
-        Me.Label32.TabIndex = 105
-        Me.Label32.Text = "Fecha Vencimiento"
-        '
-        'DTP_ExoFechaVencimiento
-        '
-        Me.DTP_ExoFechaVencimiento.Location = New System.Drawing.Point(162, 175)
-        Me.DTP_ExoFechaVencimiento.Margin = New System.Windows.Forms.Padding(4)
-        Me.DTP_ExoFechaVencimiento.Name = "DTP_ExoFechaVencimiento"
-        Me.DTP_ExoFechaVencimiento.Size = New System.Drawing.Size(298, 22)
-        Me.DTP_ExoFechaVencimiento.TabIndex = 104
-        '
-        'txtb_ExoPorcentajeCompra
-        '
-        Me.txtb_ExoPorcentajeCompra.Location = New System.Drawing.Point(162, 230)
-        Me.txtb_ExoPorcentajeCompra.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_ExoPorcentajeCompra.Name = "txtb_ExoPorcentajeCompra"
-        Me.txtb_ExoPorcentajeCompra.Size = New System.Drawing.Size(298, 22)
-        Me.txtb_ExoPorcentajeCompra.TabIndex = 103
-        '
-        'lbl_PorcentajeCompra
-        '
-        Me.lbl_PorcentajeCompra.AutoSize = True
-        Me.lbl_PorcentajeCompra.Location = New System.Drawing.Point(19, 235)
-        Me.lbl_PorcentajeCompra.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.lbl_PorcentajeCompra.Name = "lbl_PorcentajeCompra"
-        Me.lbl_PorcentajeCompra.Size = New System.Drawing.Size(129, 17)
-        Me.lbl_PorcentajeCompra.TabIndex = 102
-        Me.lbl_PorcentajeCompra.Text = "Porcentaje Compra"
-        '
-        'Label31
-        '
-        Me.Label31.AutoSize = True
-        Me.Label31.Location = New System.Drawing.Point(19, 139)
-        Me.Label31.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(100, 17)
-        Me.Label31.TabIndex = 101
-        Me.Label31.Text = "Fecha Emision"
-        '
-        'DTP_ExoFechaEmision
-        '
-        Me.DTP_ExoFechaEmision.Location = New System.Drawing.Point(162, 133)
-        Me.DTP_ExoFechaEmision.Margin = New System.Windows.Forms.Padding(4)
-        Me.DTP_ExoFechaEmision.Name = "DTP_ExoFechaEmision"
-        Me.DTP_ExoFechaEmision.Size = New System.Drawing.Size(298, 22)
-        Me.DTP_ExoFechaEmision.TabIndex = 100
-        '
-        'txtb_ExoNombreInstitucion
-        '
-        Me.txtb_ExoNombreInstitucion.Location = New System.Drawing.Point(162, 90)
-        Me.txtb_ExoNombreInstitucion.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_ExoNombreInstitucion.Name = "txtb_ExoNombreInstitucion"
-        Me.txtb_ExoNombreInstitucion.Size = New System.Drawing.Size(298, 22)
-        Me.txtb_ExoNombreInstitucion.TabIndex = 99
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(19, 91)
-        Me.Label30.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(125, 17)
-        Me.Label30.TabIndex = 98
-        Me.Label30.Text = "Nombre Institucion"
-        '
-        'TxtB_CabysExento
-        '
-        Me.TxtB_CabysExento.Location = New System.Drawing.Point(648, 43)
-        Me.TxtB_CabysExento.Margin = New System.Windows.Forms.Padding(4)
-        Me.TxtB_CabysExento.Name = "TxtB_CabysExento"
-        Me.TxtB_CabysExento.Size = New System.Drawing.Size(160, 22)
-        Me.TxtB_CabysExento.TabIndex = 97
-        '
-        'txtb_ExoNumero
-        '
-        Me.txtb_ExoNumero.Location = New System.Drawing.Point(162, 53)
-        Me.txtb_ExoNumero.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_ExoNumero.Name = "txtb_ExoNumero"
-        Me.txtb_ExoNumero.Size = New System.Drawing.Size(298, 22)
-        Me.txtb_ExoNumero.TabIndex = 97
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(521, 47)
-        Me.Label33.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(101, 17)
-        Me.Label33.TabIndex = 96
-        Me.Label33.Text = "Cabys Excento"
-        '
-        'Label28
-        '
-        Me.Label28.AutoSize = True
-        Me.Label28.Location = New System.Drawing.Point(19, 22)
-        Me.Label28.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(110, 17)
-        Me.Label28.TabIndex = 96
-        Me.Label28.Text = "Tipo documento"
-        '
-        'Label29
-        '
-        Me.Label29.AutoSize = True
-        Me.Label29.Location = New System.Drawing.Point(19, 56)
-        Me.Label29.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(58, 17)
-        Me.Label29.TabIndex = 96
-        Me.Label29.Text = "Numero"
-        '
-        'CBox_ExoTipoDoc
-        '
-        Me.CBox_ExoTipoDoc.FormattingEnabled = True
-        Me.CBox_ExoTipoDoc.Items.AddRange(New Object() {"", "Compras autorizadas", "Ventas exentas a diplomáticos", "Autorizado por Ley especial", "Exenciones Dirección General de Hacienda", "Transitorio V ", "Transitorio IX ", "Transitorio XVII ", "Otros "})
-        Me.CBox_ExoTipoDoc.Location = New System.Drawing.Point(162, 14)
-        Me.CBox_ExoTipoDoc.Margin = New System.Windows.Forms.Padding(4)
-        Me.CBox_ExoTipoDoc.Name = "CBox_ExoTipoDoc"
-        Me.CBox_ExoTipoDoc.Size = New System.Drawing.Size(298, 24)
-        Me.CBox_ExoTipoDoc.TabIndex = 5
+        Me.DGV_DocumentosExoneracion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DGV_DocumentosExoneracion.Location = New System.Drawing.Point(3, 55)
+        Me.DGV_DocumentosExoneracion.Name = "DGV_DocumentosExoneracion"
+        Me.DGV_DocumentosExoneracion.RowTemplate.Height = 24
+        Me.DGV_DocumentosExoneracion.Size = New System.Drawing.Size(1091, 250)
+        Me.DGV_DocumentosExoneracion.TabIndex = 107
         '
         'Comb_Frecuencia
         '
@@ -1072,9 +877,8 @@ Partial Class Admin_Clientes
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
-        Me.TabPage3.ResumeLayout(False)
-        Me.TabPage3.PerformLayout()
-        CType(Me.DGV_ListaCabysExentos, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage4.ResumeLayout(False)
+        CType(Me.DGV_DocumentosExoneracion, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1146,24 +950,7 @@ Partial Class Admin_Clientes
     Friend WithEvents Button1 As Button
     Friend WithEvents Comb_Tipo As ComboBox
     Friend WithEvents Label27 As Label
-    Friend WithEvents TabPage3 As TabPage
-    Friend WithEvents Label28 As Label
-    Friend WithEvents CBox_ExoTipoDoc As ComboBox
-    Friend WithEvents txtb_ExoNombreInstitucion As TextBox
-    Friend WithEvents Label30 As Label
-    Friend WithEvents txtb_ExoNumero As TextBox
-    Friend WithEvents Label29 As Label
-    Friend WithEvents Label31 As Label
-    Friend WithEvents DTP_ExoFechaEmision As DateTimePicker
-    Friend WithEvents txtb_ExoPorcentajeCompra As TextBox
-    Friend WithEvents lbl_PorcentajeCompra As Label
-    Friend WithEvents Label32 As Label
-    Friend WithEvents DTP_ExoFechaVencimiento As DateTimePicker
-    Friend WithEvents BtnAgregar As Button
-    Friend WithEvents DGV_ListaCabysExentos As DataGridView
-    Friend WithEvents TxtB_CabysExento As TextBox
-    Friend WithEvents Label33 As Label
-    Friend WithEvents BtnEliminaCabysExento As Button
-    Friend WithEvents TxtB_IdExentoCabys As TextBox
-    Friend WithEvents Label34 As Label
+    Friend WithEvents TabPage4 As TabPage
+    Friend WithEvents Button3 As Button
+    Friend WithEvents DGV_DocumentosExoneracion As DataGridView
 End Class

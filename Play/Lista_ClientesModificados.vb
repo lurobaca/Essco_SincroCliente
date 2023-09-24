@@ -186,14 +186,8 @@
                     Id_TipoDocumentoExoneracion = -1
                 End If
 
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.CBox_ExoTipoDoc.SelectedIndex = Id_TipoDocumentoExoneracion
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoNumero.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(27).Value().ToString())
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoNombreInstitucion.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(28).Value().ToString())
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.DTP_ExoFechaEmision.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(29).Value().ToString())
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_ExoPorcentajeCompra.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(30).Value().ToString())
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.DTP_ExoFechaVencimiento.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(31).Value().ToString())
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Codigo.Text)
 
+                Class_VariablesGlobales.frmAdmin_ClientesModificados.DGV_DocumentosExoneracion.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneDocumentosExoneracionDeClientes(Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Codigo.Text)
 
             End If
             Me.Close()

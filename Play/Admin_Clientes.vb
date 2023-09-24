@@ -76,6 +76,10 @@
             '    Id_Barrio = Id_Barrio - 1
             'End If
             Combo_Barrio.SelectedIndex = Id_Barrio
+
+            DGV_DocumentosExoneracion.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneDocumentosExoneracionDeClientes(txtb_Codigo.Text)
+
+
         Catch ex As Exception
 
         End Try
@@ -340,35 +344,35 @@
 
         If btn_Actualizar.Text = "Guardar" Or btn_Actualizar.Text = "Interno" Then
 
-
-            Dim ComprasAutorizadas As Int32 = 1
-            Dim VentasExentasADiplomáticos As Int32 = 2
-            Dim AutorizadoPorLeyEspecial As Int32 = 3
-            Dim ExencionesDireccionGeneralDeHacienda As Int32 = 4
-            Dim TransitorioV As Int32 = 5
-            Dim TransitorioIX As Int32 = 6
-            Dim TransitorioXVII As Int32 = 7
-            Dim Otros As Int32 = 99
-
             Dim EXO_TipoDocumento As String = ""
-            Select Case CBox_ExoTipoDoc.SelectedIndex
-                Case ComprasAutorizadas
-                    EXO_TipoDocumento = "01"
-                Case VentasExentasADiplomáticos
-                    EXO_TipoDocumento = "02"
-                Case AutorizadoPorLeyEspecial
-                    EXO_TipoDocumento = "03"
-                Case ExencionesDireccionGeneralDeHacienda
-                    EXO_TipoDocumento = "04"
-                Case TransitorioV
-                    EXO_TipoDocumento = "05"
-                Case TransitorioIX
-                    EXO_TipoDocumento = "06"
-                Case TransitorioXVII
-                    EXO_TipoDocumento = "07"
-                Case Otros
-                    EXO_TipoDocumento = "99"
-            End Select
+            'Dim ComprasAutorizadas As Int32 = 1
+            'Dim VentasExentasADiplomáticos As Int32 = 2
+            'Dim AutorizadoPorLeyEspecial As Int32 = 3
+            'Dim ExencionesDireccionGeneralDeHacienda As Int32 = 4
+            'Dim TransitorioV As Int32 = 5
+            'Dim TransitorioIX As Int32 = 6
+            'Dim TransitorioXVII As Int32 = 7
+            'Dim Otros As Int32 = 99
+
+
+            'Select Case CBox_ExoTipoDoc.SelectedIndex
+            '    Case ComprasAutorizadas
+            '        EXO_TipoDocumento = "01"
+            '    Case VentasExentasADiplomáticos
+            '        EXO_TipoDocumento = "02"
+            '    Case AutorizadoPorLeyEspecial
+            '        EXO_TipoDocumento = "03"
+            '    Case ExencionesDireccionGeneralDeHacienda
+            '        EXO_TipoDocumento = "04"
+            '    Case TransitorioV
+            '        EXO_TipoDocumento = "05"
+            '    Case TransitorioIX
+            '        EXO_TipoDocumento = "06"
+            '    Case TransitorioXVII
+            '        EXO_TipoDocumento = "07"
+            '    Case Otros
+            '        EXO_TipoDocumento = "99"
+            'End Select
 
 
             Dim DiaVisita As String = ""
@@ -452,19 +456,16 @@
                 Dim Consecutivo As String = txtb_Consecutivo.Text
 
 
-                Dim EXO_Numero As String = txtb_ExoNumero.Text
-                Dim EXO_NombreInstitucion As String = txtb_ExoNombreInstitucion.Text
-                Dim EXO_FechaEmision As String = DTP_ExoFechaEmision.Value.ToShortDateString
-                Dim EXO_FechaVencimiento As String = DTP_ExoFechaVencimiento.Value.ToShortDateString
+                Dim EXO_Numero As String = ""
+                Dim EXO_NombreInstitucion As String = ""
+                Dim EXO_FechaEmision As String = ""
+                Dim EXO_FechaVencimiento As String = ""
                 Dim EXO_PorcentajeCompra As String
 
-                If txtb_ExoPorcentajeCompra.Text = "" Then
-                    EXO_PorcentajeCompra = "0"
-                Else
-                    EXO_PorcentajeCompra = txtb_ExoPorcentajeCompra.Text
-                End If
+                EXO_PorcentajeCompra = "0"
 
-                Dim Guardar As Boolean
+
+                    Dim Guardar As Boolean
 
                 If txtb_Consecutivo.Enabled = True Then
                     Guardar = True
@@ -734,36 +735,70 @@
             Comb_Tipo.SelectedIndex = 0
 
 
-            CBox_ExoTipoDoc.SelectedIndex = 0
-            txtb_ExoNumero.Text = ""
-            txtb_ExoNombreInstitucion.Text = ""
-            txtb_ExoPorcentajeCompra.Text = ""
-            DTP_ExoFechaEmision.Value = Date.Now
-            DTP_ExoFechaVencimiento.Value = Date.Now
 
-
-            DGV_ListaCabysExentos.DataSource = New DataTable
 
         Catch ex As Exception
 
         End Try
     End Function
 
-    Private Sub BtnAgregar_Click(sender As Object, e As EventArgs) Handles BtnAgregar.Click
-        Obj_SQL_CONEXIONSERVER.GuardaCodigosCabysExentos(txtb_Codigo.Text, TxtB_CabysExento.Text, True)
-        DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(txtb_Codigo.Text)
-        TxtB_CabysExento.Text = ""
+    'Private Sub BtnAgregar_Click(sender As Object, e As EventArgs) Handles BtnAgregar.Click
+    '    Obj_SQL_CONEXIONSERVER.GuardaCodigosCabysExentos(txtb_Codigo.Text, TxtB_CabysExento.Text, txtb_idDocExoneracion.Text, True)
+    '    DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(txtb_Codigo.Text)
+    '    TxtB_CabysExento.Text = ""
+    'End Sub
+
+    'Private Sub BtnEliminaCabysExento_Click(sender As Object, e As EventArgs) Handles BtnEliminaCabysExento.Click
+    '    Obj_SQL_CONEXIONSERVER.EliminaCabysExcento(txtb_Codigo.Text, TxtB_CabysExento.Text)
+    '    DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(txtb_Codigo.Text)
+    '    TxtB_CabysExento.Text = ""
+    'End Sub
+
+    'Private Sub DGV_ListaCabysExentos_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_ListaCabysExentos.CellContentClick
+    '    Dim row = DGV_ListaCabysExentos.CurrentRow.Index
+    '    TxtB_CabysExento.Text = DGV_ListaCabysExentos("CodCabys", row).Value()
+    'End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Dim Admin_ClientesDocumentosExoneracion As New ClientesDocumentosExoneracion
+        Admin_ClientesDocumentosExoneracion.txtb_Codigo.Text = txtb_Codigo.Text
+        Admin_ClientesDocumentosExoneracion.MdiParent = Principal
+        Admin_ClientesDocumentosExoneracion.Show()
     End Sub
 
-    Private Sub BtnEliminaCabysExento_Click(sender As Object, e As EventArgs) Handles BtnEliminaCabysExento.Click
-        Obj_SQL_CONEXIONSERVER.EliminaCabysExcento(txtb_Codigo.Text, TxtB_CabysExento.Text)
-        DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(txtb_Codigo.Text)
-        TxtB_CabysExento.Text = ""
-    End Sub
+    Private Sub DGV_DocumentosExoneracion_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_DocumentosExoneracion.CellContentClick
 
-    Private Sub DGV_ListaCabysExentos_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_ListaCabysExentos.CellContentClick
-        Dim row = DGV_ListaCabysExentos.CurrentRow.Index
-        TxtB_CabysExento.Text = DGV_ListaCabysExentos("CodCabys", row).Value()
+        If e.RowIndex >= 0 Then
+            ' Obtén la fila seleccionada
+            Dim filaSeleccionada As DataGridViewRow = DGV_DocumentosExoneracion.Rows(e.RowIndex)
+            Dim Admin_ClientesDocumentosExoneracion As New ClientesDocumentosExoneracion
+            Admin_ClientesDocumentosExoneracion.txtb_idDocExoneracion.Text = filaSeleccionada.Cells("id").Value.ToString()
+            Admin_ClientesDocumentosExoneracion.txtb_Codigo.Text = filaSeleccionada.Cells("CodCliente").Value.ToString()
+            Admin_ClientesDocumentosExoneracion.CBox_ExoTipoDoc.Text = filaSeleccionada.Cells("TipoDocumento").Value.ToString()
+            Admin_ClientesDocumentosExoneracion.txtb_ExoNumero.Text = filaSeleccionada.Cells("ExoNumero").Value.ToString()
+            Admin_ClientesDocumentosExoneracion.txtb_ExoNombreInstitucion.Text = filaSeleccionada.Cells("NombreInstitucion").Value.ToString()
+            Admin_ClientesDocumentosExoneracion.DTP_ExoFechaEmision.Text = filaSeleccionada.Cells("FechaEmision").Value.ToString()
+            Admin_ClientesDocumentosExoneracion.DTP_ExoFechaVencimiento.Text = filaSeleccionada.Cells("FechaVencimiento").Value.ToString()
+            Admin_ClientesDocumentosExoneracion.txtb_ExoPorcentajeCompra.Text = filaSeleccionada.Cells("PorcentajeCompra").Value.ToString()
+
+            Dim Id_TipoDocumentoExoneracion As Integer
+
+            If filaSeleccionada.Cells("CodCliente").Value.ToString() <> "" Then
+                Id_TipoDocumentoExoneracion = CInt(Trim(filaSeleccionada.Cells("TipoDocumento").Value.ToString()))
+            Else
+                Id_TipoDocumentoExoneracion = -1
+            End If
+
+            Admin_ClientesDocumentosExoneracion.CBox_ExoTipoDoc.SelectedIndex = Id_TipoDocumentoExoneracion
+
+
+            Admin_ClientesDocumentosExoneracion.DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(Admin_ClientesDocumentosExoneracion.txtb_idDocExoneracion.Text)
+            Admin_ClientesDocumentosExoneracion.btn_Agregar.Enabled = True
+            Admin_ClientesDocumentosExoneracion.btn_Desagregar.Enabled = True
+            Admin_ClientesDocumentosExoneracion.MdiParent = Principal
+            Admin_ClientesDocumentosExoneracion.Show()
+        End If
+
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click

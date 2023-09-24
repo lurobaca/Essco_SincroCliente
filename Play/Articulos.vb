@@ -320,15 +320,11 @@ Public Class Articulos
             Dgv_Articulos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneArticulosInternos(Class_VariablesGlobales.frmFacturacion.CBox_TipoProducto.Text, Class_VariablesGlobales.frmFacturacion.txtb_CodCliente.Text, Trim(txtb_Buscar.Text), Cbox_VerDesc.Checked, ColumnaBusqueda, Class_VariablesGlobales.SQL_Comman2)
         ElseIf Class_VariablesGlobales.ArticulosLlamadoDesde = "Stock_Manager" Then
             Dgv_Articulos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneArticulos("", txtb_Buscar.Text, Cbox_VerDesc.Checked, ColumnaBusqueda, Class_VariablesGlobales.SQL_Comman2)
-
         Else
-
             Dgv_Articulos.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneArticulos(Class_VariablesGlobales.frmDevoluciones.txtb_CodCliente.Text, txtb_Buscar.Text, Cbox_VerDesc.Checked, ColumnaBusqueda, Class_VariablesGlobales.SQL_Comman2)
         End If
-
-
-
-
         organizar()
     End Sub
+
+
 End Class

@@ -17,17 +17,17 @@ Public Class Class_XML_Conexion
             Dim m_nodelist As XmlNodeList
             Dim m_node As XmlNode
 
-            Dim conectar As String = "C:\ConexionINFO__Pronutre_PRODUCCION.xml"
-
-            If File.Exists(conectar) <> True Then
-                conectar = "C:\ConexionINFO__Pronutre_SANDBOX.xml"
-            End If
-
-            'Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
+            'Dim conectar As String = "C:\ConexionINFO__Pronutre_PRODUCCION.xml"
 
             'If File.Exists(conectar) <> True Then
-            '    conectar = "C:\ConexionINFO_SANDBOX_esscocr.xml"
+            '    conectar = "C:\ConexionINFO__Pronutre_SANDBOX.xml"
             'End If
+
+            Dim conectar As String = "C:\ConexionINFO_PRODUCCION_esscocr.xml"
+
+            If File.Exists(conectar) <> True Then
+                conectar = "C:\ConexionINFO_SANDBOX_esscocr.xml"
+            End If
 
             'Dim conectar As String = "C:\ConexionINFO_Bourne_PRODUCCION.xml"
 
@@ -36,7 +36,7 @@ Public Class Class_XML_Conexion
             'End If
 
             If Principal IsNot Nothing Then
-                Principal.Text = "SINCRO CLIENTE [21.09.2023] v1 " & "  " & conectar
+                Principal.Text = "SINCRO CLIENTE [23.09.2023] v1 " & "  " & conectar
             End If
 
             'Creamos el "Document"

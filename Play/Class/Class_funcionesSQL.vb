@@ -10680,7 +10680,7 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
-            Consulta = "select T1.[EXO_PorcentajeCompra]  from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].ClientesCabysExentos T0 inner join  [ClientesModificados] T1 on T0.CardCode=T1.CardCode where T0.CardCode='" & CardCode & "' and CodCabys='" & CodCabys & "'"
+            Consulta = "select T1.[EXO_PorcentajeCompra]  from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].ClientesCabysExentos T0 inner join  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesModificados] T1 on T0.CardCode=T1.CardCode where T0.CardCode='" & CardCode & "' and CodCabys='" & CodCabys & "' and EXO_FechaVencimiento <=  GETDATE()"
 
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -10691,7 +10691,7 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
-    Public Function ObtieneCabysExcento(ByVal CardCode As String)
+    Public Function ObtieneCabysExcento(ByVal idDocExoneracion As String)
         Dim Consulta As String
         Try
             Dim TABLA As New DataTable
@@ -10699,7 +10699,7 @@ Public Class Class_funcionesSQL
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
             Consulta = ""
-            Consulta = "SELECT * from  [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[ClientesCabysExentos]  WHERE CardCode = '" & CardCode & "'"
+            Consulta = "SELECT Id,CodCabys from  [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[ClientesCabysExentos]  WHERE IdDocExonerado = '" & idDocExoneracion & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Return TABLA
@@ -10710,14 +10710,60 @@ Public Class Class_funcionesSQL
             'MessageBox.Show("ERROR EN ObtieneCabysExcento [" & ex.Message & "]")
         End Try
     End Function
+    Public Function ValidaSiExistenExoNumeroPorCliente(ByVal CodCliente As String, ByVal ValidaSiExisteExoNumero As String)
+        Dim Consulta As String
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            Consulta = ""
 
-    Public Function EliminaCabysExcento(ByVal CardCode As String, ByVal Cabys As String)
+            Consulta = "SELECT ExoNumero from  [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[DocumentosExoneracionDeClientes]  WHERE CodCliente = '" & CodCliente & "' and ExoNumero='" & ValidaSiExisteExoNumero & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            If TABLA.Rows.Count > 0 Then
+                Return True
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+            'MessageBox.Show("ERROR EN ValidaSiExistenExoNumeroPorCliente [" & ex.Message & "]")
+        End Try
+    End Function
+    Public Function ObtieneDocumentosExoneracionDeClientes(ByVal CodCliente As String)
+        Dim Consulta As String
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            Consulta = ""
+
+            Consulta = "SELECT id,CodCliente,TipoDocumento,ExoNumero,NombreInstitucion,FechaEmision,FechaVencimiento,PorcentajeCompra from  [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[DocumentosExoneracionDeClientes]  WHERE CodCliente = '" & CodCliente & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+
+        Catch ex As Exception
+            'MessageBox.Show("ERROR EN ObtieneDocumentosExoneracionDeClientes [" & ex.Message & "]")
+        End Try
+    End Function
+    Public Function EliminaCabysExcento(ByVal IdDocExonerado As String, Optional Cabys As String = Nothing)
         Dim Consulta As String
         Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
             Consulta = ""
-            Consulta = "DELETE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos]  WHERE CardCode = '" & CardCode & "' AND CodCabys = '" & Cabys & "'"
+
+            If Cabys = Nothing Then
+                Consulta = "DELETE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos]  WHERE IdDocExonerado = '" & IdDocExonerado & "'"
+            Else
+                Consulta = "DELETE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos]  WHERE IdDocExonerado = '" & IdDocExonerado & "' AND CodCabys = '" & Cabys & "'"
+            End If
+
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
             SQL_Comman = Nothing
@@ -10726,8 +10772,79 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
+    Public Function EliminaDocumentosExoneracionDeClientes(ByVal IdDocExoneracion As String)
+        Dim Consulta As String
+        Try
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            Consulta = ""
+            Consulta = "DELETE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[DocumentosExoneracionDeClientes]  WHERE id = '" & IdDocExoneracion & "'"
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
+        Catch ex As Exception
+            MessageBox.Show("ERROR EN EliminaDocumentosExoneracionDeClientes [" & ex.Message & "]")
+        End Try
+    End Function
 
-    Public Function GuardaCodigosCabysExentos(ByVal CardCode As String, ByVal Cabys As String, Guardar As Boolean)
+    Public Function GuardaDocumentosExoneracionDeClientes(ByVal id As String,
+                                                          ByVal CodCliente As String,
+                                                          ByVal TipoDocumento As String,
+                                                          ByVal ExoNumero As String,
+                                                          ByVal NombreInstitucion As String,
+                                                          ByVal FechaEmision As String,
+                                                          ByVal FechaVencimiento As String,
+                                                          ByVal PorcentajeCompra As String,
+                                                          Guardar As Boolean)
+        Try
+
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            'almance el cliente para poder usar el facturardor de Play
+            Dim Consulta As String = ""
+
+            If Guardar = True Then
+                Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[DocumentosExoneracionDeClientes]
+                                       ([CodCliente]
+                                       ,[TipoDocumento]  
+                                       ,[ExoNumero]
+                                       ,[NombreInstitucion]
+                                       ,[FechaEmision]
+                                       ,[FechaVencimiento]
+                                       ,[PorcentajeCompra])
+                                 VALUES
+                                       ('" & CodCliente & "'
+                                       ,'" & TipoDocumento & "'  
+                                       ,'" & ExoNumero & "'
+                                       ,'" & NombreInstitucion & "'
+                                       ,'" & FechaEmision & "'
+                                       ,'" & FechaVencimiento & "'
+                                       ,'" & PorcentajeCompra & "')"
+
+            Else
+                Consulta = "UPDATE [dbo].[DocumentosExoneracionDeClientes]
+                               SET [TipoDocumento] = '" & TipoDocumento & "'
+                                  ,[ExoNumero] = '" & ExoNumero & "'
+                                  ,[NombreInstitucion] = '" & NombreInstitucion & "'
+                                  ,[FechaEmision] = '" & FechaEmision & "'
+                                  ,[FechaVencimiento] = '" & FechaVencimiento & "'
+                                  ,[PorcentajeCompra] = '" & PorcentajeCompra & "'
+                             WHERE [id] = '" & id & "'"
+            End If
+
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
+            Return 0
+        Catch ex As Exception
+
+            MessageBox.Show("ERROR en GuardaDocumentosExoneracionDeClientes [ " & ex.Message & " ]")
+            Return 1
+        End Try
+
+    End Function
+    Public Function GuardaCodigosCabysExentos(ByVal CardCode As String, ByVal Cabys As String, ByVal idDocExoneracion As String, Guardar As Boolean)
         Try
 
             Dim SQL_Comman As New SqlCommand
@@ -10738,10 +10855,12 @@ Public Class Class_funcionesSQL
             If Guardar = True Then
                 Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ClientesCabysExentos]
                            ([CardCode]
-                           ,[CodCabys]
+                           ,[CodCabys] 
+                           ,[IdDocExonerado]
                            )VALUES
                            ('" & CardCode &
-                           "','" & Cabys & "')"
+                           "','" & Cabys &
+                           "','" & idDocExoneracion & "')"
 
 
             Else

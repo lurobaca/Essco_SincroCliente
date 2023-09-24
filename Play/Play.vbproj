@@ -285,6 +285,12 @@
     <Compile Include="Class\Simple3Des.vb" />
     <Compile Include="Class\ValidaConexion.vb" />
     <Compile Include="Class\ValidaDigitados.vb" />
+    <Compile Include="ClientesDocumentosExoneracion.Designer.vb">
+      <DependentUpon>ClientesDocumentosExoneracion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ClientesDocumentosExoneracion.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmReportes.Designer.vb">
       <DependentUpon>frmReportes.vb</DependentUpon>
     </Compile>
@@ -1305,6 +1311,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin_Bodegueros.resx">
       <DependentUpon>Admin_Bodegueros.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClientesDocumentosExoneracion.resx">
+      <DependentUpon>ClientesDocumentosExoneracion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmReportes.resx">
       <DependentUpon>frmReportes.vb</DependentUpon>

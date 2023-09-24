@@ -36,7 +36,7 @@ Partial Class Articulos
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Dgv_Articulos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.Dgv_Articulos.Location = New System.Drawing.Point(3, 65)
-        Me.Dgv_Articulos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Dgv_Articulos.Margin = New System.Windows.Forms.Padding(4)
         Me.Dgv_Articulos.Name = "Dgv_Articulos"
         Me.Dgv_Articulos.Size = New System.Drawing.Size(955, 473)
         Me.Dgv_Articulos.TabIndex = 0
@@ -46,7 +46,7 @@ Partial Class Articulos
         Me.txtb_Buscar.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Buscar.Location = New System.Drawing.Point(95, 12)
-        Me.txtb_Buscar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtb_Buscar.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Buscar.Name = "txtb_Buscar"
         Me.txtb_Buscar.Size = New System.Drawing.Size(456, 22)
         Me.txtb_Buscar.TabIndex = 1
@@ -66,7 +66,7 @@ Partial Class Articulos
         Me.Cbox_VerDesc.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_VerDesc.AutoSize = True
         Me.Cbox_VerDesc.Location = New System.Drawing.Point(799, 11)
-        Me.Cbox_VerDesc.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Cbox_VerDesc.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_VerDesc.Name = "Cbox_VerDesc"
         Me.Cbox_VerDesc.Size = New System.Drawing.Size(158, 21)
         Me.Cbox_VerDesc.TabIndex = 3
@@ -82,7 +82,7 @@ Partial Class Articulos
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtb_Buscar)
         Me.Controls.Add(Me.Dgv_Articulos)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "Articulos"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Articulos"
