@@ -570,6 +570,7 @@ Partial Class Manager_Empresa
         Me.GroupBox5.TabIndex = 86
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "Descuentos"
+        Me.GroupBox5.Visible = False
         '
         'RBtn_SocioNegocioEspecifico
         '

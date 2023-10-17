@@ -23,6 +23,7 @@ Partial Class Enviar_Info_Seller
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.btn_ExpoInfo = New System.Windows.Forms.Button()
         Me.Label47 = New System.Windows.Forms.Label()
@@ -68,7 +69,6 @@ Partial Class Enviar_Info_Seller
         Me.DTP_FechaHasta = New System.Windows.Forms.DateTimePicker()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.GroupBox7.SuspendLayout()
         Me.GroupBox3.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
@@ -97,6 +97,21 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox7.TabIndex = 16
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Tipo de envio"
+        '
+        'CheckBox1
+        '
+        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.CheckBox1.AutoSize = True
+        Me.CheckBox1.Checked = True
+        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CheckBox1.Location = New System.Drawing.Point(128, 21)
+        Me.CheckBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.CheckBox1.Name = "CheckBox1"
+        Me.CheckBox1.Size = New System.Drawing.Size(148, 29)
+        Me.CheckBox1.TabIndex = 44
+        Me.CheckBox1.Text = "Descuentos"
+        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'GroupBox3
         '
@@ -169,8 +184,6 @@ Partial Class Enviar_Info_Seller
         '
         Me.Cbox_Razones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Razones.AutoSize = True
-        Me.Cbox_Razones.Checked = True
-        Me.Cbox_Razones.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Razones.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Razones.Location = New System.Drawing.Point(873, 17)
         Me.Cbox_Razones.Margin = New System.Windows.Forms.Padding(4)
@@ -249,8 +262,6 @@ Partial Class Enviar_Info_Seller
         '
         Me.Cbox_Bancos.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Bancos.AutoSize = True
-        Me.Cbox_Bancos.Checked = True
-        Me.Cbox_Bancos.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Bancos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Bancos.Location = New System.Drawing.Point(766, 17)
         Me.Cbox_Bancos.Margin = New System.Windows.Forms.Padding(4)
@@ -392,8 +403,6 @@ Partial Class Enviar_Info_Seller
         '
         Me.Cbox_Ubicaciones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Ubicaciones.AutoSize = True
-        Me.Cbox_Ubicaciones.Checked = True
-        Me.Cbox_Ubicaciones.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Ubicaciones.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Cbox_Ubicaciones.Location = New System.Drawing.Point(607, 17)
         Me.Cbox_Ubicaciones.Margin = New System.Windows.Forms.Padding(4)
@@ -604,21 +613,6 @@ Partial Class Enviar_Info_Seller
         Me.Label5.Size = New System.Drawing.Size(68, 25)
         Me.Label5.TabIndex = 36
         Me.Label5.Text = "Hasta"
-        '
-        'CheckBox1
-        '
-        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.CheckBox1.AutoSize = True
-        Me.CheckBox1.Checked = True
-        Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox1.Location = New System.Drawing.Point(128, 21)
-        Me.CheckBox1.Margin = New System.Windows.Forms.Padding(4)
-        Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(148, 29)
-        Me.CheckBox1.TabIndex = 44
-        Me.CheckBox1.Text = "Descuentos"
-        Me.CheckBox1.UseVisualStyleBackColor = True
         '
         'Enviar_Info_Seller
         '

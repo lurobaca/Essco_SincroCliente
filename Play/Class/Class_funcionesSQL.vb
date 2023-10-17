@@ -9152,90 +9152,8 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
-    Public Function Obtiene_Descuentos(ByVal SQL_Comman As SqlCommand, Ruta As String, Rutas_Unificar() As String, FechaDesde As String, FechaHasta As String)
-        Try
-            Dim TipoGrupoDescuento As Integer
-            Dim ClienteEspecifico As Integer = 2
-            Dim GrupoDeClientes As Integer = 10
-            Dim TblListaDescuentos As DataTable
 
-            TipoGrupoDescuento = Obtiene_TipoGrupoDescuento(SQL_Comman)
 
-            If TipoGrupoDescuento = ClienteEspecifico Then
-                TblListaDescuentos = ObtieneDescuentosPorSocioDeNegocioEspecificoAgente(SQL_Comman, Ruta, Rutas_Unificar, FechaDesde, FechaHasta)
-            End If
-
-            If TipoGrupoDescuento = GrupoDeClientes Then
-                TblListaDescuentos = ObtieneDescuentosPorGrupoClientePorAgente(SQL_Comman, Ruta, Rutas_Unificar, FechaDesde, FechaHasta)
-            End If
-
-            Return TblListaDescuentos
-        Catch ex As Exception
-            MessageBox.Show("ERROR Obtiene_Descuentos [ " & ex.Message & " ] ")
-            Return 0
-        End Try
-    End Function
-
-    Public Function ObtieneDescuentosPorSocioDeNegocioEspecificoAgente(ByVal SQL_Comman As SqlCommand, Ruta As String, Rutas_Unidicar() As String, FechaDesde As String, FechaHasta As String)
-        Try
-            Dim Tbl_Descuentos As New DataTable
-            Dim ADATER As New SqlDataAdapter
-
-            Dim Consulta As String = ""
-            Dim cont As Integer = 0
-
-            If Rutas_Unidicar Is Nothing Then
-                Consulta = "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorSocioDeNegocioEspecificoAgente(" & Ruta & ") T0"
-            Else
-
-                For i As Integer = 0 To Rutas_Unidicar.Count - 1
-                    If cont > 0 Then
-                        Consulta = Consulta & " UNION "
-                    End If
-                    Consulta = Consulta & "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorSocioDeNegocioEspecificoAgente(" & Rutas_Unidicar(i).ToString & ") T0"
-                    cont += 1
-                Next
-
-            End If
-
-            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-            ADATER.Fill(Tbl_Descuentos)
-            SQL_Comman = Nothing
-
-            Return Tbl_Descuentos
-        Catch ex As Exception
-            MessageBox.Show("ERROR en ObtieneDescuentosPorSocioDeNegocioEspecificoAgente [ " & ex.Message & " ]")
-        End Try
-    End Function
-    Public Function ObtieneDescuentosPorGrupoClientePorAgente(ByVal SQL_Comman As SqlCommand, Ruta As String, Rutas_Unidicar() As String, FechaDesde As String, FechaHasta As String)
-        Try
-            Dim Tbl_Descuentos As New DataTable
-            Dim ADATER As New SqlDataAdapter
-
-            Dim Consulta As String = ""
-            Dim cont As Integer = 0
-
-            If Rutas_Unidicar Is Nothing Then
-                Consulta = "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorGrupoClientePorAgente(" & Ruta & ",'" & FechaDesde & "','" & FechaHasta & "') T0"
-            Else
-                For i As Integer = 0 To Rutas_Unidicar.Count - 1
-                    If cont > 0 Then
-                        Consulta = Consulta & " UNION "
-                    End If
-                    Consulta = Consulta & "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorGrupoClientePorAgente(" & Rutas_Unidicar(i).ToString & ",'" & FechaDesde & "','" & FechaHasta & "') T0"
-                    cont += 1
-                Next
-            End If
-
-            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-            ADATER.Fill(Tbl_Descuentos)
-            SQL_Comman = Nothing
-
-            Return Tbl_Descuentos
-        Catch ex As Exception
-            MessageBox.Show("ERROR en ObtieneDescuentosPorGrupoClientePorAgente [ " & ex.Message & " ]")
-        End Try
-    End Function
 
     ''' <summary>
     ''' Metodo anterior borrar funcion ObtieneDescuentosPorAgente al terminar de implementar la nueva forma de obtener los descuentos
@@ -9248,37 +9166,37 @@ Public Class Class_funcionesSQL
     ''' <param name="FechaHasta"></param>
     ''' <param name="SQL_Comman"></param>
     ''' <returns></returns>
-    'Public Function Obtiene_Descuentos(ByVal SQL_Comman As SqlCommand, Ruta As String, Rutas_Unidicar() As String)
-    '    Try
-    '        Dim Tbl_Descuentos As New DataTable
-    '        Dim ADATER As New SqlDataAdapter
+    Public Function Obtiene_Descuentos(ByVal SQL_Comman As SqlCommand, Ruta As String, Rutas_Unificar() As String, FechaDesde As String, FechaHasta As String)
+        Try
+            Dim Tbl_Descuentos As New DataTable
+            Dim ADATER As New SqlDataAdapter
 
-    '        Dim Consulta As String = ""
-    '        Dim cont As Integer = 0
+            Dim Consulta As String = ""
+            Dim cont As Integer = 0
 
-    '        If Rutas_Unidicar Is Nothing Then
-    '            Consulta = "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorAgente(" & Ruta & ") T0"
-    '        Else
+            If Rutas_Unificar Is Nothing Then
+                Consulta = "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentos('" & Ruta & "','" & FechaDesde & "','" & FechaHasta & "') T0"
+            Else
 
-    '            For i As Integer = 0 To Rutas_Unidicar.Count - 1
-    '                If cont > 0 Then
-    '                    Consulta = Consulta & " UNION "
-    '                End If
-    '                Consulta = Consulta & "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentosPorAgente(" & Rutas_Unidicar(i).ToString & ") T0"
-    '                cont += 1
-    '            Next
+                For i As Integer = 0 To Rutas_Unificar.Count - 1
+                    If cont > 0 Then
+                        Consulta = Consulta & " UNION "
+                    End If
+                    Consulta = Consulta & "SELECT  T0.CardCode,  T0.ItemCode, T0.Descuento  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneDescuentos('" & Rutas_Unificar(i).ToString & "','" & FechaDesde & "','" & FechaHasta & "') T0"
+                    cont += 1
+                Next
 
-    '        End If
+            End If
 
-    '        ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-    '        ADATER.Fill(Tbl_Descuentos)
-    '        SQL_Comman = Nothing
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(Tbl_Descuentos)
+            SQL_Comman = Nothing
 
-    '        Return Tbl_Descuentos
-    '    Catch ex As Exception
-    '        MessageBox.Show("ERROR en Obtiene_Descuentos [ " & ex.Message & " ]")
-    '    End Try
-    'End Function
+            Return Tbl_Descuentos
+        Catch ex As Exception
+            MessageBox.Show("ERROR en Obtiene_Descuentos [ " & ex.Message & " ]")
+        End Try
+    End Function
 
 
 
@@ -10680,12 +10598,14 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
-            Consulta = "select T1.[EXO_PorcentajeCompra]  from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].ClientesCabysExentos T0 inner join  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesModificados] T1 on T0.CardCode=T1.CardCode where T0.CardCode='" & CardCode & "' and CodCabys='" & CodCabys & "' and EXO_FechaVencimiento <=  GETDATE()"
-
+            Consulta = "SELECT t0.[PorcentajeCompra]
+                        FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[DocumentosExoneracionDeClientes] T0
+                        inner join " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].ClientesCabysExentos T1  on T0.[CodCliente]=T1.[CardCode] 
+                        where T0.[CodCliente]='" & CardCode & "' and t1.CodCabys='" & CodCabys & "' AND GETDATE() <=T0.[FechaVencimiento]"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
-            Return TABLA.Rows(0).Item("EXO_PorcentajeCompra").ToString()
+            Return TABLA.Rows(0).Item("PorcentajeCompra").ToString()
         Catch ex As Exception
             Return 0
         End Try
