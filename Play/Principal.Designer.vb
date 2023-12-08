@@ -119,6 +119,7 @@ Partial Class Principal
         Me.ToolStripMenuItem12 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem13 = New System.Windows.Forms.ToolStripMenuItem()
         Me.CerrarSesionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MotivosDeDevolucionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -300,7 +301,7 @@ Partial Class Principal
         '
         'AdministrarToolStripMenuItem
         '
-        Me.AdministrarToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AgentesToolStripMenuItem, Me.BodeguerosToolStripMenuItem, Me.EmpresaToolStripMenuItem, Me.ChoferesToolStripMenuItem, Me.RutasToolStripMenuItem, Me.UniversosToolStripMenuItem, Me.CambioInfoClienteToolStripMenuItem, Me.UsuariosToolStripMenuItem, Me.CamionesToolStripMenuItem, Me.ClientesModificadosToolStripMenuItem, Me.DesicionesToolStripMenuItem, Me.LicenciasToolStripMenuItem, Me.BancosToolStripMenuItem})
+        Me.AdministrarToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AgentesToolStripMenuItem, Me.BodeguerosToolStripMenuItem, Me.EmpresaToolStripMenuItem, Me.ChoferesToolStripMenuItem, Me.RutasToolStripMenuItem, Me.UniversosToolStripMenuItem, Me.CambioInfoClienteToolStripMenuItem, Me.UsuariosToolStripMenuItem, Me.CamionesToolStripMenuItem, Me.ClientesModificadosToolStripMenuItem, Me.DesicionesToolStripMenuItem, Me.LicenciasToolStripMenuItem, Me.BancosToolStripMenuItem, Me.MotivosDeDevolucionToolStripMenuItem})
         Me.AdministrarToolStripMenuItem.Name = "AdministrarToolStripMenuItem"
         Me.AdministrarToolStripMenuItem.Size = New System.Drawing.Size(98, 24)
         Me.AdministrarToolStripMenuItem.Text = "Administrar"
@@ -308,88 +309,88 @@ Partial Class Principal
         'AgentesToolStripMenuItem
         '
         Me.AgentesToolStripMenuItem.Name = "AgentesToolStripMenuItem"
-        Me.AgentesToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.AgentesToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.AgentesToolStripMenuItem.Text = "Agente/Choferes"
         '
         'BodeguerosToolStripMenuItem
         '
         Me.BodeguerosToolStripMenuItem.Name = "BodeguerosToolStripMenuItem"
-        Me.BodeguerosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.BodeguerosToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.BodeguerosToolStripMenuItem.Text = "Bodegueros"
         Me.BodeguerosToolStripMenuItem.Visible = False
         '
         'EmpresaToolStripMenuItem
         '
         Me.EmpresaToolStripMenuItem.Name = "EmpresaToolStripMenuItem"
-        Me.EmpresaToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.EmpresaToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.EmpresaToolStripMenuItem.Text = "Empresa"
         '
         'ChoferesToolStripMenuItem
         '
         Me.ChoferesToolStripMenuItem.Name = "ChoferesToolStripMenuItem"
-        Me.ChoferesToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.ChoferesToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.ChoferesToolStripMenuItem.Text = "Choferes y Ayudantes"
         Me.ChoferesToolStripMenuItem.Visible = False
         '
         'RutasToolStripMenuItem
         '
         Me.RutasToolStripMenuItem.Name = "RutasToolStripMenuItem"
-        Me.RutasToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.RutasToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.RutasToolStripMenuItem.Text = "Rutas"
         Me.RutasToolStripMenuItem.Visible = False
         '
         'UniversosToolStripMenuItem
         '
         Me.UniversosToolStripMenuItem.Name = "UniversosToolStripMenuItem"
-        Me.UniversosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.UniversosToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.UniversosToolStripMenuItem.Text = "Universos"
         Me.UniversosToolStripMenuItem.Visible = False
         '
         'CambioInfoClienteToolStripMenuItem
         '
         Me.CambioInfoClienteToolStripMenuItem.Name = "CambioInfoClienteToolStripMenuItem"
-        Me.CambioInfoClienteToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.CambioInfoClienteToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.CambioInfoClienteToolStripMenuItem.Text = "Cambio Info cliente"
         Me.CambioInfoClienteToolStripMenuItem.Visible = False
         '
         'UsuariosToolStripMenuItem
         '
         Me.UsuariosToolStripMenuItem.Name = "UsuariosToolStripMenuItem"
-        Me.UsuariosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.UsuariosToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.UsuariosToolStripMenuItem.Text = "Usuarios"
         Me.UsuariosToolStripMenuItem.Visible = False
         '
         'CamionesToolStripMenuItem
         '
         Me.CamionesToolStripMenuItem.Name = "CamionesToolStripMenuItem"
-        Me.CamionesToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.CamionesToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.CamionesToolStripMenuItem.Text = "Camiones"
         Me.CamionesToolStripMenuItem.Visible = False
         '
         'ClientesModificadosToolStripMenuItem
         '
         Me.ClientesModificadosToolStripMenuItem.Name = "ClientesModificadosToolStripMenuItem"
-        Me.ClientesModificadosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.ClientesModificadosToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.ClientesModificadosToolStripMenuItem.Text = "Clientes"
         '
         'DesicionesToolStripMenuItem
         '
         Me.DesicionesToolStripMenuItem.Name = "DesicionesToolStripMenuItem"
-        Me.DesicionesToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.DesicionesToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.DesicionesToolStripMenuItem.Text = "Decisiones"
         Me.DesicionesToolStripMenuItem.Visible = False
         '
         'LicenciasToolStripMenuItem
         '
         Me.LicenciasToolStripMenuItem.Name = "LicenciasToolStripMenuItem"
-        Me.LicenciasToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.LicenciasToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.LicenciasToolStripMenuItem.Text = "Licencias"
         Me.LicenciasToolStripMenuItem.Visible = False
         '
         'BancosToolStripMenuItem
         '
         Me.BancosToolStripMenuItem.Name = "BancosToolStripMenuItem"
-        Me.BancosToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
+        Me.BancosToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.BancosToolStripMenuItem.Text = "Bancos"
         '
         'LiquidacionesToolStripMenuItem
@@ -746,6 +747,12 @@ Partial Class Principal
         Me.CerrarSesionToolStripMenuItem.Size = New System.Drawing.Size(108, 24)
         Me.CerrarSesionToolStripMenuItem.Text = "Cerrar Sesion"
         '
+        'MotivosDeDevolucionToolStripMenuItem
+        '
+        Me.MotivosDeDevolucionToolStripMenuItem.Name = "MotivosDeDevolucionToolStripMenuItem"
+        Me.MotivosDeDevolucionToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
+        Me.MotivosDeDevolucionToolStripMenuItem.Text = "Motivos de Devolucion"
+        '
         'Principal
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -866,4 +873,5 @@ Partial Class Principal
     Friend WithEvents ChequeoToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BancosToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CerrarSesionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents MotivosDeDevolucionToolStripMenuItem As ToolStripMenuItem
 End Class

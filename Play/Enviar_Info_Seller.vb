@@ -86,6 +86,30 @@ Public Class Enviar_Info_Seller
 
         End Try
     End Sub
+    Public Sub Carga_MotivosDevolucion(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String)
+        Try
+            Try
+                My.Computer.FileSystem.DeleteFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\MotivosDevolucion.mbg")
+            Catch ex As Exception
+
+            End Try
+
+            Class_VariablesGlobales.Obj_Creaarchivo.Eliminar(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\MotivosDevolucion.mbg")
+            Dim Tbl_MotivosDevolucion As New DataTable
+
+            Tbl_MotivosDevolucion = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneMotivosDevolucion(SQL_Comman1)
+
+
+            Class_VariablesGlobales.Obj_Creaarchivo.Crear_InMotivosDevolucion(Tbl_MotivosDevolucion, Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\MotivosDevolucion.mbg", Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta)
+            If Class_VariablesGlobales.Obj_Creaarchivo.ObtieneTamanoFile(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\MotivosDevolucion.mbg") <> "0 Kb" Then
+                Class_VariablesGlobales.Obj_Creaarchivo.Subir_A_FTP(Class_VariablesGlobales.XMLParamFTP_dirLocal & Ruta & "\MotivosDevolucion.mbg", "MotivosDevolucion.mbg", Ruta2, "Completo", Servidor)
+            End If
+
+            Tbl_MotivosDevolucion.Dispose()
+        Catch ex As Exception
+
+        End Try
+    End Sub
     Public Sub Carga_Descuentos(ByVal SQL_Comman1 As SqlCommand, ByVal Ruta As String, ByVal Ruta2 As String, Rutas_Unidicar() As String)
         Try
             Try
@@ -407,7 +431,9 @@ Public Class Enviar_Info_Seller
         If Cbox_Ubicaciones.Checked = True Then
             Carga_UbiacionesCR(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
         End If
-
+        If Cbox_MotivoDevolucion.Checked = True Then
+            Carga_MotivosDevolucion(Class_VariablesGlobales.SQL_Comman1, TextB_Agente2.Text, TextB_Agente2.Text)
+        End If
         If CBX_Param.Checked = True Then
             ExportaParametros(Class_VariablesGlobales.SQL_Comman1, Rutas_Unidicar(0).ToString, TextB_Agente2.Text)
         End If
@@ -462,19 +488,19 @@ Public Class Enviar_Info_Seller
                 Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
             End If
 
-
             Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
 
             If Cbox_Razones.Checked = True Then
-
                 Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             End If
-
 
             If Cbox_Bancos.Checked = True Then
                 Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             End If
 
+            If Cbox_MotivoDevolucion.Checked = True Then
+                Carga_MotivosDevolucion(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+            End If
 
             If Cbox_Ubicaciones.Checked = True Then
                 Carga_UbiacionesCR(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
@@ -483,9 +509,7 @@ Public Class Enviar_Info_Seller
             Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
 
             If CBX_Param.Checked = True Then
-
                 ExportaParametros(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
-
             End If
 
             MessageBox.Show("Informacion cargada correctamente " & TextB_Agente.Text, TextB_Agente.Text)
@@ -541,25 +565,32 @@ Public Class Enviar_Info_Seller
             End If
 
             If Cbox_Facturas.Checked = True Then
-                Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente1.Text, TextB_Agente2.Text, Rutas_Unidicar)
+                Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta, Rutas_Unidicar)
             End If
+
+            Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
 
             If Cbox_Razones.Checked = True Then
                 Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             End If
 
-
             If Cbox_Bancos.Checked = True Then
                 Carga_Bancos(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             End If
 
-            Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
-            Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
-            If CBX_Param.Checked = True Then
-
-                ExportaParametros(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+            If Cbox_MotivoDevolucion.Checked = True Then
+                Carga_MotivosDevolucion(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
             End If
 
+            If Cbox_Ubicaciones.Checked = True Then
+                Carga_UbiacionesCR(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+            End If
+
+            Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+
+            If CBX_Param.Checked = True Then
+                ExportaParametros(Class_VariablesGlobales.SQL_Comman1, Ruta, Ruta)
+            End If
 
             cont += 1
             lbl_AgentesProcesados.Text = cont

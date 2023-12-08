@@ -437,7 +437,7 @@ Public Class Class_VariablesGlobales
     Public Shared frmWMS_PedidosChequeados As WMS_PedidosChequeados
     Public Shared frmWMS_PedidosChequeados_Detalle As WMS_PedidosChequeados_Detalle
     Public Shared frmWMS_BancosEssco As Admin_Bancos
-
+    Public Shared frmWMS_MotivosDevolucion As Admin_MotivosDevolucion
 
 
 End Class

@@ -278,7 +278,73 @@ Public Class CrearArchivo
             BankName = Nothing
 
         Catch ex As Exception
-            MsgBox("ERROR Crear_in_ParamSeller [ " & ex.Message & " ]")
+            MsgBox("ERROR Crear_InBancos [ " & ex.Message & " ]")
+        End Try
+        Return 0
+
+    End Function
+    Public Function Crear_InMotivosDevolucion(ByVal Tbl_MotivosDevolucion As DataTable, ByVal RutaOrigen As String, ByVal carpeta As String)
+        Try
+            Dim sRenglon As String = Nothing
+            Dim strStreamW As Stream = Nothing
+            Dim strStreamWriter As StreamWriter = Nothing
+            Dim ContenidoArchivo As String = Nothing
+            Dim PathArchivo As String
+            Dim i As Integer
+
+            Dim cont As Integer = 0
+            Dim Linea As String = ""
+            'SELECT T0.[CardCode], T0.[CardName], T0.[LicTradNum] as 'Cedula', T0.[CntctPrsn]as 'Responsable_Tributario', T0.[GroupNum] as 'CodCredito', T0.[U_Visita], T0.[U_Descuento] as 'DescuentoMAX', T0.[U_ClaveWeb],T0.[SlpCode],T0.[ListNum] as 'ListaPrecio' FROM  "&  Class_VariablesGlobales.XMLParamSAP_CompanyDB  &".[dbo].[OCRD] T0 WHERE T0.[U_AGENTE1] = @Agente
+            Dim Codigo As String = ""
+            Dim Descripcion As String = ""
+            Dim Bodega As String = ""
+
+            If Directory.Exists(carpeta) = False Then ' si no existe la carpeta se crea
+                Directory.CreateDirectory(carpeta)
+            End If
+
+            Cursor.Current = Cursors.WaitCursor
+            PathArchivo = RutaOrigen ' Se determina el nombre del archivo 
+
+            'verificamos si existe el archivo
+            If File.Exists(PathArchivo) Then
+                strStreamW = File.Open(PathArchivo, FileMode.Open) 'Abrimos el archivo
+            Else
+                strStreamW = File.Create(PathArchivo) ' lo creamos
+            End If
+            strStreamWriter = New StreamWriter(strStreamW, System.Text.Encoding.Default) ' tipo de codificacion para escritura
+
+            For Each row As DataRow In Tbl_MotivosDevolucion.Rows
+                Codigo = Tbl_MotivosDevolucion.Rows(cont).Item("Codigo").ToString()
+                Descripcion = Tbl_MotivosDevolucion.Rows(cont).Item("Descripcion").ToString()
+                Bodega = Tbl_MotivosDevolucion.Rows(cont).Item("Bodega").ToString()
+                Linea = Codigo + "^" & Descripcion + "^" & Bodega
+                strStreamWriter.WriteLine(Linea)
+                Linea = ""
+                Codigo = ""
+                Descripcion = ""
+                Bodega = ""
+                cont += 1
+            Next
+
+            '  DetalleCarga = "FIN DE GENERANDO ARCHIVO "
+            strStreamWriter.Close() ' cerramos
+            'INICIO DE LIBERIACION DE MEMORIA
+            sRenglon = Nothing
+            strStreamW.Dispose()
+            strStreamW = Nothing
+            strStreamWriter.Dispose()
+            strStreamWriter = Nothing
+            ContenidoArchivo = Nothing
+            PathArchivo = Nothing
+            i = Nothing
+            Linea = Nothing
+            Linea = Nothing
+            Codigo = Nothing
+            Descripcion = Nothing
+
+        Catch ex As Exception
+            MsgBox("ERROR Crear_InMotivosDevolucion [ " & ex.Message & " ]")
         End Try
         Return 0
 
@@ -1074,6 +1140,8 @@ Public Class CrearArchivo
             Dim DescPromo As String = ""
             Dim DocEntry As String = ""
             Dim CodeBars As String = ""
+            Dim SlpCode As String = ""
+
             Const quote As String = """"
 
             If Directory.Exists(carpeta) = False Then ' si no existe la carpeta se crea
@@ -1115,6 +1183,8 @@ Public Class CrearArchivo
                 DescPromo = Tbl_Facturas.Rows(cont).Item("DescPromo").ToString()
                 DocEntry = Tbl_Facturas.Rows(cont).Item("DocEntry").ToString()
                 CodeBars = Tbl_Facturas.Rows(cont).Item("CodeBars").ToString()
+                SlpCode = Tbl_Facturas.Rows(cont).Item("SlpCode").ToString()
+
                 If DescFijo = "" Then
                     DescFijo = "0"
                 End If
@@ -1122,7 +1192,7 @@ Public Class CrearArchivo
                     DescPromo = "0"
                 End If
 
-                Linea = Consecutivo & "^" & DocNum & "^" & FechaReporte & "^" & FechaFactura & "^" & CodCliente & "^" & Nombre & "^" & ItemCode & "^" & ItemName & "^" & Cant & "^" & Descuento & "^" & Precio & "^" & Imp & "^" & MontoDesc & "^" & MontoImp & "^" & Total & "^" & Fac_INI & "^" & Fac_FIN & "^" & Chofer & "^" & Ayudante & "^" & DescFijo & "^" & DescPromo & "^" & DocEntry & "^" & CodeBars & "^"
+                Linea = Consecutivo & "^" & DocNum & "^" & FechaReporte & "^" & FechaFactura & "^" & CodCliente & "^" & Nombre & "^" & ItemCode & "^" & ItemName & "^" & Cant & "^" & Descuento & "^" & Precio & "^" & Imp & "^" & MontoDesc & "^" & MontoImp & "^" & Total & "^" & Fac_INI & "^" & Fac_FIN & "^" & Chofer & "^" & Ayudante & "^" & DescFijo & "^" & DescPromo & "^" & DocEntry & "^" & CodeBars & "^" & SlpCode & "^"
 
                 'ESCRIBE LA LINEA EN EL ARCHIVO
                 strStreamWriter.WriteLine(Linea)
@@ -1152,6 +1222,7 @@ Public Class CrearArchivo
                 DescPromo = ""
                 DocEntry = ""
                 CodeBars = ""
+                SlpCode = ""
                 Linea = ""
                 cont += 1
 
@@ -1194,6 +1265,7 @@ Public Class CrearArchivo
             MontoImp = Nothing
             DescFijo = Nothing
             DescPromo = Nothing
+            SlpCode = Nothing
 
             'FIN DE LIBERIACION DE MEMORIA
 
@@ -1201,7 +1273,7 @@ Public Class CrearArchivo
             ' Contador = 0
         Catch ex As Exception
             ' ERRORES = "[ " & Now & " ] ERROR en Crear ( " & ex.ToString & " )"
-            Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR en Crear_InFacturass ( " & ex.ToString & " )"
+            Class_VariablesGlobales.ERRORES = "[ " & Now & " ] ERROR en Crear_InFacturas ( " & ex.ToString & " )"
         End Try
         Return 0
 

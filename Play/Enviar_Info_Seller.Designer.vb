@@ -23,6 +23,7 @@ Partial Class Enviar_Info_Seller
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
+        Me.Cbox_MotivoDevolucion = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
         Me.btn_ExpoInfo = New System.Windows.Forms.Button()
@@ -77,6 +78,9 @@ Partial Class Enviar_Info_Seller
         '
         'GroupBox7
         '
+        Me.GroupBox7.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox7.Controls.Add(Me.Cbox_MotivoDevolucion)
         Me.GroupBox7.Controls.Add(Me.CheckBox1)
         Me.GroupBox7.Controls.Add(Me.GroupBox3)
         Me.GroupBox7.Controls.Add(Me.Cbox_Razones)
@@ -89,23 +93,34 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox7.Controls.Add(Me.Cbox_Clientes)
         Me.GroupBox7.Enabled = False
         Me.GroupBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox7.Location = New System.Drawing.Point(13, 111)
+        Me.GroupBox7.Location = New System.Drawing.Point(13, 123)
         Me.GroupBox7.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox7.Name = "GroupBox7"
         Me.GroupBox7.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox7.Size = New System.Drawing.Size(1013, 438)
+        Me.GroupBox7.Size = New System.Drawing.Size(1180, 420)
         Me.GroupBox7.TabIndex = 16
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "Tipo de envio"
         '
+        'Cbox_MotivoDevolucion
+        '
+        Me.Cbox_MotivoDevolucion.AutoSize = True
+        Me.Cbox_MotivoDevolucion.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Cbox_MotivoDevolucion.Location = New System.Drawing.Point(8, 383)
+        Me.Cbox_MotivoDevolucion.Margin = New System.Windows.Forms.Padding(4)
+        Me.Cbox_MotivoDevolucion.Name = "Cbox_MotivoDevolucion"
+        Me.Cbox_MotivoDevolucion.Size = New System.Drawing.Size(211, 29)
+        Me.Cbox_MotivoDevolucion.TabIndex = 45
+        Me.Cbox_MotivoDevolucion.Text = "Motivo Devolucion"
+        Me.Cbox_MotivoDevolucion.UseVisualStyleBackColor = True
+        '
         'CheckBox1
         '
-        Me.CheckBox1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.Checked = True
         Me.CheckBox1.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CheckBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CheckBox1.Location = New System.Drawing.Point(128, 21)
+        Me.CheckBox1.Location = New System.Drawing.Point(8, 47)
         Me.CheckBox1.Margin = New System.Windows.Forms.Padding(4)
         Me.CheckBox1.Name = "CheckBox1"
         Me.CheckBox1.Size = New System.Drawing.Size(148, 29)
@@ -115,16 +130,18 @@ Partial Class Enviar_Info_Seller
         '
         'GroupBox3
         '
+        Me.GroupBox3.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox3.Controls.Add(Me.btn_ExpoInfo)
         Me.GroupBox3.Controls.Add(Me.Label47)
         Me.GroupBox3.Controls.Add(Me.cbx_CatalogoDivido)
         Me.GroupBox3.Controls.Add(Me.TextB_Agente)
         Me.GroupBox3.Controls.Add(Me.txb_Grupo)
-        Me.GroupBox3.Location = New System.Drawing.Point(11, 299)
+        Me.GroupBox3.Location = New System.Drawing.Point(248, 289)
         Me.GroupBox3.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox3.Name = "GroupBox3"
         Me.GroupBox3.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox3.Size = New System.Drawing.Size(987, 123)
+        Me.GroupBox3.Size = New System.Drawing.Size(916, 123)
         Me.GroupBox3.TabIndex = 43
         Me.GroupBox3.TabStop = False
         Me.GroupBox3.Text = "Enviar a un solo empleado"
@@ -151,8 +168,9 @@ Partial Class Enviar_Info_Seller
         '
         'cbx_CatalogoDivido
         '
+        Me.cbx_CatalogoDivido.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cbx_CatalogoDivido.AutoSize = True
-        Me.cbx_CatalogoDivido.Location = New System.Drawing.Point(853, 21)
+        Me.cbx_CatalogoDivido.Location = New System.Drawing.Point(778, 21)
         Me.cbx_CatalogoDivido.Margin = New System.Windows.Forms.Padding(4)
         Me.cbx_CatalogoDivido.Name = "cbx_CatalogoDivido"
         Me.cbx_CatalogoDivido.Size = New System.Drawing.Size(93, 29)
@@ -163,7 +181,7 @@ Partial Class Enviar_Info_Seller
         '
         'TextB_Agente
         '
-        Me.TextB_Agente.Location = New System.Drawing.Point(391, 58)
+        Me.TextB_Agente.Location = New System.Drawing.Point(390, 61)
         Me.TextB_Agente.Margin = New System.Windows.Forms.Padding(4)
         Me.TextB_Agente.Name = "TextB_Agente"
         Me.TextB_Agente.Size = New System.Drawing.Size(132, 30)
@@ -171,21 +189,21 @@ Partial Class Enviar_Info_Seller
         '
         'txb_Grupo
         '
+        Me.txb_Grupo.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txb_Grupo.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txb_Grupo.Enabled = False
-        Me.txb_Grupo.Location = New System.Drawing.Point(837, 58)
+        Me.txb_Grupo.Location = New System.Drawing.Point(749, 61)
         Me.txb_Grupo.Margin = New System.Windows.Forms.Padding(4)
         Me.txb_Grupo.Name = "txb_Grupo"
-        Me.txb_Grupo.Size = New System.Drawing.Size(140, 30)
+        Me.txb_Grupo.Size = New System.Drawing.Size(159, 30)
         Me.txb_Grupo.TabIndex = 20
         Me.txb_Grupo.Visible = False
         '
         'Cbox_Razones
         '
-        Me.Cbox_Razones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Razones.AutoSize = True
         Me.Cbox_Razones.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cbox_Razones.Location = New System.Drawing.Point(873, 17)
+        Me.Cbox_Razones.Location = New System.Drawing.Point(8, 337)
         Me.Cbox_Razones.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Razones.Name = "Cbox_Razones"
         Me.Cbox_Razones.Size = New System.Drawing.Size(119, 29)
@@ -195,17 +213,19 @@ Partial Class Enviar_Info_Seller
         '
         'GroupBox2
         '
+        Me.GroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.BackColor = System.Drawing.SystemColors.Control
         Me.GroupBox2.Controls.Add(Me.btn_EnviarTodos)
         Me.GroupBox2.Controls.Add(Me.Prgs_CargaAgentes)
         Me.GroupBox2.Controls.Add(Me.lbl_TotalAgentes)
         Me.GroupBox2.Controls.Add(Me.lbl_DetalleCarga)
         Me.GroupBox2.Controls.Add(Me.lbl_AgentesProcesados)
-        Me.GroupBox2.Location = New System.Drawing.Point(11, 58)
+        Me.GroupBox2.Location = New System.Drawing.Point(247, 31)
         Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox2.Size = New System.Drawing.Size(987, 121)
+        Me.GroupBox2.Size = New System.Drawing.Size(917, 121)
         Me.GroupBox2.TabIndex = 35
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Enviar a todos los empleados"
@@ -222,16 +242,19 @@ Partial Class Enviar_Info_Seller
         '
         'Prgs_CargaAgentes
         '
+        Me.Prgs_CargaAgentes.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Prgs_CargaAgentes.Location = New System.Drawing.Point(305, 68)
         Me.Prgs_CargaAgentes.Margin = New System.Windows.Forms.Padding(4)
         Me.Prgs_CargaAgentes.Name = "Prgs_CargaAgentes"
-        Me.Prgs_CargaAgentes.Size = New System.Drawing.Size(669, 28)
+        Me.Prgs_CargaAgentes.Size = New System.Drawing.Size(599, 28)
         Me.Prgs_CargaAgentes.TabIndex = 15
         '
         'lbl_TotalAgentes
         '
+        Me.lbl_TotalAgentes.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lbl_TotalAgentes.AutoSize = True
-        Me.lbl_TotalAgentes.Location = New System.Drawing.Point(916, 39)
+        Me.lbl_TotalAgentes.Location = New System.Drawing.Point(835, 39)
         Me.lbl_TotalAgentes.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_TotalAgentes.Name = "lbl_TotalAgentes"
         Me.lbl_TotalAgentes.Size = New System.Drawing.Size(60, 25)
@@ -240,8 +263,9 @@ Partial Class Enviar_Info_Seller
         '
         'lbl_DetalleCarga
         '
+        Me.lbl_DetalleCarga.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lbl_DetalleCarga.AutoSize = True
-        Me.lbl_DetalleCarga.Location = New System.Drawing.Point(559, 39)
+        Me.lbl_DetalleCarga.Location = New System.Drawing.Point(557, 41)
         Me.lbl_DetalleCarga.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_DetalleCarga.Name = "lbl_DetalleCarga"
         Me.lbl_DetalleCarga.Size = New System.Drawing.Size(79, 25)
@@ -260,10 +284,9 @@ Partial Class Enviar_Info_Seller
         '
         'Cbox_Bancos
         '
-        Me.Cbox_Bancos.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Bancos.AutoSize = True
         Me.Cbox_Bancos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cbox_Bancos.Location = New System.Drawing.Point(766, 17)
+        Me.Cbox_Bancos.Location = New System.Drawing.Point(9, 291)
         Me.Cbox_Bancos.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Bancos.Name = "Cbox_Bancos"
         Me.Cbox_Bancos.Size = New System.Drawing.Size(106, 29)
@@ -273,6 +296,8 @@ Partial Class Enviar_Info_Seller
         '
         'GroupBox6
         '
+        Me.GroupBox6.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox6.BackColor = System.Drawing.SystemColors.Control
         Me.GroupBox6.Controls.Add(Me.ListV_Reportes)
         Me.GroupBox6.Controls.Add(Me.Button1)
@@ -283,25 +308,26 @@ Partial Class Enviar_Info_Seller
         Me.GroupBox6.Controls.Add(Me.Label50)
         Me.GroupBox6.Controls.Add(Me.Label49)
         Me.GroupBox6.Controls.Add(Me.TextB_Agente2)
-        Me.GroupBox6.Location = New System.Drawing.Point(11, 176)
+        Me.GroupBox6.Location = New System.Drawing.Point(247, 154)
         Me.GroupBox6.Margin = New System.Windows.Forms.Padding(4)
         Me.GroupBox6.Name = "GroupBox6"
         Me.GroupBox6.Padding = New System.Windows.Forms.Padding(4)
-        Me.GroupBox6.Size = New System.Drawing.Size(987, 121)
+        Me.GroupBox6.Size = New System.Drawing.Size(916, 121)
         Me.GroupBox6.TabIndex = 13
         Me.GroupBox6.TabStop = False
         Me.GroupBox6.Text = "Intercambiar Rutas"
         '
         'ListV_Reportes
         '
-        Me.ListV_Reportes.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ListV_Reportes.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ListV_Reportes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader6, Me.ColumnHeader7, Me.ColumnHeader8})
         Me.ListV_Reportes.Enabled = False
         Me.ListV_Reportes.HideSelection = False
         Me.ListV_Reportes.Location = New System.Drawing.Point(389, 54)
         Me.ListV_Reportes.Margin = New System.Windows.Forms.Padding(4)
         Me.ListV_Reportes.Name = "ListV_Reportes"
-        Me.ListV_Reportes.Size = New System.Drawing.Size(271, 43)
+        Me.ListV_Reportes.Size = New System.Drawing.Size(200, 43)
         Me.ListV_Reportes.TabIndex = 94
         Me.ListV_Reportes.UseCompatibleStateImageBehavior = False
         Me.ListV_Reportes.View = System.Windows.Forms.View.List
@@ -324,8 +350,9 @@ Partial Class Enviar_Info_Seller
         '
         'Button1
         '
+        Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Button1.Location = New System.Drawing.Point(669, 54)
+        Me.Button1.Location = New System.Drawing.Point(598, 54)
         Me.Button1.Margin = New System.Windows.Forms.Padding(4)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(77, 37)
@@ -335,8 +362,9 @@ Partial Class Enviar_Info_Seller
         '
         'Label4
         '
+        Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(847, 28)
+        Me.Label4.Location = New System.Drawing.Point(757, 28)
         Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(120, 25)
@@ -383,8 +411,9 @@ Partial Class Enviar_Info_Seller
         '
         'Label49
         '
+        Me.Label49.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label49.AutoSize = True
-        Me.Label49.Location = New System.Drawing.Point(757, 60)
+        Me.Label49.Location = New System.Drawing.Point(682, 60)
         Me.Label49.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label49.Name = "Label49"
         Me.Label49.Size = New System.Drawing.Size(67, 25)
@@ -393,18 +422,18 @@ Partial Class Enviar_Info_Seller
         '
         'TextB_Agente2
         '
-        Me.TextB_Agente2.Location = New System.Drawing.Point(836, 57)
+        Me.TextB_Agente2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.TextB_Agente2.Location = New System.Drawing.Point(761, 57)
         Me.TextB_Agente2.Margin = New System.Windows.Forms.Padding(4)
         Me.TextB_Agente2.Name = "TextB_Agente2"
-        Me.TextB_Agente2.Size = New System.Drawing.Size(140, 30)
+        Me.TextB_Agente2.Size = New System.Drawing.Size(144, 30)
         Me.TextB_Agente2.TabIndex = 10
         '
         'Cbox_Ubicaciones
         '
-        Me.Cbox_Ubicaciones.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Ubicaciones.AutoSize = True
         Me.Cbox_Ubicaciones.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cbox_Ubicaciones.Location = New System.Drawing.Point(607, 17)
+        Me.Cbox_Ubicaciones.Location = New System.Drawing.Point(9, 243)
         Me.Cbox_Ubicaciones.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Ubicaciones.Name = "Cbox_Ubicaciones"
         Me.Cbox_Ubicaciones.Size = New System.Drawing.Size(152, 29)
@@ -414,12 +443,11 @@ Partial Class Enviar_Info_Seller
         '
         'Cbox_Cxc
         '
-        Me.Cbox_Cxc.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Cxc.AutoSize = True
         Me.Cbox_Cxc.Checked = True
         Me.Cbox_Cxc.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Cxc.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cbox_Cxc.Location = New System.Drawing.Point(284, 17)
+        Me.Cbox_Cxc.Location = New System.Drawing.Point(9, 95)
         Me.Cbox_Cxc.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Cxc.Name = "Cbox_Cxc"
         Me.Cbox_Cxc.Size = New System.Drawing.Size(71, 29)
@@ -429,12 +457,11 @@ Partial Class Enviar_Info_Seller
         '
         'Cbox_Facturas
         '
-        Me.Cbox_Facturas.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Facturas.AutoSize = True
         Me.Cbox_Facturas.Checked = True
         Me.Cbox_Facturas.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Facturas.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cbox_Facturas.Location = New System.Drawing.Point(482, 17)
+        Me.Cbox_Facturas.Location = New System.Drawing.Point(9, 193)
         Me.Cbox_Facturas.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Facturas.Name = "Cbox_Facturas"
         Me.Cbox_Facturas.Size = New System.Drawing.Size(118, 29)
@@ -444,12 +471,11 @@ Partial Class Enviar_Info_Seller
         '
         'Cbox_Clientes
         '
-        Me.Cbox_Clientes.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Cbox_Clientes.AutoSize = True
         Me.Cbox_Clientes.Checked = True
         Me.Cbox_Clientes.CheckState = System.Windows.Forms.CheckState.Checked
         Me.Cbox_Clientes.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Cbox_Clientes.Location = New System.Drawing.Point(364, 17)
+        Me.Cbox_Clientes.Location = New System.Drawing.Point(9, 145)
         Me.Cbox_Clientes.Margin = New System.Windows.Forms.Padding(4)
         Me.Cbox_Clientes.Name = "Cbox_Clientes"
         Me.Cbox_Clientes.Size = New System.Drawing.Size(112, 29)
@@ -462,19 +488,21 @@ Partial Class Enviar_Info_Seller
         Me.lbl_FechaReporte.AutoSize = True
         Me.lbl_FechaReporte.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_FechaReporte.ForeColor = System.Drawing.Color.Black
-        Me.lbl_FechaReporte.Location = New System.Drawing.Point(376, 15)
+        Me.lbl_FechaReporte.Location = New System.Drawing.Point(43, 9)
         Me.lbl_FechaReporte.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_FechaReporte.Name = "lbl_FechaReporte"
-        Me.lbl_FechaReporte.Size = New System.Drawing.Size(255, 25)
+        Me.lbl_FechaReporte.Size = New System.Drawing.Size(189, 25)
         Me.lbl_FechaReporte.TabIndex = 33
-        Me.lbl_FechaReporte.Text = "Fecha Reportes Facturas"
+        Me.lbl_FechaReporte.Text = "Reportes Facturas"
         '
         'DTP_FechaDesde
         '
-        Me.DTP_FechaDesde.Location = New System.Drawing.Point(381, 54)
+        Me.DTP_FechaDesde.CalendarFont = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DTP_FechaDesde.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.DTP_FechaDesde.Location = New System.Drawing.Point(109, 47)
         Me.DTP_FechaDesde.Margin = New System.Windows.Forms.Padding(4)
         Me.DTP_FechaDesde.Name = "DTP_FechaDesde"
-        Me.DTP_FechaDesde.Size = New System.Drawing.Size(280, 22)
+        Me.DTP_FechaDesde.Size = New System.Drawing.Size(155, 22)
         Me.DTP_FechaDesde.TabIndex = 32
         '
         'CBX_Param
@@ -483,7 +511,7 @@ Partial Class Enviar_Info_Seller
         Me.CBX_Param.AutoSize = True
         Me.CBX_Param.Enabled = False
         Me.CBX_Param.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.CBX_Param.Location = New System.Drawing.Point(846, 49)
+        Me.CBX_Param.Location = New System.Drawing.Point(1012, 47)
         Me.CBX_Param.Margin = New System.Windows.Forms.Padding(4)
         Me.CBX_Param.Name = "CBX_Param"
         Me.CBX_Param.Size = New System.Drawing.Size(144, 29)
@@ -493,10 +521,11 @@ Partial Class Enviar_Info_Seller
         '
         'Label1
         '
+        Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.Red
-        Me.Label1.Location = New System.Drawing.Point(115, 553)
+        Me.Label1.Location = New System.Drawing.Point(17, 565)
         Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(624, 29)
@@ -509,7 +538,7 @@ Partial Class Enviar_Info_Seller
         Me.ChBox_ClientexDia.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ChBox_ClientexDia.Enabled = False
         Me.ChBox_ClientexDia.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ChBox_ClientexDia.Location = New System.Drawing.Point(837, 86)
+        Me.ChBox_ClientexDia.Location = New System.Drawing.Point(1012, 82)
         Me.ChBox_ClientexDia.Margin = New System.Windows.Forms.Padding(4)
         Me.ChBox_ClientexDia.Name = "ChBox_ClientexDia"
         Me.ChBox_ClientexDia.Size = New System.Drawing.Size(181, 30)
@@ -519,11 +548,12 @@ Partial Class Enviar_Info_Seller
         '
         'RadioButton1
         '
+        Me.RadioButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadioButton1.AutoSize = True
         Me.RadioButton1.Checked = True
         Me.RadioButton1.Enabled = False
         Me.RadioButton1.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadioButton1.Location = New System.Drawing.Point(692, 53)
+        Me.RadioButton1.Location = New System.Drawing.Point(832, 47)
         Me.RadioButton1.Margin = New System.Windows.Forms.Padding(4)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(125, 29)
@@ -534,10 +564,11 @@ Partial Class Enviar_Info_Seller
         '
         'RadioButton2
         '
+        Me.RadioButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadioButton2.AutoSize = True
         Me.RadioButton2.Enabled = False
         Me.RadioButton2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadioButton2.Location = New System.Drawing.Point(692, 86)
+        Me.RadioButton2.Location = New System.Drawing.Point(832, 82)
         Me.RadioButton2.Margin = New System.Windows.Forms.Padding(4)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(125, 29)
@@ -547,47 +578,52 @@ Partial Class Enviar_Info_Seller
         '
         'btn_HabilitarServidores
         '
+        Me.btn_HabilitarServidores.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_HabilitarServidores.Enabled = False
         Me.btn_HabilitarServidores.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_HabilitarServidores.Location = New System.Drawing.Point(692, 9)
+        Me.btn_HabilitarServidores.Location = New System.Drawing.Point(1015, 5)
         Me.btn_HabilitarServidores.Margin = New System.Windows.Forms.Padding(4)
         Me.btn_HabilitarServidores.Name = "btn_HabilitarServidores"
-        Me.btn_HabilitarServidores.Size = New System.Drawing.Size(317, 37)
+        Me.btn_HabilitarServidores.Size = New System.Drawing.Size(178, 37)
         Me.btn_HabilitarServidores.TabIndex = 26
         Me.btn_HabilitarServidores.Text = "Habilitar"
         Me.btn_HabilitarServidores.UseVisualStyleBackColor = True
         '
         'Label2
         '
+        Me.Label2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label2.ForeColor = System.Drawing.Color.Black
-        Me.Label2.Location = New System.Drawing.Point(16, 18)
+        Me.Label2.Location = New System.Drawing.Point(916, 570)
         Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(238, 25)
+        Me.Label2.Size = New System.Drawing.Size(91, 25)
         Me.Label2.TabIndex = 28
-        Me.Label2.Text = "Enviar informacion a un"
+        Me.Label2.Text = "Enviar a"
         Me.Label2.Visible = False
         '
         'CBox_VERPuestos
         '
+        Me.CBox_VERPuestos.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.CBox_VERPuestos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CBox_VERPuestos.FormattingEnabled = True
         Me.CBox_VERPuestos.Items.AddRange(New Object() {"AGENTE", "CHOFER"})
-        Me.CBox_VERPuestos.Location = New System.Drawing.Point(27, 52)
+        Me.CBox_VERPuestos.Location = New System.Drawing.Point(1020, 562)
         Me.CBox_VERPuestos.Margin = New System.Windows.Forms.Padding(4)
         Me.CBox_VERPuestos.Name = "CBox_VERPuestos"
-        Me.CBox_VERPuestos.Size = New System.Drawing.Size(247, 33)
+        Me.CBox_VERPuestos.Size = New System.Drawing.Size(178, 33)
         Me.CBox_VERPuestos.TabIndex = 31
         Me.CBox_VERPuestos.Visible = False
         '
         'DTP_FechaHasta
         '
-        Me.DTP_FechaHasta.Location = New System.Drawing.Point(381, 86)
+        Me.DTP_FechaHasta.CalendarFont = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.DTP_FechaHasta.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.DTP_FechaHasta.Location = New System.Drawing.Point(109, 86)
         Me.DTP_FechaHasta.Margin = New System.Windows.Forms.Padding(4)
         Me.DTP_FechaHasta.Name = "DTP_FechaHasta"
-        Me.DTP_FechaHasta.Size = New System.Drawing.Size(280, 22)
+        Me.DTP_FechaHasta.Size = New System.Drawing.Size(155, 22)
         Me.DTP_FechaHasta.TabIndex = 34
         '
         'Label3
@@ -595,7 +631,7 @@ Partial Class Enviar_Info_Seller
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label3.ForeColor = System.Drawing.Color.Black
-        Me.Label3.Location = New System.Drawing.Point(301, 58)
+        Me.Label3.Location = New System.Drawing.Point(22, 47)
         Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(74, 25)
@@ -607,7 +643,7 @@ Partial Class Enviar_Info_Seller
         Me.Label5.AutoSize = True
         Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.11881!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label5.ForeColor = System.Drawing.Color.Black
-        Me.Label5.Location = New System.Drawing.Point(301, 86)
+        Me.Label5.Location = New System.Drawing.Point(22, 86)
         Me.Label5.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(68, 25)
@@ -618,7 +654,7 @@ Partial Class Enviar_Info_Seller
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1033, 594)
+        Me.ClientSize = New System.Drawing.Size(1210, 606)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.DTP_FechaHasta)
@@ -696,4 +732,5 @@ Partial Class Enviar_Info_Seller
     Friend WithEvents ColumnHeader7 As ColumnHeader
     Friend WithEvents ColumnHeader8 As ColumnHeader
     Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents Cbox_MotivoDevolucion As CheckBox
 End Class

@@ -1004,4 +1004,10 @@ Public Class Principal
 
 
     End Function
+
+    Private Sub MotivosDeDevolucionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles MotivosDeDevolucionToolStripMenuItem.Click
+        Class_VariablesGlobales.frmWMS_MotivosDevolucion = New Admin_MotivosDevolucion
+        Class_VariablesGlobales.frmWMS_MotivosDevolucion.MdiParent = Me
+        Class_VariablesGlobales.frmWMS_MotivosDevolucion.Show()
+    End Sub
 End Class

@@ -279,6 +279,18 @@
     <Compile Include="Admin_Bodegueros.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Admin_MotivosDevolucion.Designer.vb">
+      <DependentUpon>Admin_MotivosDevolucion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_MotivosDevolucion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Admin_RecibosDinero.Designer.vb">
+      <DependentUpon>Admin_RecibosDinero.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_RecibosDinero.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Class\Class_CorreoMicrosoft.vb" />
     <Compile Include="Class\InforComputadora.vb" />
     <Compile Include="Class\QR_CODE.vb" />
@@ -1311,6 +1323,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Admin_Bodegueros.resx">
       <DependentUpon>Admin_Bodegueros.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin_MotivosDevolucion.resx">
+      <DependentUpon>Admin_MotivosDevolucion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Admin_RecibosDinero.resx">
+      <DependentUpon>Admin_RecibosDinero.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ClientesDocumentosExoneracion.resx">
       <DependentUpon>ClientesDocumentosExoneracion.vb</DependentUpon>

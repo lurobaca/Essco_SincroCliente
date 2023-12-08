@@ -9054,6 +9054,24 @@ Public Class Class_funcionesSQL
 
 #End Region
 
+    Public Function ObtieneBodegasDeSAP(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Tbl_MotivoDevolucion As New DataTable
+            Dim ADATER As New SqlDataAdapter
+
+            Dim Consulta As String = ""
+            Consulta = "SELECT T0.[WhsCode] as Codigo, T0.[WhsName] as Nombre FROM [" + Class_VariablesGlobales.XMLParamSAP_CompanyDB + "].[dbo].[OWHS] T0"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(Tbl_MotivoDevolucion)
+            SQL_Comman = Nothing
+
+            Return Tbl_MotivoDevolucion
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneMotivosDevolucion [ " & ex.Message & " ]")
+        End Try
+    End Function
+
 #Region "Exportar informacion SELLER"
     Public Function ObtieneRazonesNoVisita(ByVal SQL_Comman As SqlCommand)
         Try
@@ -9088,9 +9106,67 @@ Public Class Class_funcionesSQL
 
             Return Tbl_Banco
         Catch ex As Exception
-            MessageBox.Show("ERROR en Obtieneclientes_X_Agente [ " & ex.Message & " ]")
+            MessageBox.Show("ERROR en ObtieneBancos [ " & ex.Message & " ]")
         End Try
     End Function 'obtiene los clientes segun un agente para cargarlos en el celular
+    Public Function EliminaMotivoDevolucio(ByVal SQL_Comman As SqlCommand, ByVal Codigo As String)
+        Try
+            Dim Consulta As String
+            Consulta = "DELETE FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[MotivoDevolucion] WHERE [Codigo]='" & Codigo & "'"
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
+        Catch ex As Exception
+            MessageBox.Show("ERROR en EliminaMotivoDevolucio [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+    Public Function GuardaMotivoDevolucio(ByVal SQL_Comman As SqlCommand, ByVal Codigo As String, ByVal Descripcion As String, ByVal Bodega As String)
+        Try
+            Dim Consulta As String
+            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[MotivoDevolucion] ([Descripcion],[Bodega]) VALUES('" & Descripcion & "','" & Bodega & "')"
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+        Catch ex As Exception
+            'ERRORES = "[ " & Now & " ] ERROR GuardaMotivoDevolucio ( " & ex.Message & " )"
+        End Try
+
+    End Function
+
+    Public Function ModificaMotivoDevolucio(ByVal SQL_Comman As SqlCommand, ByVal Codigo As String, ByVal Descripcion As String, ByVal Bodega As String)
+        Try
+            Dim Obj_SQL_CONEXION As New CONEXION_TO_SQLSERVER
+            Dim cont As Integer = 0
+            Dim Consulta As String
+            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[MotivoDevolucion]  SET [Descripcion] = '" & Descripcion & "',[Bodega] = '" & Bodega & "' WHERE [Codigo] = '" & Codigo & "'"
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            Return 0
+        Catch ex As Exception
+            MessageBox.Show("ERROR ModificaMotivoDevolucio [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ObtieneMotivosDevolucion(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Tbl_MotivoDevolucion As New DataTable
+            Dim ADATER As New SqlDataAdapter
+
+            Dim Consulta As String = ""
+            Consulta = "SELECT T0.[Codigo] , T0.[Descripcion], T0.[Bodega] FROM MotivoDevolucion T0"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(Tbl_MotivoDevolucion)
+            SQL_Comman = Nothing
+
+            Return Tbl_MotivoDevolucion
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneMotivosDevolucion [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+
     Public Function ObtieneLicencia(ByVal SQL_Comman As SqlCommand)
         Try
             Dim Tbl_Licencia As New DataTable
@@ -9239,7 +9315,7 @@ Public Class Class_funcionesSQL
                         Consulta = Consulta & " UNION "
                     End If
 
-                    Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Rutas_Unidicar(i).ToString & "','" & FechaDesde & "','" & FechaHasta & "')"
+                    'Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Rutas_Unidicar(i).ToString & "','" & FechaDesde & "','" & FechaHasta & "')"
 
 
                     If Grupo = "A" Then
@@ -9248,7 +9324,7 @@ Public Class Class_funcionesSQL
                         '  Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgenteDividido_B('" & Rutas_Unificar(i).ToString & "') "
                     ElseIf Grupo = "GPS" Then
                         'Consulta = Consulta & " SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unificar(i).ToString & "') WHERE  U_Latitud IS NOT NULL  "
-                        Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Agente & "','" & FechaDesde & "','" & FechaHasta & "') WHERE  U_Latitud IS NOT NULL"
+                        Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Rutas_Unidicar(i).ToString & "','" & FechaDesde & "','" & FechaHasta & "') WHERE  U_Latitud IS NOT NULL"
 
                     Else
 
@@ -9257,7 +9333,7 @@ Public Class Class_funcionesSQL
                             Consulta = "SELECT * FROM [essco].UniversoXAgente('" & Agente & "')  "
                         Else
                             'Consulta = Consulta & "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].UniversoXAgente('" & Rutas_Unificar(i).ToString & "')  "
-                            Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Agente & "','" & FechaDesde & "','" & FechaHasta & "')"
+                            Consulta = Consulta & "Select * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].ObtieneClientes('" & Rutas_Unidicar(i).ToString & "','" & FechaDesde & "','" & FechaHasta & "')"
 
                         End If
 
