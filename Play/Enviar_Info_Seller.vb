@@ -477,6 +477,9 @@ Public Class Enviar_Info_Seller
 
     Public Function FuncionEn_BackGroud()
         Try
+            Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+            Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+
 
             Dim Rutas_Unidicar() As String
             If Cbox_Clientes.Checked = True Then
@@ -488,7 +491,6 @@ Public Class Enviar_Info_Seller
                 Carga_DeliverFacturas(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text, Rutas_Unidicar)
             End If
 
-            Carga_Inventario(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
 
             If Cbox_Razones.Checked = True Then
                 Carga_RazonNoVisita(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
@@ -506,7 +508,7 @@ Public Class Enviar_Info_Seller
                 Carga_UbiacionesCR(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
             End If
 
-            Carga_Licencia(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
+
 
             If CBX_Param.Checked = True Then
                 ExportaParametros(Class_VariablesGlobales.SQL_Comman1, TextB_Agente.Text, TextB_Agente.Text)
