@@ -232,7 +232,7 @@ Public Class Reporte_Facturas
         Catch ex As Exception
 
             If ex.Message <> "Subproceso anulado." Then
-                MessageBox.Show("ALERTA", "Hubo un problema al generar los reportes [ " & ex.Message & " ]", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                MessageBox.Show("Hubo un problema al generar los reportes [ " & ex.Message & " ]", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
             End If
 
 

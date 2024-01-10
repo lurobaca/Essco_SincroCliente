@@ -6605,7 +6605,9 @@ Public Class Class_funcionesSQL
         Try
 
 
-
+            If SQL_Comman.Connection.State = ConnectionState.Closed Then
+                SQL_Comman = Conectar()
+            End If
 
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
 
@@ -7295,7 +7297,9 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             ' para la conexion al comman
-
+            If SQL_Comman.Connection.State = ConnectionState.Closed Then
+                SQL_Comman = Conectar()
+            End If
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
             'Consulta = "SELECT  [Consecutivo],[DocNum],[FechaReporte],[Hora],[FechaFactura],[CodCliente],[Nombre],[ItemCode],[ItemName],[Cant],[Descuento],[Precio],[Imp],[MontoDesc],[MontoImp],[Total],[Fac_INI],[Fac_FIN],[NombreRuta],[Chofer],[Ayudante],[ConB1] ,[Anulado]  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Rep_Facturas] where Consecutivo='" & Consecutivo & "' AND Condicion = -1"
@@ -7819,6 +7823,12 @@ Public Class Class_funcionesSQL
             ' Dim SQL_Comman As New SqlCommand
             ' para la conexion al comman
             ' SQL_Comman.Connection = Obj_SQL_CONEXION.Conectar("" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "")
+
+
+            If SQL_Comman.Connection.State = ConnectionState.Closed Then
+                SQL_Comman = Conectar()
+            End If
+
             Dim Consulta As String
             Consulta = ""
             Consulta = "UPDATE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Consecutivo_Reportes]  SET [RepFacturas] = " & Consecutivo
@@ -9884,7 +9894,9 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
 
             Dim Consulta As String = ""
-
+            If SQL_Comman.Connection.State = ConnectionState.Closed Then
+                SQL_Comman = Conectar()
+            End If
             If Class_VariablesGlobales.Lista_llamadaDesde = "EXPORTAR" Then
                 If VerPuesto = "TODOS" Then
                     Consulta = "SELECT [CodAgente],[Nombre],[Telefono],[Conse_Pedido],[Conse_Pagos],[Conse_Deposito],[Conse_Gastos],[Conse_NoVisita],[Correo],[FTP],[Grupo],[Cedula] ,[Conse_Devoluciones] ,[Conse_ClientesNuevos],[Puesto] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Agentes]  ORDER BY [CodAgente] ASC "
