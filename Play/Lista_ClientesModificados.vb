@@ -181,7 +181,9 @@
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_id.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(24).Value)
 
                 If DGV_ListaClientesModificados.CurrentRow.Cells.Item(26).Value.ToString() <> "" Then
-                    Id_TipoDocumentoExoneracion = CInt(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(26).Value))
+
+                    Id_TipoDocumentoExoneracion = If(Integer.TryParse(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(26).Value.ToString()), Id_TipoDocumentoExoneracion), Id_TipoDocumentoExoneracion, 0)
+
                 Else
                     Id_TipoDocumentoExoneracion = -1
                 End If

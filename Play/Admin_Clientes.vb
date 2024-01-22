@@ -345,34 +345,33 @@
         If btn_Actualizar.Text = "Guardar" Or btn_Actualizar.Text = "Interno" Then
 
             Dim EXO_TipoDocumento As String = ""
-            'Dim ComprasAutorizadas As Int32 = 1
-            'Dim VentasExentasADiplomáticos As Int32 = 2
-            'Dim AutorizadoPorLeyEspecial As Int32 = 3
-            'Dim ExencionesDireccionGeneralDeHacienda As Int32 = 4
-            'Dim TransitorioV As Int32 = 5
-            'Dim TransitorioIX As Int32 = 6
-            'Dim TransitorioXVII As Int32 = 7
-            'Dim Otros As Int32 = 99
+            Dim ComprasAutorizadas As Int32 = 1
+            Dim VentasExentasADiplomáticos As Int32 = 2
+            Dim AutorizadoPorLeyEspecial As Int32 = 3
+            Dim ExencionesDireccionGeneralDeHacienda As Int32 = 4
+            Dim TransitorioV As Int32 = 5
+            Dim TransitorioIX As Int32 = 6
+            Dim TransitorioXVII As Int32 = 7
+            Dim Otros As Int32 = 99
 
-
-            'Select Case CBox_ExoTipoDoc.SelectedIndex
-            '    Case ComprasAutorizadas
-            '        EXO_TipoDocumento = "01"
-            '    Case VentasExentasADiplomáticos
-            '        EXO_TipoDocumento = "02"
-            '    Case AutorizadoPorLeyEspecial
-            '        EXO_TipoDocumento = "03"
-            '    Case ExencionesDireccionGeneralDeHacienda
-            '        EXO_TipoDocumento = "04"
-            '    Case TransitorioV
-            '        EXO_TipoDocumento = "05"
-            '    Case TransitorioIX
-            '        EXO_TipoDocumento = "06"
-            '    Case TransitorioXVII
-            '        EXO_TipoDocumento = "07"
-            '    Case Otros
-            '        EXO_TipoDocumento = "99"
-            'End Select
+            Select Case Class_VariablesGlobales.frmAdmin_ClientesDocumentosExoneracion.CBox_ExoTipoDoc.SelectedIndex
+                Case ComprasAutorizadas
+                    EXO_TipoDocumento = "01"
+                Case VentasExentasADiplomáticos
+                    EXO_TipoDocumento = "02"
+                Case AutorizadoPorLeyEspecial
+                    EXO_TipoDocumento = "03"
+                Case ExencionesDireccionGeneralDeHacienda
+                    EXO_TipoDocumento = "04"
+                Case TransitorioV
+                    EXO_TipoDocumento = "05"
+                Case TransitorioIX
+                    EXO_TipoDocumento = "06"
+                Case TransitorioXVII
+                    EXO_TipoDocumento = "07"
+                Case Otros
+                    EXO_TipoDocumento = "99"
+            End Select
 
 
             Dim DiaVisita As String = ""
@@ -760,10 +759,11 @@
     'End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        Dim Admin_ClientesDocumentosExoneracion As New ClientesDocumentosExoneracion
-        Admin_ClientesDocumentosExoneracion.txtb_Codigo.Text = txtb_Codigo.Text
-        Admin_ClientesDocumentosExoneracion.MdiParent = Principal
-        Admin_ClientesDocumentosExoneracion.Show()
+        Class_VariablesGlobales.frmAdmin_ClientesDocumentosExoneracion = New ClientesDocumentosExoneracion
+        Class_VariablesGlobales.frmAdmin_ClientesDocumentosExoneracion.MdiParent = Principal
+        Class_VariablesGlobales.frmAdmin_ClientesDocumentosExoneracion.Show()
+
+
     End Sub
 
     Private Sub DGV_DocumentosExoneracion_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_DocumentosExoneracion.CellContentClick

@@ -406,6 +406,7 @@ Public Class Class_VariablesGlobales
     Public Shared frmBuscaFactura As New BuscaFactura
     Public Shared frmBuscaMantenimiento_Camiones As New Admin_Mantenimiento_Camiones
     Public Shared frmAdmin_ClientesModificados As New Admin_Clientes
+    Public Shared frmAdmin_ClientesDocumentosExoneracion As New ClientesDocumentosExoneracion
     Public Shared frmLista_ClientesModificados As New Lista_ClientesModificados
     Public Shared frmLista_Admin_EstadoComprobantes As New Admin_EstadoComprobantes
     Public Shared frmLista_Admin_Acepta_Rechaza As New Acepta_Rechaza
