@@ -93,6 +93,7 @@ Partial Class Admin_Clientes
         Me.Button1 = New System.Windows.Forms.Button()
         Me.Comb_Tipo = New System.Windows.Forms.ComboBox()
         Me.Label27 = New System.Windows.Forms.Label()
+        Me.Btn_SaldoCuenta = New System.Windows.Forms.Button()
         Me.GroupBox1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -531,10 +532,10 @@ Partial Class Admin_Clientes
         Me.Btn_Atras.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Atras.BackgroundImage = CType(resources.GetObject("Btn_Atras.BackgroundImage"), System.Drawing.Image)
         Me.Btn_Atras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Btn_Atras.Location = New System.Drawing.Point(903, 11)
+        Me.Btn_Atras.Location = New System.Drawing.Point(952, 26)
         Me.Btn_Atras.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Atras.Name = "Btn_Atras"
-        Me.Btn_Atras.Size = New System.Drawing.Size(100, 49)
+        Me.Btn_Atras.Size = New System.Drawing.Size(36, 33)
         Me.Btn_Atras.TabIndex = 75
         Me.Btn_Atras.UseVisualStyleBackColor = False
         Me.Btn_Atras.Visible = False
@@ -545,10 +546,10 @@ Partial Class Admin_Clientes
         Me.Btn_Adelante.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Adelante.BackgroundImage = CType(resources.GetObject("Btn_Adelante.BackgroundImage"), System.Drawing.Image)
         Me.Btn_Adelante.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Btn_Adelante.Location = New System.Drawing.Point(1032, 11)
+        Me.Btn_Adelante.Location = New System.Drawing.Point(1047, 26)
         Me.Btn_Adelante.Margin = New System.Windows.Forms.Padding(4)
         Me.Btn_Adelante.Name = "Btn_Adelante"
-        Me.Btn_Adelante.Size = New System.Drawing.Size(100, 49)
+        Me.Btn_Adelante.Size = New System.Drawing.Size(36, 33)
         Me.Btn_Adelante.TabIndex = 74
         Me.Btn_Adelante.UseVisualStyleBackColor = False
         Me.Btn_Adelante.Visible = False
@@ -574,10 +575,10 @@ Partial Class Admin_Clientes
         'txtb_id
         '
         Me.txtb_id.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtb_id.Location = New System.Drawing.Point(1005, 22)
+        Me.txtb_id.Location = New System.Drawing.Point(996, 31)
         Me.txtb_id.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_id.Name = "txtb_id"
-        Me.txtb_id.Size = New System.Drawing.Size(23, 22)
+        Me.txtb_id.Size = New System.Drawing.Size(43, 22)
         Me.txtb_id.TabIndex = 78
         Me.txtb_id.Text = "1"
         Me.txtb_id.Visible = False
@@ -672,7 +673,7 @@ Partial Class Admin_Clientes
         Me.txtb_Saldo.Location = New System.Drawing.Point(917, 146)
         Me.txtb_Saldo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_Saldo.Name = "txtb_Saldo"
-        Me.txtb_Saldo.Size = New System.Drawing.Size(203, 22)
+        Me.txtb_Saldo.Size = New System.Drawing.Size(166, 22)
         Me.txtb_Saldo.TabIndex = 88
         '
         'Label25
@@ -818,11 +819,26 @@ Partial Class Admin_Clientes
         Me.Label27.TabIndex = 94
         Me.Label27.Text = "Tipo"
         '
+        'Btn_SaldoCuenta
+        '
+        Me.Btn_SaldoCuenta.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Btn_SaldoCuenta.BackColor = System.Drawing.Color.Transparent
+        Me.Btn_SaldoCuenta.BackgroundImage = CType(resources.GetObject("Btn_SaldoCuenta.BackgroundImage"), System.Drawing.Image)
+        Me.Btn_SaldoCuenta.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.Btn_SaldoCuenta.Location = New System.Drawing.Point(1084, 141)
+        Me.Btn_SaldoCuenta.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_SaldoCuenta.Name = "Btn_SaldoCuenta"
+        Me.Btn_SaldoCuenta.Size = New System.Drawing.Size(36, 33)
+        Me.Btn_SaldoCuenta.TabIndex = 96
+        Me.Btn_SaldoCuenta.UseVisualStyleBackColor = False
+        Me.Btn_SaldoCuenta.Visible = False
+        '
         'Admin_Clientes
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1141, 731)
+        Me.Controls.Add(Me.Btn_SaldoCuenta)
         Me.Controls.Add(Me.Comb_Tipo)
         Me.Controls.Add(Me.Label27)
         Me.Controls.Add(Me.Button1)
@@ -953,4 +969,5 @@ Partial Class Admin_Clientes
     Friend WithEvents TabPage4 As TabPage
     Friend WithEvents Button3 As Button
     Friend WithEvents DGV_DocumentosExoneracion As DataGridView
+    Friend WithEvents Btn_SaldoCuenta As Button
 End Class

@@ -23,11 +23,27 @@
 
     Private Sub DGV_ListaClientesModificados_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles DGV_ListaClientesModificados.CellContentClick
         Try
-            If CBX_Estado.Text = "Interno" And Class_VariablesGlobales.ClientesLlamadoDesde = "Facturacion" Then
+
+
+            If CBX_Estado.Text = "Interno" And Class_VariablesGlobales.ClientesLlamadoDesde = "RecibosDinero" Then
+
+                Class_VariablesGlobales.frm_RecibosDeDinero.txtb_CodCliente.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(1).Value)
+                Class_VariablesGlobales.frm_RecibosDeDinero.txtb_Cedula.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(3).Value)
+
+                Class_VariablesGlobales.frm_RecibosDeDinero.CBox_TipoCed.SelectedIndex = CInt(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(20).Value))
+                Class_VariablesGlobales.frm_RecibosDeDinero.txtb_Nombre.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(4).Value)
+                Class_VariablesGlobales.frm_RecibosDeDinero.txtb_NombreFantacia.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(2).Value)
+                Class_VariablesGlobales.frm_RecibosDeDinero.CargaDocumentosPendientes(Class_VariablesGlobales.frm_RecibosDeDinero.txtb_Cedula.Text)
+
+            ElseIf CBX_Estado.Text = "Interno" And Class_VariablesGlobales.ClientesLlamadoDesde = "Facturacion" Then
                 'Manda los datos a la ventana de facturacion
                 Class_VariablesGlobales.frmFacturacion.txtb_CodCliente.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(1).Value)
+                Class_VariablesGlobales.frmFacturacion.txtb_Cedula.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(3).Value)
+
+                Class_VariablesGlobales.frmFacturacion.CBox_TipoCed.SelectedIndex = CInt(Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(20).Value))
                 Class_VariablesGlobales.frmFacturacion.txtb_Nombre.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(4).Value)
                 Class_VariablesGlobales.frmFacturacion.txtb_NombreFantacia.Text = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(2).Value)
+
                 Class_VariablesGlobales.frmFacturacion.btn_guardar.Text = "Guardar"
 
                 Class_VariablesGlobales.frmFacturacion.Receptor_Nombre = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(2).Value)

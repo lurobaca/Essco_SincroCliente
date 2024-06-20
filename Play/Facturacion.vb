@@ -135,6 +135,8 @@
                 DocType = "NCS"
             ElseIf CBox_TipoDocumento.Text = "ND" Then
                 DocType = "NDS"
+            ElseIf CBox_TipoDocumento.Text = "Proforma" Then
+                DocType = "Proforma"
             End If
 
         Else
@@ -222,7 +224,6 @@
 
             For i As Integer = 0 To DGV_DetalleFactura.RowCount - 2
 
-
                 NumLinea = DGV_DetalleFactura("NumLinea", i).Value.ToString()
                 ItemCode = DGV_DetalleFactura("ItemCode", i).Value.ToString()
                 CodCabys = DGV_DetalleFactura("Cabys", i).Value.ToString()
@@ -245,17 +246,15 @@
                 Descuento_Promo_Monto = DGV_DetalleFactura("Descuento_Promo_Monto", i).Value.ToString()
                 Descuento_Interno_Porciento = DGV_DetalleFactura("Descuento_Interno_Porciento", i).Value.ToString()
                 Descuento_Interno_Monto = DGV_DetalleFactura("Descuento_Interno_Monto", i).Value.ToString()
-
                 Exoneracion_PorcentajeCompra = DGV_DetalleFactura("Exoneracion_PorcentajeCompra", i).Value.ToString()
                 Exoneracion_MontoImpuesto = DGV_DetalleFactura("Exoneracion_MontoImpuesto", i).Value.ToString()
 
-
                 If Me.Text = "Nota de credito" Then
                     Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_NC1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa, CodCabys, Exoneracion_PorcentajeCompra, Exoneracion_MontoImpuesto)
-
-                Else
+                ElseIf Me.Text = "Facturas" Then
                     Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FE1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa, CodCabys, Exoneracion_PorcentajeCompra, Exoneracion_MontoImpuesto)
-
+                ElseIf Me.Text = "Proforma" Then
+                    Class_VariablesGlobales.Obj_Funciones_SQL.GuardarCE_FP1(DocNum, DocType, NumLinea, ItemCode, ItemName, Pack, UnidadMedida, Costo, PrecioUnitario, Utilidad_Porciento, Utilidad_Monto, Cantidad, Descuento_Porciento, Descuento_Monto, Impuesto_Porciento, Impuesto_Monto, SubTotal, Total, Descuento_Promo_Porciento, Descuento_Promo_Monto, Descuento_Interno_Porciento, Descuento_Interno_Monto, CodigoTarifa, CodCabys, Exoneracion_PorcentajeCompra, Exoneracion_MontoImpuesto)
                 End If
 
                 NumLinea = ""
@@ -282,11 +281,9 @@
                 CodigoTarifa = ""
             Next
             'Aumenta consecutivo
-            If Me.Text = "Nota de credito" Then
-                MsgBox("Nota de credito creada con exito")
-            Else
-                MsgBox("Factura creada con exito")
-            End If
+
+            MsgBox("Documento creado con exito")
+
 
             DocNum = Nothing
             Clave = Nothing
@@ -491,7 +488,6 @@
             Dim DNum As String
             If Class_VariablesGlobales.obj_Validaconexion.IsConnectionAvailable() = True Then Conectado = "1" Else Conectado = "3"
 
-
             'Define cual comprobante es el que se creara
             If Class_VariablesGlobales.ComprobanteACrear = "Factura" Then
 
@@ -502,6 +498,7 @@
                 'sea igual a la de la factura que se mando a hacienda,en fin NO BORRE LA RESTA DE 8
                 txtb_Consecutivo.Text = "0010000101" & CStr(CInt(DNum) - 7).PadLeft(10, "0")
                 Me.Text = "Facturas"
+                Lbl_Titulo.Text = "Facturas"
                 CBox_TipoDocumento.Text = "FE"
 
             ElseIf Class_VariablesGlobales.ComprobanteACrear = "NotaDeCredito" Then
@@ -509,23 +506,28 @@
                 DNum = CInt(Txtb_DocNum.Text)
                 txtb_Consecutivo.Text = "0010000103" & CStr(CInt(DNum)).PadLeft(10, "0") '"0000000033"
                 Me.Text = "Nota de credito"
+                Lbl_Titulo.Text = "Nota de credito"
                 CBox_TipoDocumento.Text = "NC"
             ElseIf Class_VariablesGlobales.ComprobanteACrear = "NotasDebito" Then
                 Txtb_DocNum.Text = CInt(VariablesGlobales.Obj_SQL.ObtieneConsecutivoACrear("ND"))
                 DNum = CInt(Txtb_DocNum.Text)
                 txtb_Consecutivo.Text = "0010000102" & CStr(CInt(DNum)).PadLeft(10, "0") '"0000000033"
                 Me.Text = "Notas de debito"
+                Lbl_Titulo.Text = "Notas de debito"
                 CBox_TipoDocumento.Text = "ND"
             ElseIf Class_VariablesGlobales.ComprobanteACrear = "Proforma" Then
                 Txtb_DocNum.Text = CInt(VariablesGlobales.Obj_SQL.ObtieneConsecutivoACrear("Proforma"))
                 DNum = CInt(Txtb_DocNum.Text)
                 txtb_Consecutivo.Text = CStr(CInt(DNum)).PadLeft(10, "0")
                 Me.Text = "Proforma"
+                Lbl_Titulo.Text = "Proforma"
                 CBox_TipoDocumento.Text = "Proforma"
             End If
 
-            ' txtb_Consecutivo.Text = CInt(VariablesGlobales.Obj_SQL.ObtieneConsecutivoFacturas(Class_VariablesGlobales.SQL_Comman2, "FE"))
-            txtb_clave.Text = "506" & String.Format("{0:00}", Now.Day) & String.Format("{0:00}", Now.Month) & Now.Year.ToString.Substring(0, 2) & VariablesGlobales.Obj_SQL.ObtieneCedulaEmpresa(Class_VariablesGlobales.SQL_Comman1).PadLeft(12, "0") & txtb_Consecutivo.Text & Conectado & (DNum).PadLeft(8, "0")
+            If Class_VariablesGlobales.ComprobanteACrear <> "Proforma" Then
+                txtb_clave.Text = "506" & String.Format("{0:00}", Now.Day) & String.Format("{0:00}", Now.Month) & Now.Year.ToString.Substring(0, 2) & VariablesGlobales.Obj_SQL.ObtieneCedulaEmpresa(Class_VariablesGlobales.SQL_Comman1).PadLeft(12, "0") & txtb_Consecutivo.Text & Conectado & (DNum).PadLeft(8, "0")
+
+            End If
             TablaTemporal()
 
             ' ObtieneEmisor()
@@ -1152,7 +1154,6 @@
     Private Function btn_Anular_Click(sender As Object, e As EventArgs) Handles btn_Anular.Click
 
 
-
         If CodMoneda = "USD" And TipoCambio = "" Or TipoCambio = "0" Then
             MessageBox.Show("Debe indicar el tipo de cambio del dia de hoy")
             Return True
@@ -1219,14 +1220,28 @@
 
     End Function
 
-    Private Sub Cmb_Moneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Moneda.SelectedIndexChanged
+    Private Async Sub Cmb_Moneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Moneda.SelectedIndexChanged
+        Try
 
-        If Cmb_Moneda.Text = "USD" Then
-            txtb_TipoCambio.Enabled = True
-            txtb_TipoCambio.BackColor = Color.LightGreen
-            txtb_TipoCambio.Focus()
-        End If
 
+            If Cmb_Moneda.Text = "USD" Then
+                txtb_TipoCambio.Enabled = True
+                txtb_TipoCambio.BackColor = Color.LightGreen
+                txtb_TipoCambio.Focus()
+                Dim tipoCambioService As New TipoCambio()
+
+                Dim codigoIndicador As String = "318" ' Código del indicador de tipo de cambio VENTA
+                Dim fecha As DateTime = DateTime.Today
+                Dim tipoCambio As String = Await tipoCambioService.ObtenerTipoCambioAsync(codigoIndicador, fecha)
+                ' Llamar al método para obtener el tipo de cambio de forma asincrónica
+                'Dim tipoCambio As String = Await tipoCambioService.ObtenerTipoCambioAsync()
+
+                txtb_TipoCambio.Text = tipoCambio
+
+            End If
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub Label32_Click(sender As Object, e As EventArgs) Handles Label32.Click
@@ -1248,6 +1263,28 @@
         If indexOfDecimal >= 0 Then
             Dim newText As String = inputText.Substring(0, indexOfDecimal)
             txtb_TipoCambio.Text = newText
+        End If
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Elige el documento que anula el documento seleccionado o trasladarlo a otro
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub btn_CopiarA_Click(sender As Object, e As EventArgs) Handles btn_CopiarA.Click
+        If CBox_TipoDocumento.Text = "FE" Then
+            Class_VariablesGlobales.ComprobanteACrear = "NC"
+        End If
+        If CBox_TipoDocumento.Text = "NC" Then
+            Class_VariablesGlobales.ComprobanteACrear = "ND"
+        End If
+        If CBox_TipoDocumento.Text = "ND" Then
+            Class_VariablesGlobales.ComprobanteACrear = "NC"
+        End If
+        If CBox_TipoDocumento.Text = "Proforma" Then
+            Class_VariablesGlobales.ComprobanteACrear = "FE"
         End If
     End Sub
 End Class

@@ -905,6 +905,7 @@ Public Class Principal
             Class_VariablesGlobales.ComprobanteACrear = "Factura"
 
             Class_VariablesGlobales.frmFacturacion = New Facturacion
+            Class_VariablesGlobales.frmFacturacion.Text = "Factura"
             Class_VariablesGlobales.frmFacturacion.MdiParent = Me
             Class_VariablesGlobales.frmFacturacion.Show()
         End If
@@ -915,6 +916,7 @@ Public Class Principal
 
             Class_VariablesGlobales.ComprobanteACrear = "NotaDeCredito"
             Class_VariablesGlobales.frmFacturacion = New Facturacion
+            Class_VariablesGlobales.frmFacturacion.Text = "Nota de Credito"
             Class_VariablesGlobales.frmFacturacion.MdiParent = Me
             Class_VariablesGlobales.frmFacturacion.Show()
         End If
@@ -925,6 +927,7 @@ Public Class Principal
             Class_VariablesGlobales.VentanaComprobantesAbierta = True
             Class_VariablesGlobales.ComprobanteACrear = "NotasDebito"
             Class_VariablesGlobales.frmFacturacion = New Facturacion
+            Class_VariablesGlobales.frmFacturacion.Text = "Nota de Debito"
             Class_VariablesGlobales.frmFacturacion.MdiParent = Me
             Class_VariablesGlobales.frmFacturacion.Show()
         End If
@@ -937,6 +940,7 @@ Public Class Principal
             Class_VariablesGlobales.ComprobanteACrear = "Proforma"
 
             Class_VariablesGlobales.frmFacturacion = New Facturacion
+            Class_VariablesGlobales.frmFacturacion.Text = "Proforma"
             Class_VariablesGlobales.frmFacturacion.MdiParent = Me
             Class_VariablesGlobales.frmFacturacion.Show()
         End If
@@ -1009,5 +1013,13 @@ Public Class Principal
         Class_VariablesGlobales.frmWMS_MotivosDevolucion = New Admin_MotivosDevolucion
         Class_VariablesGlobales.frmWMS_MotivosDevolucion.MdiParent = Me
         Class_VariablesGlobales.frmWMS_MotivosDevolucion.Show()
+    End Sub
+
+
+
+    Private Sub RecibosDeDineroToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles RecibosDeDineroToolStripMenuItem1.Click
+        Class_VariablesGlobales.frm_RecibosDeDinero = New RecibosDeDinero
+        Class_VariablesGlobales.frm_RecibosDeDinero.MdiParent = Me
+        Class_VariablesGlobales.frm_RecibosDeDinero.Show()
     End Sub
 End Class

@@ -12375,7 +12375,7 @@ group by T2.Nombre"
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
-            Return ObtieneConsecutivoACrear("FE")
+            Return ObtieneConsecutivoACrear("Proforma")
         Catch ex As Exception
             MessageBox.Show("ERROR en Guardar CE_FP " & ex.Message)
 
@@ -12583,6 +12583,12 @@ group by T2.Nombre"
             If Tipo = "ND" Or Tipo = "NDS" Then
                 Consulta = "SELECT case when ND is null then -1 else  [ND]  end  as DocNum FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Consecutivos] "
             End If
+            If Tipo = "Proforma" Then
+                Consulta = "SELECT case when Proforma is null then -1 else  [Proforma]  end  as DocNum FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Consecutivos] "
+            End If
+            If Tipo = "ReciboDeDinero" Then
+                Consulta = "SELECT case when ReciboDeDinero is null then -1 else  [ReciboDeDinero]  end  as DocNum FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Consecutivos] "
+            End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -12596,7 +12602,24 @@ group by T2.Nombre"
             'ERRORES = "[ " & Now & " ] ERROR ObtieneConsecutivoACrear ( " & ex.Message & " )"
         End Try
     End Function
+    Public Function ObtieneDocumentosPendiente(Cedula As String)
+        Try
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
 
+            Dim Consulta As String = "SELECT [DocNum],[DocSubTotal],[DocTotalImpuesto],[DocTotal],[DocSaldo] FROM [dbo].[CE_FE] where [Receptor_Numero]='" + Cedula + "' and [DocSaldo]>0"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+
+        Catch ex As Exception
+            Return New DataTable
+        End Try
+    End Function
     Public Function ObtieneVendedores()
         Try
             Dim SQL_Comman As New SqlCommand
@@ -12708,6 +12731,73 @@ group by T2.Nombre"
             SQL_Comman.ExecuteNonQuery()
         Catch ex As Exception
             MessageBox.Show("ERROR en GuardarCE_FE1_temp " & ex.Message)
+        End Try
+    End Function
+    Public Function GuardarCE_FP1(DocNum As String, DocType As String, NumLinea As String, ItemCode As String, ItemName As String, Pack As String, UnidadMedida As String, Costo As String, PrecioUnitario As String, Utilidad_Porciento As String, Utilidad_Monto As String, Cantidad As String, Descuento_Porciento As String, Descuento_Monto As String, Impuesto_Porciento As String, Impuesto_Monto As String, SubTotal As String, Total As String, Descuento_Promo_Porciento As String, Descuento_Promo_Monto As String, Descuento_Interno_Porciento As String, Descuento_Interno_Monto As String, CodigoTarifa As String, CodCabys As String, Exoneracion_PorcentajeCompra As String, Exoneracion_MontoImpuesto As String)
+        Try
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+
+            Dim Consulta As String = ""
+            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE1]
+           ([DocNum]
+           ,[DocType]
+           ,[NumLinea]
+           ,[ItemCode]
+           ,[ItemName]
+           ,[Pack]
+           ,[UnidadMedida]
+           ,[Costo]
+           ,[PrecioUnitario]
+           ,[Utilidad_Porciento]
+           ,[Utilidad_Monto]
+           ,[Cantidad]
+           ,[Descuento_Porciento]
+           ,[Descuento_Monto]
+           ,[Impuesto_Porciento]
+           ,[Impuesto_Monto]
+           ,[SubTotal]
+           ,[Total]
+           ,[Descuento_Promo_Porciento]
+           ,[Descuento_Promo_Monto]
+           ,[Descuento_Interno_Porciento]
+           ,[Descuento_Interno_Monto]
+           ,[CodigoTarifa]
+           ,[Cabys]
+           ,[Exoneracion_PorcentajeCompra]
+           ,[Exoneracion_MontoImpuesto])
+     VALUES
+           ('" & DocNum &
+           "','" & DocType &
+           "','" & ObtieneMaxLineaFactura(DocNum) &
+           "','" & ItemCode &
+           "','" & ItemName &
+           "','" & Pack &
+           "','" & UnidadMedida &
+           "','" & Costo &
+           "','" & PrecioUnitario &
+           "','" & Utilidad_Porciento &
+           "','" & Utilidad_Monto &
+           "','" & Cantidad &
+           "','" & Descuento_Porciento &
+           "','" & Descuento_Monto &
+           "','" & Impuesto_Porciento &
+           "','" & Impuesto_Monto &
+           "','" & SubTotal &
+           "','" & Total &
+           "','" & Descuento_Promo_Porciento &
+           "','" & Descuento_Promo_Monto &
+           "','" & Descuento_Interno_Porciento &
+           "','" & Descuento_Interno_Monto &
+           "','" & CodigoTarifa &
+           "','" & CodCabys &
+           "','" & Exoneracion_PorcentajeCompra &
+           "','" & Exoneracion_MontoImpuesto & "')"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+        Catch ex As Exception
+            MessageBox.Show("ERROR en GuardarCE_FE1 " & ex.Message)
         End Try
     End Function
 

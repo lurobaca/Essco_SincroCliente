@@ -1,0 +1,3 @@
+﻿Public Class RecibosDeDinero_MedioPago
+
+End Class

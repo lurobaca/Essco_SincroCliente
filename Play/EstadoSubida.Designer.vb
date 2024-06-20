@@ -119,6 +119,8 @@ Partial Class EstadoSubida
         '
         'Lbl_Procesando
         '
+        Me.Lbl_Procesando.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Lbl_Procesando.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Lbl_Procesando.Location = New System.Drawing.Point(753, 50)
         Me.Lbl_Procesando.Margin = New System.Windows.Forms.Padding(4)
