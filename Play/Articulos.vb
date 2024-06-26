@@ -135,6 +135,7 @@ Public Class Articulos
 
                 Class_VariablesGlobales.frmFacturacion.Cmb_Moneda.SelectedText = Dgv_Articulos("Moneda", row).Value.ToString()
                 If Dgv_Articulos("Moneda", row).Value.ToString() = "USD" Then
+                    'Class_VariablesGlobales.frmFacturacion.ObtieneTipoDeCambio().GetAwaiter().GetResult()
                     Class_VariablesGlobales.frmFacturacion.txtb_TipoCambio.Enabled = True
                     Class_VariablesGlobales.frmFacturacion.txtb_TipoCambio.BackColor = Color.LightGreen
                     Class_VariablesGlobales.frmFacturacion.txtb_TipoCambio.Focus()

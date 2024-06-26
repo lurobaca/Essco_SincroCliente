@@ -1220,7 +1220,10 @@
 
     End Function
 
-    Private Async Sub Cmb_Moneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Moneda.SelectedIndexChanged
+    Private Sub Cmb_Moneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Moneda.SelectedIndexChanged
+        ObtieneTipoDeCambio().GetAwaiter().GetResult()
+    End Sub
+    Public Async Function ObtieneTipoDeCambio() As Threading.Tasks.Task
         Try
 
 
@@ -1242,7 +1245,7 @@
         Catch ex As Exception
 
         End Try
-    End Sub
+    End Function
 
     Private Sub Label32_Click(sender As Object, e As EventArgs) Handles Label32.Click
 

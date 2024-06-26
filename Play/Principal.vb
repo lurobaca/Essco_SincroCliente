@@ -754,7 +754,29 @@ Public Class Principal
         Class_VariablesGlobales.frmEmpleados.MdiParent = Me
         Class_VariablesGlobales.frmEmpleados.Show()
     End Sub
+    Private Sub DesgloseDeRentaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DesgloseDeRentaToolStripMenuItem.Click
+        Class_VariablesGlobales.frmPlanillaDesgloseDeRenta = New PlanillaDesgloseDeRenta
+        Class_VariablesGlobales.frmPlanillaDesgloseDeRenta.MdiParent = Me
+        Class_VariablesGlobales.frmPlanillaDesgloseDeRenta.Show()
+    End Sub
 
+    Private Sub DesgloseDeCCSSToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DesgloseDeCCSSToolStripMenuItem.Click
+        Class_VariablesGlobales.frmPlanillaConfiguraciones = New Planilla_DesgloceCCSS
+        Class_VariablesGlobales.frmPlanillaConfiguraciones.MdiParent = Me
+        Class_VariablesGlobales.frmPlanillaConfiguraciones.Show()
+    End Sub
+
+    Private Sub AumentosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AumentosToolStripMenuItem.Click
+        Class_VariablesGlobales.frmPlanillaAplicarAumento = New Planilla_AplicarAumento
+        Class_VariablesGlobales.frmPlanillaAplicarAumento.MdiParent = Me
+        Class_VariablesGlobales.frmPlanillaAplicarAumento.Show()
+    End Sub
+
+    Private Sub AsignaEmpleadoARutaToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AsignaEmpleadoARutaToolStripMenuItem.Click
+        Class_VariablesGlobales.frmPlanillaAsignaEmpleadoARuta = New PlanillaAsignaEmpleadoARuta
+        Class_VariablesGlobales.frmPlanillaAsignaEmpleadoARuta.MdiParent = Me
+        Class_VariablesGlobales.frmPlanillaAsignaEmpleadoARuta.Show()
+    End Sub
     Private Sub DeduccionesToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles DeduccionesToolStripMenuItem.Click
         Class_VariablesGlobales.frmDeduccionesAcreditaciones = New DeduccionesAcreditaciones
         Class_VariablesGlobales.frmDeduccionesAcreditaciones.MdiParent = Me

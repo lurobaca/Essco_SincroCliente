@@ -122,6 +122,10 @@ Partial Class Principal
         Me.CerrarSesionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FinanzasToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RecibosDeDineroToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AumentosToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DesgloseDeRentaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DesgloseDeCCSSToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.AsignaEmpleadoARutaToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -412,7 +416,7 @@ Partial Class Principal
         '
         Me.ContadoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NuevaToolStripMenuItem, Me.GastosToolStripMenuItem1, Me.DepositosToolStripMenuItem1, Me.BuscarFacturaToolStripMenuItem})
         Me.ContadoToolStripMenuItem.Name = "ContadoToolStripMenuItem"
-        Me.ContadoToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.ContadoToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.ContadoToolStripMenuItem.Text = "Choferes"
         Me.ContadoToolStripMenuItem.Visible = False
         '
@@ -444,7 +448,7 @@ Partial Class Principal
         '
         Me.CreditoToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NuevaToolStripMenuItem1, Me.GastosToolStripMenuItem2, Me.DepositosToolStripMenuItem2})
         Me.CreditoToolStripMenuItem.Name = "CreditoToolStripMenuItem"
-        Me.CreditoToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.CreditoToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.CreditoToolStripMenuItem.Text = "Agentes"
         '
         'NuevaToolStripMenuItem1
@@ -468,7 +472,7 @@ Partial Class Principal
         'RevisarDepositosToolStripMenuItem
         '
         Me.RevisarDepositosToolStripMenuItem.Name = "RevisarDepositosToolStripMenuItem"
-        Me.RevisarDepositosToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
+        Me.RevisarDepositosToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
         Me.RevisarDepositosToolStripMenuItem.Text = "Revisar Depositos"
         Me.RevisarDepositosToolStripMenuItem.Visible = False
         '
@@ -579,7 +583,7 @@ Partial Class Principal
         '
         'PlanillaToolStripMenuItem
         '
-        Me.PlanillaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NuevaToolStripMenuItem2, Me.EmpleadosToolStripMenuItem, Me.DeduccionesToolStripMenuItem})
+        Me.PlanillaToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NuevaToolStripMenuItem2, Me.EmpleadosToolStripMenuItem, Me.AumentosToolStripMenuItem, Me.DeduccionesToolStripMenuItem, Me.DesgloseDeRentaToolStripMenuItem, Me.DesgloseDeCCSSToolStripMenuItem, Me.AsignaEmpleadoARutaToolStripMenuItem})
         Me.PlanillaToolStripMenuItem.Name = "PlanillaToolStripMenuItem"
         Me.PlanillaToolStripMenuItem.Size = New System.Drawing.Size(69, 24)
         Me.PlanillaToolStripMenuItem.Text = "Planilla"
@@ -588,19 +592,19 @@ Partial Class Principal
         'NuevaToolStripMenuItem2
         '
         Me.NuevaToolStripMenuItem2.Name = "NuevaToolStripMenuItem2"
-        Me.NuevaToolStripMenuItem2.Size = New System.Drawing.Size(202, 26)
+        Me.NuevaToolStripMenuItem2.Size = New System.Drawing.Size(249, 26)
         Me.NuevaToolStripMenuItem2.Text = "Nueva"
         '
         'EmpleadosToolStripMenuItem
         '
         Me.EmpleadosToolStripMenuItem.Name = "EmpleadosToolStripMenuItem"
-        Me.EmpleadosToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.EmpleadosToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.EmpleadosToolStripMenuItem.Text = "Empleados"
         '
         'DeduccionesToolStripMenuItem
         '
         Me.DeduccionesToolStripMenuItem.Name = "DeduccionesToolStripMenuItem"
-        Me.DeduccionesToolStripMenuItem.Size = New System.Drawing.Size(202, 26)
+        Me.DeduccionesToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
         Me.DeduccionesToolStripMenuItem.Text = "Deducciones Fijas"
         '
         'AcercaDeToolStripMenuItem
@@ -765,8 +769,32 @@ Partial Class Principal
         'RecibosDeDineroToolStripMenuItem1
         '
         Me.RecibosDeDineroToolStripMenuItem1.Name = "RecibosDeDineroToolStripMenuItem1"
-        Me.RecibosDeDineroToolStripMenuItem1.Size = New System.Drawing.Size(216, 26)
+        Me.RecibosDeDineroToolStripMenuItem1.Size = New System.Drawing.Size(206, 26)
         Me.RecibosDeDineroToolStripMenuItem1.Text = "Recibos de Dinero"
+        '
+        'AumentosToolStripMenuItem
+        '
+        Me.AumentosToolStripMenuItem.Name = "AumentosToolStripMenuItem"
+        Me.AumentosToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
+        Me.AumentosToolStripMenuItem.Text = "Aumentos"
+        '
+        'DesgloseDeRentaToolStripMenuItem
+        '
+        Me.DesgloseDeRentaToolStripMenuItem.Name = "DesgloseDeRentaToolStripMenuItem"
+        Me.DesgloseDeRentaToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
+        Me.DesgloseDeRentaToolStripMenuItem.Text = "Desglose de Renta"
+        '
+        'DesgloseDeCCSSToolStripMenuItem
+        '
+        Me.DesgloseDeCCSSToolStripMenuItem.Name = "DesgloseDeCCSSToolStripMenuItem"
+        Me.DesgloseDeCCSSToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
+        Me.DesgloseDeCCSSToolStripMenuItem.Text = "Desglose de CCSS"
+        '
+        'AsignaEmpleadoARutaToolStripMenuItem
+        '
+        Me.AsignaEmpleadoARutaToolStripMenuItem.Name = "AsignaEmpleadoARutaToolStripMenuItem"
+        Me.AsignaEmpleadoARutaToolStripMenuItem.Size = New System.Drawing.Size(249, 26)
+        Me.AsignaEmpleadoARutaToolStripMenuItem.Text = "Asigna Empleado A Ruta"
         '
         'Principal
         '
@@ -891,4 +919,8 @@ Partial Class Principal
     Friend WithEvents MotivosDeDevolucionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FinanzasToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents RecibosDeDineroToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents AumentosToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DesgloseDeRentaToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DesgloseDeCCSSToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents AsignaEmpleadoARutaToolStripMenuItem As ToolStripMenuItem
 End Class
