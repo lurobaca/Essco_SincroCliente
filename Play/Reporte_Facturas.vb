@@ -275,7 +275,11 @@ Public Class Reporte_Facturas
                                     "E-mail: lurobaca@gmail.com" & vbCrLf & _
                                     "Tel: 8880-1662" & vbCrLf
 
-            Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte Ruta [" & txtb_Ruta.Text & "]", "", "", "", "", "")
+            ' Crear una lista de destinatarios de correo electrónico
+            Dim destinatarios As New List(Of String)()
+            ' Agregar destinatarios a la lista
+            destinatarios.Add("bodeguerosbourne@gmail.com")
+            Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte Ruta [" & txtb_Ruta.Text & "]", "", destinatarios)
 
 
             Dim Pregunta As Integer

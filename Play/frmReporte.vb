@@ -4,6 +4,7 @@ Imports System.Data.OleDb
 Imports System.Threading
 Imports System.Drawing.Printing
 Imports CrystalReportsDataDefModelLib
+Imports System.IO
 
 Public Class frmReporte
 
@@ -56,7 +57,6 @@ Public Class frmReporte
 
         End Try
     End Sub
-
     Public Function ImprimeNotaCreditoPContinuo()
         Try
             CheckForIllegalCrossThreadCalls = False
@@ -213,7 +213,6 @@ Public Class frmReporte
             tr_Print.Abort()
         End Try
     End Function
-
     Public Function ImprimirLqChoferes()
         Try
 
@@ -366,7 +365,6 @@ Public Class frmReporte
             tr_Print.Abort()
         End Try
     End Function
-
     Public Function ImprimirRepCargaSect(ByVal Consecutivo As String)
 
         Dim cryRpte As Reporte_Carga_XSector
@@ -535,7 +533,6 @@ Public Class frmReporte
             tr_Print.Abort()
         End Try
     End Function
-
     Public Function ImprimirRepFacturas(ByVal Consecutivo As String)
         Try
             VariablesGlobales.Obj_Log.Log("ImprimirRepFacturas Copias [" & Class_VariablesGlobales.Copias & "] [ " & Class_VariablesGlobales.Obj_Reporte_Facturas.txb_Numero.Text & " ]", "Otros")
@@ -603,6 +600,246 @@ Public Class frmReporte
             tr_Print.Abort()
         End Try
     End Function
+
+
+    Public Function ImprimirColilla()
+        Dim cryRpt As ColillaDePagoResumenPlanilla = Nothing
+        Dim MiConexion As CrystalDecisions.Shared.ConnectionInfo = Nothing
+        Dim myTables As CrystalDecisions.CrystalReports.Engine.Tables = Nothing
+        Dim parametros As Integer = 0
+        Try
+            cryRpt = New ColillaDePagoResumenPlanilla
+            MiConexion = New CrystalDecisions.Shared.ConnectionInfo
+            myTables = cryRpt.Database.Tables
+            parametros = 0
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
+
+            MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
+            MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
+            MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
+
+            For Each myTable As CrystalDecisions.CrystalReports.Engine.Table In myTables
+                Dim myTableLogonInfo As TableLogOnInfo = myTable.LogOnInfo
+                myTableLogonInfo.ConnectionInfo = MiConexion
+                myTable.ApplyLogOnInfo(myTableLogonInfo)
+            Next
+
+            cryRpt.SetParameterValue(0, Class_VariablesGlobales.Planilla_Cedula.Trim())
+            cryRpt.SetParameterValue(1, Class_VariablesGlobales.Planilla_IdPlanilla)
+
+            ExportToPDF_ColillaPago(cryRpt, Class_VariablesGlobales.Planilla_Cedula, Class_VariablesGlobales.Planilla_IdPlanilla)
+
+            Me.Close()
+
+        Catch ex As Exception
+            ' Manejar la excepción aquí
+
+        Finally
+            ' Colocar aquí cualquier código que desees que siempre se ejecute, independientemente de si hay una excepción o no.
+            If cryRpt IsNot Nothing Then
+                cryRpt.Close() ' Cierra el informe
+                cryRpt.Dispose() ' Libera los recursos del informe
+            End If
+
+            ' Establecer MiConexion en Nothing para liberar la referencia al objeto
+            MiConexion = Nothing
+
+            parametros = Nothing
+        End Try
+    End Function
+    Public Shared Function ExportToPDF_ColillaPago(ByVal rpt As ReportDocument, ByVal Cedula As String, ByVal IdPlanilla As Integer) As String
+        Dim IntentosND As Integer = 10
+        Dim vFileName As String = Nothing
+        Dim diskOpts As New DiskFileDestinationOptions()
+        Dim Path As String
+
+        ' Directorio base (carpeta de "Documentos")
+        Dim documentosDir As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+        Dim PathArchivo As String
+        Try
+
+            ' Nombre de la carpeta que quieres crear
+            Dim carpetaColillasDePago As String = documentosDir & "\Planillas\" & IdPlanilla & "\ColillasDePago"
+
+            If Not Directory.Exists(carpetaColillasDePago) Then ' si no existe la carpeta se crea
+                Directory.CreateDirectory(carpetaColillasDePago)
+            End If
+
+            ' Crear un archivo dentro de la carpeta "Planillas"
+            PathArchivo = carpetaColillasDePago
+
+
+            If Not PathArchivo.EndsWith("\") Then
+                PathArchivo += "\"
+            End If
+
+            rpt.ExportOptions.ExportDestinationType = ExportDestinationType.DiskFile
+            rpt.ExportOptions.ExportFormatType = ExportFormatType.PortableDocFormat
+
+            'Este es la ruta donde se guardara tu archivo.
+            If File.Exists(PathArchivo) = False Then
+                My.Computer.FileSystem.CreateDirectory(PathArchivo)
+            End If
+
+            vFileName = PathArchivo & Cedula & ".pdf"
+
+            If File.Exists(vFileName) Then
+                File.Delete(vFileName)
+            End If
+
+            diskOpts.DiskFileName = vFileName
+            rpt.ExportOptions.DestinationOptions = diskOpts
+            rpt.Export()
+
+        Catch ex As Exception
+
+        Finally
+            '--------------- LIBERAMOS MEMORIAS-----------------
+            documentosDir = Nothing
+            vFileName = Nothing
+            diskOpts = Nothing
+            Path = Nothing
+            PathArchivo = Nothing
+        End Try
+
+        Return Nothing
+    End Function
+    Public Function ImprimirPlanilla()
+        Try
+            Dim cryRpt As PlanillaFinal
+            cryRpt = New PlanillaFinal
+
+            Dim MiConexion As New CrystalDecisions.Shared.ConnectionInfo
+            Dim myTables As CrystalDecisions.CrystalReports.Engine.Tables = cryRpt.Database.Tables
+            Dim parametros As Integer = 0
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
+
+            MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
+            MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
+            MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
+
+            For Each myTable As CrystalDecisions.CrystalReports.Engine.Table In myTables
+                Dim myTableLogonInfo As TableLogOnInfo = myTable.LogOnInfo
+                myTableLogonInfo.ConnectionInfo = MiConexion
+                myTable.ApplyLogOnInfo(myTableLogonInfo)
+            Next
+
+            cryRpt.SetParameterValue(0, Class_VariablesGlobales.Planilla_IdPlanilla)
+
+            Dim pd As New PrintDocument
+            'Se define el print Document.
+            Dim impresora_predeterminada As String = pd.PrinterSettings.PrinterName
+
+            cryRpt.PrintOptions.PrinterName = impresora_predeterminada
+            cryRpt.PrintToPrinter(Class_VariablesGlobales.Copias, False, 0, 0)
+
+            'ExportToPDF_ColillaPago(cryRpt, Class_VariablesGlobales.Planilla_IdPlanilla, Class_VariablesGlobales.Planilla_IdPlanilla)
+
+            Me.Close()
+
+        Catch ex As Exception
+
+        End Try
+    End Function
+    Public Function ImprimirSolicitudVacaciones(ByVal Consecutivo As String)
+        Try
+            CheckForIllegalCrossThreadCalls = False
+            Dim cryRpt As SolicitudVacaciones
+            cryRpt = New SolicitudVacaciones
+
+            Dim MiConexion As New CrystalDecisions.Shared.ConnectionInfo
+            Dim myTables As CrystalDecisions.CrystalReports.Engine.Tables = cryRpt.Database.Tables
+            Dim parametros As Integer = 0
+
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_server, False)
+
+            MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSAP_CompanyDB
+            MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
+            MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
+
+            For Each myTable As CrystalDecisions.CrystalReports.Engine.Table In myTables
+                Dim myTableLogonInfo As TableLogOnInfo = myTable.LogOnInfo
+                myTableLogonInfo.ConnectionInfo = MiConexion
+                myTable.ApplyLogOnInfo(myTableLogonInfo)
+            Next
+
+            '----- PARAMETROS REPORTE PADRE  --------------
+            '0:          Factura FIN
+            cryRpt.SetParameterValue(0, Class_VariablesGlobales.Planilla_ConsecutivoSolicitudVacaciones)
+            parametros += 1
+
+
+            Dim pd As New PrintDocument
+            'Se define el print Document.
+            Dim impresora_predeterminada As String = pd.PrinterSettings.PrinterName
+
+
+            cryRpt.PrintOptions.PrinterName = impresora_predeterminada
+            cryRpt.PrintToPrinter(Class_VariablesGlobales.Copias, False, 0, 0)
+
+            cryRpt = Nothing
+            MiConexion = Nothing
+            'myTables = Nothing
+            parametros = Nothing
+            pd = Nothing
+            impresora_predeterminada = Nothing
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR EN frmReporte ImprimirSolicitudVacaciones [" & ex.Message & " ]")
+            tr_Print.Abort()
+        End Try
+    End Function
+    Public Function ImprimirSolicitudValesPrestamos(ByVal Consecutivo As String)
+        Try
+            CheckForIllegalCrossThreadCalls = False
+            Dim cryRpt As ValesPrestamos
+            cryRpt = New ValesPrestamos
+
+            Dim MiConexion As New CrystalDecisions.Shared.ConnectionInfo
+            Dim myTables As CrystalDecisions.CrystalReports.Engine.Tables = cryRpt.Database.Tables
+            Dim parametros As Integer = 0
+
+            cryRpt.SetDatabaseLogon(Class_VariablesGlobales.XMLParamSQL_user, Class_VariablesGlobales.XMLParamSQL_clave, Class_VariablesGlobales.XMLParamSQL_server, Class_VariablesGlobales.XMLParamSQL_dababase, False)
+
+            MiConexion.ServerName = Class_VariablesGlobales.XMLParamSQL_server
+            MiConexion.DatabaseName = Class_VariablesGlobales.XMLParamSQL_dababase
+            MiConexion.UserID = Class_VariablesGlobales.XMLParamSQL_user
+            MiConexion.Password = Class_VariablesGlobales.XMLParamSQL_clave
+
+            For Each myTable As CrystalDecisions.CrystalReports.Engine.Table In myTables
+                Dim myTableLogonInfo As TableLogOnInfo = myTable.LogOnInfo
+                myTableLogonInfo.ConnectionInfo = MiConexion
+                myTable.ApplyLogOnInfo(myTableLogonInfo)
+            Next
+
+            '----- PARAMETROS REPORTE PADRE  --------------
+            '0:          Factura FIN
+            cryRpt.SetParameterValue(0, Class_VariablesGlobales.Planilla_ConsecutivoSolicitudValesPrestamos)
+            parametros += 1
+
+            Dim pd As New PrintDocument
+            'Se define el print Document.
+            Dim impresora_predeterminada As String = pd.PrinterSettings.PrinterName
+
+            cryRpt.PrintOptions.PrinterName = impresora_predeterminada
+            cryRpt.PrintToPrinter(Class_VariablesGlobales.Copias, False, 0, 0)
+
+            cryRpt = Nothing
+            MiConexion = Nothing
+            'myTables = Nothing
+            parametros = Nothing
+            pd = Nothing
+            impresora_predeterminada = Nothing
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR EN frmReporte ImprimirSolicitudValesPrestamos [" & ex.Message & " ]")
+            tr_Print.Abort()
+        End Try
+    End Function
+
 
     'OPCION  1
     'Mostrar una vista previa con un control CrystalReportViewer

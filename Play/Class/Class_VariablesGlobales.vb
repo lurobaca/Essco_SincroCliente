@@ -113,6 +113,14 @@ Public Class Class_VariablesGlobales
     Public Shared Excepcion As Boolean = False
 
     Public Shared WMS_AdminUbicaciones_Codigo As String
+    Public Shared LiquidacionEmpleado As String
+    Public Shared Planilla_Cedula As String
+    Public Shared Planilla_IdPlanilla As Integer
+
+    Public Shared Planilla_CardCode As String
+    Public Shared Planilla_CedulaEmpleado As String
+    Public Shared Planilla_ConsecutivoSolicitudVacaciones As String
+    Public Shared Planilla_ConsecutivoSolicitudValesPrestamos As String
 
     Public Shared LiquiAgente_ConseLiq As String
     Public Shared LiquiAgente_FechaIni As String
@@ -154,6 +162,7 @@ Public Class Class_VariablesGlobales
     Public Shared XMLParamSAP_DbUserName As String
     Public Shared XMLParamSAP_DbPassword As String
     Public Shared XMLParamSAP_LicenseServer As String
+    Public Shared XMLParam_CuentaCheque As String
 
     'PARAMETROS SQL_Sic_Local_Web
     Public Shared XMLParamSQL_user As String
@@ -355,6 +364,8 @@ Public Class Class_VariablesGlobales
     Public Shared Obj_Admin_Bodegueros As New Admin_Bodeguero
     Public Shared Obj_CantiChequeada As New CantiChequeada
     Public Shared Obj_ListaAgentes As New ListaAgentes
+    Public Shared Obj_List_Empleados As New Planilla_List_Empleados
+    Public Shared Obj_from_AdminAgentes As New Admin_Agentes
 
     Public Shared frmPrincipal As New Principal
     Public Shared frmEnviar_Info_Seller As New Enviar_Info_Seller
@@ -400,6 +411,23 @@ Public Class Class_VariablesGlobales
     Public Shared frmNuevoConteo As New Inv_NuevoConteo
     Public Shared frmEmpleados As New Planilla_Empleados
     Public Shared frmPlanilla As New Planilla
+    Public Shared frmFinalizarPlanilla As New Planilla_Finalizar
+
+    Public Shared ObjfrmReporte As New frmReporte
+    Public Shared frmPlanillaEmpleado_HistorialAbonosVales As New PlanillaEmpleado_HistorialAbonosVales
+    Public Shared frmPlanilla_DetalleDeducciones As New Planilla_DetalleDeducciones
+    Public Shared frmPlanilla_DetalleValesPrestamos As New Planilla_DetalleValesPrestamos
+    Public Shared frmPlanilla_DetalleFaltantesLiquidacion As New Planilla_DetalleFaltantesLiquidacion
+    Public Shared frmPlanilla_DetalleFacturas As New Planilla_DetalleFacturas
+    Public Shared frmPlanilla_DetalleCCSS As New Planilla_DetalleCCSS
+    Public Shared frmPlanilla_DetalleRenta As New Planilla_DetalleRenta
+    Public Shared frmPlanilla_DetalleIncapacidades As New Planilla_DetalleIncapacidades
+
+    Public Shared frmPlanillaAsignaEmpleadoARuta As New PlanillaAsignaEmpleadoARuta
+    Public Shared frmPlanillaAplicarAumento As New Planilla_AplicarAumento
+    Public Shared frmPlanillaDesgloseDeRenta As New PlanillaDesgloseDeRenta
+    Public Shared frmPlanillaConfiguraciones As New Planilla_DesgloceCCSS
+    Public Shared frmPlanillaNueva As New PlanillaNueva
 
     Public Shared frmDeduccionesAcreditaciones As New DeduccionesAcreditaciones
 

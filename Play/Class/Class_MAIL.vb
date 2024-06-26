@@ -1,7 +1,7 @@
 ﻿Imports System.Net.Mail
 Imports System.Net
 Imports Microsoft.Office.Interop
-
+Imports System.Net.Mime
 Public Class Class_MAIL
 
 
@@ -363,14 +363,10 @@ Public Class Class_MAIL
     End Sub
 
     'PARA ENVIAR CORREOS DESDE GMAIL
-    Public Sub EnviarCorreo(ByVal Mensaje As String, ByVal Asunto As String, ByVal file As String, ByVal Destinatario1 As String, ByVal Destinatario2 As String, ByVal Destinatario3 As String, ByVal Destinatario4 As String)
+    Public Sub EnviarCorreo(ByVal Mensaje As String, ByVal Asunto As String, ByVal file As String, ByVal Destinatarios As List(Of String))
 
         Try
 
-            If Destinatario1.Equals("") And Destinatario2.Equals("") And Destinatario3.Equals("") And Destinatario4.Equals("") Then
-                Exit Sub
-                'no existe destinatario
-            End If
             ' Capturo cada uno de los campos del formulario
             Dim TABLA As New DataTable
             TABLA = VariablesGlobales.Obj_SQL.ObtieneInfoEmmail(Class_VariablesGlobales.SQL_Comman2)
@@ -388,23 +384,20 @@ Public Class Class_MAIL
             correo.Subject = "Correo de prueba"
             correo.Subject = Asunto
 
-            If Destinatario1 <> "" Then
-                correo.To.Add(Destinatario1)
-            End If
-            If Destinatario2 <> "" Then
-                correo.To.Add(Destinatario2)
-            End If
-            If Destinatario3 <> "" Then
-                correo.To.Add(Destinatario3)
-            End If
-            If Destinatario4 <> "" Then
-                correo.To.Add(Destinatario4)
-            End If
+            ' Recorrer el vector y concatenar los elementos
+            For Each destinatario As String In Destinatarios
+                correo.To.Add(destinatario)
+            Next
 
             correo.Body = Mensaje
-            'If file <> "" Then
-            '    correo.Attachments.Add(archivo) ''adjuntar archivos 
-            'End If
+            If file IsNot Nothing And file <> "" Then
+
+                ' Adjuntar un archivo al correo
+
+                Dim archivoAdjunto As New Attachment(file, MediaTypeNames.Application.Octet)
+                correo.Attachments.Add(archivoAdjunto)
+
+            End If
 
             'Configuracion del servidor
             Dim Servidor As New System.Net.Mail.SmtpClient
@@ -414,16 +407,9 @@ Public Class Class_MAIL
             Servidor.Credentials = New System.Net.NetworkCredential(Usuario, Contraseña)
             Servidor.Send(correo)
 
-
-
         Catch ex As Exception
             MsgBox("Error al enviar el correo, " & ex.Message)
-
         End Try
-
-
-
-
     End Sub
 
 

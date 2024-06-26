@@ -5,7 +5,6 @@ Imports CrystalDecisions.CrystalReports.Engine
 Imports CrystalDecisions.Shared
 Public Class ExportarAExcell
 
-
     Public Function LimpiaPedido(ByVal DGV As DataGridView)
 
         Dim Tbl_Pedido As New DataTable
@@ -33,8 +32,6 @@ Public Class ExportarAExcell
         
         Return Tbl_Pedido ' luego de eliminar los pedido en cero devuelve la tabla para exportarla a excell
     End Function
-
-
 
     Public Sub ExportarDatosExcel(ByVal DataGridView1 As DataGridView, ByVal titulo As String)
 
@@ -449,6 +446,7 @@ Public Class ExportarAExcell
             MsgBox("Error al exportar a excell ExportarDatosExcel2 " & ex.Message)
         End Try
     End Sub
+
     Public Function ExportToPDF(ByVal rpt As ReportDocument, ByVal Conseutivo As String, ByVal Path As String) As String
 
 
@@ -647,7 +645,6 @@ Public Class ExportarAExcell
 
     End Sub
 
-
     Public Sub ExportarPlantilla(ByVal Dgv As DataGridView, ByVal titulo As String)
         Try
             Class_VariablesGlobales.Contador = 0
@@ -695,7 +692,7 @@ Public Class ExportarAExcell
 
                 Next
             Next
-                Class_VariablesGlobales.Contador = 0
+            Class_VariablesGlobales.Contador = 0
             'Aca le damos el formato a nuestro excel
 
             worksheet.Rows.Item(1).Font.Bold = 1
@@ -726,8 +723,6 @@ Public Class ExportarAExcell
 
     End Sub
 
-
-
     Public Function LeerExcell(ByVal Archivo As String)
         Dim oApp As Excel.Application ' Objeto Application
         Dim oWorkBook As Excel.Workbook ' Libro de trabajo
@@ -757,7 +752,6 @@ Public Class ExportarAExcell
         oApp.Quit()
         oApp = Nothing
     End Function
-
 
     Private Function GetDataExcel(ByVal fileName As String, ByVal sheetName As String) As DataTable
 
@@ -813,4 +807,108 @@ Public Class ExportarAExcell
     '   MessageBox.Show(ex.Message)
     ' End Try
     '---------PARA LLAMAR A LA FUNCION GetDataExcel -------
+
+    Public Sub ExportarPlanillaAExcel()
+
+        Try
+            Dim TablaPlanilla As DataTable
+            TablaPlanilla = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneInfoPlanilla(Class_VariablesGlobales.frmPlanilla.Txb_id_Planilla.Text, Class_VariablesGlobales.SQL_Comman2)
+
+            ' Verificar si hay datos
+            If TablaPlanilla IsNot Nothing AndAlso TablaPlanilla.Rows.Count > 0 Then
+                ' Crear una instancia de Excel
+                Dim app As Microsoft.Office.Interop.Excel._Application = New Microsoft.Office.Interop.Excel.Application()
+                Dim workbook As Microsoft.Office.Interop.Excel.Workbook = app.Workbooks.Add()
+                Dim worksheet As Microsoft.Office.Interop.Excel.Worksheet = workbook.Sheets(1)
+
+                ' Copiar los datos de la DataTable a la hoja de Excel
+                For i As Integer = 0 To TablaPlanilla.Columns.Count - 1
+                    worksheet.Cells(1, i + 1).Value = TablaPlanilla.Columns(i).ColumnName
+                Next
+
+                For i As Integer = 0 To TablaPlanilla.Rows.Count - 1
+                    For j As Integer = 0 To TablaPlanilla.Columns.Count - 1
+                        worksheet.Cells(i + 2, j + 1).Value = TablaPlanilla.Rows(i)(j)
+                    Next
+                Next
+
+                ' Mostrar el cuadro de diálogo Guardar como
+                Dim saveFileDialog As New SaveFileDialog()
+                saveFileDialog.Filter = "Archivos de Excel (*.xlsx)|*.xlsx"
+                saveFileDialog.Title = "Guardar archivo de Excel"
+                saveFileDialog.ShowDialog()
+
+                If Not String.IsNullOrEmpty(saveFileDialog.FileName) Then
+                    ' Guardar el archivo de Excel en la ubicación seleccionada por el usuario
+                    workbook.SaveAs(saveFileDialog.FileName)
+                    workbook.Close()
+                    app.Quit()
+
+                    ' Abrir el archivo de Excel
+                    System.Diagnostics.Process.Start(saveFileDialog.FileName)
+
+                    MsgBox("Los datos se han exportado correctamente a Excel.")
+                Else
+                    MsgBox("No se seleccionó ninguna ubicación para guardar el archivo.")
+                End If
+            Else
+                Console.WriteLine("No se encontraron datos para exportar.")
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error ExportarPlanillaAExcel " & ex.Message)
+        End Try
+    End Sub
+
+    Public Sub ExportarAsientoContableAExcel()
+
+        Try
+            Dim TablaPlanilla As DataTable
+            TablaPlanilla = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneAsientoContable(Class_VariablesGlobales.frmPlanilla.Txb_id_Planilla.Text, Class_VariablesGlobales.SQL_Comman2)
+
+            ' Verificar si hay datos
+            If TablaPlanilla IsNot Nothing AndAlso TablaPlanilla.Rows.Count > 0 Then
+                ' Crear una instancia de Excel
+                Dim app As Microsoft.Office.Interop.Excel._Application = New Microsoft.Office.Interop.Excel.Application()
+                Dim workbook As Microsoft.Office.Interop.Excel.Workbook = app.Workbooks.Add()
+                Dim worksheet As Microsoft.Office.Interop.Excel.Worksheet = workbook.Sheets(1)
+
+                ' Copiar los datos de la DataTable a la hoja de Excel
+                For i As Integer = 0 To TablaPlanilla.Columns.Count - 1
+                    worksheet.Cells(1, i + 1).Value = TablaPlanilla.Columns(i).ColumnName
+                Next
+
+                For i As Integer = 0 To TablaPlanilla.Rows.Count - 1
+                    For j As Integer = 0 To TablaPlanilla.Columns.Count - 1
+                        worksheet.Cells(i + 2, j + 1).Value = TablaPlanilla.Rows(i)(j)
+                    Next
+                Next
+
+                ' Mostrar el cuadro de diálogo Guardar como
+                Dim saveFileDialog As New SaveFileDialog()
+                saveFileDialog.Filter = "Archivos de Excel (*.xlsx)|*.xlsx"
+                saveFileDialog.Title = "Guardar archivo de Excel"
+                saveFileDialog.ShowDialog()
+
+                If Not String.IsNullOrEmpty(saveFileDialog.FileName) Then
+                    ' Guardar el archivo de Excel en la ubicación seleccionada por el usuario
+                    workbook.SaveAs(saveFileDialog.FileName)
+                    workbook.Close()
+                    app.Quit()
+
+                    ' Abrir el archivo de Excel
+                    System.Diagnostics.Process.Start(saveFileDialog.FileName)
+
+                    MsgBox("Los datos se han exportado correctamente a Excel.")
+                Else
+                    MsgBox("No se seleccionó ninguna ubicación para guardar el archivo.")
+                End If
+            Else
+                Console.WriteLine("No se encontraron datos para exportar.")
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error ExportarPlanillaAExcel " & ex.Message)
+        End Try
+    End Sub
 End Class

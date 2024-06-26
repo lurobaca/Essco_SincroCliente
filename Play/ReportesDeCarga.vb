@@ -212,11 +212,11 @@ Public Class ReportesDeCarga
                                                 "E-mail: lurobaca@gmail.com" & vbCrLf & _
                                                 "Tel: 8880-1662" & vbCrLf
 
-                        Dim Destinatario1 As String = ""
-                        Dim Destinatario2 As String = ""
-                        Dim Destinatario3 As String = ""
-                        Dim Destinatario4 As String = ""
-                        Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte Ruta [" & txtb_Ruta.Text & "]", "", Destinatario1, Destinatario1, Destinatario1, Destinatario1)
+                        ' Crear una lista de destinatarios de correo electrónico
+                        Dim destinatarios As New List(Of String)()
+                        ' Agregar destinatarios a la lista
+                        destinatarios.Add("bodeguerosbourne@gmail.com")
+                        Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte Ruta [" & txtb_Ruta.Text & "]", "", destinatarios)
                         DataGV_RepCarSec.DataSource = New DataTable
                         DataGV_RepCarSec.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ConsultaRepCarXSector("TODO", "", Consecutivo, Class_VariablesGlobales.SQL_Comman2, "")
                     Else
@@ -819,7 +819,11 @@ Public Class ReportesDeCarga
                                                     "E-mail: lurobaca@gmail.com" & vbCrLf & _
                                                     "Tel: 8880-1662" & vbCrLf
 
-                Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "REPORTE DE LA RUTA [" & txtb_Ruta.Text & "] FUE ANULADO Consecutivo [ " & CInt(Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoRepCarga(Class_VariablesGlobales.SQL_Comman2, "Carga")) & " ]", "", "", "", "", "")
+                ' Crear una lista de destinatarios de correo electrónico
+                Dim destinatarios As New List(Of String)()
+                ' Agregar destinatarios a la lista
+                destinatarios.Add("bodeguerosbourne@gmail.com")
+                Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "REPORTE DE LA RUTA [" & txtb_Ruta.Text & "] FUE ANULADO Consecutivo [ " & CInt(Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneConsecutivoRepCarga(Class_VariablesGlobales.SQL_Comman2, "Carga")) & " ]", "", destinatarios)
                 Me.Enabled = True
                 MessageBox.Show("Reporte Anulado con exito")
                 CargaDetRepCarga(Class_VariablesGlobales.SQL_Comman2, CInt(Class_VariablesGlobales.Conse_Repcarga), "")

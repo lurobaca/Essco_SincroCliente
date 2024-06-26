@@ -18,8 +18,8 @@ Public Class Class_funcionesSQL
         End Try
         Return SQL_Comman1
     End Function
-    Public Function Desconectar(SqlCommand As SqlCommand)
-        Obj_SQL_CONEXION_CONEXION.Desconectar(SqlCommand)
+    Public Function Desconectar(SqlCommand0 As SqlCommand, CNX As SqlConnection)
+        Obj_SQL_CONEXION_CONEXION.Desconectar(SqlCommand0, CNX_1)
     End Function
 
 
@@ -832,147 +832,580 @@ Public Class Class_funcionesSQL
     End Function
 
 #End Region
+#Region "Asignaciones"
 
-#Region "Planilla"
+
+    Public Function InsertaAsignacion(ByVal SQL_Comman As SqlCommand, ByVal Cedula_Empleado As String, ByVal Ruta As String, ByVal FechaIni As String)
+        Try
+
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+
+            Consulta = ""
+            Consulta = " INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[EmpleadoAsignaRuta] ([CedulaEmpleado],[Ruta],[FechaIni]) VALUES('" & Cedula_Empleado & "','" & Ruta & "','" & FechaIni & "')"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+            SQL_Comman = Nothing
 
 
-    Public Function ELIMINA_Deducciones(ByVal Cedula As String, ByVal Cbx_Tipo As String, ByVal SQL_Comman As SqlCommand)
+        Catch ex As Exception
+            MessageBox.Show("ERROR en InsertaAsignacion [ " & ex.Message & " ]")
+        End Try
 
-        Dim Consulta As String
-        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_DeduccionesFijas] where [Cedula_Empleado]='" & Trim(Cedula) & "' and Tipo='" & Trim(Cbx_Tipo) & "'"
-        SQL_Comman.CommandText = Consulta
+    End Function
+    Public Function EliminarAsignacion(ByVal SQL_Comman As SqlCommand, ByVal Cedula_Empleado As String, ByVal Ruta As String, ByVal FechaIni As String)
+        Try
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Consulta = "Delete [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[EmpleadoAsignaRuta] 
+                         WHERE [CedulaEmpleado]='" & Cedula_Empleado & "',[Ruta]='" & Ruta & "',[FechaIni]='" & FechaIni & "'"
+
+            SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
 
-    End Function
-    Public Function ELIMINA_Planilla_TEMP(ByVal id As String, ByVal SQL_Comman As SqlCommand)
-        Dim Consulta As String
-        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Temp] where id='" & id & "'"
-        SQL_Comman.CommandText = Consulta
-        SQL_Comman.ExecuteNonQuery()
-    End Function
+        Catch ex As Exception
+        End Try
 
-
-    Public Function obtienePlanillas(ByVal SQL_Comman As SqlCommand)
+    End Function
+    Public Function ObtieneAsignacion(ByVal SQL_Comman As SqlCommand, ByVal FechaIni As String, ByVal FechaFin As String)
         Try
-            Dim TABLA As New DataTable
+
             Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
             Dim Consulta As String = ""
-            Consulta = "SELECT  [id] ,[FechaINI] ,[FechaFIN] ,SUM([Dedu_CCSS]) AS CCSS ,SUM([SalarioFinal]) AS TOTAL FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla] group by id,[FechaINI],[FechaFIN]"
+
+            Consulta = "SELECT [CedulaEmpleado],[Ruta],[FechaIni] as Fecha  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[EmpleadoAsignaRuta] WHERE [FechaIni]>= '" & FechaIni & "' and [FechaIni]<='" & FechaFin & "'"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
+
             Return TABLA
         Catch ex As Exception
+            'Principal.LbL_Errorres.Text = "ERROR en ObtieneAsignacion [ " & ex.Message & " ]"
         End Try
     End Function
 
 
-    Public Function CONSULTA_Planilla_Temp(ByVal id As Integer, ByVal SQL_Comman As SqlCommand)
+#End Region
+#Region "Planilla"
 
+    Public Function ObtieneTotalCargasSocialesAportePatrono(Id_Planilla As Integer, ByVal SQL_Comman As SqlCommand)
         Try
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = "Select [Ced_Empleado]" &
-                          ",[NombreEmpleado]" &
-                          ",[Puesto]" &
-                          ",[Salario]" &
-                          ",[SalarioQuincenal]" &
-                          ",[ADICIONAL]" &
-                          ",[DEB_PERSONAL]" &
-                          ",[DUCC_CUOTA_BP]" &
-                          ",[DEDUCION_DE_CELULAR]" &
-                          ",[EMBARGO]" &
-                          ",[FALTANTES_LIQ]" &
-                          ",[FACTURAS]" &
-                          ",[COBROS_X_FALTANTE]" &
-                          ",[COBROS_PRESTAMO]" &
-                          ",[Dedu_CCSS]" &
-                          ",[id],[Ced_Juridica],[Nombre],[FechaINI],[FechaFIN],[Comentario],[PorcCCSS],[Foto],[id_Empleado],[SalarioFinal]" &
-                          "FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Temp] where [id]='" & id & "' order by [NombreEmpleado] asc"
+            Consulta = "SELECT SUM(T0.[PatronoMonto]) as 'Total'
+	                    FROM (SELECT CASE WHEN [TrabajadorMonto] IS NULL THEN 0 ELSE [TrabajadorMonto] END as 'TrabajadorMonto'
+		                     ,CASE WHEN [PatronoMonto] IS NULL THEN 0 ELSE [PatronoMonto] END  as 'PatronoMonto'
+			                 FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_DeduccionesCCSS]
+			                 WHERE [Id_Planilla] ='" & Id_Planilla & "' and Estado='0') as T0"
 
+            SQL_Comman = Conectar()
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
-
-            Dim contador As Integer = 0
-            Dim totalplanilla As Double = 0
             If TABLA.Rows.Count > 0 Then
-                While contador <TABLA.Rows.Count
-                                   totalplanilla += CDbl(TABLA.Rows(contador).Item("SalarioFinal").ToString())
+                Return CDbl(TABLA.Rows(0).Item("Total").ToString())
+            Else
+                Return 0
+            End If
+        Catch ex As Exception
+        End Try
+    End Function
 
-                    contador += 1
-                End While
+    Public Function ValidaExistePasoMensajeRegistrado(ByVal ObjResultados As Resultados, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+            Consulta = "SELECT [Estado] FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Resultados]
+                        WHERE [IdPlanilla]='" & ObjResultados.IdPlanilla & "' AND [NumPaso]='" & ObjResultados.Mensajes.NumPaso & "'"
+
+            SQL_Comman = Conectar()
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            If TABLA.Rows.Count > 0 Then
+                Return TABLA.Rows(0).Item("Estado").ToString()
+            Else
+                Return ""
+            End If
+        Catch ex As Exception
+        End Try
+    End Function
+    Public Function GuardaResultadoFinalizacionPlanilla(ByVal ObjResultados As Resultados, Guardar As Boolean)
+
+        Dim cont As Integer = 0
+        Dim Consulta As String
+        Try
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+
+            Consulta = ""
+            If Guardar = False Then
+
+                Consulta = "UPDATE [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Resultados] SET " &
+                         "[Estado] = '" & ObjResultados.Mensajes.Estado & "',[Descripcion] = '" & ObjResultados.Mensajes.Descripcion & "' WHERE  [IdPlanilla] = '" & ObjResultados.IdPlanilla & "' and [NumPaso] = '" & ObjResultados.Mensajes.NumPaso & "'"
+
+            Else
+                Consulta = "INSERT INTO [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Resultados]
+                                       ([IdPlanilla]
+                                       ,[Estado] 
+                                        ,[NumPaso]
+                                       ,[Descripcion])
+                                 VALUES
+                                       ('" & ObjResultados.IdPlanilla & "'
+                                       ,'" & ObjResultados.Mensajes.Estado & "'    
+                                       ,'" & ObjResultados.Mensajes.NumPaso & "'
+                                       ,'" & ObjResultados.Mensajes.Descripcion & "')"
             End If
 
-            Class_VariablesGlobales.frmPlanilla.txtb_TotalPlanilla.Text = FormatCurrency(totalplanilla, 2)
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
 
+            Desconectar(SQL_Comman, SQL_Comman.Connection)
+            SQL_Comman = Nothing
+            cont = Nothing
+            Consulta = Nothing
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+            'Class_VariablesGlobales.Obj_Funciones_SQL.Desconectar(SQLComman, SQLComman.Connection)
+            'SQLComman = Nothing
+            cont = Nothing
+            Consulta = Nothing
+        End Try
+
+        Return 0
+    End Function
+
+    Public Function ObtieneTotalValesPrestamosPorEmpleado(Id_Planilla As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+            Consulta = "SELECT 
+                              (select CuentaContable from [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado] as T0 where T0.Cedula=[CedulaEmpleado]) AS CuentaContable
+                              ,[CedulaEmpleado]
+                              ,[NombreEmpleado]
+                              ,[Monto]
+                              ,[Saldo]  
+                        FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_ValesPrestamos]
+                        WHERE [Id_Planilla]='" & Id_Planilla & "' AND [Estado]='0'"
+
+            SQL_Comman = Conectar()
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
             Return TABLA
         Catch ex As Exception
         End Try
-
+    End Function
+    Public Function ObtieneTotalDeduccionesBPPorEmpleado(Id_Planilla As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+            Consulta = "SELECT [Cedula_Empleado]  
+                              ,[Monto]    
+                        FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Deducciones]
+                        WHERE [Id_Planilla]='" & Id_Planilla & "' AND [Estado]='0' and [Categoria]='Cuota BP'"
+            SQL_Comman = Conectar()
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+        End Try
     End Function
 
 
-    Public Function CONSULTA_Planilla(ByVal id As Integer, ByVal SQL_Comman As SqlCommand)
+    Public Function obtienePlanillas(ByVal SQL_Comman As SqlCommand, Desde As String, Hasta As String, Descripcion As String)
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+
+            Consulta = "Select top 20 Consecutivo ,Comentario ,FechaINI ,FechaFIN ,FechaCrea ,UsuarioCrea,Estado   
+                        From [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla] "
+
+            If Desde <> "" Or Descripcion <> "" Then
+                Consulta = Consulta & " Where "
+            End If
+
+            If Desde <> "" Then
+                Consulta = Consulta & " FechaCrea between '" & Desde & "' and  '" & Hasta & "' "
+            End If
+
+            If Descripcion <> "" Then
+                Consulta = Consulta & " Comentario like %" & Descripcion & " %  "
+            End If
+
+            Consulta = Consulta & " Order By Consecutivo desc"
+            SQL_Comman = Conectar()
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+        End Try
+    End Function
+    Public Function CreaAbonoValesPrestamos(ByVal Id_Planilla As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_CreaAbonoValesPrestamos", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.AddWithValue("@IdPlanilla", Id_Planilla)
+                cmd.Parameters.Add("@pCodError", SqlDbType.Int).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@pMensajeError", SqlDbType.VarChar, 300).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@pReturn", SqlDbType.VarChar, 300).Direction = ParameterDirection.Output
+
+                ' Crear un adaptador de datos y un DataSet para almacenar los resultados
+                Dim adapter As New SqlDataAdapter(cmd)
+                Dim dataSet As New DataSet()
+
+                ' Llenar el DataSet con los resultados
+                adapter.Fill(dataSet)
+
+                ' Ejecutar el comando (el procedimiento almacenado se ejecuta aquí)
+                cmd.ExecuteNonQuery()
+
+                ' Obtener el valor del parámetro de salida (pReturn)
+                Dim CodError As Integer = Convert.ToInt32(cmd.Parameters("@pCodError").Value)
+                Dim MensajeError As String = cmd.Parameters("@pMensajeError").Value
+                Dim IdPlanilla As Integer = Convert.ToInt64(cmd.Parameters("@pReturn").Value)
+                'MsgBox(MensajeError)
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR AnulaPlanilla [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+    End Function
+
+    Public Function ObtieneAsiento(IdPlanilla As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+
+                Dim cmd As SqlCommand = New SqlCommand("SP_CrearAsientoPlanilla", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("@IdPlanilla", IdPlanilla)
+                cmd.Parameters.Add("@pCodError", SqlDbType.Int).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@pMensajeError", SqlDbType.VarChar, 300).Direction = ParameterDirection.Output
+
+                cmd.CommandTimeout = 300
+                Dim da As New SqlDataAdapter(cmd)
+                da.Fill(TABLA)
+
+                '' Obtener el valor del parámetro de salida (pReturn)
+                'Dim CodError As Integer = Convert.ToInt32(cmd.Parameters("@pCodError").Value)
+                'Dim MensajeError As String = cmd.Parameters("@pMensajeError").Value
+            End Using
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("Error ObtieneAsiento [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+    End Function
+
+    Public Function ValidaExistePlanillaEnProceso(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_ValidaExistenciaPlanillaEnCreacion ", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.Add("@pCodError", SqlDbType.Int).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@pMensajeError", SqlDbType.VarChar, 300).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@pReturn", SqlDbType.Float).Direction = ParameterDirection.Output
+                ' Ejecutar el comando (el procedimiento almacenado se ejecuta aquí)
+                cmd.ExecuteNonQuery()
+                Dim da As New SqlDataAdapter(cmd)
+                da.Fill(TABLA)
+                ' Obtener el valor del parámetro de salida (pReturn)
+                Dim CodError As Integer = Convert.ToInt32(cmd.Parameters("@pCodError").Value)
+                Dim MensajeError As String = cmd.Parameters("@pMensajeError").Value
+                Dim IdPlanilla As Integer = Convert.ToInt64(cmd.Parameters("@pReturn").Value)
+
+                Return TABLA
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Error ValidaExistePlanillaEnProceso [ " & ex.Message & " ] ")
+            Return 0
+        End Try
+
+    End Function
+    Public Function CargaPlanillaExistente(IdPlanilla As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+
+                Dim cmd As SqlCommand = New SqlCommand("SP_CargaPlanillaExistente", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.Parameters.AddWithValue("@IdPlanilla", IdPlanilla)
+                cmd.CommandTimeout = 300
+                Dim da As New SqlDataAdapter(cmd)
+                da.Fill(TABLA)
+            End Using
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("Error CargaPlanillaExistente [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+    End Function
+
+    Public Function InsertarEstadoSubidaSAP(ByVal ReintentaIngreso As Boolean, ByVal Agente As String, ByVal Archivo As String, ByVal Consecutivo As String, ByVal Estado As String, ByVal Detalle As String, ByVal Fecha As String, SQLComman As SqlCommand)
+
+        Dim cont As Integer = 0
+        Dim Consulta As String
+        Try
+
+            ' para la conexion al comman
+            'SQLComman.Connection = Class_VariablesGlobales.Obj_Funciones_SQL.Conectar(Class_VariablesGlobales.XMLParamSQL_dababase, SQLComman.Connection)
+
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+
+            Consulta = ""
+            If ReintentaIngreso = True Then
+                Consulta = "UPDATE [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Estado_Subida_SAP] Set " &
+                         "[Agente] = '" & Agente & "',[Archivo] = '" & Archivo & "' ,[Estado] = '" & Estado & "' ,[Detalle] = '" & Detalle & "',[Reintento] = '0',[Fecha]='" & Fecha & "' WHERE  [Consecutivo] = '" & Consecutivo & "'"
+
+            Else
+                Consulta = "INSERT INTO [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Estado_Subida_SAP]" &
+                         "([Agente],[Archivo],[Consecutivo],[Estado],[Detalle],[Reintento],[Fecha]) VALUES('" & Agente & "','" & Archivo & "','" & Consecutivo & "','" & Estado & "','" & Detalle & "','0','" & Fecha & "')"
+            End If
+
+
+            SQLComman.CommandText = Consulta
+            SQLComman.ExecuteNonQuery()
+
+            'SQL_Comman = Nothing
+            Class_VariablesGlobales.Obj_Funciones_SQL.Desconectar(SQLComman, SQLComman.Connection)
+            SQLComman = Nothing
+            cont = Nothing
+            Consulta = Nothing
+
+            'Obj_Log.Log(Detalle)
+
+        Catch ex As Exception
+            Class_VariablesGlobales.Obj_Funciones_SQL.Desconectar(SQLComman, SQLComman.Connection)
+            SQLComman = Nothing
+            cont = Nothing
+            'ERRORES = " ERROR InsertarEstadoSubidaSAP ( " & ex.Message & " ) [" & Consulta & "]"
+            Consulta = Nothing
+
+            'Obj_Log.Log(ERRORES)
+        End Try
+
+        Return 0
+
+    End Function
+    Public Function ObtieneFacturasACancelarXEmpleado(ByVal Id_Planilla As String, ByVal CardCode As String, ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim EstadoProcesado As Integer = 0
+            Consulta = "SELECT  
+					      T0.[DocNum]
+	                     ,T0.DocEntry
+	                     ,T0.CardCode		
+	                     ,T0.SlpCode as SalesPersonCode
+                         ,T0.[DocDate]
+                         ,T0.[DocTotal]
+                         ,(T0.[DocTotal] - T0.[PaidToDate]) as DocSaldo							 
+						 FROM  [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].dbo.OINV  AS T0
+						 INNER JOIN [dbo].[Planilla_Facturas] AS T1 ON T1.DocNum =T0.DocNum 
+					     WHERE  T0.CardCode ='" & CardCode & "'  AND  T1.Cedula_Empleado='" & Cedula & "'  AND T0.[DocStatus]='O' AND T1.Id_Planilla ='" & Id_Planilla & "'  AND T1.Estado =0"
+
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneFacturasACancelar [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+
+    Public Function ObtieneResultados(ByVal Id_Planilla As String)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+
+
+            Consulta = "SELECT    
+                            [NumPaso]
+                           ,[Estado]
+                           ,[Descripcion]                           
+                        FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Resultados]
+                        WHERE [IdPlanilla]='" & Id_Planilla & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Desconectar(SQL_Comman, SQL_Comman.Connection)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneResultados [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+    Public Function ObtienePlanillasParaAguinaldo(ByVal Ced_Empleado As String, ByVal SQL_Comman As SqlCommand)
 
         Try
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = "Select [Ced_Empleado]" &
-                          ",[NombreEmpleado]" &
-                          ",[Puesto]" &
+            Consulta = "Select " &
+                          " [id]" &
+                          ",[FechaCrea]" &
+                          ",[Comentario]" &
                           ",[Salario]" &
-                          ",[SalarioQuincenal]" &
-                          ",[ADICIONAL]" &
-                          ",[DEB_PERSONAL]" &
-                          ",[DUCC_CUOTA_BP]" &
-                          ",[DEDUCION_DE_CELULAR]" &
-                          ",[EMBARGO]" &
-                          ",[FALTANTES_LIQ]" &
-                          ",[FACTURAS]" &
-                          ",[COBROS_X_FALTANTE]" &
-                          ",[COBROS_PRESTAMO]" &
-                          ",[Dedu_CCSS]" &
-                          ",[id],[Ced_Juridica],[Nombre],[FechaINI],[FechaFIN],[Comentario],[PorcCCSS],[Foto],[id_Empleado],[SalarioFinal]" &
-                          "FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla] where [id]='" & id & "' order by [NombreEmpleado] asc"
+                          ",[FechaINI]" &
+                          ",[FechaFIN]" &
+                          "FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla] where [Ced_Empleado]='" & Ced_Empleado & "' and YEAR(FechaCrea) = DATEPART(YY,GETDATE()) order by [NombreEmpleado] asc"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
             Dim contador As Integer = 0
-            Dim totalplanilla As Double = 0
+            Dim totalSalarios As Double = 0
             If TABLA.Rows.Count > 0 Then
                 While contador < TABLA.Rows.Count
-                    totalplanilla += CDbl(TABLA.Rows(contador).Item("SalarioFinal").ToString())
+                    totalSalarios += CDbl(TABLA.Rows(contador).Item("Salario").ToString())
 
                     contador += 1
                 End While
             End If
-
-            Class_VariablesGlobales.frmPlanilla.txtb_TotalPlanilla.Text = FormatCurrency(totalplanilla, 2)
 
             Return TABLA
         Catch ex As Exception
         End Try
 
     End Function
+    Public Function ObtieneDesgloseCCSS(Id_Planilla As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+
+            Consulta = "SELECT 
+                            
+                            CASE 
+                                WHEN GROUPING([Categoria]) = 1 THEN 'TOTAL GENERAL'
+                                ELSE [Categoria]
+                            END AS [Categoria],
+                            [ConceptoInstitucion],
+                            REPLACE(FORMAT(SUM([TrabajadorAportePorcentual]), '#,0.00'), '.', ',') AS TrabajadorAportePorcentual,
+                            REPLACE(FORMAT(SUM([TrabajadorMonto]), '#,0.00'), '.', ',') AS TrabajadorMonto,
+                            REPLACE(FORMAT(SUM([PatronoAportePorcentual]), '#,0.00'), '.', ',') AS PatronoAportePorcentual,
+                            REPLACE(FORMAT(SUM([PatronoMonto]), '#,0.00'), '.', ',') AS PatronoMonto 
+                        FROM (
+                            SELECT         
+                                [Categoria],
+                                [ConceptoInstitucion],
+                                [Trabajador_AportePorcentual] as TrabajadorAportePorcentual,
+                                SUM([TrabajadorMonto]) as TrabajadorMonto,
+                                [Patrono_AportePorcentual] as PatronoAportePorcentual,
+                                SUM([PatronoMonto]) AS PatronoMonto 
+                            FROM  
+                                [dbo].[Planilla_DeduccionesCCSS]
+                            WHERE 
+                                [Id_Planilla] = '" + Id_Planilla + "' 
+                            GROUP BY  
+                                [Categoria], [ConceptoInstitucion], [Trabajador_AportePorcentual], [Patrono_AportePorcentual]
+                        ) as T100
+                        GROUP BY 
+                            GROUPING SETS (
+                                (T100.[Categoria], T100.[ConceptoInstitucion] ),
+                                ()
+                            );"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+        End Try
+
+    End Function
+    Public Function ObtieneDesgloseRenta(Id_Planilla As String, ByVal SQL_Comman As SqlCommand)
+
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+            Consulta = "SELECT 
+                        CASE 
+                            WHEN GROUPING(T1.NumTramo) = 1 THEN 'TOTAL GENERAL'
+                            ELSE CAST(T1.NumTramo AS VARCHAR(20)) -- Convertimos NumTramo a VARCHAR
+                        END AS NumTramo,
+                        REPLACE(FORMAT(T1.SalarioInicial, '#,0.00'), '.', ',') AS SalarioInicial,
+                        REPLACE(FORMAT(T1.SalarioFinal, '#,0.00'), '.', ',') AS SalarioFinal,
+                        REPLACE(FORMAT(T1.PorcentajeRenta, '#,0.00'), '.', ',') AS PorcentajeRenta,
+                        REPLACE(FORMAT(SUM(T0.Monto), '#,0.00'), '.', ',') AS Monto
+                    FROM 
+                        [dbo].[Planilla_DeduccionRenta] AS T0
+                    INNER JOIN  
+                        [dbo].[Planilla_DesgloseRenta] AS T1 ON T0.[Id_Planilla_DesgloseRenta] = t1.id
+                    WHERE 
+                        T0.[Id_Planilla] = '" & Id_Planilla & "'  
+                    GROUP BY 
+                        GROUPING SETS (
+                            (T1.NumTramo, T1.SalarioInicial, T1.SalarioFinal, T1.PorcentajeRenta),
+                            ()
+                        );"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+        End Try
+
+    End Function
+
     Public Function CONSULTA_ID_Planilla(ByVal SQL_Comman As SqlCommand)
         Dim id As Integer = 1
         Try
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = "SELECT [ID_Planilla]  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Consecutivos]"
+            Consulta = " SELECT MAX(Consecutivo)+1 as Consecutivo   FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla]"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Dim contardor As Integer = 0
             If TABLA.Rows.Count > 0 Then
-                While contardor < TABLA.Rows.Count
-                    id = TABLA.Rows(contardor).Item("ID_Planilla").ToString()
-
-                    contardor += 1
-                End While
+                id = TABLA.Rows(0).Item("Consecutivo").ToString()
             End If
         Catch ex As Exception
         End Try
@@ -988,7 +1421,7 @@ Public Class Class_funcionesSQL
 
             Dim Existe As Boolean = False
 
-            Consulta = "SELECT top 1 T0.[DocNum] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].OPOR T0 WHERE T0.[NumAtCard] ='" & DocNum & "'"
+            Consulta = "SELECT top 1 T0.[DocNum] FROM [BD_Bourne].[dbo].OPOR T0 WHERE T0.[NumAtCard] ='" & DocNum & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Dim contardor As Integer = 0
@@ -1012,7 +1445,7 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
             Dim Existe As Boolean = False
 
-            Consulta = "SELECT top 1 [DocNum]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORDR] where DocNum='" & DocNum & "'"
+            Consulta = "SELECT top 1 [DocNum]  FROM [BD_Bourne].[dbo].[ORDR] where DocNum='" & DocNum & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Dim contardor As Integer = 0
@@ -1040,7 +1473,7 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
             Dim Existe As Boolean = False
 
-            Consulta = "SELECT top 1 [U_Boleta]  FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[ORIN] where U_Boleta='" & Boleta & "'"
+            Consulta = "SELECT top 1 [U_Boleta]  FROM [BD_Bourne].[dbo].[ORIN] where U_Boleta='" & Boleta & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Dim contardor As Integer = 0
@@ -1068,14 +1501,14 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
             If Descripcion <> "" Then
-                Consulta = "SELECT T0.[ItemCode], T0.[ItemName] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OITM] T0 where [ItemName] like '%" & Descripcion & "%'"
+                Consulta = "SELECT T0.[ItemCode], T0.[ItemName] FROM [BD_Bourne].[dbo].[OITM] T0 where [ItemName] like '%" & Descripcion & "%'"
             Else
-                Consulta = "SELECT T0.[ItemCode], T0.[ItemName] FROM [" & Class_VariablesGlobales.XMLParamSAP_CompanyDB & "].[dbo].[OITM] T0"
+                Consulta = "SELECT T0.[ItemCode], T0.[ItemName] FROM [BD_Bourne].[dbo].[OITM] T0"
             End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
-           
+
         Catch ex As Exception
         End Try
 
@@ -1101,14 +1534,65 @@ Public Class Class_funcionesSQL
         Return TABLA
     End Function
 
+    Public Function RegistraActualizaSalarioEmpleado(ByVal Cedula_Empleado As String,
+                                                     ByVal SalarioAnterior As Double,
+                                                     ByVal SalarioPosterior As Double,
+                                                     ByVal Fecha As String,
+                                                     ByVal PorcentajeAumento As Double,
+                                                     ByVal MontoAumento As Double,
+                                                     ByVal MotivoAumento As String,
+                                                     ByVal UsuarioCrea As String,
+                                                     ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+            Consulta = ""
 
+            Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Aumentos]" &
+                           "([Cedula_Empleado]" &
+                           ",[SalarioAnterior]" &
+                           ",[SalarioPosterior]" &
+                           ",[Fecha]" &
+                           ",[PorcentajeAumento]" &
+                           ",[MontoAumento]" &
+                           ",[MotivoAumento]" &
+                           ",[UsuarioCrea])" &
+                           "VALUES(@Cedula_Empleado
+                                  ,@SalarioAnterior
+                                  ,@SalarioPosterior
+                                  ,@Fecha
+                                  ,@PorcentajeAumento
+                                  ,@MontoAumento
+                                  ,@MotivoAumento 
+                                  ,@UsuarioCrea)"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                command.Parameters.AddWithValue("@SalarioAnterior", SalarioAnterior)
+                command.Parameters.AddWithValue("@SalarioPosterior", SalarioPosterior)
+                command.Parameters.AddWithValue("@Fecha", Fecha)
+                command.Parameters.AddWithValue("@PorcentajeAumento", PorcentajeAumento)
+                command.Parameters.AddWithValue("@MontoAumento", MontoAumento)
+                command.Parameters.AddWithValue("@MotivoAumento", MotivoAumento)
+                command.Parameters.AddWithValue("@UsuarioCrea", UsuarioCrea)
+                ' Ejecuta el comando SQL
+                command.ExecuteNonQuery()
+            End Using
+
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en RegistraActualizaSalarioEmpleado [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
     Public Function ActualizaSalarioEmpleado(ByVal Cedula As String, ByVal Salario As Double, ByVal SQL_Comman As SqlCommand)
 
         Try
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Empleado] SET [Salario] ='" & Salario & "' where  Cedula='" & Cedula & "' "
+            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado] SET [Salario] ='" & Salario & "' where  Cedula='" & Cedula & "' "
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
@@ -1136,62 +1620,28 @@ Public Class Class_funcionesSQL
         Catch ex As Exception
         End Try
     End Function
-    Public Function AUMENTA_ID_Planilla(ByVal ID As Integer, ByVal SQL_Comman As SqlCommand)
 
+    Public Function VerificaSiExisteDeduccion(ByVal Consecutivo As String, ByVal SQL_Comman As SqlCommand)
         Try
-            Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
-            Dim Consulta As String = ""
-            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Consecutivos] SET [ID_Planilla] ='" & ID & "'  "
-
-
-            SQL_Comman.CommandText = Consulta
-            SQL_Comman.ExecuteNonQuery()
-            SQL_Comman = Nothing
-            Return True
-
-        Catch ex As Exception
-        End Try
-
-
-
-    End Function
-    Public Function ACTUALIZA_ID_Planilla(ByVal ID As Integer, ByVal SQL_Comman As SqlCommand)
-
-        Try
-
             Dim TABLA As New DataTable
-            Dim ADATER As New SqlDataAdapter
-
             Dim Consulta As String = ""
 
-            Consulta = "UPDATE  [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Consecutivos] SET [ID_Planilla]='" & ID & "'"
+            Consulta = "Select Consecutivo from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Deducciones] where Consecutivo='" & Consecutivo & "'"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
-        Catch ex As Exception
-        End Try
-    End Function
-
-    Public Function VerificaDuplicadoPlanilla(ByVal Cedula As String, ByVal id As String, ByVal SQL_Comman As SqlCommand)
-        Dim Existe As Boolean = False
-        Try
-            Dim TABLA As New DataTable
-            Dim ADATER As New SqlDataAdapter
-            Dim Consulta As String = ""
-            Consulta = "SELECT [Ced_Empleado] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Temp] where [Ced_Empleado]='" & Trim(Cedula) & "' and [id]='" & Trim(id) & "'"
-
-            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-            ADATER.Fill(TABLA)
-            Dim contardor As Integer = 0
             If TABLA.Rows.Count > 0 Then
-                Existe = True
-
+                Return True
+            Else
+                Return False
             End If
+
         Catch ex As Exception
+            MessageBox.Show("ERROR en VerificaSiExisteDeduccion [ " & ex.Message & " ]")
         End Try
-        Return Existe
+
     End Function
 
     Public Function VerificaDuplicadoDeduccionFija(ByVal Cedula As String, ByVal Tipo As String, ByVal SQL_Comman As SqlCommand)
@@ -1200,7 +1650,7 @@ Public Class Class_funcionesSQL
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = "SELECT [Cedula_Empleado] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_DeduccionesFijas] where [Cedula_Empleado]='" & Cedula & "' and [Tipo]='" & Tipo & "'"
+            Consulta = "SELECT [Cedula_Empleado] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Deducciones] where [Cedula_Empleado]='" & Cedula & "' and [Categoria]='" & Tipo & "'"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -1233,223 +1683,1310 @@ Public Class Class_funcionesSQL
         End Try
         Return Cedula
     End Function
-    Public Function GuardaDeduccionFija(ByVal Cedula As String, ByVal Nombre As String, ByVal Cbx_Tipo As String, ByVal Monto As Double, ByVal FechaLimite As String, ByVal Hasta As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
-        Dim Consulta As String = ""
-        If GUARDANDO = True Then
-
-            Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_DeduccionesFijas]" &
-                       " ([Cedula_Empleado]" &
-                       " ,[Nombre]" &
-                       " ,[Tipo]" &
-                       " ,[Monto]" &
-                       " ,[FechaLimteActiva]" &
-                       " ,[FechaLimite]" & ")" &
-                       " VALUES('" & Cedula & "','" & Nombre & "','" & Cbx_Tipo & "','" & Monto & "','" & Hasta & "','" & FechaLimite & "')"
-
-
-        Else
-            Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_DeduccionesFijas] " &
-               "SET [Nombre] = '" & Nombre & "'" &
-                  ",[Tipo] = '" & Cbx_Tipo & "'" &
-                  ",[Monto] = '" & Monto & "'" &
-                  ",[FechaLimteActiva] ='" & FechaLimite & "'" &
-                  ",[FechaLimite] = '" & Hasta & "'" &
-                  "  WHERE [Cedula_Empleado] = '" & Cedula & "'"
-        End If
-        SQL_Comman.CommandText = Consulta
-        SQL_Comman.ExecuteNonQuery()
-        SQL_Comman = Nothing
-        Return True
-    End Function
-
-    Public Function CONSULTA_Deducciones(ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
-
+    Public Function CalcularTotalPlanilla(IdPlanilla As Integer, ByVal SQL_Comman As SqlCommand)
+        Dim TotalPlanilla As Double = 0
         Try
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            Consulta = "Select [Cedula_Empleado]" &
-                          ",[Nombre]" &
-                          ",[Monto]" &
-                          ",[FechaLimteActiva]" &
-                          ",[FechaLimite]" &
-                          ",[Tipo]" &
-                          "FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_DeduccionesFijas] where [Cedula_Empleado]='" & Trim(Cedula) & "' "
 
+            Consulta = "Select SUM([Salario_Final]) As TotalPlanilla
+                      From [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Empleados]
+                      Where [Id_Planilla] = '" & IdPlanilla & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Dim contardor As Integer = 0
+            If TABLA.Rows.Count > 0 Then
+                TotalPlanilla = TABLA.Rows(0).Item("TotalPlanilla").ToString()
+            End If
+        Catch ex As Exception
+        End Try
+        Return TotalPlanilla
+    End Function
+    Public Function CargaTotalRebajos(ByVal IdPlanilla As Integer, ByVal Cedula_Empleado As String, ByVal Tipo As Integer)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_PlanillaCargaTotalRebajos", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.AddWithValue("@IdPlanilla", IdPlanilla)
+                cmd.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado.Trim())
+                cmd.Parameters.AddWithValue("@Tipo", Tipo)
+                cmd.Parameters.AddWithValue("@pCodError", String.Empty)
+                cmd.Parameters.AddWithValue("@pMensajeError", String.Empty)
+                cmd.Parameters.Add("@pReturn", SqlDbType.Float).Direction = ParameterDirection.Output
+                ' Ejecutar el comando (el procedimiento almacenado se ejecuta aquí)
+                cmd.ExecuteNonQuery()
+                ' Obtener el valor del parámetro de salida (pReturn)
+
+                Return Convert.ToDouble(cmd.Parameters("@pReturn").Value)
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR CargaTotalRebajos [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+
+    End Function
+
+
+
+    Public Function CalculaSalarioFinal(ByVal IdPlanilla As String, ByVal CedulaEmpleado As String, ByVal SalarioFinal As Double, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_CalculaSalarioFinal ", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.AddWithValue("@IdPlanilla", IdPlanilla)
+                cmd.Parameters.AddWithValue("@CedulaEmpleado", CedulaEmpleado)
+                cmd.Parameters.AddWithValue("@SalarioFinal", SalarioFinal)
+                cmd.Parameters.AddWithValue("@pCodError", String.Empty)
+                cmd.Parameters.AddWithValue("@pMensajeError", String.Empty)
+                Dim da As New SqlDataAdapter(cmd)
+                da.Fill(TABLA)
+            End Using
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR CalculaSalarioFinal [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+
+    End Function
+
+    Public Function CalcularAguinaldo(CedulaEmpleado As String, ByVal SQL_Comman As SqlCommand)
+        Dim TotalAguinaldo As Double = 0
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+
+            Consulta = "SELECT 
+                          SUM([MontoAguinaldo]) as TotalAguinaldo
+                        FROM  [dbo].[Empleado_Aguinaldo]
+                        WHERE [Estado]=0 and  [CedulaEmpleado]='" & CedulaEmpleado & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Dim contardor As Integer = 0
+            If TABLA.Rows.Count > 0 Then
+                TotalAguinaldo = TABLA.Rows(0).Item("TotalAguinaldo").ToString()
+            End If
+        Catch ex As Exception
+        End Try
+        Return TotalAguinaldo
+    End Function
+    Public Function CalcularCesantia(CedulaEmpleado As String, ByVal SQL_Comman As SqlCommand)
+        Dim TotalCesantia As Double = 0
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+
+            Consulta = "SELECT   SUM([CesantiaPreaviso]) as TotalCesantia
+                         FROM [dbo].[Planilla_Empleados] as T0
+                         WHERE T0.[Estado]=2 and T0.[Cedula]='" & CedulaEmpleado & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Dim contardor As Integer = 0
+            If TABLA.Rows.Count > 0 Then
+                TotalCesantia = TABLA.Rows(0).Item("TotalCesantia").ToString()
+            End If
+        Catch ex As Exception
+        End Try
+        Return TotalCesantia
+    End Function
+    Public Function CreaPlanillaNueva(TipoPlanilla As Integer, ByVal FechaIni As String, ByVal FechaFin As String, ByVal Comentario As String, ByVal UsuarioCrea As String, ByVal SQL_Comman As SqlCommand)
+        Try
+
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_CreaPlanilla ", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.AddWithValue("@TipoPlanilla", TipoPlanilla)
+                cmd.Parameters.AddWithValue("@FechaIni", FechaIni)
+                cmd.Parameters.AddWithValue("@FechaFin", FechaFin)
+                cmd.Parameters.AddWithValue("@Comentario", Comentario)
+                cmd.Parameters.AddWithValue("@UsuarioCrea", UsuarioCrea)
+                cmd.Parameters.Add("@pCodError", SqlDbType.Int).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@pMensajeError", SqlDbType.VarChar, 300).Direction = ParameterDirection.Output
+
+                ' Ejecutar el comando (el procedimiento almacenado se ejecuta aquí)
+                'cmd.ExecuteNonQuery()
+
+                ' Crea un SqlDataAdapter para obtener los resultados del procedimiento almacenado
+                Using adapter As SqlDataAdapter = New SqlDataAdapter(cmd)
+                    ' Llena el DataTable con los resultados del procedimiento almacenado
+                    adapter.Fill(TABLA)
+                End Using
+
+                ' Obtener el valor del parámetro de salida (pReturn)
+                Dim CodError As Integer = Convert.ToInt32(cmd.Parameters("@pCodError").Value)
+                Dim MensajeError As String = cmd.Parameters("@pMensajeError").Value
+
+            End Using
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR CreaPlanillaNueva [ " & ex.Message & " ] ")
+            Return New DataTable
+
+        End Try
+
+    End Function
+
+    Public Function EliminaDatosDeComisiones(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+            Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Comisiones] WHERE [Id_Planilla]=0"
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+        Catch ex As Exception
+            MessageBox.Show("Error EliminaDatosDeComisiones: " & ex.Message)
+        End Try
+    End Function
+
+    Public Function GuardarDatosDeComisiones(ByVal Id_Planilla As Integer, ByVal CedulaEmpleado As String, ByVal NombreEmpleado As String, ByVal MontoComision As Double, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Comisiones] ([Id_Planilla], [CedulaEmpleado], [NombreEmpleado], [MontoComision]) VALUES (@Id_Planilla, @CedulaEmpleado, @NombreEmpleado, @MontoComision)"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+
+                command.Parameters.AddWithValue("@Id_Planilla ", Id_Planilla)
+                command.Parameters.AddWithValue("@CedulaEmpleado", CedulaEmpleado)
+                command.Parameters.AddWithValue("@NombreEmpleado", NombreEmpleado)
+                command.Parameters.AddWithValue("@MontoComision", MontoComision)
+
+                ' Ejecuta el comando SQL
+                command.ExecuteNonQuery()
+
+
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("Error GuardarDatosDeComisiones: " & ex.Message)
+        End Try
+
+    End Function
+
+
+
+    Public Function ValidaExistenciaDeAguinaldosPorPagar(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "  Select isnull(SUM([MontoAguinaldo]),0) as Aguinaldo from  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Aguinaldo] where Estado=1"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("Aguinaldo").ToString()) = "0" Then
+                    Return False
+                Else
+                    Return True
+                End If
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ValidaExistenciaDeAguinaldosPorPagar [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+    Public Function CargaPasosCreacionPlanilla(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+            Dim Consulta As String = ""
+            Consulta = "SELECT [Pasos],[Estado] FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_CreacionFeedBack]"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Return TABLA
         Catch ex As Exception
         End Try
-
     End Function
 
-    Public Function GuardaPlanilla(ByVal id As Integer, ByVal CedJuridica As String, ByVal Nombre As String, ByVal PorcCCSS As String, _
-         ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal CedulaEmpleado As String, ByVal Puesto As String, _
-         ByVal NombreEmpleado As String, ByVal Salario As Double, ByVal SalarioQuincenal As Double, ByVal Dedu_Adicional As Double, _
-         ByVal Dedu_Deb_Personal As Double, ByVal Dedu_Ducc_Cuota As Double, ByVal Dedu_Celular As Double, _
-         ByVal Dedu_Embargo As Double, ByVal Dedu_Prestamo As Double, ByVal Dedu_FaltaLiq As Double, ByVal Dedu_Facturas As Double, ByVal Dedu_Faltante As Double, ByVal Dedu_CCSS As Double, _
-         ByVal Dedu_Otro As Double, ByVal Lbl_Salario As Double, ByVal Foto As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+    Public Function EliminaCargaPasosCreacionPlanilla(ByVal SQL_Comman As SqlCommand)
         Try
-            Dim Consulta As String = ""
-            If GUARDANDO = True Then
 
-                Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla]" &
-          " ([id]" &
-          " ,[Ced_Juridica]" &
-          " ,[Nombre]" &
-          " ,[FechaINI]" &
-          " ,[FechaFIN]" &
-          " ,[PorcCCSS]" &
-          " ,[Ced_Empleado]" &
-          " ,[NombreEmpleado]" &
-          " ,[Puesto]" &
-          " ,[Salario]" &
-          " ,[SalarioQuincenal]" &
-          " ,[ADICIONAL]" &
-          " ,[DEB_PERSONAL]" &
-          " ,[DUCC_CUOTA_BP]" &
-          " ,[DEDUCION_DE_CELULAR]" &
-          " ,[EMBARGO]" &
-          " ,[FALTANTES_LIQ]" &
-          " ,[FACTURAS]" &
-          " ,[COBROS_X_FALTANTE]" &
-          ",[COBROS_PRESTAMO]" &
-          ",[Foto]" &
-          ",[Dedu_CCSS]" &
-          ",[SalarioFinal])" &
-              "VALUES('" & id & "','" & CedJuridica & "','" & Nombre & "','" & FechaIngreso & "','" & FechaSalida & "','" & PorcCCSS &
-              "','" & CedulaEmpleado & "','" & NombreEmpleado & "','" & Puesto & "','" & Salario & "','" & SalarioQuincenal &
-              "','" & Dedu_Adicional & "','" & Dedu_Deb_Personal & "','" & Dedu_Ducc_Cuota & "','" & Dedu_Celular &
-              "','" & Dedu_Embargo & "','" & Dedu_FaltaLiq & "','" & Dedu_Facturas & "','" & Dedu_Faltante & "','" & Dedu_Prestamo & "','" & Foto & "','" & Dedu_CCSS & "','" & Lbl_Salario & "')"
-
-
-            Else
-                Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla] " &
-                   "SET [Ced_Juridica] = '" & CedJuridica & "'" &
-                      ",[Nombre] = '" & Nombre & "'" &
-                      ",[FechaINI] = '" & FechaIngreso & "'" &
-                      ",[FechaFIN] ='" & FechaSalida & "'" &
-                      ",[PorcCCSS] = '" & PorcCCSS & "'" &
-                      ",[Ced_Empleado] = '" & CedulaEmpleado & "'" &
-                      ",[NombreEmpleado] = '" & NombreEmpleado & "'" &
-                      ",[Puesto] = '" & Puesto & "'" &
-                      ",[Salario] = '" & Salario & "'" &
-                      ",[SalarioQuincenal] = '" & SalarioQuincenal & "' " &
-                      ",[ADICIONAL] = '" & Dedu_Adicional & "' " &
-                      ",[DEB_PERSONAL] = '" & Dedu_Deb_Personal & "' " &
-                      ",[DUCC_CUOTA_BP] = '" & Dedu_Ducc_Cuota & "' " &
-                      ",[DEDUCION_DE_CELULAR] = '" & Dedu_Celular & "' " &
-                      ",[EMBARGO] = '" & Dedu_Prestamo & "' " &
-                      ",[FALTANTES_LIQ] = '" & Dedu_FaltaLiq & "' " &
-                      ",[FACTURAS] = '" & Dedu_Facturas & "' " &
-                      ",[COBROS_X_FALTANTE] = '" & Dedu_Faltante & "' " &
-                      ",[COBROS_PRESTAMO] = '" & Dedu_Prestamo & "' " &
-                      ",[Dedu_CCSS] = '" & Dedu_CCSS & "' " &
-                      ",[SalarioFinal] = '" & Lbl_Salario & "' " &
-                      "WHERE [id] = '" & id & "'"
-            End If
+            Dim Consulta As String
+            Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_CreacionFeedBack]"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
-            SQL_Comman = Nothing
-            Return True
 
         Catch ex As Exception
-            MessageBox.Show("ERROR en GuardaPlanilla [ " & ex.Message & " ]")
-            Return False
-
         End Try
     End Function
 
-    Public Function GuardaPlanilla_TEM(ByVal id As Integer, ByVal CedJuridica As String, ByVal Nombre As String, ByVal PorcCCSS As String, _
-        ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal CedulaEmpleado As String, ByVal Puesto As String, _
-        ByVal NombreEmpleado As String, ByVal Salario As Double, ByVal SalarioQuincenal As Double, ByVal Dedu_Adicional As Double, _
-        ByVal Dedu_Deb_Personal As Double, ByVal Dedu_Ducc_Cuota As Double, ByVal Dedu_Celular As Double, _
-        ByVal Dedu_Embargo As Double, ByVal Dedu_Prestamo As Double, ByVal Dedu_FaltaLiq As Double, ByVal Dedu_Facturas As Double, ByVal Dedu_Faltante As Double, ByVal Dedu_CCSS As Double, _
-        ByVal Dedu_Otro As Double, ByVal Lbl_Salario As Double, ByVal Foto As String, ByVal id_Empleado As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+    Public Function ObtieneInfoPlanillaXId(IdPlanilla As String, ByVal SQL_Comman As SqlCommand)
         Try
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
             Dim Consulta As String = ""
-            If GUARDANDO = True Then
-
-                Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Temp]" &
-          " ([id]" &
-          ", [Ced_Juridica]" &
-          " ,[Nombre]" &
-          " ,[FechaINI]" &
-          " ,[FechaFIN]" &
-          " ,[PorcCCSS]" &
-          " ,[Ced_Empleado]" &
-          " ,[NombreEmpleado]" &
-          " ,[Puesto]" &
-          " ,[Salario]" &
-          " ,[SalarioQuincenal]" &
-          " ,[ADICIONAL]" &
-          " ,[DEB_PERSONAL]" &
-          " ,[DUCC_CUOTA_BP]" &
-          " ,[DEDUCION_DE_CELULAR]" &
-          " ,[EMBARGO]" &
-          " ,[FALTANTES_LIQ]" &
-          " ,[FACTURAS]" &
-          " ,[COBROS_X_FALTANTE]" &
-           ",[COBROS_PRESTAMO]" &
-           ",[Dedu_CCSS]" &
-           ",[Foto]" &
-           ",[id_Empleado]" &
-           ",[SalarioFinal])" &
-              "VALUES('" & id & "','" & CedJuridica & "','" & Nombre & "','" & FechaIngreso & "','" & FechaSalida & "','" & PorcCCSS &
-              "','" & CedulaEmpleado & "','" & NombreEmpleado & "','" & Puesto & "','" & Salario & "','" & SalarioQuincenal &
-              "','" & Dedu_Adicional & "','" & Dedu_Deb_Personal & "','" & Dedu_Ducc_Cuota & "','" & Dedu_Celular &
-              "','" & Dedu_Embargo & "','" & Dedu_FaltaLiq & "','" & Dedu_Facturas & "','" & Dedu_Faltante & "','" & Dedu_Prestamo & "','" & Dedu_CCSS & "','" & Foto & "','" & id_Empleado & "','" & Lbl_Salario & "')"
-
-
-            Else
-                Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Temp] " &
-                   "SET [Ced_Juridica] = '" & CedJuridica & "'" &
-                      ",[Nombre] = '" & Nombre & "'" &
-                      ",[FechaINI] = '" & FechaIngreso & "'" &
-                      ",[FechaFIN] ='" & FechaSalida & "'" &
-                      ",[PorcCCSS] = '" & PorcCCSS & "'" &
-                      ",[Ced_Empleado] = '" & CedulaEmpleado & "'" &
-                      ",[NombreEmpleado] = '" & NombreEmpleado & "'" &
-                      ",[Puesto] = '" & Puesto & "'" &
-                      ",[Salario] = '" & Salario & "'" &
-                      ",[SalarioQuincenal] = '" & SalarioQuincenal & "' " &
-                      ",[ADICIONAL] = '" & Dedu_Adicional & "' " &
-                      ",[DEB_PERSONAL] = '" & Dedu_Deb_Personal & "' " &
-                      ",[DUCC_CUOTA_BP] = '" & Dedu_Ducc_Cuota & "' " &
-                      ",[DEDUCION_DE_CELULAR] = '" & Dedu_Celular & "' " &
-                      ",[EMBARGO] = '" & Dedu_Prestamo & "' " &
-                      ",[FALTANTES_LIQ] = '" & Dedu_FaltaLiq & "' " &
-                      ",[FACTURAS] = '" & Dedu_Facturas & "' " &
-                      ",[COBROS_X_FALTANTE] = '" & Dedu_Faltante & "' " &
-                      ",[COBROS_PRESTAMO] = '" & Dedu_Prestamo & "' " &
-                      ",[Dedu_CCSS] = '" & Dedu_CCSS & "' " &
-                      ",[Foto] = '" & Foto & "' " &
-                      ",[id_Empleado] = '" & id_Empleado & "' " &
-                      ",[SalarioFinal] = '" & Lbl_Salario & "' " &
-                      "WHERE [Ced_Empleado] = '" & CedulaEmpleado & "'"
-            End If
-            SQL_Comman.CommandText = Consulta
-            SQL_Comman.ExecuteNonQuery()
-            SQL_Comman = Nothing
-            Return True
-
+            Consulta = "SELECT    
+                       [Cedula_Empresa]
+                      ,[Nombre_Empresa]
+                      ,[FechaINI]
+                      ,[FechaFIN]
+                      ,[Comentario]    
+                      ,[Estado]
+                     FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla] where [Consecutivo]='" & IdPlanilla & "'"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
         Catch ex As Exception
-            MessageBox.Show("ERROR en GuardaPlanilla [ " & ex.Message & " ]")
-            Return False
-
         End Try
     End Function
 
 
-    Public Function GuardaEmpleado(ByVal id As Integer, ByVal Cedula As String, ByVal Nombre As String, ByVal Puesto As String, ByVal Telefono1 As String, ByVal Telefono2 As String, ByVal RutaImagen As String, ByVal Salario As String, ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal DTGV_Experiencia As DataTable, ByVal DTGV_Educacion As DataTable, ByVal Activo As Boolean, ByVal Codigo As String, ByVal CodRuta As String, ByVal Correo As String, ByVal CodigoCobroXFaltante As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+    Public Function ActualizaPlanillaEmpleado(ByVal IdPlanilla As String, ByVal CedulaEmpleado As String, ByVal SalarioFinal As Double, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_ActualizaPlanillaEmpleado ", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.AddWithValue("@IdPlanilla", IdPlanilla)
+                cmd.Parameters.AddWithValue("@CedulaEmpleado", CedulaEmpleado)
+                cmd.Parameters.AddWithValue("@SalarioFinal", SalarioFinal)
+                cmd.Parameters.AddWithValue("@pCodError", String.Empty)
+                cmd.Parameters.AddWithValue("@pMensajeError", String.Empty)
+                Dim da As New SqlDataAdapter(cmd)
+                da.Fill(TABLA)
+            End Using
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR ActualizaPlanillaEmpleado [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+
+    End Function
+
+
+
+    Public Function CambiaEstadoDeduccion(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal Consecutivo As String, ByVal Estado As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Deducciones] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Consecutivo] = @Consecutivo and [Id_Planilla] = @Id_Planilla"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.Parameters.AddWithValue("@Id_Planilla", Id_Planilla)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en CambiaEstadoFactura [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function CambiaEstadoValePrestamo(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal Consecutivo As String, ByVal Estado As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_ValesPrestamos] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Consecutivo] = @Consecutivo and [Id_Planilla] = @Id_Planilla"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.Parameters.AddWithValue("@Id_Planilla", Id_Planilla)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en CambiaEstadoFactura [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function CambiaEstadoIncapacidad(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal Consecutivo As String, ByVal Estado As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Incapacidades] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Consecutivo] = @Consecutivo and [Id_Planilla] = @Id_Planilla"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.Parameters.AddWithValue("@Id_Planilla", Id_Planilla)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en CambiaEstadoIncapacidad [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    Public Function CambiaEstadoFactura(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal DocNum As String, ByVal Estado As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Facturas] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [DocNum] = @DocNum and [Id_Planilla] = @Id_Planilla"
+
+            SQL_Comman = Conectar()
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@DocNum", DocNum)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.Parameters.AddWithValue("@Id_Planilla", Id_Planilla)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en CambiaEstadoFactura [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function CambiaEstadoLiquidacionPorEmpleado(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal NumeroLiquidacion As String, ByVal Estado As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Liquidaciones] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [NumeroLiquidacion] = @NumeroLiquidacion and [Id_Planilla] = @Id_Planilla and [Cedula_Empleado] = @Cedula_Empleado"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@NumeroLiquidacion", NumeroLiquidacion)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.Parameters.AddWithValue("@Id_Planilla", Id_Planilla)
+                command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en CambiaEstadoLiquidacionPorEmpleado [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Obtiene los desglose vinculados al usuario
+    ''' </summary>
+    ''' <param name="Id_Planilla"></param>
+    ''' <param name="Cedula_Empleado"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
+    Public Function ObtieneDeduccionesPorEmpleado(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim EstadoProcesado As Integer = 2
+            Consulta = "SELECT 
+                            [Consecutivo]                           
+                           ,[Categoria]
+                           ,[Monto]
+                           ,[Detalle]
+                           ,[Estado]
+                        FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Deducciones]
+                        WHERE [Cedula_Empleado]='" & Cedula_Empleado & "' and [Id_Planilla]='" & Id_Planilla & "' and [Estado]<>'" & EstadoProcesado & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneDeduccionesPorEmpleado [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+
+    ''' <summary>
+    ''' Obtiene el desglose las facturas relacionadas al codigo de cliente del empleado con el cual se le facturan cobros o mercaderia que haya comprado
+    ''' </summary>
+    ''' <param name="Id_Planilla"></param>
+    ''' <param name="Cedula_Empleado"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
+    Public Function ObtieneValesPrestamosPorEmpleadoPorPlanilla(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim EstadoProcesado As Integer = 2
+            Consulta = " SELECT    
+                           [Consecutivo]                         
+                          ,[FechaCrea]
+                          ,[Monto]
+                          ,[Saldo]
+                          ,[Detalle]
+                          ,[Tipo]                         
+                          ,[Estado]                        
+                         FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_ValesPrestamos]
+                         WHERE [CedulaEmpleado]='" & Cedula_Empleado & "' and [Id_Planilla]='" & Id_Planilla & "' and [Estado]<>'" & EstadoProcesado & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneValesPrestamosPorEmpleado [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+    Public Function ObtieneIncapacidadesPorEmpleado(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim EstadoProcesado As Integer = 2
+            Consulta = " SELECT 
+                           [Consecutivo]
+                          ,[FechaInicio]
+                          ,[FechaFin]
+                          ,[DiasIncapacidad]
+                          ,(([DiasIncapacidad]/2)*(CAST((SELECT Salario FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Empleados] where [Cedula]='" & Cedula_Empleado & "' and Id_Planilla='" & Id_Planilla & "')/30 AS float))) as Monto
+                          ,[NumBoleta]
+                          ,[FechaCrea]
+                          ,[Detalle]   
+                          ,[Tipo]
+                          ,[Estado]
+                          FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Incapacidades]
+                          WHERE [Cedula_Empleado]='" & Cedula_Empleado & "' and [Id_Planilla]='" & Id_Planilla & "'  and [Estado]<>'" & EstadoProcesado & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneIncapacidadesPorEmpleado [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+
+    ''' <summary>
+    ''' Obtiene el desglose las facturas relacionadas al codigo de cliente del empleado con el cual se le facturan cobros o mercaderia que haya comprado
+    ''' </summary>
+    ''' <param name="Id_Planilla"></param>
+    ''' <param name="Cedula_Empleado"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
+    Public Function ObtieneFacturasPorEmpleado(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim EstadoProcesado As Integer = 2
+            Consulta = " SELECT    [DocNum]
+                                  ,[DocDate]
+                                  ,[DocTotal]
+                                  ,[DocSaldoRebajar] as DocSaldo      
+                                  ,[Estado]   
+  ,[TipoFactura] 
+                              FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Facturas]
+                              WHERE [Cedula_Empleado]='" & Cedula_Empleado & "' and [Id_Planilla]='" & Id_Planilla & "' and [Estado]<>'" & EstadoProcesado & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneFacturasPorEmpleado [ " & ex.Message & " ]")
+        End Try
+    End Function
+    ''' <summary>
+    ''' Obtiene el desglose de los montos aplicados a cada rubro indicados por la CCSS
+    ''' </summary>
+    ''' <param name="Id_Planilla"></param>
+    ''' <param name="Cedula_Empleado"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
+    Public Function ObtieneLiquidacionesPorEmpleado(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+
+            'TODO. el monto de la liquidacion se debe dividir entre los mienbros que se indiquen en el campo [CobrarA]
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim EstadoProcesado As Integer = 2
+            Consulta = "  SELECT 
+                           T0.[Estado]
+                          ,T0.[Cedula_Empleado]
+                          ,T0.[NumeroLiquidacion]       
+                          ,T0.[FechaLiquidacion]
+                          ,SUM([Monto]) AS Total                         
+                          FROM  [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_Liquidaciones] as T0
+                          where [Cedula_Empleado]='" & Cedula_Empleado & "' and [Id_Planilla]='" & Id_Planilla & "' and [Estado]<>'" & EstadoProcesado & "'
+                          GROUP BY NumeroLiquidacion,FechaLiquidacion,T0.[Estado],[Cedula_Empleado]"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneLiquidacionesPorEmpleado [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Obtiene el desglose de los montos aplicados a cada rubro indicados por la CCSS
+    ''' </summary>
+    ''' <param name="Id_Planilla"></param>
+    ''' <param name="Cedula_Empleado"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
+    Public Function ObtieneDegloseDeduccionCCSSPorEmpleado(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "  SELECT
+					         COALESCE(T0.[Categoria], 'TOTAL') AS Categoria
+                            ,COALESCE(T0.[ConceptoInstitucion], '') AS ConceptoInstitucion 
+                            ,SUM(T0.[Trabajador_AportePorcentual]) as 'Aporte Trabajador'
+                            ,SUM(T0.[TrabajadorMonto]) as 'Monto Aporte Trabajador'
+                            ,SUM(T0.[Patrono_AportePorcentual]) as 'Aporte Pratrono'
+                            ,SUM(T0.[PatronoMonto]) as 'Monto Aporte Pratrono'
+					     FROM  (SELECT       
+						       [Categoria]
+						      ,[ConceptoInstitucion]
+						      ,CASE WHEN [Trabajador_AportePorcentual] IS NULL THEN 0 ELSE [Trabajador_AportePorcentual] END  as 'Trabajador_AportePorcentual'
+						      ,CASE WHEN [TrabajadorMonto] IS NULL THEN 0 ELSE [TrabajadorMonto] END as 'TrabajadorMonto'
+						      ,CASE WHEN [Patrono_AportePorcentual] IS NULL THEN 0 ELSE [Patrono_AportePorcentual] END as 'Patrono_AportePorcentual'
+						      ,CASE WHEN [PatronoMonto] IS NULL THEN 0 ELSE [PatronoMonto] END  as 'PatronoMonto'
+						      FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_DeduccionesCCSS]
+						      WHERE [Id_Planilla] ='" & Id_Planilla & "' and [Cedula_Empleado]='" & Cedula_Empleado & "' and Estado='0') as T0
+                            GROUP BY T0.[Categoria] ,T0.[ConceptoInstitucion] WITH ROLLUP"
+
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneDegloseDeduccionCCSSPorEmpleado [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ObtieneDegloseDeduccionRentaPorEmpleado(ByVal Id_Planilla As String, ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+
+
+            Consulta = " Select 
+                            Format(t1.SalarioInicial, 'C', 'es-CR')  as SalarioInicia
+                          , Format(t1.SalarioFinal, 'C', 'es-CR')  as SalarioFinal 
+                          , t1.PorcentajeRenta
+                          ,FORMAT(t0.[Monto], 'C', 'es-CR')  as Monto
+                        From [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_DeduccionRenta] as T0
+                        inner Join [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Planilla_DesgloseRenta] as T1 on t0.Id_Planilla_DesgloseRenta=t1.id
+                        WHERE T0.[Id_Planilla] ='" & Id_Planilla & "' and T0.[Cedula_Empleado]='" & Cedula_Empleado & "' and T0.Estado='0'
+                        order by T0.Cedula_Empleado asc"
+
+
+
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneDegloseDeduccionCCSSPorEmpleado [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+
+    Public Function AnulaPlanilla(ByVal Id_Planilla As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_AnulaPlanilla ", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.AddWithValue("@IdPlanilla", Id_Planilla)
+                cmd.Parameters.Add("@pCodError", SqlDbType.Int).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@pMensajeError", SqlDbType.VarChar, 300).Direction = ParameterDirection.Output
+
+                ' Ejecutar el comando (el procedimiento almacenado se ejecuta aquí)
+                cmd.ExecuteNonQuery()
+                ' Obtener el valor del parámetro de salida (pReturn)
+                Dim CodError As Integer = Convert.ToInt32(cmd.Parameters("@pCodError").Value)
+                Dim MensajeError As String = cmd.Parameters("@pMensajeError").Value
+                MsgBox(MensajeError)
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR AnulaPlanilla [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+    End Function
+
+    Public Function FinalizaPlanilla(ByVal Id_Planilla As Integer, ByVal Estado As Integer, PlanillaFinalizada As Boolean, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_FinalizaPlanilla", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.AddWithValue("@IdPlanilla", Id_Planilla)
+                cmd.Parameters.AddWithValue("@Estado", Estado)
+                cmd.Parameters.AddWithValue("@PlanillaFinalizada", PlanillaFinalizada)
+                cmd.Parameters.Add("@pCodError", SqlDbType.Int).Direction = ParameterDirection.Output
+                cmd.Parameters.Add("@pMensajeError", SqlDbType.VarChar, 300).Direction = ParameterDirection.Output
+
+                ' Ejecutar el comando (el procedimiento almacenado se ejecuta aquí)
+                cmd.ExecuteNonQuery()
+                ' Obtener el valor del parámetro de salida (pReturn)
+                Dim CodError As Integer = Convert.ToInt32(cmd.Parameters("@pCodError").Value)
+                Dim MensajeError As String = cmd.Parameters("@pMensajeError").Value
+                MsgBox(MensajeError)
+                If CodError = "00" Then
+                    Return True
+                Else
+                    Return False
+                End If
+
+            End Using
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR AnulaPlanilla [ " & ex.Message & " ] ")
+            Return False
+        End Try
+    End Function
+
+    Public Function ObtieneAsientoContable(ByVal Id_Planilla As Integer, ByVal SQL_Comman As SqlCommand)
+
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using cnn As SqlConnection = New SqlConnection(StrimConexion)
+                cnn.Open()
+                Dim cmd As SqlCommand = New SqlCommand("SP_CrearAsientoPlanilla ", cnn)
+                cmd.CommandType = CommandType.StoredProcedure
+                cmd.CommandTimeout = 300
+                cmd.Parameters.AddWithValue("@IdPlanilla", Id_Planilla)
+                cmd.Parameters.AddWithValue("@pCodError", String.Empty)
+                cmd.Parameters.AddWithValue("@pMensajeError", String.Empty)
+                Dim da As New SqlDataAdapter(cmd)
+                da.Fill(TABLA)
+            End Using
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR ObtieneAsientoContable [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+
+
+
+    End Function
+    Public Function ObtieneInfoPlanilla(ByVal Consecutivo As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+
+            Consulta = "SELECT 
+                         T0.[Consecutivo]
+                        ,T0.[Cedula_Empresa]
+                        ,T0.[Nombre_Empresa]                       
+                        ,T0.[FechaINI]
+                        ,T0.[FechaFIN]
+                        ,T0.[Comentario]
+                        ,T1.Cedula 
+                        ,T1.Nombre 
+                         ,T1.[CategoriaEmpleado]
+                        ,T1.Puesto 
+                        ,t1.[DiasLaborados]
+                        ,(SELECT CASE WHEN SUM([DiasIncapacidad]) IS NULL THEN 0 ELSE  SUM([DiasIncapacidad]) END AS TotalDeduccionCCSS  FROM [dbo].[Planilla_Incapacidades] WHERE [Id_Planilla]=t0.Consecutivo AND [Cedula_Empleado]=t1.Cedula) AS DiasIncapacidad 
+                        ,t1.Salario as SalarioBrutoMensual
+                        ,t1.Salario/2 as SalarioBrutoQuincenal
+                        ,((t1.Salario/30)*t1.[DiasLaborados]) as SalarioNetoQuincenal
+                        ,t1.Salario_Final  as SalarioFinal
+                        ,(select CASE WHEN SUM(T10.TrabajadorMonto) IS NULL THEN 0 ELSE  SUM(T10.TrabajadorMonto) END AS TotalDeduccionCCSS from Planilla_DeduccionesCCSS as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula) as CCSS
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.Monto) END AS TotalDeduccionRenta from Planilla_DeduccionRenta as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula) as RENTA                        
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.Monto) END AS TotalDeduccion from Planilla_Deducciones as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula AND t10.Categoria='Pension Alimentaria') as DeduccionPensionAlimentaria
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.Monto) END AS TotalDeduccion from Planilla_Deducciones as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula AND t10.Categoria='Personal') as DeduccionPersonal
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.Monto) END AS TotalDeduccion from Planilla_Deducciones as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula AND t10.Categoria='Cuota BP') as DeduccionCuotaBP
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.Monto) END AS TotalDeduccion from Planilla_Deducciones as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula AND t10.Categoria='Embargo') as DeduccionEmbargo
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.Monto) END AS TotalDeduccion from Planilla_Deducciones as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula AND t10.Categoria='Celular') as DeduccionCelular
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.Monto) END AS TotalDeduccion from Planilla_Deducciones as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula AND t10.Categoria='Otros') as DeduccionOtros
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.Monto) END AS TotalDeduccion from Planilla_Deducciones as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.Cedula_Empleado =t1.Cedula AND t10.Categoria='Temporal') as DeduccionTemporales
+                        ,(select CASE WHEN SUM(T10.Monto) IS NULL THEN 0 ELSE  SUM(T10.MontoAbonoQuincenal) END AS TotalDeduccion from Planilla_ValesPrestamos as T10 WHERE T10.Id_Planilla =t0.Consecutivo and t10.CedulaEmpleado =t1.Cedula  ) as [Vales y Prestamos]
+
+                        ,(select CASE WHEN SUM([DocSaldoRebajar]) IS NULL THEN 0 ELSE SUM([DocSaldoRebajar]) END    FROM [dbo].[Planilla_Facturas] WHERE [Id_Planilla]=t0.Consecutivo and [Cedula_Empleado] =T1.Cedula) as Facturas 							 
+                        ,(select CASE WHEN SUM([Monto]) IS NULL THEN 0 ELSE SUM([Monto]) END                  FROM [dbo].[Planilla_Liquidaciones] WHERE [Id_Planilla]=t0.Consecutivo and [Cedula_Empleado] =T1.Cedula)as FaltanteLiquidacion
+
+
+                     FROM  [dbo].[Planilla] as T0
+                     INNER JOIN [dbo].[Planilla_Empleados] as T1 on t0.Consecutivo =t1.Id_Planilla 
+                     WHERE   [Consecutivo]='" + Consecutivo + "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneInfoPlanilla [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+    Public Function VerificaSiExisteSolicitudValesPrestamos(ByVal Consecutivo As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "Select Consecutivo from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_ValesPrestamos] where Consecutivo='" & Consecutivo & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                Return True
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en VerificaSiExisteSolicitudValesPrestamos [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ValidaQueTodoEmpleadoSeaChequeado(ByVal IdPlanilla As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "Select Count([Cedula]) as CantEmpleadoSinChequear from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Empleados] where [Id_Planilla]='" & IdPlanilla & "' and Estado=0"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("CantEmpleadoSinChequear").ToString()) <> "" Then
+                    Return CInt(Trim(TABLA.Rows(0).Item("CantEmpleadoSinChequear").ToString()))
+
+                End If
+            Else
+                Return 0
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ValidaQueTodoEmpleadoSeaChequeado [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ValidaPasoExitoso(ByVal IdPlanilla As String, ByVal NumPaso As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "
+            SELECT [Estado]                   
+            FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Resultados]
+            WHERE [IdPlanilla]='" & IdPlanilla & "' and [NumPaso]='" & NumPaso & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("Estado").ToString()) = "ERROR" Then
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return True
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ValidaPasoExitoso [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ValidaExisteError(ByVal IdPlanilla As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "
+            SELECT  Count([NumPaso]) as CantidadErrores                    
+            FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Resultados]
+            WHERE [IdPlanilla]='" & IdPlanilla & "'and [Estado]='Error' "
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            If TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("CantidadErrores").ToString()) <> "" Then
+                    If CInt(Trim(TABLA.Rows(0).Item("CantidadErrores").ToString())) > 0 Then
+                        Return True
+                    Else
+                        Return False
+                    End If
+
+                End If
+                Return False
+            Else
+                Return False
+            End If
+
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ValidaExisteError [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+    Public Function ObtieneConsecutivoValesPrestamos(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim Consecutivo As Integer = 0
+            Consulta = "Select MAx(Consecutivo) as Consecutivo from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_ValesPrestamos "
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("Consecutivo").ToString()) <> "" Then
+                    Consecutivo = CInt(Trim(TABLA.Rows(0).Item("Consecutivo").ToString())) + 1
+                Else
+                    Consecutivo = 1
+                End If
+
+            End If
+            Return Consecutivo
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneConsecutivoValesPrestamos [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ObtieneValesPrestamos(ByVal CedulaEmpleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "Select Consecutivo,FechaCrea,Monto,Saldo,Tipo,Detalle,Adjunto,Estado,[MontoAbonoQuincenal] from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_ValesPrestamos where CedulaEmpleado  = '" & CedulaEmpleado & "' order by Saldo desc"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneValesPrestamos [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+    Public Function ObtieneHistorialValesPrestamos(ByVal CedulaEmpleado As String, ByVal Consecutivo As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim EstadoProcesado As Integer = 2
+            Consulta = " SELECT   
+                            [ConsecutivoValePrestamos] as 'Consecutivo'
+                           ,[IdPlanilla] as  '#Planilla'     
+                           ,[Fecha]
+                           ,[MontoAbono]
+                           ,[Saldo] 
+                         FROM  [dbo].[Empleado_ValesPrestamosAbonos]
+                         WHERE [CedulaEmpleado]='" & CedulaEmpleado & "' and [ConsecutivoValePrestamos]='" & Consecutivo & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneHistorialValesPrestamos [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ValesPrestamosAnular(ByVal Consecutivo As String, ByVal Estado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_ValesPrestamos] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Consecutivo] = @Consecutivo"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ValesPrestamosAnular [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    Public Function ObtieneLiquidacionLaboral(ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "Select        
+       [Preaviso]
+      ,[Cesantia]
+      ,[Aguinaldo]
+      ,[Vacaciones]
+      ,[Adjunto]
+      ,[MotivoSalida] from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_Liquidacion where [Cedula_Empleado]='" & Cedula & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                Return TABLA
+            Else
+                Return Nothing
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneLiquidacionLaboral [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function VerificaSiExisteLiquidacion(ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Consulta = "Select Cedula_Empleado from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_Liquidacion where Cedula_Empleado='" & Cedula & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                Return True
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en VerificaSiExisteLiquidacion [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function GuardaLiquidacion(MotivoSalida As String, ByVal Cedula_Empleado As String, ByVal Preaviso As Double, ByVal Cesantia As Double, ByVal Aguinaldo As Double, ByVal Vacaciones As Double, Adjunto As Byte(), ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
 
         Try
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
             Consulta = ""
+            If GUARDANDO = False Then
+                Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Liquidacion]" &
+                           "([MotivoSalida]" &
+                           ",[Cedula_Empleado]" &
+                           ",[Preaviso]" &
+                           ",[Cesantia]" &
+                           ",[Aguinaldo]" &
+                           ",[Vacaciones] )" &
+                           "VALUES(@MotivoSalida
+                                  ,@Cedula_Empleado
+                                  ,@Preaviso
+                                  ,@Cesantia
+                                  ,@Aguinaldo  
+                                  ,@Vacaciones)"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@MotivoSalida", MotivoSalida)
+                    command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                    command.Parameters.AddWithValue("@Preaviso", Preaviso)
+                    command.Parameters.AddWithValue("@Cesantia", Cesantia)
+                    command.Parameters.AddWithValue("@Aguinaldo", Aguinaldo)
+                    command.Parameters.AddWithValue("@Vacaciones", Vacaciones)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+
+            Else
+
+                Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Liquidacion] " &
+                   "SET [Adjunto] = @Adjunto " &
+                  "WHERE [Cedula_Empleado] = @Cedula_Empleado"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                    command.Parameters.AddWithValue("@Adjunto", Adjunto)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+            End If
+
+            SQL_Comman = Nothing
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en GuardaLiquidacion [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    Public Function GuardaValesPrestamos(ByVal Consecutivo As Integer, ByVal CedulaEmpleado As String, ByVal NombreEmpleado As String, ByVal FechaCrea As String, ByVal Monto As Double, ByVal Saldo As Double, ByVal Tipo As String, ByVal Detalle As String, ByVal MontoAbonoQuincenal As String, Adjunto As Byte(), Estado As Integer, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+
+        Try
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Consulta = ""
+            If GUARDANDO = False Then
+                Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_ValesPrestamos]" &
+                           "([Consecutivo]" &
+                           ",[CedulaEmpleado]" &
+                           ",[NombreEmpleado]" &
+                           ",[FechaCrea]" &
+                           ",[Monto]" &
+                           ",[Saldo]" &
+                           ",[Tipo]" &
+                           ",[Detalle] " &
+                           ",[MontoAbonoQuincenal])" &
+                           "VALUES(@Consecutivo
+                                  ,@CedulaEmpleado
+                                  ,@NombreEmpleado
+                                  ,@FechaCrea
+                                  ,@Monto  
+                                  ,@Saldo
+                                  ,@Tipo
+                                  ,@Detalle 
+                                  ,@MontoAbonoQuincenal)"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                    command.Parameters.AddWithValue("@CedulaEmpleado", CedulaEmpleado)
+                    command.Parameters.AddWithValue("@NombreEmpleado", NombreEmpleado)
+                    command.Parameters.AddWithValue("@FechaCrea", FechaCrea)
+                    command.Parameters.AddWithValue("@Monto", Monto)
+                    command.Parameters.AddWithValue("@Saldo", Saldo)
+                    command.Parameters.AddWithValue("@Tipo", Tipo)
+                    command.Parameters.AddWithValue("@Detalle", Detalle)
+                    command.Parameters.AddWithValue("@MontoAbonoQuincenal", MontoAbonoQuincenal)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+
+            Else
+
+                Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_ValesPrestamos] " &
+                       "SET [CedulaEmpleado] = @CedulaEmpleado " &
+                          ",[NombreEmpleado] = @NombreEmpleado " &
+                          ",[FechaCrea] =@FechaCrea " &
+                          ",[Monto] = @Monto " &
+                          ",[Saldo] = @Saldo " &
+                          ",[Detalle] = @Detalle " &
+                          ",[Adjunto] = " & If(Adjunto Is Nothing, "NULL", "@Adjunto") &
+                          ",[Estado] = @Estado " &
+                          ",[MontoAbonoQuincenal] = @MontoAbonoQuincenal " &
+                      "WHERE [Consecutivo] = @Consecutivo"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@CedulaEmpleado", CedulaEmpleado)
+                    command.Parameters.AddWithValue("@NombreEmpleado", NombreEmpleado)
+                    command.Parameters.AddWithValue("@FechaCrea", FechaCrea)
+                    command.Parameters.AddWithValue("@Monto", Monto)
+                    command.Parameters.AddWithValue("@Saldo", Saldo)
+                    command.Parameters.AddWithValue("@Detalle", Detalle)
+                    If Adjunto IsNot Nothing Then
+                        command.Parameters.AddWithValue("@Adjunto", Adjunto)
+                    End If
+                    command.Parameters.AddWithValue("@Estado", Estado)
+                    command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                    command.Parameters.AddWithValue("@MontoAbonoQuincenal", MontoAbonoQuincenal)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+            End If
+
+            SQL_Comman = Nothing
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en GuardaValesPrestamos [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    Public Function ObtieneConsecutivoEmpleado(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim Consecutivo As Integer = 0
+            Consulta = "Select MAX(id)  as Consecutivo from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado "
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                Consecutivo = CInt(Trim(TABLA.Rows(0).Item("Consecutivo").ToString())) + 1
+            End If
+            Return Consecutivo
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneConsecutivoEmpleado [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    'Public Function ObtieneEmpleadoXId(ByVal SQL_Comman As SqlCommand, id As String)
+    '    Try
+    '        Dim ADATER As New SqlDataAdapter
+    '        Dim TABLA As New DataTable
+    '        Dim Consulta As String = ""
+
+    '        Consulta = "Select Cedula from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado where [id]='" & id.Trim() & "' "
+
+    '        ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+    '        ADATER.Fill(TABLA)
+
+    '        Return TABLA.Rows.Count
+    '    Catch ex As Exception
+    '        MessageBox.Show("ERROR en ObtieneEmpleadoXCedula [ " & ex.Message & " ]")
+    '    End Try
+
+    'End Function
+
+    'todo probar guardar la cuent acontable
+    ''' <summary>
+    ''' Guarda info del empleado
+    ''' </summary>
+    ''' <param name="Cedula"></param>
+    ''' <param name="Nombre"></param>
+    ''' <param name="Puesto"></param>
+    ''' <param name="Telefono1"></param>
+    ''' <param name="Telefono2"></param>
+    ''' <param name="FotoEmpleadoBytes"></param>
+    ''' <param name="Salario"></param>
+    ''' <param name="FechaIngreso"></param>
+    ''' <param name="FechaSalida"></param>
+    ''' <param name="DTGV_Experiencia"></param>
+    ''' <param name="DTGV_Educacion"></param>
+    ''' <param name="Estado"></param>
+    ''' <param name="Codigo"></param>
+    ''' <param name="CodRuta"></param>
+    ''' <param name="Correo"></param>
+    ''' <param name="TimeLab_Anios"></param>
+    ''' <param name="TimeLab_Meses"></param>
+    ''' <param name="TimeLab_Dias"></param>
+    ''' <param name="DiasTotalesDeVacacionesGanadas"></param>
+    ''' <param name="DiasTotalesDeVacacionesConsumidas"></param>
+    ''' <param name="txtb_DiasTotalesDeVacacionesPendientes"></param>
+    ''' <param name="CuentaBancaria"></param>
+    ''' <param name="IdColaborador"></param>
+    ''' <param name="CuentaContable"></param>
+    ''' <param name="GUARDANDO"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
+    Public Function GuardaEmpleado(ByVal Cedula As String, ByVal Nombre As String, ByVal Puesto As String, ByVal Telefono1 As String,
+                                   ByVal Telefono2 As String, ByVal FotoEmpleadoBytes As Byte(), ByVal Salario As String,
+                                   ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal DTGV_Experiencia As DataTable,
+                                   ByVal DTGV_Educacion As DataTable, ByVal Estado As Boolean, ByVal Codigo As String, ByVal CodRuta As String,
+                                   ByVal Correo As String, TimeLab_Anios As Integer, TimeLab_Meses As Integer, TimeLab_Dias As Integer,
+                                   DiasTotalesDeVacacionesGanadas As Integer, DiasTotalesDeVacacionesConsumidas As Integer,
+                                   txtb_DiasTotalesDeVacacionesPendientes As Integer, CuentaBancaria As String, IdColaborador As String, CuentaContable As String, CategoriaEmpleado As String,
+                                   ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand, Optional ByVal id As Integer = 0)
+
+        Try
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Consulta = ""
+            SQL_Comman = Conectar()
             If GUARDANDO = True Then
-                Consulta = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Empleado]" &
+
+                Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado]" &
                            "([Cedula]" &
                            ",[Nombre]" &
                            ",[Telefono1]" &
@@ -1457,30 +2994,126 @@ Public Class Class_funcionesSQL
                            ",[Puesto]" &
                            ",[Salario]" &
                            ",[FechaIngreso]" &
-                           ",[FechaFin]" &
-                           ",[Foto],[Activo],[Codigo],[CodRuta],[Correo],[CodigoCobroXFaltante])" &
-                           "VALUES( '" & Trim(Cedula) & "','" & Nombre & "','" & Telefono1 & "','" & Telefono2 & "','" & Puesto & "','" & Salario & "','" & FechaIngreso & "','" & FechaSalida & "','" & RutaImagen & "','" & Activo & "','" & Codigo & "','" & CodRuta & "','" & Correo & "','" & CodigoCobroXFaltante & "')"
+                           ",[Foto]" &
+                           ",[Estado]" &
+                           ",[Codigo]" &
+                           ",[CodRuta]" &
+                           ",[Correo]" &
+                           ",[TimeLab_Anios]" &
+                           ",[TimeLab_Meses]" &
+                           ",[TimeLab_Dias]" &
+                           ",[DiasTotalesDeVacacionesGanadas]" &
+                           ",[DiasTotalesDeVacacionesConsumidas]" &
+                           ",[txtb_DiasTotalesDeVacacionesPendientes]" &
+                           ",[CuentaBancaria]" &
+                           ",[IdColaborador]" &
+                           ",[CuentaContable]" &
+                           ",[CategoriaEmpleado])" &
+                           " VALUES(@Cedula
+                                  ,@Nombre
+                                  ,@Telefono1
+                                  ,@Telefono2
+                                  ,@Puesto
+                                  ,@Salario
+                                  ,@FechaIngreso                              
+                                  ,@Foto
+                                  ,@Estado
+                                  ,@Codigo
+                                  ,@CodRuta
+                                  ,@Correo 
+                                  ,@TimeLab_Anios
+                                  ,@TimeLab_Meses
+                                  ,@TimeLab_Dias
+                                  ,@DiasTotalesDeVacacionesGanadas
+                                  ,@DiasTotalesDeVacacionesConsumidas
+                                  ,@txtb_DiasTotalesDeVacacionesPendientes               
+                                  ,@CuentaBancaria                             
+                                  ,@IdColaborador
+                                  ,@CuentaContable
+                                  ,@CategoriaEmpleado)"
 
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Cedula", Cedula)
+                    command.Parameters.AddWithValue("@Nombre", Nombre)
+                    command.Parameters.AddWithValue("@Telefono1", Telefono1)
+                    command.Parameters.AddWithValue("@Telefono2", Telefono2)
+                    command.Parameters.AddWithValue("@Puesto", Puesto)
+                    command.Parameters.AddWithValue("@Salario", Salario)
+                    command.Parameters.AddWithValue("@FechaIngreso", FechaIngreso)
+                    'command.Parameters.AddWithValue("@FechaFin", FechaSalida)
+                    command.Parameters.AddWithValue("@Foto", FotoEmpleadoBytes)
+                    command.Parameters.AddWithValue("@Estado", Estado)
+                    command.Parameters.AddWithValue("@Codigo", Codigo)
+                    command.Parameters.AddWithValue("@CodRuta", CodRuta)
+                    command.Parameters.AddWithValue("@Correo", Correo)
+                    command.Parameters.AddWithValue("@TimeLab_Anios", TimeLab_Anios)
+                    command.Parameters.AddWithValue("@TimeLab_Meses", TimeLab_Meses)
+                    command.Parameters.AddWithValue("@TimeLab_Dias", TimeLab_Dias)
+                    command.Parameters.AddWithValue("@DiasTotalesDeVacacionesGanadas", DiasTotalesDeVacacionesGanadas)
+                    command.Parameters.AddWithValue("@DiasTotalesDeVacacionesConsumidas", DiasTotalesDeVacacionesConsumidas)
+                    command.Parameters.AddWithValue("@txtb_DiasTotalesDeVacacionesPendientes", txtb_DiasTotalesDeVacacionesPendientes)
+                    command.Parameters.AddWithValue("@CuentaBancaria", CuentaBancaria)
+                    command.Parameters.AddWithValue("@IdColaborador", IdColaborador)
+                    command.Parameters.AddWithValue("@CuentaContable", CuentaContable)
+                    command.Parameters.AddWithValue("@CategoriaEmpleado", CategoriaEmpleado)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
             Else
-                Consulta = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Planilla_Empleado] " &
-                   "SET [Nombre] = '" & Nombre & "'" &
-                      ",[Telefono1] = '" & Telefono1 & "'" &
-                      ",[Telefono2] = '" & Telefono2 & "'" &
-                      ",[Puesto] ='" & Puesto & "'" &
-                      ",[Salario] = '" & Salario & "'" &
-                      ",[FechaIngreso] = '" & FechaIngreso & "'" &
-                      ",[FechaFin] = '" & FechaSalida & "'" &
-                      ",[Foto] = '" & RutaImagen & "'" &
-                      ",[Activo] = '" & Activo & "' " &
-                      ",[Codigo] = '" & Codigo & "' " &
-                      ",[CodRuta] = '" & CodRuta & "' " &
-                      ",[Correo] = '" & Correo & "' " &
-                        ",[Cedula] = '" & Trim(Cedula) & "' " &
-                      ",[CodigoCobroXFaltante] = '" & CodigoCobroXFaltante & "' " &
-                      "WHERE [id] = '" & id & "'"
+                Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado] " &
+                       "SET [Nombre] = @Nombre " &
+                       ",[Telefono1] = @Telefono1 " &
+                       ",[Telefono2] = @Telefono2 " &
+                       ",[Puesto] =@Puesto " &
+                       ",[Salario] = @Salario " &
+                       ",[FechaIngreso] = @FechaIngreso " &
+                       ",[Foto] = @Foto " &
+                       ",[Estado] = @Estado " &
+                       ",[Codigo] = @Codigo " &
+                       ",[CodRuta] = @CodRuta " &
+                       ",[Correo] = @Correo " &
+                       ",[TimeLab_Anios] = @TimeLab_Anios " &
+                       ",[TimeLab_Meses] = @TimeLab_Meses " &
+                       ",[TimeLab_Dias] = @TimeLab_Dias " &
+                       ",[DiasTotalesDeVacacionesGanadas] = @DiasTotalesDeVacacionesGanadas " &
+                       ",[DiasTotalesDeVacacionesConsumidas] = @DiasTotalesDeVacacionesConsumidas " &
+                       ",[txtb_DiasTotalesDeVacacionesPendientes] = @txtb_DiasTotalesDeVacacionesPendientes " &
+                       ",[CuentaBancaria] = @CuentaBancaria " &
+                       ",[Cedula] = @Cedula " &
+                       ",[IdColaborador] = @IdColaborador " &
+                       ",[CuentaContable] = @CuentaContable" &
+                       ",[CategoriaEmpleado] = @CategoriaEmpleado" &
+                       " WHERE [id] = @id"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Cedula", Cedula)
+                    command.Parameters.AddWithValue("@Nombre", Nombre)
+                    command.Parameters.AddWithValue("@Telefono1", If(String.IsNullOrEmpty(Telefono1), DBNull.Value, Telefono1))
+                    command.Parameters.AddWithValue("@Telefono2", If(String.IsNullOrEmpty(Telefono2), DBNull.Value, Telefono2))
+                    command.Parameters.AddWithValue("@Puesto", Puesto)
+                    command.Parameters.AddWithValue("@Salario", Salario)
+                    command.Parameters.AddWithValue("@FechaIngreso", FechaIngreso)
+                    command.Parameters.AddWithValue("@Foto", If(FotoEmpleadoBytes Is Nothing, DBNull.Value, FotoEmpleadoBytes))
+                    command.Parameters.AddWithValue("@Estado", Estado)
+                    command.Parameters.AddWithValue("@Codigo", Codigo)
+                    command.Parameters.AddWithValue("@CodRuta", CodRuta)
+                    command.Parameters.AddWithValue("@Correo", Correo)
+                    command.Parameters.AddWithValue("@TimeLab_Anios", TimeLab_Anios)
+                    command.Parameters.AddWithValue("@TimeLab_Meses", TimeLab_Meses)
+                    command.Parameters.AddWithValue("@TimeLab_Dias", TimeLab_Dias)
+                    command.Parameters.AddWithValue("@DiasTotalesDeVacacionesGanadas", DiasTotalesDeVacacionesGanadas)
+                    command.Parameters.AddWithValue("@DiasTotalesDeVacacionesConsumidas", DiasTotalesDeVacacionesConsumidas)
+                    command.Parameters.AddWithValue("@txtb_DiasTotalesDeVacacionesPendientes", txtb_DiasTotalesDeVacacionesPendientes)
+                    command.Parameters.AddWithValue("@CuentaBancaria", CuentaBancaria)
+                    command.Parameters.AddWithValue("@IdColaborador", IdColaborador)
+                    command.Parameters.AddWithValue("@CuentaContable", CuentaContable)
+                    command.Parameters.AddWithValue("@id", id)
+                    command.Parameters.AddWithValue("@CategoriaEmpleado", CategoriaEmpleado)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
             End If
-            SQL_Comman.CommandText = Consulta
-            SQL_Comman.ExecuteNonQuery()
+
             SQL_Comman = Nothing
             Return True
 
@@ -1491,14 +3124,25 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
+    ''' <summary>
+    ''' esta consulta debe ser igual a la del metodo BuscaEmpleado
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
     Public Function NavegaEmpleados(ByVal id As String, ByVal SQL_Comman As SqlCommand)
         Try
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            If id = 1 Then
+                Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Estado,Codigo,id,CodRuta,Correo,CodigoCobroXFaltante,CuentaBancaria,IdColaborador,CuentaContable,CategoriaEmpleado from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado where id  = (SELECT MIN(Id) AS Id FROM [dbo].Empleado)"
 
-            Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Activo,Codigo,id,CodRuta,Correo,CodigoCobroXFaltante from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Planilla_Empleado where id  = '" & id & "'"
+            Else
+                Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Estado,Codigo,id,CodRuta,Correo,CodigoCobroXFaltante,CuentaBancaria,IdColaborador,CuentaContable,CategoriaEmpleado from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado where id  = '" & id & "'"
 
+            End If
 
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
@@ -1509,19 +3153,27 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
+
+    ''' <summary>
+    ''' estas consultas deben ser iguales a las del metodo NavegaEmpleados
+    ''' </summary>
+    ''' <param name="Pista"></param>
+    ''' <param name="Busqueda"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
     Public Function BuscaEmpleado(ByVal Pista As String, ByVal Busqueda As String, ByVal SQL_Comman As SqlCommand)
         Try
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
+            SQL_Comman = Conectar()
             If Busqueda = "Nombre" Then
-                Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Activo,Codigo,id,Correo,CodigoCobroXFaltante from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Planilla_Empleado where Nombre  like '%" & Pista & "%'"
+                Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Estado,Codigo,id,Correo,CodigoCobroXFaltante,CuentaBancaria,IdColaborador,CuentaContable,CategoriaEmpleado from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado where Nombre  like '%" & Pista & "%' ORDER BY Nombre ASC"
             ElseIf Busqueda = "Cedula" Then
-                Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Activo,Codigo,id,Correo,CodigoCobroXFaltante from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Planilla_Empleado where Cedula  like '%" & Trim(Pista) & "%'"
+                Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Estado,Codigo,id,Correo,CodigoCobroXFaltante,CuentaBancaria,IdColaborador,CuentaContable,CategoriaEmpleado from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado where Cedula  like '%" & Trim(Pista) & "%' ORDER BY Nombre ASC"
             Else
-                Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Activo,Codigo,id,Correo,CodigoCobroXFaltante from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Planilla_Empleado "
+                Consulta = "Select Cedula,Nombre,Telefono1,Telefono2,Puesto,Salario,FechaIngreso,FechaFin,Foto,Estado,Codigo,id,Correo,CodigoCobroXFaltante,CuentaBancaria,IdColaborador ,CuentaContable,CategoriaEmpleado from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado ORDER BY Nombre ASC"
             End If
-
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -1534,35 +3186,37 @@ Public Class Class_funcionesSQL
 
 #Region "EXPERIENCIA"
 
-    Public Function GuardaExperiencia(ByVal Cedula As String, ByVal Empresa As String, ByVal ExPuesto As String, ByVal Persona As String, ByVal Telefono As String, ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal Comentario As String, ByVal DTGV_Experiencia As DataTable, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+    Public Function GuardaExperiencia(ByVal Cedula As String, ByVal CedulaEmpresa As String, ByVal Empresa As String, ByVal ExPuesto As String, ByVal Persona As String, ByVal Telefono As String, ByVal FechaIngreso As String, ByVal FechaSalida As String, ByVal Comentario As String, ByVal DTGV_Experiencia As DataTable, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
         Try
             Dim Consulta As String
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
             Consulta = ""
+            SQL_Comman = Conectar()
             If GUARDANDO = True Then
 
-                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Experiencia]" & _
-           "([Cedula_Empleado]" & _
-           ",[Empresa]" & _
-           ",[Puesto]" & _
-           ",[Fecha_Ingreso]" & _
-           ",[Fecha_Salida]" & _
-           ",[Person_Referencia]" & _
-           ",[Telefono]" & _
-           ",[Comentarios])" & _
-                "VALUES('" & Cedula & "','" & Empresa & "','" & ExPuesto & "','" & FechaIngreso & "','" & FechaSalida & "','" & Persona & "','" & Telefono & "','" & Comentario & "')"
-
+                Consulta = "INSERT INTO [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[Empleado_Experiencia]" &
+                           "([Cedula_Empleado]" &
+                           ",[CedulaEmpresa]" &
+                           ",[Empresa]" &
+                           ",[Puesto]" &
+                           ",[Fecha_Ingreso]" &
+                           ",[Fecha_Salida]" &
+                           ",[Person_Referencia]" &
+                           ",[Telefono]" &
+                           ",[Comentarios])" &
+                            "VALUES('" & Cedula & "','" & CedulaEmpresa & "','" & Empresa & "','" & ExPuesto & "','" & FechaIngreso & "','" & FechaSalida & "','" & Persona & "','" & Telefono & "','" & Comentario & "')"
 
             Else
-                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Experiencia] " & _
-                      " SET [Empresa] = '" & Empresa & "'" & _
-                      ",[Puesto] = '" & ExPuesto & "'" & _
-                      ",[Fecha_Ingreso] = '" & FechaIngreso & "'" & _
-                      ",[Fecha_Salida] ='" & FechaSalida & "'" & _
-                      ",[Person_Referencia] = '" & Persona & "'" & _
-                      ",[Telefono] = '" & Telefono & "'" & _
-                      ",[Comentarios] = '" & Comentario & "' " & _
-                      "WHERE [Cedula_Empleado] = '" & Cedula & "' AND Empresa LIKE ='%" & Empresa & "%'"
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Experiencia] " &
+                          " SET " &
+                          " [Empresa] = '" & Empresa & "'" &
+                          ",[Puesto] = '" & ExPuesto & "'" &
+                          ",[Fecha_Ingreso] = '" & FechaIngreso & "'" &
+                          ",[Fecha_Salida] ='" & FechaSalida & "'" &
+                          ",[Person_Referencia] = '" & Persona & "'" &
+                          ",[Telefono] = '" & Telefono & "'" &
+                          ",[Comentarios] = '" & Comentario & "' " &
+                          "WHERE [Cedula_Empleado] = '" & Cedula & "' AND CedulaEmpresa LIKE '%" & CedulaEmpresa.Trim() & "%'"
             End If
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
@@ -1581,8 +3235,8 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
-
-            Consulta = "Select Empresa,Puesto,Fecha_Ingreso,Fecha_Salida,Person_Referencia,Telefono,Comentarios from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Planilla_Experiencia where Cedula_Empleado='" & Cedula & "'"
+            SQL_Comman = Conectar()
+            Consulta = "Select Empresa,Puesto,Fecha_Ingreso,Fecha_Salida,Person_Referencia,Telefono,Comentarios,CedulaEmpresa from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_Experiencia where Cedula_Empleado='" & Cedula & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Return TABLA
@@ -1593,31 +3247,49 @@ Public Class Class_funcionesSQL
 
     Public Function EliminaExperiencia(ByVal Cedula As String, ByVal Empresa As String, ByVal SQL_Comman As SqlCommand)
         Dim Consulta As String
-        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Experiencia] where Cedula_Empleado='" & Cedula & "' AND Empresa LIKE '%" & Empresa & "%'"
+        SQL_Comman = Conectar()
+        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Experiencia] where Cedula_Empleado='" & Cedula & "' AND Empresa LIKE '%" & Empresa & "%'"
         SQL_Comman.CommandText = Consulta
         SQL_Comman.ExecuteNonQuery()
     End Function
 
 #End Region
+
 #Region "DEDUCCIONES"
 
+    Public Function ObtieneConsecutivoDeducciones(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim Consecutivo As Integer = 0
+            Consulta = "Select MAx(Consecutivo) as Consecutivo from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_Deducciones "
+            SQL_Comman = Conectar()
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
 
-    Public Function EliminarDeducciones(ByVal Cedula As String, ByVal Categoria As String, ByVal SQL_Comman As SqlCommand)
-        Dim Consulta As String
-        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Deducciones] where Cedula_Empleado='" & Cedula & "' and [Categoria]='" & Categoria & "'"
-        SQL_Comman.CommandText = Consulta
-        SQL_Comman.ExecuteNonQuery()
+            If TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("Consecutivo").ToString()) <> "" Then
+                    Consecutivo = CInt(Trim(TABLA.Rows(0).Item("Consecutivo").ToString())) + 1
+                Else
+                    Consecutivo = 1
+                End If
+
+            End If
+            Return Consecutivo
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneConsecutivoDeducciones [ " & ex.Message & " ]")
+        End Try
+
     End Function
-
-
     Public Function ObtieneDeducciones(ByVal Codigo As String, ByVal SQL_Comman As SqlCommand)
 
         Try
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
-
-            Consulta = "SELECT [Categoria] ,[Monto] ,[Detalle] FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Deducciones] where [Cedula_Empleado]='" & Codigo & "'"
+            SQL_Comman = Conectar()
+            Consulta = "SELECT [Consecutivo],[Categoria] ,[Monto] ,[Detalle],[Fecha],[Estado],[PorcentajePrimerQuincena],[PorcentajeSegundaQuincena]  FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Deducciones] where [Cedula_Empleado]='" & Codigo & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             If TABLA.Rows.Count > 0 Then
@@ -1629,11 +3301,7 @@ Public Class Class_funcionesSQL
 
                     cont += 1
                 Next
-
-
-
-
-                Class_VariablesGlobales.frmEmpleados.txb_MontoDeducciones.Text = MontoDeducciones
+                Class_VariablesGlobales.frmEmpleados.Txtb_TotalDeducciones.Text = MontoDeducciones
             End If
 
 
@@ -1645,27 +3313,58 @@ Public Class Class_funcionesSQL
 
     End Function
 
-
-
-    Public Function GuardaDeducciones(ByVal Cedula As String, ByVal Categoria As String, ByVal Monto As String, ByVal Detalle As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+    Public Function DeduccionesAnular(ByVal Cedula_Empleado As String, ByVal Categoria As String, ByVal SQL_Comman As SqlCommand)
         Try
             Dim Consulta As String
 
             Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Deducciones] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Cedula_Empleado] = @Cedula_Empleado and [Categoria] = @Categoria"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                command.Parameters.AddWithValue("@Categoria", Categoria)
+                command.Parameters.AddWithValue("@Estado", 1)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en DeduccionesAnular [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    Public Function GuardaDeducciones(ByVal Consecutivo As String, ByVal Cedula As String, ByVal Categoria As String, ByVal Monto As Double, ByVal Detalle As String, ByVal Fecha As String, Estado As Integer, PorcentajePrimerQuincena As Integer, PorcentajeSegundaQuincena As Integer, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
             If GUARDANDO = True Then
-                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Deducciones]" & _
-           "([Cedula_Empleado]" & _
-           ",[Categoria]" & _
-           ",[Monto]" & _
-           ",[Detalle])" & _
-                "VALUES('" & Cedula & "','" & Categoria & "','" & Monto & "','" & Detalle & "')"
+                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Deducciones]" &
+                           "([Cedula_Empleado]" &
+                           ",[Categoria]" &
+                           ",[Monto]" &
+                           ",[Detalle]" &
+                           ",[Fecha] " &
+                           ",[Consecutivo]
+                           ,[PorcentajePrimerQuincena]
+                           ,[PorcentajeSegundaQuincena])" &
+                            "VALUES('" & Cedula & "','" & Categoria & "','" & Monto & "','" & Detalle & "','" & Fecha & "','" & Consecutivo & "','" & PorcentajePrimerQuincena & "','" & PorcentajeSegundaQuincena & "')"
             Else
-                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Deducciones] " & _
-                      " SET [Cedula_Empleado] = '" & Cedula & "'" & _
-                      ",[Categoria] = '" & Categoria & "'" & _
-                      ",[Monto] = '" & Monto & "'" & _
-                      ",[Detalle] ='" & Detalle & "'" & _
-                      "WHERE [Cedula_Empleado] = '" & Cedula & "'"
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Deducciones] " &
+                      " SET " &
+                      " [Categoria] = '" & Categoria & "'" &
+                      ",[Monto] = '" & Monto & "'" &
+                      ",[Detalle] ='" & Detalle & "'" &
+                      ",[Estado] ='" & Estado & "'" &
+                      ",[PorcentajePrimerQuincena] ='" & PorcentajePrimerQuincena & "'" &
+                      ",[PorcentajeSegundaQuincena] ='" & PorcentajeSegundaQuincena & "'" &
+                      "WHERE [Consecutivo] = '" & Consecutivo & "'"
             End If
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
@@ -1678,32 +3377,95 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 #End Region
-#Region "EDUCACION"
+
+#Region "PLANILLA"
+    Public Function ObtienePlanillasXEmpleado(ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "SELECT  
+                           T0.[Consecutivo]
+                          ,(CASE WHEN T0.[TipoPlanilla]=1 then 'Ordinaria' 
+                           ELSE CASE WHEN  T0.[TipoPlanilla]=2 THEN 'Aguinaldo' 
+                           ELSE CASE WHEN T0.[TipoPlanilla]=3 THEN 'Comisiones'
+                           END END END) as Tipo 
+	                      ,T0.[FechaCrea]
+                          ,T0.[Cedula_Empresa]
+                          ,T0.[Nombre_Empresa]
+                          ,T0.[FechaINI]
+                          ,T0.[FechaFIN]
+                          ,T0.[Comentario]
+                      FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla] AS T0
+                      INNER JOIN " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Empleados] AS T1 ON T0.Consecutivo=T1.Id_Planilla
+                      WHERE T0.[Estado]='2' and T1.[Cedula]='" & Cedula_Empleado & "'
+                      ORDER BY T0.[Consecutivo] DESC"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtienePlanillasXEmpleado [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+    Public Function ObtieneDesglosePlanillas(ByVal Cedula_Empleado As String, ByVal Consecutivo As String, ByVal SQL_Comman As SqlCommand)
+
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "SELECT  
+                           [Consecutivo]
+	                      ,[FechaCrea]
+                          ,[Cedula_Empresa]
+                          ,[Nombre_Empresa]
+                          ,[FechaINI]
+                          ,[FechaFIN]
+                          ,[Comentario]
+                      FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla]
+                      where [Estado]='1' and [Cedula_Empresa]='" & Cedula_Empleado & "' and[Consecutivo]='" & Consecutivo & "'"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneDesglosePlanillas [ " & ex.Message & " ]")
+        End Try
+    End Function
+#End Region
+
+#Region "PLANILLA EDUCACION"
 
     Public Function GuardaEducacion(ByVal Cedula As String, ByVal Institucion As String, ByVal Fecha_Ingreso As String, ByVal Fecha_Salida As String, ByVal EnCurso As String, ByVal Grado As String, ByVal Titulo As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
         Try
             Dim Consulta As String
+            SQL_Comman = Conectar()
             'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
             Consulta = ""
             If GUARDANDO = True Then
-                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Educacion]" & _
-           "([Cedula_Empleado]" & _
-           ",[Institucion]" & _
-           ",[Fecha_Ingreso]" & _
-           ",[Fecha_Salida]" & _
-           ",[EnCurso]" & _
-           ",[Grado]" & _
-           ",[Titulo])" & _
+                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Educacion]" &
+           "([Cedula_Empleado]" &
+           ",[Institucion]" &
+           ",[Fecha_Ingreso]" &
+           ",[Fecha_Salida]" &
+           ",[EnCurso]" &
+           ",[Grado]" &
+           ",[Titulo])" &
                 "VALUES('" & Cedula & "','" & Institucion & "','" & Fecha_Ingreso & "','" & Fecha_Salida & "','" & EnCurso & "','" & Grado & "','" & Titulo & "')"
             Else
-                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Educacion] " & _
-                      " SET [Cedula_Empleado] = '" & Cedula & "'" & _
-                      ",[Institucion] = '" & Institucion & "'" & _
-                      ",[Fecha_Ingreso] = '" & Fecha_Ingreso & "'" & _
-                      ",[Fecha_Salida] ='" & Fecha_Salida & "'" & _
-                      ",[EnCurso] = '" & EnCurso & "'" & _
-                      ",[Grado] = '" & Grado & "'" & _
-                      ",[Titulo] = '" & Titulo & "'" & _
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Educacion] " &
+                      " SET [Cedula_Empleado] = '" & Cedula & "'" &
+                      ",[Institucion] = '" & Institucion & "'" &
+                      ",[Fecha_Ingreso] = '" & Fecha_Ingreso & "'" &
+                      ",[Fecha_Salida] ='" & Fecha_Salida & "'" &
+                      ",[EnCurso] = '" & EnCurso & "'" &
+                      ",[Grado] = '" & Grado & "'" &
+                      ",[Titulo] = '" & Titulo & "'" &
                       "WHERE [Cedula_Empleado] = '" & Cedula & "' and [Institucion] like '%" & Institucion & "%'"
             End If
             SQL_Comman.CommandText = Consulta
@@ -1722,7 +3484,8 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
-            Consulta = "Select Institucion,Titulo,Fecha_Ingreso,Fecha_Salida,EnCurso,Grado from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Planilla_Educacion where Cedula_Empleado='" & Cedula & "'"
+            SQL_Comman = Conectar()
+            Consulta = "Select Institucion,Titulo,Fecha_Ingreso,Fecha_Salida,EnCurso,Grado from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_Educacion where Cedula_Empleado='" & Cedula & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
             Return TABLA
@@ -1733,79 +3496,288 @@ Public Class Class_funcionesSQL
 
     Public Function EliminaEducacion(ByVal Cedula As String, ByVal Institucion As String, ByVal SQL_Comman As SqlCommand)
         Dim Consulta As String
-        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_Educacion] where Cedula_Empleado='" & Cedula & "' AND Institucion LIKE '%" & Institucion & "%'"
+        SQL_Comman = Conectar()
+        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Educacion] where Cedula_Empleado='" & Cedula & "' AND Institucion LIKE '%" & Institucion & "%'"
         SQL_Comman.CommandText = Consulta
         SQL_Comman.ExecuteNonQuery()
     End Function
 
 #End Region
 
-#Region "VACACIONES"
+#Region "PLANILLA VACACIONES"
+
+    Public Function VerificaSiExisteSolicitudVacaciones(ByVal Consecutivo As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "Select Consecutivo from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_Vacaciones where Consecutivo='" & Consecutivo & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                Return True
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en VerificaSiExisteSolicitudVacaciones [ " & ex.Message & " ]")
+        End Try
+
+    End Function
 
     Public Function EliminaConsumoVacaciones(ByVal Cedula As String, ByVal FINI As String, ByVal FFIN As String, ByVal SQL_Comman As SqlCommand)
         Dim Consulta As String
-        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_ConsumoVacaciones] where Cedula_Empleado='" & Cedula & "' AND [FechaIni] = '" & FINI & "' AND [FechaFin] = '" & FFIN & "'"
+        SQL_Comman = Conectar()
+        Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Vacaciones] where Cedula_Empleado='" & Cedula & "' AND [FechaIni] = '" & FINI & "' AND [FechaFin] = '" & FFIN & "'"
         SQL_Comman.CommandText = Consulta
         SQL_Comman.ExecuteNonQuery()
     End Function
 
-    Public Function VacacionesConsumidas(ByVal Cedula As String, ByVal FechaINI As String, ByVal FechaFin As String, ByVal Dias As String, ByVal Comentario As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+    Public Function GuardaVacacionesConsumidas(ByVal Consecutivo As String, ByVal Cedula_Empleado As String, ByVal FechaINI As String, ByVal FechaFin As String, ByVal Dias As String, ByVal Comentario As String, Adjunto As Byte(), FechaCrea As String, Estado As Integer, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
         Try
             Dim Consulta As String
 
             Consulta = ""
-            If GUARDANDO = True Then
-                Consulta = "INSERT INTO " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_ConsumoVacaciones]" & _
-           "([Cedula_Empleado]" & _
-           ",[FechaIni]" & _
-           ",[FechaFin]" & _
-           ",[Dias]" & _
-           ",[Comentario])" & _
-                "VALUES('" & Cedula & "','" & FechaINI & "','" & FechaFin & "','" & Dias & "','" & Comentario & "')"
+            SQL_Comman = Conectar()
+            If GUARDANDO = False Then
+
+                Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Vacaciones]" &
+                                       "([Consecutivo]" &
+                                       ",[Cedula_Empleado]" &
+                                       ",[FechaIni]" &
+                                       ",[FechaFin]" &
+                                       ",[Dias]" &
+                                       ",[Comentario]" &
+                                       ",[FechaCrea])" &
+                                       " VALUES(@Consecutivo
+                                              ,@Cedula_Empleado
+                                              ,@FechaIni
+                                              ,@FechaFin
+                                              ,@Dias
+                                              ,@Comentario                                           
+                                              ,@FechaCrea)"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                    command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                    command.Parameters.AddWithValue("@FechaIni", FechaINI)
+                    command.Parameters.AddWithValue("@FechaFin", FechaFin)
+                    command.Parameters.AddWithValue("@Dias", Dias)
+                    command.Parameters.AddWithValue("@Comentario", Comentario)
+                    command.Parameters.AddWithValue("@FechaCrea", FechaCrea)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+
             Else
-                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_ConsumoVacaciones] " & _
-                      " SET [Cedula_Empleado] = '" & Cedula & "'" & _
-                      ",[FechaIni] = '" & FechaINI & "'" & _
-                      ",[FechaFin] = '" & FechaFin & "'" & _
-                      ",[Dias]='" & Dias & "'" & _
-                      ",[Comentario]='" & Comentario & "'" & _
-                      "WHERE [Cedula_Empleado] = '" & Cedula & "'"
+
+                Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Vacaciones] " &
+                       "SET [FechaIni] = @FechaIni " &
+                      ",[FechaFin] = @FechaFin " &
+                      ",[Dias] = @Dias " &
+                      ",[Comentario] =@Comentario " &
+                      ",[Adjunto] = @Adjunto " &
+                      ",[Estado] = @Estado " &
+                      "WHERE [Consecutivo] = @Consecutivo"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@FechaIni", FechaINI)
+                    command.Parameters.AddWithValue("@FechaFin", FechaFin)
+                    command.Parameters.AddWithValue("@Dias", Dias)
+                    command.Parameters.AddWithValue("@Comentario", Comentario)
+                    command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                    command.Parameters.AddWithValue("@Estado", Estado)
+                    command.Parameters.AddWithValue("@Adjunto", Adjunto)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+
             End If
-            SQL_Comman.CommandText = Consulta
-            SQL_Comman.ExecuteNonQuery()
-            SQL_Comman = Nothing
+            'SQL_Comman.CommandText = Consulta
+            'SQL_Comman.ExecuteNonQuery()
+            'SQL_Comman = Nothing
             Return True
 
         Catch ex As Exception
-            MessageBox.Show("ERROR en GuardaDeducciones [ " & ex.Message & " ]")
+            MessageBox.Show("ERROR en VacacionesConsumidas [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function VacacionesAnular(ByVal Consecutivo As String, ByVal Estado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Vacaciones] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Consecutivo] = @Consecutivo"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en VacacionesAnular [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function AumentSaldoVacacionesPorAnular(ByVal Consecutivo As String, ByVal Estado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Vacaciones] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Consecutivo] = @Consecutivo"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en VacacionesAnular [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function CambiaEstadoALiquidadoEmpleado(ByVal Cedula As String, ByVal Estado As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado] " &
+                                  "SET [Estado] = @Estado " &
+                                  "WHERE [Cedula] = @Cedula"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Cedula", Cedula)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en CambiaEstadoALiquidadoEmpleado [ " & ex.Message & " ]")
             Return False
         End Try
     End Function
 
+    Public Function CambiaEstadoEmpleado(ByVal Cedula As String, ByVal Estado As Integer, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado] " &
+                                  "SET [Estado] = @Estado " &
+                                  "WHERE [Cedula] = @Cedula"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Cedula", Cedula)
+                command.Parameters.AddWithValue("@Estado", Estado)
+
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en CambiaEstadoEmpleado [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function CerrarEmpleado(ByVal Cedula As String, ByVal Estado As Integer, ByVal FechaSalida As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado] " &
+                                  "SET [Estado] = @Estado, [FechaFin] = @FechaFin " &
+                                  "WHERE [Cedula] = @Cedula"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Cedula", Cedula)
+                command.Parameters.AddWithValue("@Estado", Estado)
+                command.Parameters.AddWithValue("@FechaFin", FechaSalida)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en CambiaEstadoEmpleado [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function ObtieneConsecutivoVacaciones(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim Consecutivo As Integer = 0
+            SQL_Comman = Conectar()
+            Consulta = "Select MAX(Consecutivo)  as Consecutivo from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_Vacaciones "
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("Consecutivo").ToString()) <> "" Then
+                    Consecutivo = CInt(Trim(TABLA.Rows(0).Item("Consecutivo").ToString())) + 1
+                Else
+                    Consecutivo = 1
+                End If
+
+            End If
 
 
+
+            Return Consecutivo
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneConsecutivoVacaciones [ " & ex.Message & " ]")
+        End Try
+
+    End Function
     Public Function ObtieneVacacionesConsumidas(ByVal Codigo As String, ByVal SQL_Comman As SqlCommand)
 
         Try
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
-
-            Consulta = "SELECT [FechaIni] ,[FechaFin] ,[Dias],[Comentario] FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla_ConsumoVacaciones] where [Cedula_Empleado]='" & Codigo & "'"
+            SQL_Comman = Conectar()
+            Consulta = "SELECT [Consecutivo],[FechaIni] ,[FechaFin] ,[Dias],[Comentario],[Adjunto],[Estado]   FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Vacaciones] where [Cedula_Empleado]='" & Codigo & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
-            Dim MontoDeducciones As Double = 0
+            Dim VacacionesConsumidas As Double = 0
             If TABLA.Rows.Count > 0 Then
                 Dim cont As Integer
                 For Each row As DataRow In TABLA.Rows
+                    If TABLA.Rows(cont).Item("Dias").ToString() <> "" And TABLA.Rows(cont).Item("Estado").ToString() <> "1" Then
+                        VacacionesConsumidas += Convert.ToDouble(Trim(TABLA.Rows(cont).Item("Dias").ToString()))
+                    End If
 
-                    MontoDeducciones += Convert.ToDouble(Trim(TABLA.Rows(cont).Item("Dias").ToString()))
 
                     cont += 1
                 Next
 
             End If
-            Class_VariablesGlobales.frmEmpleados.txtb_VCTotal.Text = CInt(MontoDeducciones)
+            Class_VariablesGlobales.frmEmpleados.txtb_DiasTotalesDeVacacionesConsumidas.Text = CInt(VacacionesConsumidas).ToString()
 
 
             Return TABLA
@@ -1816,55 +3788,772 @@ Public Class Class_funcionesSQL
     End Function
 #End Region
 
+#Region "PLANILLA AUMENTOS"
+    Public Function ActualizaSalarioEmpleado(ByVal Cedula_Empleado As String, ByVal Salario As String, ByVal SQL_Comman As SqlCommand)
 
+        Try
+            Dim Consulta As String
+            'Recorre los datos extraido de la base de datos SQL para proceder insertarlos en la tabla articulos de MYSQL
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado] " &
+                                        "SET [Salario] = @Salario " &
+                                        "WHERE [Cedula_Empleado] = @Cedula_Empleado"
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                command.Parameters.AddWithValue("@Salario", Salario)
+                command.ExecuteNonQuery()
+            End Using
+
+            SQL_Comman = Nothing
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ActualizaSalarioEmpleado [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    'Public Function GuardaAumentos(ByVal Cedula_Empleado As String, ByVal Fecha As String, ByVal PorcentajeAumento As String, ByVal MontoAumento As Double, ByVal SalarioAnterior As Double, ByVal SalarioPosterior As String, ByVal Aumento As String, ByVal MotivoAumento As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+
+    '    Try
+    '        Dim Consulta As String
+
+    '        Consulta = ""
+
+    '        Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Aumentos]" &
+    '                       "([Cedula_Empleado]" &
+    '                       ",[Fecha]" &
+    '                       ",[PorcentajeAumento]" &
+    '                       ",[SalarioAnterior]" &
+    '                       ",[SalarioPosterior]" &
+    '                       ",[MontoAumento]" &
+    '                       ",[MotivoAumento])" &
+    '                       "VALUES(@Cedula_Empleado
+    '                              ,@Fecha
+    '                              ,@PorcentajeAumento
+    '                              ,@SalarioAnterior
+    '                              ,@SalarioPosterior  
+    '                              ,@MontoAumento 
+    '                              ,@MotivoAumento)"
+
+    '        Using command As New SqlCommand(query, SQL_Comman.Connection)
+    '            command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+    '            command.Parameters.AddWithValue("@Fecha", Fecha)
+    '            command.Parameters.AddWithValue("@PorcentajeAumento", PorcentajeAumento)
+    '            command.Parameters.AddWithValue("@SalarioAnterior", SalarioAnterior)
+    '            command.Parameters.AddWithValue("@SalarioPosterior", SalarioPosterior)
+    '            command.Parameters.AddWithValue("@MontoAumento", MontoAumento)
+    '            command.Parameters.AddWithValue("@MotivoAumento", MotivoAumento)
+    '            command.ExecuteNonQuery()
+    '        End Using
+
+
+    '        SQL_Comman = Nothing
+    '        Return True
+
+    '    Catch ex As Exception
+    '        MessageBox.Show("ERROR en GuardaAumentos [ " & ex.Message & " ]")
+    '        Return False
+    '    End Try
+    'End Function
+    Public Function ObtieneAumentos(ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "SELECT [Fecha],[PorcentajeAumento],[SalarioAnterior],[SalarioPosterior],[MontoAumento],[MotivoAumento],[UsuarioCrea] FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Aumentos] where [Cedula_Empleado]='" & Cedula_Empleado & "'"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneAumentos [ " & ex.Message & " ]")
+        End Try
+    End Function
+#End Region
+
+#Region "PLANILLA ADICIONALES"
+    Public Function GuardaAdicional(ByVal Cedula_Empleado As String, ByVal Tipo As String, ByVal Monto As String, ByVal FechaCrea As String, Estado As Integer, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+            SQL_Comman = Conectar()
+            Consulta = ""
+            If GUARDANDO = True Then
+
+                Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Adicionales]" &
+                           "([Tipo]" &
+                           ",[Monto]" &
+                           ",[Cedula_Empleado]" &
+                           ",[FechaCrea]" &
+                           ",[Estado])" &
+                           "VALUES(@Tipo
+                                  ,@Monto
+                                  ,@Cedula_Empleado
+                                  ,@FechaCrea
+                                  ,@Estado)"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Tipo", Tipo)
+                    command.Parameters.AddWithValue("@Monto", Monto)
+                    command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                    command.Parameters.AddWithValue("@FechaCrea", FechaCrea)
+                    command.Parameters.AddWithValue("@Estado", Estado)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+            Else
+
+                Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Adicionales] " &
+                                      "SET [Tipo] = @Tipo " &
+                                         ",[Monto] =@Monto " &
+                                         ",[FechaCrea] = @FechaCrea " &
+                                         ",[Estado] = @Estado " &
+                                      "WHERE [Cedula_Empleado] = @Cedula_Empleado "
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Tipo", Tipo)
+                    command.Parameters.AddWithValue("@Monto", Monto)
+                    command.Parameters.AddWithValue("@FechaCrea", FechaCrea)
+                    command.Parameters.AddWithValue("@Estado", Estado)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+
+            End If
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en GuardaAdicional [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    Public Function AdicionalAnular(ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Adicionales] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Cedula_Empleado] = @Cedula_Empleado "
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                command.Parameters.AddWithValue("@Estado", 1)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en AdicionalAnular [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+#End Region
+
+#Region "PLANILLA INCAPACIDADES"
+
+    Public Function ObtieneConsecutivoIncapacidades(ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim Consecutivo As Integer = 0
+            Consulta = "Select MAx(Consecutivo) as Consecutivo from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado_Incapacidades "
+            SQL_Comman = Conectar()
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("Consecutivo").ToString()) <> "" Then
+                    Consecutivo = CInt(Trim(TABLA.Rows(0).Item("Consecutivo").ToString())) + 1
+                Else
+                    Consecutivo = 1
+                End If
+
+            End If
+            Return Consecutivo
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneConsecutivoIncapacidades [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ObtieneIncapacidades(ByVal Codigo As String, ByVal SQL_Comman As SqlCommand)
+
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "SELECT [Consecutivo] , [FechaInicio], [FechaFin], [DiasIncapacidad], [NumBoleta], [Detalle], [FechaCrea], [Adjunto], [Tipo], [Estado] FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_Incapacidades] where [Cedula_Empleado]='" & Codigo & "'"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneIncapacidades [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+    Public Function IncapacidadAnular(ByVal Consecutivo As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Incapacidades] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Consecutivo] = @Consecutivo "
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                command.Parameters.AddWithValue("@Estado", 1)
+                command.ExecuteNonQuery()
+            End Using
+
+            'ANULA EL DETALLE DE LOS DIAS
+            query = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_IncapacidadesDetalle] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [ConsecutivoIncapacidad] = @Consecutivo "
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                command.Parameters.AddWithValue("@Estado", 1)
+                command.ExecuteNonQuery()
+            End Using
+
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en IncapacidadAnular [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    Public Function GuardaIncapacidad(ByVal Cedula_Empleado As String, ByVal Consecutivo As String, ByVal FechaInicio As String, ByVal FechaFin As String, ByVal DiasIncapacidad As String, ByVal NumBoleta As String, ByVal Detalle As String, Adjunto As Byte(), Tipo As String, FechaCrea As String, Estado As Integer, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+
+        Dim MensajeError As String
+        Dim CodError As Integer
+
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+
+            Dim StrimConexion As String = "Data Source=" & Class_VariablesGlobales.XMLParamSQL_server & ";Initial Catalog=" & Class_VariablesGlobales.XMLParamSQL_dababase & ";Persist Security Info=True;User ID=" & Class_VariablesGlobales.XMLParamSQL_user & ";Password=" & Class_VariablesGlobales.XMLParamSQL_clave & ";MultipleActiveResultSets=True"
+
+            Using connection As New SqlConnection(StrimConexion)
+                connection.Open()
+
+                Using cmd As New SqlCommand("SP_GuardaIncapacidades", connection)
+                    cmd.CommandType = CommandType.StoredProcedure
+                    cmd.CommandTimeout = 300
+                    cmd.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+                    cmd.Parameters.AddWithValue("@FechaInicio", FechaInicio)
+                    cmd.Parameters.AddWithValue("@FechaFin", FechaFin)
+                    cmd.Parameters.AddWithValue("@DiasIncapacidad", DiasIncapacidad)
+                    cmd.Parameters.AddWithValue("@NumBoleta", NumBoleta)
+                    cmd.Parameters.AddWithValue("@Detalle", Detalle)
+                    cmd.Parameters.AddWithValue("@FechaCrea", FechaCrea)
+                    cmd.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                    cmd.Parameters.AddWithValue("@Adjunto", Adjunto)
+                    cmd.Parameters.AddWithValue("@Tipo", Tipo)
+                    cmd.Parameters.AddWithValue("@Estado", Estado)
+                    cmd.Parameters.AddWithValue("@GUARDANDO", GUARDANDO)
+                    cmd.Parameters.Add("@pCodError", SqlDbType.VarChar, 5).Direction = ParameterDirection.Output
+                    cmd.Parameters.Add("@pMensajeError", SqlDbType.VarChar, 300).Direction = ParameterDirection.Output
+                    cmd.ExecuteNonQuery()
+
+                    'CodError = cmd.Parameters("@pCodError").Value.ToString()
+                    MensajeError = cmd.Parameters("@pMensajeError").Value.ToString()
+                End Using
+            End Using
+            Return MensajeError
+        Catch ex As Exception
+
+            MessageBox.Show("ERROR GuardaIncapacidad [ " & ex.Message & " ] ")
+            Return 1
+        End Try
+
+
+        'Try
+        '    Dim Consulta As String
+
+        '    Consulta = ""
+        '    SQL_Comman = Conectar()
+        '    If GUARDANDO = True Then
+
+        '        Dim query As String = "INSERT INTO [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Incapacidades]" &
+        '                   "([Consecutivo]" &
+        '                   ",[FechaInicio]" &
+        '                   ",[FechaFin]" &
+        '                   ",[DiasIncapacidad]" &
+        '                   ",[NumBoleta]" &
+        '                   ",[Detalle]" &
+        '                   ",[FechaCrea]" &
+        '                   ",[Cedula_Empleado]" &
+        '                   ",[Adjunto]" &
+        '                   ",[Tipo])" &
+        '                   "VALUES(@Consecutivo
+        '                          ,@FechaInicio
+        '                          ,@FechaFin
+        '                          ,@DiasIncapacidad
+        '                          ,@NumBoleta  
+        '                          ,@Detalle
+        '                          ,@FechaCrea
+        '                          ,@Cedula_Empleado  
+        '                          ,@Adjunto
+        '                          ,@Tipo)"
+
+        '        Using command As New SqlCommand(query, SQL_Comman.Connection)
+        '            command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+        '            command.Parameters.AddWithValue("@FechaInicio", FechaInicio)
+        '            command.Parameters.AddWithValue("@FechaFin", FechaFin)
+        '            command.Parameters.AddWithValue("@DiasIncapacidad", DiasIncapacidad)
+        '            command.Parameters.AddWithValue("@NumBoleta", NumBoleta)
+        '            command.Parameters.AddWithValue("@Detalle", Detalle)
+        '            command.Parameters.AddWithValue("@FechaCrea", FechaCrea)
+        '            command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+        '            command.Parameters.AddWithValue("@Adjunto", Adjunto)
+        '            command.Parameters.AddWithValue("@Tipo", Tipo)
+        '            ' Ejecuta el comando SQL
+        '            command.ExecuteNonQuery()
+        '        End Using
+        '    Else
+
+        '        Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_Incapacidades] " &
+        '              "SET [FechaInicio] = @FechaInicio " &
+        '                 ",[FechaFin] =@FechaFin " &
+        '                 ",[DiasIncapacidad] = @DiasIncapacidad " &
+        '                 ",[NumBoleta] = @NumBoleta " &
+        '                 ",[Detalle] = @Detalle " &
+        '                 ",[Adjunto] = @Adjunto " &
+        '                 ",[Tipo] = @Tipo " &
+        '                 ",[Estado] = @Estado " &
+        '             "WHERE [Consecutivo] = @Consecutivo"
+
+        '        Using command As New SqlCommand(query, SQL_Comman.Connection)
+        '            command.Parameters.AddWithValue("@Consecutivo", Consecutivo)
+        '            command.Parameters.AddWithValue("@FechaInicio", FechaInicio)
+        '            command.Parameters.AddWithValue("@FechaFin", FechaFin)
+        '            command.Parameters.AddWithValue("@DiasIncapacidad", DiasIncapacidad)
+        '            command.Parameters.AddWithValue("@NumBoleta", NumBoleta)
+        '            command.Parameters.AddWithValue("@Detalle", Detalle)
+        '            command.Parameters.AddWithValue("@Adjunto", Adjunto)
+        '            command.Parameters.AddWithValue("@Tipo", Tipo)
+        '            command.Parameters.AddWithValue("@Estado", Estado)
+        '            ' Ejecuta el comando SQL
+        '            command.ExecuteNonQuery()
+        '        End Using
+
+        '    End If
+
+        '    Return True
+
+        'Catch ex As Exception
+        '    MessageBox.Show("ERROR en GuardaIncapacidad [ " & ex.Message & " ]")
+        '    Return False
+        'End Try
+    End Function
+
+#End Region
+
+    Public Function ObtieneDiasAdicionalesXEmpleado(ByVal Cedula_Empleado As String, ByVal SQL_Comman As SqlCommand)
+
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "SELECT  
+                               [Fecha]
+                              ,[Motivo]
+                              ,[Porcentaje]
+                              ,[Estado]
+                        FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Empleado_DiasAdicionales]
+                        WHERE   [Cedula_Empleado]='" & Cedula_Empleado & "'"
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ObtieneDiasAdicionalesXEmpleado [ " & ex.Message & " ]")
+        End Try
+    End Function
+
+    Public Function GuardaDiasAdicional(ByVal Cedula_Empleado As String, ByVal Porcentaje As String, ByVal Fecha As String, ByVal Motivo As String, ByVal GUARDANDO As Boolean, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+            SQL_Comman = Conectar()
+            Consulta = ""
+            If GUARDANDO = True Then
+
+                Dim query As String = "INSERT INTO [dbo].[Empleado_DiasAdicionales]
+                                   ([Cedula_Empleado]
+                                   ,[Fecha]
+                                   ,[Porcentaje]
+                                   ,[Motivo]
+                                   ,[Estado])
+                             VALUES
+                                   (@Cedula_Empleado 
+                                   ,@Fecha
+                                   ,@Porcentaje
+                                   ,@Motivo
+                                   ,@Estado)"
+
+
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                    command.Parameters.AddWithValue("@Fecha", Fecha)
+                    command.Parameters.AddWithValue("@Porcentaje", Porcentaje)
+                    command.Parameters.AddWithValue("@Motivo", Motivo)
+                    command.Parameters.AddWithValue("@Estado", "0")
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+            Else
+
+                Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_DiasAdicionales] " &
+                      "SET [Fecha] = @Fecha " &
+                         ",[Motivo] =@Motivo " &
+                         ",[Porcentaje] =@Porcentaje " &
+                     "WHERE [Consecutivo] = @Cedula_Empleado"
+
+                Using command As New SqlCommand(query, SQL_Comman.Connection)
+                    command.Parameters.AddWithValue("@Fecha", Fecha)
+                    command.Parameters.AddWithValue("@Motivo", Motivo)
+                    command.Parameters.AddWithValue("@Porcentaje", Porcentaje)
+                    ' Ejecuta el comando SQL
+                    command.ExecuteNonQuery()
+                End Using
+
+            End If
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en GuardaDiasAdicional [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+    Public Function DiasAdicionalAnular(ByVal Cedula_Empleado As String, ByVal Fecha As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado_DiasAdicionales] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Fecha] = @Fecha and [Cedula_Empleado] = @Cedula_Empleado "
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Fecha", Fecha)
+                command.Parameters.AddWithValue("@Cedula_Empleado", Cedula_Empleado)
+                command.Parameters.AddWithValue("@Estado", 1)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en DiasAdicionalAnular [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+#Region "PLANILLA LIQUIDACION EMPLEADO"
+    ''' <summary>
+    ''' Obtiene el promedio del salarios de un maximo de los ultmos 6 meses si a trabajado menos meses se divide entre los meses que ha trabajado 
+    ''' para dar un promedio correcto
+    ''' </summary>
+    ''' <param name="Cedula"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
+    Public Function ObtieneSalarioBrutoSinDeduccionesPromedioXMesXEmpleado(ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim SalarioBrutoSinDeduccionesPromedioXMes As Double = 0
+            SQL_Comman = Conectar()
+            Consulta = "SELECT 
+                          ISNULL(SUM(T101.Salario_Final)/ COUNT(*),0) as SalarioBrutoSinDeduccionesPromedioXMes 
+                         FROM (SELECT 
+		                         SUM(T100.Salario_Final) AS Salario_Final
+		                        FROM (
+			                        SELECT TOP 12 empleado.Salario_Final, MONTH([FechaCrea]) AS Mes 
+			                        FROM [dbo].[Planilla] as planilla
+			                        INNER JOIN [dbo].[Planilla_Empleados] as empleado on planilla.[Consecutivo] = empleado.Id_Planilla 
+			                        WHERE empleado.[Cedula] = '" & Cedula & "' AND planilla.estado = 2
+			                        ORDER BY [FechaCrea] DESC
+		                        ) as T100
+		                        GROUP BY T100.Mes,T100.Salario_Final
+		                        ) AS T101"
+
+
+
+
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows IsNot Nothing And TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("SalarioBrutoSinDeduccionesPromedioXMes").ToString()) <> "" Then
+                    SalarioBrutoSinDeduccionesPromedioXMes = CDbl(Trim(TABLA.Rows(0).Item("SalarioBrutoSinDeduccionesPromedioXMes").ToString()))
+                Else
+
+                    SalarioBrutoSinDeduccionesPromedioXMes = 0
+                End If
+            Else
+
+                SalarioBrutoSinDeduccionesPromedioXMes = 0
+            End If
+
+            Return SalarioBrutoSinDeduccionesPromedioXMes
+
+        Catch ex As Exception
+            MessageBox.Show("Error en ObtieneSalarioBrutoSinDeduccionesPromedioXMesXEmpleado [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+    Public Function ObtieneDiasTrabajadosxMesXEmpleado(ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim SalarioBrutoSinDeduccionesPromedioXMes As Double = 0
+            SQL_Comman = Conectar()
+            Consulta = "	SELECT 
+		                         isnull(SUM(T100.DiasLaborados),0) AS DiasLaborados
+		                        FROM (
+			                        SELECT TOP 12 empleado.DiasLaborados, MONTH([FechaCrea]) AS Mes 
+			                        FROM [dbo].[Planilla] as planilla
+			                        INNER JOIN [dbo].[Planilla_Empleados] as empleado on planilla.[Consecutivo] = empleado.Id_Planilla 
+			                        WHERE empleado.[Cedula] = '" & Cedula & "' AND planilla.estado = 2
+			                        ORDER BY [FechaCrea] DESC
+		                        ) as T100"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows IsNot Nothing And TABLA.Rows.Count > 0 Then
+                If Trim(TABLA.Rows(0).Item("DiasLaborados").ToString()) <> "" Then
+                    SalarioBrutoSinDeduccionesPromedioXMes = CDbl(Trim(TABLA.Rows(0).Item("DiasLaborados").ToString()))
+                Else
+
+                    SalarioBrutoSinDeduccionesPromedioXMes = 0
+                End If
+            Else
+
+                SalarioBrutoSinDeduccionesPromedioXMes = 0
+            End If
+
+            Return SalarioBrutoSinDeduccionesPromedioXMes
+
+        Catch ex As Exception
+            MessageBox.Show("Error en DiasLaborados [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+    Public Function ObtieneSalarioPromedioXEmpleado(ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim SalarioPromedio As Double = 0
+            SQL_Comman = Conectar()
+            Consulta = "Select AVG([Salario]) as SalarioPromedio " &
+                        "FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[Planilla] " &
+                        "where [Ced_Empleado]='" & Cedula & "' "
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            For Each row As DataRow In TABLA.Rows
+                SalarioPromedio = CDbl(Trim(TABLA.Rows(0).Item("SalarioPromedio").ToString()))
+            Next
+
+            Return SalarioPromedio
+        Catch ex As Exception
+            MessageBox.Show("Error en ObtieneSalarioPromedioXEmpleado [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+    Public Function ObtieneLiquidacion(ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim SalarioPromedioXMes As Double = 0
+            SQL_Comman = Conectar()
+            Consulta = "SELECT  
+                           [Preaviso]
+                          ,[Cesantia]
+                          ,[Aguinaldo]
+                          ,[Vacaciones]
+                          ,[Adjunto]
+                          ,[MotivoSalida]
+                      FROM [dbo].[Empleado_Liquidacion]
+                      WHERE [Cedula_Empleado]='" + Cedula + "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+        Catch ex As Exception
+            MessageBox.Show("Error en ObtieneLiquidacion [ " & ex.Message & " ]")
+        End Try
+
+    End Function
+
+#End Region
+
+    Public Function InactivaEmpleado(ByVal Cedula As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim Consulta As String
+
+            Consulta = ""
+            SQL_Comman = Conectar()
+            Dim query As String = "UPDATE [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Empleado] " &
+                       "SET [Estado] = @Estado " &
+                      "WHERE [Cedula] = @Cedula "
+
+            Using command As New SqlCommand(query, SQL_Comman.Connection)
+                command.Parameters.AddWithValue("@Cedula", Cedula)
+                command.Parameters.AddWithValue("@Estado", 1)
+                command.ExecuteNonQuery()
+            End Using
+
+            Return True
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en InactivaEmpleado [ " & ex.Message & " ]")
+            Return False
+        End Try
+    End Function
+
+    Public Function VerificaSiExisteEmpleado(ByVal id As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "Select Cedula from " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].Empleado where id='" & id & "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+                Return True
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en VerificaSiExisteEmpleado [ " & ex.Message & " ]")
+            Return False
+        End Try
+
+    End Function
+    Public Function ValidaExisteCuentaContable(ByVal AcctCode As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "SELECT COUNT(*) AS CuentaExiste
+                        FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[OACT]
+                        WHERE AcctCode = '" + AcctCode + "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+
+                If Trim(TABLA.Rows(0).Item("CuentaExiste").ToString()) = "1" Then
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ValidaExisteCuentaContable [ " & ex.Message & " ]")
+            Return False
+        End Try
+
+    End Function
+    Public Function ValidaExisteCodigoCliente(ByVal CardCode As String, ByVal SQL_Comman As SqlCommand)
+        Try
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            SQL_Comman = Conectar()
+            Consulta = "SELECT COUNT(*) AS CodigoCliente
+                        FROM [" & Trim(Class_VariablesGlobales.XMLParamSAP_CompanyDB) & "].[dbo].[OCRD]
+                        WHERE CardCode = '" + CardCode + "'"
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            If TABLA.Rows.Count > 0 Then
+
+                If Trim(TABLA.Rows(0).Item("CodigoCliente").ToString()) = "1" Then
+                    Return True
+                Else
+                    Return False
+                End If
+            Else
+                Return False
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("ERROR en ValidaExisteCodigoCliente [ " & ex.Message & " ]")
+            Return False
+        End Try
+
+    End Function
+    ''' <summary>
+    ''' Cargar las facturas vinculadas a un codigo de cliente, son las facturas que se le cobran a los empleados
+    ''' </summary>
+    ''' <param name="Codigo"></param>
+    ''' <param name="SQL_Comman"></param>
+    ''' <returns></returns>
     Public Function ObtineFacturas(ByVal Codigo As String, ByVal SQL_Comman As SqlCommand)
 
         Try
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
             Dim Consulta As String = ""
-
-            Consulta = "select * from [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "] .[dbo].FacturaPendiente('" & Codigo & "')"
+            SQL_Comman = Conectar()
+            Consulta = "select * from [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "] .[dbo].[FacturaPendiente]('" & Codigo & "')"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
             Return TABLA
         Catch ex As Exception
-            MessageBox.Show("ERROR en ObtieneExperiencia [ " & ex.Message & " ]")
+            MessageBox.Show("ERROR en ObtineFacturas [ " & ex.Message & " ]")
         End Try
 
     End Function
 
-    Public Function ObtineFacturasSaldo(ByVal Codigo As String, ByVal SQL_Comman As SqlCommand)
-        Dim SALDO As Double = 0
-        Try
-            Dim ADATER As New SqlDataAdapter
-            Dim TABLA As New DataTable
-
-
-            Dim Consulta As String = ""
-
-            Consulta = "select sum(SALDO) as SALDO from [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "] .[dbo].FacturaPendiente('" & Trim(Codigo) & "')"
-            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-            ADATER.Fill(TABLA)
-            For Each row As DataRow In TABLA.Rows
-                SALDO = CDbl(Trim(TABLA.Rows(0).Item("SALDO").ToString()))
-            Next
-
-
-        Catch ex As Exception
-            'MessageBox.Show("ERROR en ObtineFacturasSaldo [ " & ex.Message & " ]")
-
-        End Try
-        Return SALDO
-    End Function
     Public Function ObtineCobroXFaltante(ByVal Codigo As String, ByVal FechaINI As String, ByVal FechaFIN As String, ByVal SQL_Comman As SqlCommand)
         Dim SALDO As Double = 0
         Try
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
 
-
+            SQL_Comman = Conectar()
             Dim Consulta As String = ""
 
             Consulta = "select SUM(SALDO) AS SALDO from [FacturasPendientesXCliente] ('" & Codigo & "')'"
@@ -1888,7 +4577,7 @@ Public Class Class_funcionesSQL
             Dim ADATER As New SqlDataAdapter
             Dim TABLA As New DataTable
 
-
+            SQL_Comman = Conectar()
             Dim Consulta As String = ""
 
             Consulta = "SELECT sum([Resultado]) as Saldo  FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Liquidaciones] where Anulada ='0' and CodAgente ='" & Codigo & "' and [Fecha] between '" & FechaINI & "' and '" & FechaFIN & "'"
@@ -3934,7 +6623,6 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en ObtieneDevolucione [ " & ex.Message & " ]")
         End Try
     End Function
-
     Public Function ObtieneDetalleDevolucione(ByVal DocNum As String, ByVal SQL_Comman As SqlCommand)
         Try
             Dim ADATER As New SqlDataAdapter
@@ -3961,7 +6649,7 @@ Public Class Class_funcionesSQL
                                   ,[NumLinea]
                               From  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[DevolucionesDetalle] Where [DocNum] ='" & DocNum & "'"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-                ADATER.Fill(TABLA)
+            ADATER.Fill(TABLA)
 
             Return TABLA
         Catch ex As Exception
@@ -3982,8 +6670,6 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en ProcesaDevolucion [ " & ex.Message & " ]")
         End Try
     End Function
-
-
     Public Function ObtieneDocEntry(ByVal SQL_Comman As SqlCommand, DocNum As String, CardCode As String)
         Try
             Dim ADATER As New SqlDataAdapter
@@ -4003,7 +6689,6 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en ObtieneDocEntry [ " & ex.Message & " ]")
         End Try
     End Function
-
     Public Function ObtieneGastosProveedores(ByVal SQL_Comman As SqlCommand)
         Try
             'Obtiene los proveedores para FEC
@@ -4182,7 +6867,6 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
-
     Public Function ObtieneNumPedidoCreado(ByVal SQL_Comman As SqlCommand, ByVal NumFerencia As String)
         Try
             Dim ADATER As New SqlDataAdapter
@@ -4208,7 +6892,6 @@ Public Class Class_funcionesSQL
         End Try
 
     End Function
-
     Public Function ObtieneMinimo(ByVal SQL_Comman As SqlCommand, ByVal ItemCode As String)
         Try
             Dim ADATER As New SqlDataAdapter
@@ -4279,7 +6962,6 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en PedidoXDia [ " & ex.Message & " ]")
         End Try
     End Function
-
     Public Function ObtieneTarimas(ByVal SQL_Comman As SqlCommand, ByVal DocNum As String)
         Try
             Dim ADATER As New SqlDataAdapter
@@ -4296,8 +6978,6 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en PedidoXDia [ " & ex.Message & " ]")
         End Try
     End Function
-
-
     Public Function ObtieneDetalleCheque(ByVal SQL_Comman As SqlCommand, ByVal DocNum As String, ByVal ItemCode As String)
         Try
             Dim ADATER As New SqlDataAdapter
@@ -4320,8 +7000,6 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en ObtieneDetalleCheque [ " & ex.Message & " ]")
         End Try
     End Function
-
-
     Public Function ObtieneOrdenCompra(ByVal SQL_Comman As SqlCommand, ByVal id As String, Chequeado As Boolean, IdTarimas As String)
         Try
             Dim ADATER As New SqlDataAdapter
@@ -4390,8 +7068,6 @@ Public Class Class_funcionesSQL
 
 
     End Function
-
-
     Public Function GuardaOrdenDeCompra(ByVal ID As String,
                                              ByVal NumDoc As String,
                                       ByVal CardCode As String,
@@ -4591,7 +7267,6 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en GuardaOrdenDeCompra [ " & ex.Message & " ]")
         End Try
     End Function
-
     Public Function CreaEncabezadoPedidor(ByVal SQL_Comman As SqlCommand, CardName As String, Fecha As String)
         Try
 
@@ -4621,8 +7296,6 @@ Public Class Class_funcionesSQL
 
         End Try
     End Function
-
-
     Public Function ActualizaLineaPedido(ByVal SQL_Comman As SqlCommand, NumDoc As String, Total As String, Pd_Unid As String, Pd_CJs As String, ItemCode As String)
         Try
             Dim Consulta As String
@@ -4639,7 +7312,6 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR en ActualizaLineaPedido [ " & ex.Message & " ]")
         End Try
     End Function
-
     Public Function ExisteOrdenCompra(ByVal NumDoc As String, ByVal SQL_Comman As SqlCommand)
         Dim ADATER As New SqlDataAdapter
         Dim TABLA As New DataTable
@@ -10380,7 +13052,7 @@ Public Class Class_funcionesSQL
 
             End Try
 
-            Desconectar(SQLComman)
+            Desconectar(SQLComman, SQLComman.Connection)
             Consulta = Nothing
             SQLComman = Nothing
             ADATER = Nothing
@@ -10388,7 +13060,7 @@ Public Class Class_funcionesSQL
             Return CantonNombre
 
         Catch ex As Exception
-            Desconectar(SQLComman)
+            Desconectar(SQLComman, SQLComman.Connection)
             Consulta = Nothing
             SQLComman = Nothing
             ADATER = Nothing
@@ -10429,7 +13101,7 @@ Public Class Class_funcionesSQL
 
             End Try
 
-            Desconectar(SQLComman)
+            Desconectar(SQLComman, SQLComman.Connection)
             Consulta = Nothing
             SQLComman = Nothing
             ADATER = Nothing
@@ -10437,7 +13109,7 @@ Public Class Class_funcionesSQL
             Return DistritoNombre
 
         Catch ex As Exception
-            Desconectar(SQLComman)
+            Desconectar(SQLComman, SQLComman.Connection)
             Consulta = Nothing
             SQLComman = Nothing
             ADATER = Nothing
@@ -10485,7 +13157,7 @@ Public Class Class_funcionesSQL
 
             End Try
 
-            Desconectar(SQLComman)
+            Desconectar(SQLComman, SQLComman.Connection)
             Consulta = Nothing
             SQLComman = Nothing
             ADATER = Nothing
@@ -10493,7 +13165,7 @@ Public Class Class_funcionesSQL
             Return BarrioNombre
 
         Catch ex As Exception
-            Desconectar(SQLComman)
+            Desconectar(SQLComman, SQLComman.Connection)
             Consulta = Nothing
             SQLComman = Nothing
             ADATER = Nothing
@@ -12407,12 +15079,12 @@ group by T2.Nombre"
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
 
-            Desconectar(SQL_Comman)
+            Desconectar(SQL_Comman, SQL_Comman.Connection)
 
 
             Return 0
         Catch ex As Exception
-            Desconectar(SQL_Comman)
+            Desconectar(SQL_Comman, SQL_Comman.Connection)
 
             Return 1
         End Try
@@ -14723,7 +17395,7 @@ GROUP By [idGrupo]) T0 "
 
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
-            Desconectar(SQL_Comman)
+            Desconectar(SQL_Comman, SQL_Comman.Connection)
             Consulta = Nothing
             SQL_Comman = Nothing
 

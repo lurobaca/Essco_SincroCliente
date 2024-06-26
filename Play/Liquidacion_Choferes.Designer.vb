@@ -115,6 +115,17 @@ Partial Class Liquidacion_Choferes
         Me.btn_GoReporte = New System.Windows.Forms.Button()
         Me.btn_AddRepFac = New System.Windows.Forms.Button()
         Me.btn_QuitaRepFActuras = New System.Windows.Forms.Button()
+        Me.btn_EliminarCobrarA = New System.Windows.Forms.Button()
+        Me.Btn_AgregarCobroAEmpleado = New System.Windows.Forms.Button()
+        Me.Btn_BusarEmpleado = New System.Windows.Forms.Button()
+        Me.DGV_ListaCobrarA = New System.Windows.Forms.DataGridView()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.Txtb_MontoEmpleadoCobrarA = New System.Windows.Forms.TextBox()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.Txtb_NombreEmpleadoCobrarA = New System.Windows.Forms.TextBox()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.Txtb_CedulaEmpleadoCobrarA = New System.Windows.Forms.TextBox()
+        Me.Label25 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
@@ -126,82 +137,92 @@ Partial Class Liquidacion_Choferes
         Me.GroupBox2.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.DGV_ListaCobrarA, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(12, 58)
+        Me.Label1.Location = New System.Drawing.Point(16, 71)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(73, 15)
+        Me.Label1.Size = New System.Drawing.Size(85, 17)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Consecutivo"
         '
         'txtb_Consecutivo
         '
-        Me.txtb_Consecutivo.Location = New System.Drawing.Point(105, 56)
+        Me.txtb_Consecutivo.Location = New System.Drawing.Point(140, 69)
+        Me.txtb_Consecutivo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Consecutivo.Name = "txtb_Consecutivo"
         Me.txtb_Consecutivo.ReadOnly = True
-        Me.txtb_Consecutivo.Size = New System.Drawing.Size(100, 20)
+        Me.txtb_Consecutivo.Size = New System.Drawing.Size(132, 22)
         Me.txtb_Consecutivo.TabIndex = 0
         '
         'txt_CodChofer
         '
-        Me.txt_CodChofer.Location = New System.Drawing.Point(106, 81)
+        Me.txt_CodChofer.Location = New System.Drawing.Point(141, 100)
+        Me.txt_CodChofer.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txt_CodChofer.Name = "txt_CodChofer"
         Me.txt_CodChofer.ReadOnly = True
-        Me.txt_CodChofer.Size = New System.Drawing.Size(100, 20)
+        Me.txt_CodChofer.Size = New System.Drawing.Size(132, 22)
         Me.txt_CodChofer.TabIndex = 2
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(12, 84)
+        Me.Label2.Location = New System.Drawing.Point(16, 103)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(68, 15)
+        Me.Label2.Size = New System.Drawing.Size(79, 17)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Cod Chofer"
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(12, 157)
+        Me.Label3.Location = New System.Drawing.Point(16, 193)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(41, 15)
+        Me.Label3.Size = New System.Drawing.Size(47, 17)
         Me.Label3.TabIndex = 4
         Me.Label3.Text = "Fecha"
         '
         'dtp_FechaLiquidacion
         '
-        Me.dtp_FechaLiquidacion.Location = New System.Drawing.Point(106, 154)
+        Me.dtp_FechaLiquidacion.Location = New System.Drawing.Point(141, 190)
+        Me.dtp_FechaLiquidacion.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtp_FechaLiquidacion.Name = "dtp_FechaLiquidacion"
-        Me.dtp_FechaLiquidacion.Size = New System.Drawing.Size(282, 20)
+        Me.dtp_FechaLiquidacion.Size = New System.Drawing.Size(375, 22)
         Me.dtp_FechaLiquidacion.TabIndex = 6
         '
         'lbl_titulo
         '
         Me.lbl_titulo.AutoSize = True
         Me.lbl_titulo.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_titulo.Location = New System.Drawing.Point(359, 9)
+        Me.lbl_titulo.Location = New System.Drawing.Point(479, 11)
+        Me.lbl_titulo.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_titulo.Name = "lbl_titulo"
-        Me.lbl_titulo.Size = New System.Drawing.Size(421, 33)
+        Me.lbl_titulo.Size = New System.Drawing.Size(498, 39)
         Me.lbl_titulo.TabIndex = 9
         Me.lbl_titulo.Text = "LIQUIDACION DE CHOFERES"
         '
         'txt_NombreChofer
         '
-        Me.txt_NombreChofer.Location = New System.Drawing.Point(106, 107)
+        Me.txt_NombreChofer.Location = New System.Drawing.Point(141, 132)
+        Me.txt_NombreChofer.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txt_NombreChofer.Name = "txt_NombreChofer"
         Me.txt_NombreChofer.ReadOnly = True
-        Me.txt_NombreChofer.Size = New System.Drawing.Size(282, 20)
+        Me.txt_NombreChofer.Size = New System.Drawing.Size(375, 22)
         Me.txt_NombreChofer.TabIndex = 4
         '
         'Label19
         '
         Me.Label19.AutoSize = True
-        Me.Label19.Location = New System.Drawing.Point(12, 110)
+        Me.Label19.Location = New System.Drawing.Point(16, 135)
+        Me.Label19.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(91, 15)
+        Me.Label19.Size = New System.Drawing.Size(104, 17)
         Me.Label19.TabIndex = 35
         Me.Label19.Text = "Nombre Chofer"
         '
@@ -211,9 +232,10 @@ Partial Class Liquidacion_Choferes
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label15.AutoSize = True
         Me.Label15.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label15.Location = New System.Drawing.Point(435, 120)
+        Me.Label15.Location = New System.Drawing.Point(580, 148)
+        Me.Label15.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(37, 15)
+        Me.Label15.Size = New System.Drawing.Size(42, 17)
         Me.Label15.TabIndex = 37
         Me.Label15.Text = "Ruta"
         '
@@ -224,10 +246,11 @@ Partial Class Liquidacion_Choferes
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
-        Me.TabControl1.Location = New System.Drawing.Point(4, 180)
+        Me.TabControl1.Location = New System.Drawing.Point(5, 222)
+        Me.TabControl1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1031, 371)
+        Me.TabControl1.Size = New System.Drawing.Size(1375, 457)
         Me.TabControl1.TabIndex = 12
         '
         'TabPage1
@@ -236,10 +259,11 @@ Partial Class Liquidacion_Choferes
         Me.TabPage1.Controls.Add(Me.GroupBox5)
         Me.TabPage1.Controls.Add(Me.GroupBox4)
         Me.TabPage1.Controls.Add(Me.GroupBox2)
-        Me.TabPage1.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TabPage1.Name = "TabPage1"
-        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(1023, 345)
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage1.Size = New System.Drawing.Size(1367, 428)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "DATOS"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -254,9 +278,11 @@ Partial Class Liquidacion_Choferes
         Me.GroupBox1.Controls.Add(Me.txtb_TotalFacturas)
         Me.GroupBox1.Controls.Add(Me.dgv_Facturas)
         Me.GroupBox1.Controls.Add(Me.Label20)
-        Me.GroupBox1.Location = New System.Drawing.Point(730, 6)
+        Me.GroupBox1.Location = New System.Drawing.Point(973, 7)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(293, 333)
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Size = New System.Drawing.Size(391, 410)
         Me.GroupBox1.TabIndex = 41
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "FACTURAS EN REPORTE"
@@ -265,10 +291,11 @@ Partial Class Liquidacion_Choferes
         '
         Me.Txtb_TotalSaldo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Txtb_TotalSaldo.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Txtb_TotalSaldo.Location = New System.Drawing.Point(135, 305)
+        Me.Txtb_TotalSaldo.Location = New System.Drawing.Point(180, 375)
+        Me.Txtb_TotalSaldo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Txtb_TotalSaldo.Name = "Txtb_TotalSaldo"
         Me.Txtb_TotalSaldo.ReadOnly = True
-        Me.Txtb_TotalSaldo.Size = New System.Drawing.Size(126, 27)
+        Me.Txtb_TotalSaldo.Size = New System.Drawing.Size(167, 30)
         Me.Txtb_TotalSaldo.TabIndex = 44
         '
         'Label4
@@ -276,9 +303,10 @@ Partial Class Liquidacion_Choferes
         Me.Label4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label4.AutoSize = True
         Me.Label4.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(6, 282)
+        Me.Label4.Location = New System.Drawing.Point(8, 347)
+        Me.Label4.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(110, 20)
+        Me.Label4.Size = New System.Drawing.Size(134, 25)
         Me.Label4.TabIndex = 43
         Me.Label4.Text = "TOTAL FAC"
         '
@@ -287,9 +315,10 @@ Partial Class Liquidacion_Choferes
         Me.Button3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button3.Image = CType(resources.GetObject("Button3.Image"), System.Drawing.Image)
-        Me.Button3.Location = New System.Drawing.Point(263, 303)
+        Me.Button3.Location = New System.Drawing.Point(351, 373)
+        Me.Button3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(30, 29)
+        Me.Button3.Size = New System.Drawing.Size(40, 36)
         Me.Button3.TabIndex = 42
         Me.Button3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button3.UseVisualStyleBackColor = True
@@ -298,10 +327,11 @@ Partial Class Liquidacion_Choferes
         '
         Me.txtb_TotalFacturas.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.txtb_TotalFacturas.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalFacturas.Location = New System.Drawing.Point(4, 305)
+        Me.txtb_TotalFacturas.Location = New System.Drawing.Point(5, 375)
+        Me.txtb_TotalFacturas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_TotalFacturas.Name = "txtb_TotalFacturas"
         Me.txtb_TotalFacturas.ReadOnly = True
-        Me.txtb_TotalFacturas.Size = New System.Drawing.Size(128, 27)
+        Me.txtb_TotalFacturas.Size = New System.Drawing.Size(169, 30)
         Me.txtb_TotalFacturas.TabIndex = 40
         '
         'dgv_Facturas
@@ -310,9 +340,10 @@ Partial Class Liquidacion_Choferes
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_Facturas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgv_Facturas.Location = New System.Drawing.Point(4, 17)
+        Me.dgv_Facturas.Location = New System.Drawing.Point(5, 21)
+        Me.dgv_Facturas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dgv_Facturas.Name = "dgv_Facturas"
-        Me.dgv_Facturas.Size = New System.Drawing.Size(281, 262)
+        Me.dgv_Facturas.Size = New System.Drawing.Size(375, 322)
         Me.dgv_Facturas.TabIndex = 15
         '
         'Label20
@@ -320,9 +351,10 @@ Partial Class Liquidacion_Choferes
         Me.Label20.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label20.AutoSize = True
         Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label20.Location = New System.Drawing.Point(130, 282)
+        Me.Label20.Location = New System.Drawing.Point(173, 347)
+        Me.Label20.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(137, 20)
+        Me.Label20.Size = New System.Drawing.Size(164, 25)
         Me.Label20.TabIndex = 39
         Me.Label20.Text = "TOTAL SALDO"
         '
@@ -334,9 +366,11 @@ Partial Class Liquidacion_Choferes
         Me.GroupBox5.Controls.Add(Me.txtb_TotalDepositos)
         Me.GroupBox5.Controls.Add(Me.dgv_Depositos)
         Me.GroupBox5.Controls.Add(Me.Label6)
-        Me.GroupBox5.Location = New System.Drawing.Point(192, 6)
+        Me.GroupBox5.Location = New System.Drawing.Point(256, 7)
+        Me.GroupBox5.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(264, 333)
+        Me.GroupBox5.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox5.Size = New System.Drawing.Size(352, 410)
         Me.GroupBox5.TabIndex = 33
         Me.GroupBox5.TabStop = False
         Me.GroupBox5.Text = "DEPOSITOS"
@@ -346,9 +380,10 @@ Partial Class Liquidacion_Choferes
         Me.btn_AddDeposito.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_AddDeposito.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_AddDeposito.Image = CType(resources.GetObject("btn_AddDeposito.Image"), System.Drawing.Image)
-        Me.btn_AddDeposito.Location = New System.Drawing.Point(227, 304)
+        Me.btn_AddDeposito.Location = New System.Drawing.Point(303, 374)
+        Me.btn_AddDeposito.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_AddDeposito.Name = "btn_AddDeposito"
-        Me.btn_AddDeposito.Size = New System.Drawing.Size(30, 29)
+        Me.btn_AddDeposito.Size = New System.Drawing.Size(40, 36)
         Me.btn_AddDeposito.TabIndex = 43
         Me.btn_AddDeposito.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_AddDeposito.UseVisualStyleBackColor = True
@@ -357,10 +392,11 @@ Partial Class Liquidacion_Choferes
         '
         Me.txtb_TotalDepositos.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.txtb_TotalDepositos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalDepositos.Location = New System.Drawing.Point(82, 305)
+        Me.txtb_TotalDepositos.Location = New System.Drawing.Point(109, 375)
+        Me.txtb_TotalDepositos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_TotalDepositos.Name = "txtb_TotalDepositos"
         Me.txtb_TotalDepositos.ReadOnly = True
-        Me.txtb_TotalDepositos.Size = New System.Drawing.Size(128, 27)
+        Me.txtb_TotalDepositos.Size = New System.Drawing.Size(169, 30)
         Me.txtb_TotalDepositos.TabIndex = 38
         '
         'dgv_Depositos
@@ -369,9 +405,10 @@ Partial Class Liquidacion_Choferes
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_Depositos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgv_Depositos.Location = New System.Drawing.Point(6, 17)
+        Me.dgv_Depositos.Location = New System.Drawing.Point(8, 21)
+        Me.dgv_Depositos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dgv_Depositos.Name = "dgv_Depositos"
-        Me.dgv_Depositos.Size = New System.Drawing.Size(252, 285)
+        Me.dgv_Depositos.Size = New System.Drawing.Size(336, 351)
         Me.dgv_Depositos.TabIndex = 14
         '
         'Label6
@@ -379,9 +416,10 @@ Partial Class Liquidacion_Choferes
         Me.Label6.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(6, 307)
+        Me.Label6.Location = New System.Drawing.Point(8, 378)
+        Me.Label6.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(68, 20)
+        Me.Label6.Size = New System.Drawing.Size(84, 25)
         Me.Label6.TabIndex = 37
         Me.Label6.Text = "TOTAL"
         '
@@ -393,9 +431,11 @@ Partial Class Liquidacion_Choferes
         Me.GroupBox4.Controls.Add(Me.txtb_TotalRecibos)
         Me.GroupBox4.Controls.Add(Me.dgv_Recibos)
         Me.GroupBox4.Controls.Add(Me.Label7)
-        Me.GroupBox4.Location = New System.Drawing.Point(456, 6)
+        Me.GroupBox4.Location = New System.Drawing.Point(608, 7)
+        Me.GroupBox4.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(272, 333)
+        Me.GroupBox4.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox4.Size = New System.Drawing.Size(363, 410)
         Me.GroupBox4.TabIndex = 32
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "RECIBOS"
@@ -405,9 +445,10 @@ Partial Class Liquidacion_Choferes
         Me.btn_AddRecibos.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_AddRecibos.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_AddRecibos.Image = CType(resources.GetObject("btn_AddRecibos.Image"), System.Drawing.Image)
-        Me.btn_AddRecibos.Location = New System.Drawing.Point(233, 303)
+        Me.btn_AddRecibos.Location = New System.Drawing.Point(311, 373)
+        Me.btn_AddRecibos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_AddRecibos.Name = "btn_AddRecibos"
-        Me.btn_AddRecibos.Size = New System.Drawing.Size(30, 29)
+        Me.btn_AddRecibos.Size = New System.Drawing.Size(40, 36)
         Me.btn_AddRecibos.TabIndex = 44
         Me.btn_AddRecibos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_AddRecibos.UseVisualStyleBackColor = True
@@ -416,10 +457,11 @@ Partial Class Liquidacion_Choferes
         '
         Me.txtb_TotalRecibos.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.txtb_TotalRecibos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalRecibos.Location = New System.Drawing.Point(88, 305)
+        Me.txtb_TotalRecibos.Location = New System.Drawing.Point(117, 375)
+        Me.txtb_TotalRecibos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_TotalRecibos.Name = "txtb_TotalRecibos"
         Me.txtb_TotalRecibos.ReadOnly = True
-        Me.txtb_TotalRecibos.Size = New System.Drawing.Size(128, 27)
+        Me.txtb_TotalRecibos.Size = New System.Drawing.Size(169, 30)
         Me.txtb_TotalRecibos.TabIndex = 40
         '
         'dgv_Recibos
@@ -428,9 +470,10 @@ Partial Class Liquidacion_Choferes
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgv_Recibos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.dgv_Recibos.Location = New System.Drawing.Point(6, 17)
+        Me.dgv_Recibos.Location = New System.Drawing.Point(8, 21)
+        Me.dgv_Recibos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dgv_Recibos.Name = "dgv_Recibos"
-        Me.dgv_Recibos.Size = New System.Drawing.Size(260, 285)
+        Me.dgv_Recibos.Size = New System.Drawing.Size(347, 351)
         Me.dgv_Recibos.TabIndex = 15
         '
         'Label7
@@ -438,9 +481,10 @@ Partial Class Liquidacion_Choferes
         Me.Label7.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.Label7.AutoSize = True
         Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(4, 309)
+        Me.Label7.Location = New System.Drawing.Point(5, 380)
+        Me.Label7.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(68, 20)
+        Me.Label7.Size = New System.Drawing.Size(84, 25)
         Me.Label7.TabIndex = 39
         Me.Label7.Text = "TOTAL"
         '
@@ -466,9 +510,11 @@ Partial Class Liquidacion_Choferes
         Me.GroupBox2.Controls.Add(Me.txtb_Otros)
         Me.GroupBox2.Controls.Add(Me.txtb_TotalGastos)
         Me.GroupBox2.Controls.Add(Me.Label21)
-        Me.GroupBox2.Location = New System.Drawing.Point(5, 6)
+        Me.GroupBox2.Location = New System.Drawing.Point(7, 7)
+        Me.GroupBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(181, 333)
+        Me.GroupBox2.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox2.Size = New System.Drawing.Size(241, 410)
         Me.GroupBox2.TabIndex = 13
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "GASTOS"
@@ -476,9 +522,10 @@ Partial Class Liquidacion_Choferes
         'btn_AgregaOtros
         '
         Me.btn_AgregaOtros.Image = CType(resources.GetObject("btn_AgregaOtros.Image"), System.Drawing.Image)
-        Me.btn_AgregaOtros.Location = New System.Drawing.Point(6, 246)
+        Me.btn_AgregaOtros.Location = New System.Drawing.Point(8, 303)
+        Me.btn_AgregaOtros.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_AgregaOtros.Name = "btn_AgregaOtros"
-        Me.btn_AgregaOtros.Size = New System.Drawing.Size(30, 30)
+        Me.btn_AgregaOtros.Size = New System.Drawing.Size(40, 37)
         Me.btn_AgregaOtros.TabIndex = 18
         Me.btn_AgregaOtros.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_AgregaOtros.UseVisualStyleBackColor = True
@@ -486,9 +533,10 @@ Partial Class Liquidacion_Choferes
         'btn_Agrega_Imprevistos
         '
         Me.btn_Agrega_Imprevistos.Image = CType(resources.GetObject("btn_Agrega_Imprevistos.Image"), System.Drawing.Image)
-        Me.btn_Agrega_Imprevistos.Location = New System.Drawing.Point(6, 194)
+        Me.btn_Agrega_Imprevistos.Location = New System.Drawing.Point(8, 239)
+        Me.btn_Agrega_Imprevistos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Agrega_Imprevistos.Name = "btn_Agrega_Imprevistos"
-        Me.btn_Agrega_Imprevistos.Size = New System.Drawing.Size(30, 30)
+        Me.btn_Agrega_Imprevistos.Size = New System.Drawing.Size(40, 37)
         Me.btn_Agrega_Imprevistos.TabIndex = 17
         Me.btn_Agrega_Imprevistos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_Agrega_Imprevistos.UseVisualStyleBackColor = True
@@ -496,9 +544,10 @@ Partial Class Liquidacion_Choferes
         'btn_AgregaHospedaje
         '
         Me.btn_AgregaHospedaje.Image = CType(resources.GetObject("btn_AgregaHospedaje.Image"), System.Drawing.Image)
-        Me.btn_AgregaHospedaje.Location = New System.Drawing.Point(6, 139)
+        Me.btn_AgregaHospedaje.Location = New System.Drawing.Point(8, 171)
+        Me.btn_AgregaHospedaje.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_AgregaHospedaje.Name = "btn_AgregaHospedaje"
-        Me.btn_AgregaHospedaje.Size = New System.Drawing.Size(30, 30)
+        Me.btn_AgregaHospedaje.Size = New System.Drawing.Size(40, 37)
         Me.btn_AgregaHospedaje.TabIndex = 16
         Me.btn_AgregaHospedaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_AgregaHospedaje.UseVisualStyleBackColor = True
@@ -506,9 +555,10 @@ Partial Class Liquidacion_Choferes
         'btn_AgregaCombustibles
         '
         Me.btn_AgregaCombustibles.Image = CType(resources.GetObject("btn_AgregaCombustibles.Image"), System.Drawing.Image)
-        Me.btn_AgregaCombustibles.Location = New System.Drawing.Point(6, 88)
+        Me.btn_AgregaCombustibles.Location = New System.Drawing.Point(8, 108)
+        Me.btn_AgregaCombustibles.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_AgregaCombustibles.Name = "btn_AgregaCombustibles"
-        Me.btn_AgregaCombustibles.Size = New System.Drawing.Size(30, 30)
+        Me.btn_AgregaCombustibles.Size = New System.Drawing.Size(40, 37)
         Me.btn_AgregaCombustibles.TabIndex = 15
         Me.btn_AgregaCombustibles.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_AgregaCombustibles.UseVisualStyleBackColor = True
@@ -516,9 +566,10 @@ Partial Class Liquidacion_Choferes
         'btn_AgregaViaticos
         '
         Me.btn_AgregaViaticos.Image = CType(resources.GetObject("btn_AgregaViaticos.Image"), System.Drawing.Image)
-        Me.btn_AgregaViaticos.Location = New System.Drawing.Point(6, 36)
+        Me.btn_AgregaViaticos.Location = New System.Drawing.Point(8, 44)
+        Me.btn_AgregaViaticos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_AgregaViaticos.Name = "btn_AgregaViaticos"
-        Me.btn_AgregaViaticos.Size = New System.Drawing.Size(30, 30)
+        Me.btn_AgregaViaticos.Size = New System.Drawing.Size(40, 37)
         Me.btn_AgregaViaticos.TabIndex = 14
         Me.btn_AgregaViaticos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_AgregaViaticos.UseVisualStyleBackColor = True
@@ -526,9 +577,10 @@ Partial Class Liquidacion_Choferes
         'Label11
         '
         Me.Label11.AutoSize = True
-        Me.Label11.Location = New System.Drawing.Point(81, 17)
+        Me.Label11.Location = New System.Drawing.Point(108, 21)
+        Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(49, 15)
+        Me.Label11.Size = New System.Drawing.Size(57, 17)
         Me.Label11.TabIndex = 38
         Me.Label11.Text = "Viaticos"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -537,20 +589,22 @@ Partial Class Liquidacion_Choferes
         '
         Me.txtb_Viaticos.BackColor = System.Drawing.Color.White
         Me.txtb_Viaticos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Viaticos.Location = New System.Drawing.Point(43, 32)
+        Me.txtb_Viaticos.Location = New System.Drawing.Point(57, 39)
+        Me.txtb_Viaticos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Viaticos.Multiline = True
         Me.txtb_Viaticos.Name = "txtb_Viaticos"
         Me.txtb_Viaticos.ReadOnly = True
-        Me.txtb_Viaticos.Size = New System.Drawing.Size(131, 32)
+        Me.txtb_Viaticos.Size = New System.Drawing.Size(173, 38)
         Me.txtb_Viaticos.TabIndex = 39
         Me.txtb_Viaticos.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(75, 69)
+        Me.Label10.Location = New System.Drawing.Point(100, 85)
+        Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(76, 15)
+        Me.Label10.Size = New System.Drawing.Size(85, 17)
         Me.Label10.TabIndex = 40
         Me.Label10.Text = "Combustible"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -559,20 +613,22 @@ Partial Class Liquidacion_Choferes
         '
         Me.txtb_Combustibles.BackColor = System.Drawing.Color.White
         Me.txtb_Combustibles.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Combustibles.Location = New System.Drawing.Point(43, 86)
+        Me.txtb_Combustibles.Location = New System.Drawing.Point(57, 106)
+        Me.txtb_Combustibles.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Combustibles.Multiline = True
         Me.txtb_Combustibles.Name = "txtb_Combustibles"
         Me.txtb_Combustibles.ReadOnly = True
-        Me.txtb_Combustibles.Size = New System.Drawing.Size(131, 32)
+        Me.txtb_Combustibles.Size = New System.Drawing.Size(173, 38)
         Me.txtb_Combustibles.TabIndex = 41
         Me.txtb_Combustibles.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label13
         '
         Me.Label13.AutoSize = True
-        Me.Label13.Location = New System.Drawing.Point(75, 124)
+        Me.Label13.Location = New System.Drawing.Point(100, 153)
+        Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(67, 15)
+        Me.Label13.Size = New System.Drawing.Size(76, 17)
         Me.Label13.TabIndex = 42
         Me.Label13.Text = "Hospedaje"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -581,20 +637,22 @@ Partial Class Liquidacion_Choferes
         '
         Me.txtb_Hospedaje.BackColor = System.Drawing.Color.White
         Me.txtb_Hospedaje.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Hospedaje.Location = New System.Drawing.Point(43, 140)
+        Me.txtb_Hospedaje.Location = New System.Drawing.Point(57, 172)
+        Me.txtb_Hospedaje.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Hospedaje.Multiline = True
         Me.txtb_Hospedaje.Name = "txtb_Hospedaje"
         Me.txtb_Hospedaje.ReadOnly = True
-        Me.txtb_Hospedaje.Size = New System.Drawing.Size(131, 32)
+        Me.txtb_Hospedaje.Size = New System.Drawing.Size(173, 38)
         Me.txtb_Hospedaje.TabIndex = 43
         Me.txtb_Hospedaje.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label12
         '
         Me.Label12.AutoSize = True
-        Me.Label12.Location = New System.Drawing.Point(73, 178)
+        Me.Label12.Location = New System.Drawing.Point(97, 219)
+        Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(69, 15)
+        Me.Label12.Size = New System.Drawing.Size(79, 17)
         Me.Label12.TabIndex = 44
         Me.Label12.Text = "Imprevistos"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -603,20 +661,22 @@ Partial Class Liquidacion_Choferes
         '
         Me.txtb_Imprevistos.BackColor = System.Drawing.Color.White
         Me.txtb_Imprevistos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Imprevistos.Location = New System.Drawing.Point(43, 196)
+        Me.txtb_Imprevistos.Location = New System.Drawing.Point(57, 241)
+        Me.txtb_Imprevistos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Imprevistos.Multiline = True
         Me.txtb_Imprevistos.Name = "txtb_Imprevistos"
         Me.txtb_Imprevistos.ReadOnly = True
-        Me.txtb_Imprevistos.Size = New System.Drawing.Size(131, 32)
+        Me.txtb_Imprevistos.Size = New System.Drawing.Size(173, 38)
         Me.txtb_Imprevistos.TabIndex = 45
         Me.txtb_Imprevistos.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label14
         '
         Me.Label14.AutoSize = True
-        Me.Label14.Location = New System.Drawing.Point(87, 230)
+        Me.Label14.Location = New System.Drawing.Point(116, 283)
+        Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(36, 15)
+        Me.Label14.Size = New System.Drawing.Size(43, 17)
         Me.Label14.TabIndex = 46
         Me.Label14.Text = "Otros"
         Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -625,21 +685,23 @@ Partial Class Liquidacion_Choferes
         '
         Me.txtb_Otros.BackColor = System.Drawing.Color.White
         Me.txtb_Otros.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Otros.Location = New System.Drawing.Point(43, 246)
+        Me.txtb_Otros.Location = New System.Drawing.Point(57, 303)
+        Me.txtb_Otros.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Otros.Multiline = True
         Me.txtb_Otros.Name = "txtb_Otros"
         Me.txtb_Otros.ReadOnly = True
-        Me.txtb_Otros.Size = New System.Drawing.Size(131, 32)
+        Me.txtb_Otros.Size = New System.Drawing.Size(173, 38)
         Me.txtb_Otros.TabIndex = 47
         Me.txtb_Otros.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'txtb_TotalGastos
         '
         Me.txtb_TotalGastos.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalGastos.Location = New System.Drawing.Point(28, 305)
+        Me.txtb_TotalGastos.Location = New System.Drawing.Point(37, 375)
+        Me.txtb_TotalGastos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_TotalGastos.Name = "txtb_TotalGastos"
         Me.txtb_TotalGastos.ReadOnly = True
-        Me.txtb_TotalGastos.Size = New System.Drawing.Size(128, 27)
+        Me.txtb_TotalGastos.Size = New System.Drawing.Size(169, 30)
         Me.txtb_TotalGastos.TabIndex = 32
         Me.txtb_TotalGastos.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -647,50 +709,66 @@ Partial Class Liquidacion_Choferes
         '
         Me.Label21.AutoSize = True
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label21.Location = New System.Drawing.Point(55, 282)
+        Me.Label21.Location = New System.Drawing.Point(73, 347)
+        Me.Label21.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(68, 20)
+        Me.Label21.Size = New System.Drawing.Size(84, 25)
         Me.Label21.TabIndex = 31
         Me.Label21.Text = "TOTAL"
         Me.Label21.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.btn_EliminarCobrarA)
+        Me.TabPage2.Controls.Add(Me.Btn_AgregarCobroAEmpleado)
+        Me.TabPage2.Controls.Add(Me.Btn_BusarEmpleado)
+        Me.TabPage2.Controls.Add(Me.DGV_ListaCobrarA)
+        Me.TabPage2.Controls.Add(Me.Label28)
+        Me.TabPage2.Controls.Add(Me.Txtb_MontoEmpleadoCobrarA)
+        Me.TabPage2.Controls.Add(Me.Label27)
+        Me.TabPage2.Controls.Add(Me.Txtb_NombreEmpleadoCobrarA)
+        Me.TabPage2.Controls.Add(Me.Label26)
+        Me.TabPage2.Controls.Add(Me.Txtb_CedulaEmpleadoCobrarA)
+        Me.TabPage2.Controls.Add(Me.Label25)
         Me.TabPage2.Controls.Add(Me.dtp_FechaFin)
         Me.TabPage2.Controls.Add(Me.dtp_FechaIni)
         Me.TabPage2.Controls.Add(Me.cbx_Rutas)
         Me.TabPage2.Controls.Add(Me.Label9)
         Me.TabPage2.Controls.Add(Me.txtb_Comentarios)
-        Me.TabPage2.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TabPage2.Name = "TabPage2"
-        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(1023, 345)
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TabPage2.Size = New System.Drawing.Size(1367, 428)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "COMENTARIOS"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'dtp_FechaFin
         '
-        Me.dtp_FechaFin.Location = New System.Drawing.Point(576, 168)
+        Me.dtp_FechaFin.Location = New System.Drawing.Point(788, 34)
+        Me.dtp_FechaFin.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtp_FechaFin.Name = "dtp_FechaFin"
-        Me.dtp_FechaFin.Size = New System.Drawing.Size(30, 20)
+        Me.dtp_FechaFin.Size = New System.Drawing.Size(39, 22)
         Me.dtp_FechaFin.TabIndex = 67
         Me.dtp_FechaFin.Visible = False
         '
         'dtp_FechaIni
         '
-        Me.dtp_FechaIni.Location = New System.Drawing.Point(533, 170)
+        Me.dtp_FechaIni.Location = New System.Drawing.Point(731, 36)
+        Me.dtp_FechaIni.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtp_FechaIni.Name = "dtp_FechaIni"
-        Me.dtp_FechaIni.Size = New System.Drawing.Size(29, 20)
+        Me.dtp_FechaIni.Size = New System.Drawing.Size(37, 22)
         Me.dtp_FechaIni.TabIndex = 66
         Me.dtp_FechaIni.Visible = False
         '
         'cbx_Rutas
         '
         Me.cbx_Rutas.FormattingEnabled = True
-        Me.cbx_Rutas.Location = New System.Drawing.Point(471, 167)
+        Me.cbx_Rutas.Location = New System.Drawing.Point(648, 33)
+        Me.cbx_Rutas.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.cbx_Rutas.Name = "cbx_Rutas"
-        Me.cbx_Rutas.Size = New System.Drawing.Size(41, 21)
+        Me.cbx_Rutas.Size = New System.Drawing.Size(53, 24)
         Me.cbx_Rutas.TabIndex = 68
         Me.cbx_Rutas.Visible = False
         '
@@ -698,18 +776,20 @@ Partial Class Liquidacion_Choferes
         '
         Me.Label9.AutoSize = True
         Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(30, 28)
+        Me.Label9.Location = New System.Drawing.Point(40, 34)
+        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(44, 15)
+        Me.Label9.Size = New System.Drawing.Size(50, 17)
         Me.Label9.TabIndex = 64
         Me.Label9.Text = "Notas"
         '
         'txtb_Comentarios
         '
-        Me.txtb_Comentarios.Location = New System.Drawing.Point(33, 55)
+        Me.txtb_Comentarios.Location = New System.Drawing.Point(44, 68)
+        Me.txtb_Comentarios.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Comentarios.Multiline = True
         Me.txtb_Comentarios.Name = "txtb_Comentarios"
-        Me.txtb_Comentarios.Size = New System.Drawing.Size(1018, 74)
+        Me.txtb_Comentarios.Size = New System.Drawing.Size(1356, 90)
         Me.txtb_Comentarios.TabIndex = 65
         '
         'Label22
@@ -718,9 +798,10 @@ Partial Class Liquidacion_Choferes
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label22.AutoSize = True
         Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label22.Location = New System.Drawing.Point(782, 49)
+        Me.Label22.Location = New System.Drawing.Point(1043, 60)
+        Me.Label22.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(94, 15)
+        Me.Label22.Size = New System.Drawing.Size(108, 17)
         Me.Label22.TabIndex = 90
         Me.Label22.Text = "RCs/GTs/DEP"
         '
@@ -728,9 +809,10 @@ Partial Class Liquidacion_Choferes
         '
         Me.dtp_FechaIni_Recibos.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.dtp_FechaIni_Recibos.Location = New System.Drawing.Point(738, 69)
+        Me.dtp_FechaIni_Recibos.Location = New System.Drawing.Point(984, 85)
+        Me.dtp_FechaIni_Recibos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtp_FechaIni_Recibos.Name = "dtp_FechaIni_Recibos"
-        Me.dtp_FechaIni_Recibos.Size = New System.Drawing.Size(200, 20)
+        Me.dtp_FechaIni_Recibos.Size = New System.Drawing.Size(265, 22)
         Me.dtp_FechaIni_Recibos.TabIndex = 86
         '
         'Label23
@@ -738,9 +820,10 @@ Partial Class Liquidacion_Choferes
         Me.Label23.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(684, 93)
+        Me.Label23.Location = New System.Drawing.Point(912, 114)
+        Me.Label23.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(39, 15)
+        Me.Label23.Size = New System.Drawing.Size(45, 17)
         Me.Label23.TabIndex = 89
         Me.Label23.Text = "Hasta"
         '
@@ -749,9 +832,10 @@ Partial Class Liquidacion_Choferes
         Me.Label24.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label24.AutoSize = True
-        Me.Label24.Location = New System.Drawing.Point(684, 69)
+        Me.Label24.Location = New System.Drawing.Point(912, 85)
+        Me.Label24.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(43, 15)
+        Me.Label24.Size = New System.Drawing.Size(49, 17)
         Me.Label24.TabIndex = 88
         Me.Label24.Text = "Desde"
         '
@@ -759,9 +843,10 @@ Partial Class Liquidacion_Choferes
         '
         Me.dtp_FechaFin_Recibos.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.dtp_FechaFin_Recibos.Location = New System.Drawing.Point(738, 93)
+        Me.dtp_FechaFin_Recibos.Location = New System.Drawing.Point(984, 114)
+        Me.dtp_FechaFin_Recibos.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.dtp_FechaFin_Recibos.Name = "dtp_FechaFin_Recibos"
-        Me.dtp_FechaFin_Recibos.Size = New System.Drawing.Size(200, 20)
+        Me.dtp_FechaFin_Recibos.Size = New System.Drawing.Size(265, 22)
         Me.dtp_FechaFin_Recibos.TabIndex = 87
         '
         'Label8
@@ -770,9 +855,10 @@ Partial Class Liquidacion_Choferes
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label8.AutoSize = True
         Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(548, 54)
+        Me.Label8.Location = New System.Drawing.Point(731, 66)
+        Me.Label8.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(92, 15)
+        Me.Label8.Size = New System.Drawing.Size(105, 17)
         Me.Label8.TabIndex = 66
         Me.Label8.Text = "Rep Facturas"
         '
@@ -782,9 +868,10 @@ Partial Class Liquidacion_Choferes
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label18.AutoSize = True
         Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label18.Location = New System.Drawing.Point(435, 151)
+        Me.Label18.Location = New System.Drawing.Point(580, 186)
+        Me.Label18.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(65, 16)
+        Me.Label18.Size = New System.Drawing.Size(68, 18)
         Me.Label18.TabIndex = 85
         Me.Label18.Text = "Agentes"
         '
@@ -792,9 +879,11 @@ Partial Class Liquidacion_Choferes
         '
         Me.ListView_Agentes.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ListView_Agentes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2, Me.ColumnHeader3, Me.ColumnHeader4})
-        Me.ListView_Agentes.Location = New System.Drawing.Point(610, 145)
+        Me.ListView_Agentes.HideSelection = False
+        Me.ListView_Agentes.Location = New System.Drawing.Point(813, 178)
+        Me.ListView_Agentes.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.ListView_Agentes.Name = "ListView_Agentes"
-        Me.ListView_Agentes.Size = New System.Drawing.Size(418, 28)
+        Me.ListView_Agentes.Size = New System.Drawing.Size(556, 34)
         Me.ListView_Agentes.TabIndex = 34
         Me.ListView_Agentes.UseCompatibleStateImageBehavior = False
         Me.ListView_Agentes.View = System.Windows.Forms.View.List
@@ -818,19 +907,21 @@ Partial Class Liquidacion_Choferes
         'Label16
         '
         Me.Label16.AutoSize = True
-        Me.Label16.Location = New System.Drawing.Point(14, 134)
+        Me.Label16.Location = New System.Drawing.Point(19, 165)
+        Me.Label16.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(46, 15)
+        Me.Label16.Size = New System.Drawing.Size(52, 17)
         Me.Label16.TabIndex = 69
         Me.Label16.Text = "Cedula"
         '
         'txtb_Cedula
         '
         Me.txtb_Cedula.BackColor = System.Drawing.SystemColors.Control
-        Me.txtb_Cedula.Location = New System.Drawing.Point(105, 131)
+        Me.txtb_Cedula.Location = New System.Drawing.Point(140, 161)
+        Me.txtb_Cedula.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Cedula.Name = "txtb_Cedula"
         Me.txtb_Cedula.ReadOnly = True
-        Me.txtb_Cedula.Size = New System.Drawing.Size(282, 20)
+        Me.txtb_Cedula.Size = New System.Drawing.Size(375, 22)
         Me.txtb_Cedula.TabIndex = 5
         '
         'lbl_Anulado
@@ -838,9 +929,10 @@ Partial Class Liquidacion_Choferes
         Me.lbl_Anulado.AutoSize = True
         Me.lbl_Anulado.Font = New System.Drawing.Font("Microsoft Sans Serif", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbl_Anulado.ForeColor = System.Drawing.Color.Red
-        Me.lbl_Anulado.Location = New System.Drawing.Point(245, 60)
+        Me.lbl_Anulado.Location = New System.Drawing.Point(327, 74)
+        Me.lbl_Anulado.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.lbl_Anulado.Name = "lbl_Anulado"
-        Me.lbl_Anulado.Size = New System.Drawing.Size(158, 33)
+        Me.lbl_Anulado.Size = New System.Drawing.Size(187, 39)
         Me.lbl_Anulado.TabIndex = 71
         Me.lbl_Anulado.Text = "ANULADA"
         Me.lbl_Anulado.Visible = False
@@ -849,9 +941,10 @@ Partial Class Liquidacion_Choferes
         '
         Me.btn_Imprimir.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_Imprimir.Enabled = False
-        Me.btn_Imprimir.Location = New System.Drawing.Point(282, 552)
+        Me.btn_Imprimir.Location = New System.Drawing.Point(376, 679)
+        Me.btn_Imprimir.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Imprimir.Name = "btn_Imprimir"
-        Me.btn_Imprimir.Size = New System.Drawing.Size(89, 47)
+        Me.btn_Imprimir.Size = New System.Drawing.Size(119, 58)
         Me.btn_Imprimir.TabIndex = 22
         Me.btn_Imprimir.Text = "IMPRIMIR"
         Me.btn_Imprimir.UseVisualStyleBackColor = True
@@ -859,9 +952,10 @@ Partial Class Liquidacion_Choferes
         'btn_Buscar
         '
         Me.btn_Buscar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_Buscar.Location = New System.Drawing.Point(189, 552)
+        Me.btn_Buscar.Location = New System.Drawing.Point(252, 679)
+        Me.btn_Buscar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Buscar.Name = "btn_Buscar"
-        Me.btn_Buscar.Size = New System.Drawing.Size(89, 47)
+        Me.btn_Buscar.Size = New System.Drawing.Size(119, 58)
         Me.btn_Buscar.TabIndex = 21
         Me.btn_Buscar.Text = "BUSCAR"
         Me.btn_Buscar.UseVisualStyleBackColor = True
@@ -872,9 +966,10 @@ Partial Class Liquidacion_Choferes
         Me.btn_Anular.Enabled = False
         Me.btn_Anular.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_Anular.ForeColor = System.Drawing.Color.Red
-        Me.btn_Anular.Location = New System.Drawing.Point(552, 550)
+        Me.btn_Anular.Location = New System.Drawing.Point(736, 677)
+        Me.btn_Anular.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Anular.Name = "btn_Anular"
-        Me.btn_Anular.Size = New System.Drawing.Size(89, 47)
+        Me.btn_Anular.Size = New System.Drawing.Size(119, 58)
         Me.btn_Anular.TabIndex = 23
         Me.btn_Anular.Text = "ANULAR"
         Me.btn_Anular.UseVisualStyleBackColor = True
@@ -883,9 +978,10 @@ Partial Class Liquidacion_Choferes
         'btn_Guardar
         '
         Me.btn_Guardar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_Guardar.Location = New System.Drawing.Point(98, 552)
+        Me.btn_Guardar.Location = New System.Drawing.Point(131, 679)
+        Me.btn_Guardar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Guardar.Name = "btn_Guardar"
-        Me.btn_Guardar.Size = New System.Drawing.Size(89, 47)
+        Me.btn_Guardar.Size = New System.Drawing.Size(119, 58)
         Me.btn_Guardar.TabIndex = 19
         Me.btn_Guardar.Text = "GUARDAR"
         Me.btn_Guardar.UseVisualStyleBackColor = True
@@ -893,9 +989,10 @@ Partial Class Liquidacion_Choferes
         'btn_Nuevo
         '
         Me.btn_Nuevo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_Nuevo.Location = New System.Drawing.Point(8, 552)
+        Me.btn_Nuevo.Location = New System.Drawing.Point(11, 679)
+        Me.btn_Nuevo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Nuevo.Name = "btn_Nuevo"
-        Me.btn_Nuevo.Size = New System.Drawing.Size(89, 47)
+        Me.btn_Nuevo.Size = New System.Drawing.Size(119, 58)
         Me.btn_Nuevo.TabIndex = 74
         Me.btn_Nuevo.Text = "NUEVO"
         Me.btn_Nuevo.UseVisualStyleBackColor = True
@@ -905,10 +1002,11 @@ Partial Class Liquidacion_Choferes
         Me.txtb_Diferencias.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Diferencias.BackColor = System.Drawing.Color.White
         Me.txtb_Diferencias.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_Diferencias.Location = New System.Drawing.Point(798, 558)
+        Me.txtb_Diferencias.Location = New System.Drawing.Point(1064, 687)
+        Me.txtb_Diferencias.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Diferencias.Name = "txtb_Diferencias"
         Me.txtb_Diferencias.ReadOnly = True
-        Me.txtb_Diferencias.Size = New System.Drawing.Size(221, 28)
+        Me.txtb_Diferencias.Size = New System.Drawing.Size(293, 32)
         Me.txtb_Diferencias.TabIndex = 73
         Me.txtb_Diferencias.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
@@ -917,9 +1015,10 @@ Partial Class Liquidacion_Choferes
         Me.Label17.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label17.AutoSize = True
         Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.Location = New System.Drawing.Point(660, 561)
+        Me.Label17.Location = New System.Drawing.Point(880, 690)
+        Me.Label17.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(137, 24)
+        Me.Label17.Size = New System.Drawing.Size(164, 26)
         Me.Label17.TabIndex = 72
         Me.Label17.Text = "DIFERENCIA ₵"
         '
@@ -928,10 +1027,11 @@ Partial Class Liquidacion_Choferes
         Me.txtb_Ruta.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_Ruta.BackColor = System.Drawing.Color.White
-        Me.txtb_Ruta.Location = New System.Drawing.Point(533, 119)
+        Me.txtb_Ruta.Location = New System.Drawing.Point(711, 146)
+        Me.txtb_Ruta.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.txtb_Ruta.Name = "txtb_Ruta"
         Me.txtb_Ruta.ReadOnly = True
-        Me.txtb_Ruta.Size = New System.Drawing.Size(497, 20)
+        Me.txtb_Ruta.Size = New System.Drawing.Size(661, 22)
         Me.txtb_Ruta.TabIndex = 9
         '
         'Button9
@@ -939,9 +1039,10 @@ Partial Class Liquidacion_Choferes
         Me.Button9.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button9.Image = CType(resources.GetObject("Button9.Image"), System.Drawing.Image)
-        Me.Button9.Location = New System.Drawing.Point(533, 145)
+        Me.Button9.Location = New System.Drawing.Point(711, 178)
+        Me.Button9.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Button9.Name = "Button9"
-        Me.Button9.Size = New System.Drawing.Size(30, 29)
+        Me.Button9.Size = New System.Drawing.Size(40, 36)
         Me.Button9.TabIndex = 11
         Me.Button9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button9.UseVisualStyleBackColor = True
@@ -951,9 +1052,10 @@ Partial Class Liquidacion_Choferes
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Button1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.Image = CType(resources.GetObject("Button1.Image"), System.Drawing.Image)
-        Me.Button1.Location = New System.Drawing.Point(573, 144)
+        Me.Button1.Location = New System.Drawing.Point(764, 177)
+        Me.Button1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(31, 29)
+        Me.Button1.Size = New System.Drawing.Size(41, 36)
         Me.Button1.TabIndex = 84
         Me.Button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Button1.UseVisualStyleBackColor = True
@@ -962,9 +1064,10 @@ Partial Class Liquidacion_Choferes
         '
         Me.btn_Cargar.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_Cargar.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Cargar.Location = New System.Drawing.Point(945, 61)
+        Me.btn_Cargar.Location = New System.Drawing.Point(1260, 75)
+        Me.btn_Cargar.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_Cargar.Name = "btn_Cargar"
-        Me.btn_Cargar.Size = New System.Drawing.Size(85, 52)
+        Me.btn_Cargar.Size = New System.Drawing.Size(113, 64)
         Me.btn_Cargar.TabIndex = 10
         Me.btn_Cargar.Text = "CARGAR"
         Me.btn_Cargar.UseVisualStyleBackColor = True
@@ -972,9 +1075,10 @@ Partial Class Liquidacion_Choferes
         'btn_BuscaLiquidacion
         '
         Me.btn_BuscaLiquidacion.Image = CType(resources.GetObject("btn_BuscaLiquidacion.Image"), System.Drawing.Image)
-        Me.btn_BuscaLiquidacion.Location = New System.Drawing.Point(212, 52)
+        Me.btn_BuscaLiquidacion.Location = New System.Drawing.Point(283, 64)
+        Me.btn_BuscaLiquidacion.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_BuscaLiquidacion.Name = "btn_BuscaLiquidacion"
-        Me.btn_BuscaLiquidacion.Size = New System.Drawing.Size(32, 24)
+        Me.btn_BuscaLiquidacion.Size = New System.Drawing.Size(43, 30)
         Me.btn_BuscaLiquidacion.TabIndex = 1
         Me.btn_BuscaLiquidacion.UseVisualStyleBackColor = True
         '
@@ -984,9 +1088,10 @@ Partial Class Liquidacion_Choferes
         Me.Btn_Atras.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Atras.BackgroundImage = CType(resources.GetObject("Btn_Atras.BackgroundImage"), System.Drawing.Image)
         Me.Btn_Atras.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Btn_Atras.Location = New System.Drawing.Point(863, 4)
+        Me.Btn_Atras.Location = New System.Drawing.Point(1151, 5)
+        Me.Btn_Atras.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Btn_Atras.Name = "Btn_Atras"
-        Me.Btn_Atras.Size = New System.Drawing.Size(75, 40)
+        Me.Btn_Atras.Size = New System.Drawing.Size(100, 49)
         Me.Btn_Atras.TabIndex = 82
         Me.Btn_Atras.UseVisualStyleBackColor = False
         '
@@ -996,18 +1101,20 @@ Partial Class Liquidacion_Choferes
         Me.Btn_Adelante.BackColor = System.Drawing.Color.Transparent
         Me.Btn_Adelante.BackgroundImage = CType(resources.GetObject("Btn_Adelante.BackgroundImage"), System.Drawing.Image)
         Me.Btn_Adelante.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.Btn_Adelante.Location = New System.Drawing.Point(944, 3)
+        Me.Btn_Adelante.Location = New System.Drawing.Point(1259, 4)
+        Me.Btn_Adelante.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Btn_Adelante.Name = "Btn_Adelante"
-        Me.Btn_Adelante.Size = New System.Drawing.Size(75, 40)
+        Me.Btn_Adelante.Size = New System.Drawing.Size(100, 49)
         Me.Btn_Adelante.TabIndex = 81
         Me.Btn_Adelante.UseVisualStyleBackColor = False
         '
         'PictureBox1
         '
         Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(4, 1)
+        Me.PictureBox1.Location = New System.Drawing.Point(5, 1)
+        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(126, 43)
+        Me.PictureBox1.Size = New System.Drawing.Size(168, 53)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox1.TabIndex = 80
         Me.PictureBox1.TabStop = False
@@ -1015,9 +1122,10 @@ Partial Class Liquidacion_Choferes
         'btn_BuscaChofer
         '
         Me.btn_BuscaChofer.Image = CType(resources.GetObject("btn_BuscaChofer.Image"), System.Drawing.Image)
-        Me.btn_BuscaChofer.Location = New System.Drawing.Point(212, 81)
+        Me.btn_BuscaChofer.Location = New System.Drawing.Point(283, 100)
+        Me.btn_BuscaChofer.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_BuscaChofer.Name = "btn_BuscaChofer"
-        Me.btn_BuscaChofer.Size = New System.Drawing.Size(32, 24)
+        Me.btn_BuscaChofer.Size = New System.Drawing.Size(43, 30)
         Me.btn_BuscaChofer.TabIndex = 3
         Me.btn_BuscaChofer.UseVisualStyleBackColor = True
         '
@@ -1025,9 +1133,11 @@ Partial Class Liquidacion_Choferes
         '
         Me.ListV_Reportes.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ListV_Reportes.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader5, Me.ColumnHeader6, Me.ColumnHeader7, Me.ColumnHeader8})
-        Me.ListV_Reportes.Location = New System.Drawing.Point(476, 77)
+        Me.ListV_Reportes.HideSelection = False
+        Me.ListV_Reportes.Location = New System.Drawing.Point(635, 95)
+        Me.ListV_Reportes.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.ListV_Reportes.Name = "ListV_Reportes"
-        Me.ListV_Reportes.Size = New System.Drawing.Size(204, 36)
+        Me.ListV_Reportes.Size = New System.Drawing.Size(271, 43)
         Me.ListV_Reportes.TabIndex = 93
         Me.ListV_Reportes.UseCompatibleStateImageBehavior = False
         Me.ListV_Reportes.View = System.Windows.Forms.View.List
@@ -1052,9 +1162,10 @@ Partial Class Liquidacion_Choferes
         '
         Me.btn_GoReporte.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_GoReporte.Image = CType(resources.GetObject("btn_GoReporte.Image"), System.Drawing.Image)
-        Me.btn_GoReporte.Location = New System.Drawing.Point(646, 49)
+        Me.btn_GoReporte.Location = New System.Drawing.Point(861, 60)
+        Me.btn_GoReporte.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_GoReporte.Name = "btn_GoReporte"
-        Me.btn_GoReporte.Size = New System.Drawing.Size(32, 24)
+        Me.btn_GoReporte.Size = New System.Drawing.Size(43, 30)
         Me.btn_GoReporte.TabIndex = 94
         Me.btn_GoReporte.UseVisualStyleBackColor = True
         '
@@ -1063,9 +1174,10 @@ Partial Class Liquidacion_Choferes
         Me.btn_AddRepFac.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_AddRepFac.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_AddRepFac.Image = CType(resources.GetObject("btn_AddRepFac.Image"), System.Drawing.Image)
-        Me.btn_AddRepFac.Location = New System.Drawing.Point(476, 48)
+        Me.btn_AddRepFac.Location = New System.Drawing.Point(635, 59)
+        Me.btn_AddRepFac.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_AddRepFac.Name = "btn_AddRepFac"
-        Me.btn_AddRepFac.Size = New System.Drawing.Size(30, 29)
+        Me.btn_AddRepFac.Size = New System.Drawing.Size(40, 36)
         Me.btn_AddRepFac.TabIndex = 95
         Me.btn_AddRepFac.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_AddRepFac.UseVisualStyleBackColor = True
@@ -1075,18 +1187,146 @@ Partial Class Liquidacion_Choferes
         Me.btn_QuitaRepFActuras.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btn_QuitaRepFActuras.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btn_QuitaRepFActuras.Image = CType(resources.GetObject("btn_QuitaRepFActuras.Image"), System.Drawing.Image)
-        Me.btn_QuitaRepFActuras.Location = New System.Drawing.Point(505, 47)
+        Me.btn_QuitaRepFActuras.Location = New System.Drawing.Point(673, 58)
+        Me.btn_QuitaRepFActuras.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.btn_QuitaRepFActuras.Name = "btn_QuitaRepFActuras"
-        Me.btn_QuitaRepFActuras.Size = New System.Drawing.Size(31, 29)
+        Me.btn_QuitaRepFActuras.Size = New System.Drawing.Size(41, 36)
         Me.btn_QuitaRepFActuras.TabIndex = 96
         Me.btn_QuitaRepFActuras.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.btn_QuitaRepFActuras.UseVisualStyleBackColor = True
         '
+        'btn_EliminarCobrarA
+        '
+        Me.btn_EliminarCobrarA.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.btn_EliminarCobrarA.Location = New System.Drawing.Point(250, 366)
+        Me.btn_EliminarCobrarA.Margin = New System.Windows.Forms.Padding(4)
+        Me.btn_EliminarCobrarA.Name = "btn_EliminarCobrarA"
+        Me.btn_EliminarCobrarA.Size = New System.Drawing.Size(102, 30)
+        Me.btn_EliminarCobrarA.TabIndex = 115
+        Me.btn_EliminarCobrarA.Text = "Eliminar"
+        Me.btn_EliminarCobrarA.UseVisualStyleBackColor = True
+        '
+        'Btn_AgregarCobroAEmpleado
+        '
+        Me.Btn_AgregarCobroAEmpleado.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Btn_AgregarCobroAEmpleado.Location = New System.Drawing.Point(384, 366)
+        Me.Btn_AgregarCobroAEmpleado.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_AgregarCobroAEmpleado.Name = "Btn_AgregarCobroAEmpleado"
+        Me.Btn_AgregarCobroAEmpleado.Size = New System.Drawing.Size(102, 30)
+        Me.Btn_AgregarCobroAEmpleado.TabIndex = 114
+        Me.Btn_AgregarCobroAEmpleado.Text = "Agregar"
+        Me.Btn_AgregarCobroAEmpleado.UseVisualStyleBackColor = True
+        '
+        'Btn_BusarEmpleado
+        '
+        Me.Btn_BusarEmpleado.ImageAlign = System.Drawing.ContentAlignment.MiddleRight
+        Me.Btn_BusarEmpleado.Location = New System.Drawing.Point(129, 366)
+        Me.Btn_BusarEmpleado.Margin = New System.Windows.Forms.Padding(4)
+        Me.Btn_BusarEmpleado.Name = "Btn_BusarEmpleado"
+        Me.Btn_BusarEmpleado.Size = New System.Drawing.Size(102, 30)
+        Me.Btn_BusarEmpleado.TabIndex = 111
+        Me.Btn_BusarEmpleado.Text = "Nuevo"
+        Me.Btn_BusarEmpleado.UseVisualStyleBackColor = True
+        '
+        'DGV_ListaCobrarA
+        '
+        Me.DGV_ListaCobrarA.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DGV_ListaCobrarA.Location = New System.Drawing.Point(597, 167)
+        Me.DGV_ListaCobrarA.Name = "DGV_ListaCobrarA"
+        Me.DGV_ListaCobrarA.RowTemplate.Height = 24
+        Me.DGV_ListaCobrarA.Size = New System.Drawing.Size(755, 229)
+        Me.DGV_ListaCobrarA.TabIndex = 113
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label28.Location = New System.Drawing.Point(49, 167)
+        Me.Label28.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(72, 17)
+        Me.Label28.TabIndex = 112
+        Me.Label28.Text = "Cobrar A"
+        '
+        'Txtb_MontoEmpleadoCobrarA
+        '
+        Me.Txtb_MontoEmpleadoCobrarA.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Txtb_MontoEmpleadoCobrarA.BackColor = System.Drawing.Color.White
+        Me.Txtb_MontoEmpleadoCobrarA.Location = New System.Drawing.Point(128, 287)
+        Me.Txtb_MontoEmpleadoCobrarA.Margin = New System.Windows.Forms.Padding(4)
+        Me.Txtb_MontoEmpleadoCobrarA.Name = "Txtb_MontoEmpleadoCobrarA"
+        Me.Txtb_MontoEmpleadoCobrarA.Size = New System.Drawing.Size(357, 22)
+        Me.Txtb_MontoEmpleadoCobrarA.TabIndex = 109
+        '
+        'Label27
+        '
+        Me.Label27.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label27.AutoSize = True
+        Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label27.Location = New System.Drawing.Point(49, 292)
+        Me.Label27.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(47, 17)
+        Me.Label27.TabIndex = 110
+        Me.Label27.Text = "Monto"
+        '
+        'Txtb_NombreEmpleadoCobrarA
+        '
+        Me.Txtb_NombreEmpleadoCobrarA.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Txtb_NombreEmpleadoCobrarA.BackColor = System.Drawing.Color.White
+        Me.Txtb_NombreEmpleadoCobrarA.Location = New System.Drawing.Point(129, 246)
+        Me.Txtb_NombreEmpleadoCobrarA.Margin = New System.Windows.Forms.Padding(4)
+        Me.Txtb_NombreEmpleadoCobrarA.Name = "Txtb_NombreEmpleadoCobrarA"
+        Me.Txtb_NombreEmpleadoCobrarA.ReadOnly = True
+        Me.Txtb_NombreEmpleadoCobrarA.Size = New System.Drawing.Size(357, 22)
+        Me.Txtb_NombreEmpleadoCobrarA.TabIndex = 107
+        '
+        'Label26
+        '
+        Me.Label26.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label26.AutoSize = True
+        Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label26.Location = New System.Drawing.Point(49, 248)
+        Me.Label26.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(58, 17)
+        Me.Label26.TabIndex = 108
+        Me.Label26.Text = "Nombre"
+        '
+        'Txtb_CedulaEmpleadoCobrarA
+        '
+        Me.Txtb_CedulaEmpleadoCobrarA.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Txtb_CedulaEmpleadoCobrarA.BackColor = System.Drawing.Color.White
+        Me.Txtb_CedulaEmpleadoCobrarA.Location = New System.Drawing.Point(131, 204)
+        Me.Txtb_CedulaEmpleadoCobrarA.Margin = New System.Windows.Forms.Padding(4)
+        Me.Txtb_CedulaEmpleadoCobrarA.Name = "Txtb_CedulaEmpleadoCobrarA"
+        Me.Txtb_CedulaEmpleadoCobrarA.ReadOnly = True
+        Me.Txtb_CedulaEmpleadoCobrarA.Size = New System.Drawing.Size(357, 22)
+        Me.Txtb_CedulaEmpleadoCobrarA.TabIndex = 105
+        '
+        'Label25
+        '
+        Me.Label25.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Label25.AutoSize = True
+        Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label25.Location = New System.Drawing.Point(49, 206)
+        Me.Label25.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(56, 17)
+        Me.Label25.TabIndex = 106
+        Me.Label25.Text = "Cedula "
+        '
         'Liquidacion_Choferes
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1038, 604)
+        Me.ClientSize = New System.Drawing.Size(1381, 735)
         Me.Controls.Add(Me.btn_AddRepFac)
         Me.Controls.Add(Me.btn_QuitaRepFActuras)
         Me.Controls.Add(Me.btn_GoReporte)
@@ -1129,8 +1369,9 @@ Partial Class Liquidacion_Choferes
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.txtb_Consecutivo)
         Me.Controls.Add(Me.Label1)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(1054, 644)
+        Me.MaximumSize = New System.Drawing.Size(1399, 782)
         Me.Name = "Liquidacion_Choferes"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Liquidacion"
@@ -1150,6 +1391,7 @@ Partial Class Liquidacion_Choferes
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.DGV_ListaCobrarA, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -1246,5 +1488,15 @@ Partial Class Liquidacion_Choferes
     Friend WithEvents btn_GoReporte As System.Windows.Forms.Button
     Friend WithEvents btn_AddRepFac As System.Windows.Forms.Button
     Friend WithEvents btn_QuitaRepFActuras As System.Windows.Forms.Button
-
+    Friend WithEvents btn_EliminarCobrarA As Button
+    Friend WithEvents Btn_AgregarCobroAEmpleado As Button
+    Friend WithEvents Btn_BusarEmpleado As Button
+    Friend WithEvents DGV_ListaCobrarA As DataGridView
+    Friend WithEvents Label28 As Label
+    Friend WithEvents Txtb_MontoEmpleadoCobrarA As TextBox
+    Friend WithEvents Label27 As Label
+    Friend WithEvents Txtb_NombreEmpleadoCobrarA As TextBox
+    Friend WithEvents Label26 As Label
+    Friend WithEvents Txtb_CedulaEmpleadoCobrarA As TextBox
+    Friend WithEvents Label25 As Label
 End Class

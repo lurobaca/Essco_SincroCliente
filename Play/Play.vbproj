@@ -291,9 +291,14 @@
     <Compile Include="Admin_MotivosDevolucion.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Class\AsientosContables.vb" />
+    <Compile Include="Class\Planilla\ArchivoTXT.vb" />
+    <Compile Include="Class\Planilla\ClassPlanilla.vb" />
     <Compile Include="Class\Class_CorreoMicrosoft.vb" />
+    <Compile Include="Class\Planilla\EstructuraTxTBanco.vb" />
     <Compile Include="Class\InforComputadora.vb" />
     <Compile Include="Class\QR_CODE.vb" />
+    <Compile Include="Class\Planilla\Resultados.vb" />
     <Compile Include="Class\Simple3Des.vb" />
     <Compile Include="Class\TipoCambio.vb" />
     <Compile Include="Class\ValidaConexion.vb" />
@@ -304,6 +309,10 @@
     <Compile Include="ClientesDocumentosExoneracion.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="DTO\DTO_Asientos.vb" />
+    <Compile Include="DTO\DTO_Planilla.vb" />
+    <Compile Include="DTO\DTO_ReciboDinero.vb" />
+    <Compile Include="DTO\PlanillaEmpleadoViewModel.vb" />
     <Compile Include="frmReportes.Designer.vb">
       <DependentUpon>frmReportes.vb</DependentUpon>
     </Compile>
@@ -340,6 +349,7 @@
     <Compile Include="Lista_Facturas.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="LogicaNegocio\PlanillaBL.vb" />
     <Compile Include="MantenimientoLicencias.Designer.vb">
       <DependentUpon>MantenimientoLicencias.vb</DependentUpon>
     </Compile>
@@ -364,6 +374,90 @@
     <Compile Include="Pedido_VerDatosNube.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PlanillaAsignaEmpleadoARuta.Designer.vb">
+      <DependentUpon>PlanillaAsignaEmpleadoARuta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PlanillaAsignaEmpleadoARuta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlanillaConfiguraciones.Designer.vb">
+      <DependentUpon>PlanillaConfiguraciones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PlanillaConfiguraciones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlanillaDesgloseDeRenta.Designer.vb">
+      <DependentUpon>PlanillaDesgloseDeRenta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PlanillaDesgloseDeRenta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlanillaEmpleado_HistorialAbonosVales.Designer.vb">
+      <DependentUpon>PlanillaEmpleado_HistorialAbonosVales.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PlanillaEmpleado_HistorialAbonosVales.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PlanillaNueva.Designer.vb">
+      <DependentUpon>PlanillaNueva.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PlanillaNueva.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_AplicarAumento.Designer.vb">
+      <DependentUpon>Planilla_AplicarAumento.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_AplicarAumento.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_DetalleCCSS.Designer.vb">
+      <DependentUpon>Planilla_DetalleCCSS.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_DetalleCCSS.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_DetalleDeducciones.Designer.vb">
+      <DependentUpon>Planilla_DetalleDeducciones.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_DetalleDeducciones.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_DetalleFacturas.Designer.vb">
+      <DependentUpon>Planilla_DetalleFacturas.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_DetalleFacturas.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_DetalleFaltantesLiquidacion.Designer.vb">
+      <DependentUpon>Planilla_DetalleFaltantesLiquidacion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_DetalleFaltantesLiquidacion.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_DetalleIncapacidades.Designer.vb">
+      <DependentUpon>Planilla_DetalleIncapacidades.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_DetalleIncapacidades.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_DetalleRenta.Designer.vb">
+      <DependentUpon>Planilla_DetalleRenta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_DetalleRenta.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_DetalleValesPrestamos.Designer.vb">
+      <DependentUpon>Planilla_DetalleValesPrestamos.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_DetalleValesPrestamos.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Planilla_Finalizar.Designer.vb">
+      <DependentUpon>Planilla_Finalizar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Planilla_Finalizar.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="RecibosDeDinero.Designer.vb">
       <DependentUpon>RecibosDeDinero.vb</DependentUpon>
     </Compile>
@@ -375,6 +469,12 @@
     </Compile>
     <Compile Include="RecibosDeDinero_MedioPago.vb">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reportes\ColillaDePagoResumenPlanilla..vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ColillaDePagoResumenPlanilla..rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reportes\EtiquetasUbicacionesVertica.vb">
       <AutoGen>True</AutoGen>
@@ -434,6 +534,24 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OrdenDeCompra.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\PlanillaFinal.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PlanillaFinal.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\SolicitudVacaciones.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SolicitudVacaciones.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reportes\ValesPrestamos.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ValesPrestamos.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Stock_Categorizaciones.Designer.vb">
@@ -500,12 +618,6 @@
       <DependentUpon>AgregaDescuento.vb</DependentUpon>
     </Compile>
     <Compile Include="AgregaDescuento.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AplicarAumento.Designer.vb">
-      <DependentUpon>AplicarAumento.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AplicarAumento.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Articulos.Designer.vb">
@@ -1376,11 +1488,57 @@
     <EmbeddedResource Include="Pedido_VerDatosNube.resx">
       <DependentUpon>Pedido_VerDatosNube.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PlanillaAsignaEmpleadoARuta.resx">
+      <DependentUpon>PlanillaAsignaEmpleadoARuta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlanillaConfiguraciones.resx">
+      <DependentUpon>PlanillaConfiguraciones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlanillaDesgloseDeRenta.resx">
+      <DependentUpon>PlanillaDesgloseDeRenta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlanillaEmpleado_HistorialAbonosVales.resx">
+      <DependentUpon>PlanillaEmpleado_HistorialAbonosVales.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PlanillaNueva.resx">
+      <DependentUpon>PlanillaNueva.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_AplicarAumento.resx">
+      <DependentUpon>Planilla_AplicarAumento.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_DetalleCCSS.resx">
+      <DependentUpon>Planilla_DetalleCCSS.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_DetalleDeducciones.resx">
+      <DependentUpon>Planilla_DetalleDeducciones.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_DetalleFacturas.resx">
+      <DependentUpon>Planilla_DetalleFacturas.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_DetalleFaltantesLiquidacion.resx">
+      <DependentUpon>Planilla_DetalleFaltantesLiquidacion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_DetalleIncapacidades.resx">
+      <DependentUpon>Planilla_DetalleIncapacidades.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_DetalleRenta.resx">
+      <DependentUpon>Planilla_DetalleRenta.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_DetalleValesPrestamos.resx">
+      <DependentUpon>Planilla_DetalleValesPrestamos.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Planilla_Finalizar.resx">
+      <DependentUpon>Planilla_Finalizar.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RecibosDeDinero.resx">
       <DependentUpon>RecibosDeDinero.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RecibosDeDinero_MedioPago.resx">
       <DependentUpon>RecibosDeDinero_MedioPago.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ColillaDePagoResumenPlanilla..rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ColillaDePagoResumenPlanilla..vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\EtiquetasUbicacionesVertica.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
@@ -1422,6 +1580,18 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>OrdenDeCompra.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\PlanillaFinal.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>PlanillaFinal.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\SolicitudVacaciones.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>SolicitudVacaciones.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reportes\ValesPrestamos.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>ValesPrestamos.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Stock_Categorizaciones.resx">
       <DependentUpon>Stock_Categorizaciones.vb</DependentUpon>
     </EmbeddedResource>
@@ -1454,9 +1624,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AgregaDescuento.resx">
       <DependentUpon>AgregaDescuento.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AplicarAumento.resx">
-      <DependentUpon>AplicarAumento.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Articulos.resx">
       <DependentUpon>Articulos.vb</DependentUpon>

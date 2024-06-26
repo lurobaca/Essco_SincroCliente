@@ -13,8 +13,8 @@
     Private Sub Button2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button2.Click
 
         If Class_VariablesGlobales.Obj_Funciones_SQL.VerificaDuplicadoDeduccionFija(Txb_Cedula.Text, Cbx_Tipo.Text, Class_VariablesGlobales.SQL_Comman2) = False Then
-            Class_VariablesGlobales.Obj_Funciones_SQL.GuardaDeduccionFija(Txb_Cedula.Text, txtb_Nombre.Text, Cbx_Tipo.Text, CDbl(Txtb_Monto.Text), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(DTP_FechaLimite.Value.Date), ChkB_Hasta.Checked, True, Class_VariablesGlobales.SQL_Comman2)
-            DGV_Deducciones.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.CONSULTA_Deducciones(Txb_Cedula.Text, Class_VariablesGlobales.SQL_Comman2)
+            'Class_VariablesGlobales.Obj_Funciones_SQL.GuardaDeduccionFija(Txb_Cedula.Text, txtb_Nombre.Text, Cbx_Tipo.Text, CDbl(Txtb_Monto.Text), Class_VariablesGlobales.Obj_Fecha.FormatoFechaSql(DTP_FechaLimite.Value.Date), ChkB_Hasta.Checked, True, Class_VariablesGlobales.SQL_Comman2)
+            'DGV_Deducciones.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.CONSULTA_Deducciones(Txb_Cedula.Text, Class_VariablesGlobales.SQL_Comman2)
             Limpiar()
         Else
             MsgBox("ERROR ,El Gastos fijo ya existe")
@@ -51,7 +51,7 @@
                 Class_VariablesGlobales.frmDeduccionesAcreditaciones.PictureBox1.Image = Image.FromFile(" C:\Program Files (x86)\ESSCO\SINCRO\Planilla_Imagenes\SinFoto.png")
             End If
         Next
-        DGV_Deducciones.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.CONSULTA_Deducciones(Txb_Cedula.Text, Class_VariablesGlobales.SQL_Comman2)
+        'DGV_Deducciones.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.CONSULTA_Deducciones(Txb_Cedula.Text, Class_VariablesGlobales.SQL_Comman2)
 
         Limpiar()
     End Function
@@ -73,8 +73,8 @@
     End Sub
 
     Private Sub Button4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button4.Click
-        Class_VariablesGlobales.Obj_Funciones_SQL.ELIMINA_Deducciones(Txb_Cedula.Text, Cbx_Tipo.Text, Class_VariablesGlobales.SQL_Comman2)
-        DGV_Deducciones.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.CONSULTA_Deducciones(Txb_Cedula.Text, Class_VariablesGlobales.SQL_Comman2)
+        'Class_VariablesGlobales.Obj_Funciones_SQL.ELIMINA_Deducciones(Txb_Cedula.Text, Cbx_Tipo.Text, Class_VariablesGlobales.SQL_Comman2)
+        'DGV_Deducciones.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.CONSULTA_Deducciones(Txb_Cedula.Text, Class_VariablesGlobales.SQL_Comman2)
         Limpiar()
     End Sub
 

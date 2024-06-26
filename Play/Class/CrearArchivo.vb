@@ -1,5 +1,7 @@
 ﻿Imports System.IO ' esta a al principio de todo nuestro codigo
 Imports System.Data.SqlClient
+Imports SincroCliente.DTO_Planilla
+Imports SincroCliente.EstructuraTxTBanco
 Public Class CrearArchivo
 
     Dim Obj_SQL_CONEXIONSERVER As New Class_funcionesSQL
@@ -2568,5 +2570,148 @@ Public Class CrearArchivo
     End Function
 #End Region
 
+#Region "CREAR PLANILLA"
+
+    ''' <summary>
+    ''' Permite crear en la carpeta de Mis Documentos de windows en la carpet Planilla , todos los txt que se mandaran al banco
+    ''' </summary>
+    ''' <param name="carpeta"></param>
+    ''' <param name="Datos"></param>
+    ''' <returns></returns>
+    Public Function Crear_PlanillaTxt(IdPlanilla As String, Datos As DocPlanilla)
+        Try
+            Dim sRenglon As String = Nothing
+            Dim strStreamW As Stream = Nothing
+            Dim strStreamWriter As StreamWriter = Nothing
+            Dim ContenidoArchivo As String = Nothing
+
+            Dim i As Integer
+
+            Dim cont As Integer = 0
+            Dim Linea As String = ""
+
+            ' Directorio base (carpeta de "Documentos")
+            Dim documentosDir As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            ' Nombre de la carpeta que quieres crear
+            Dim carpetaPlanillas As String = documentosDir & "\Planillas\" & IdPlanilla
+
+
+            If Not Directory.Exists(carpetaPlanillas) Then ' si no existe la carpeta se crea
+                Directory.CreateDirectory(carpetaPlanillas)
+            End If
+
+            ' Crear un archivo dentro de la carpeta "Planillas"
+            Dim PathArchivo As String = Path.Combine(carpetaPlanillas, "Planilla_" & IdPlanilla & ".txt")
+
+            'verificamos si existe el archivo
+            If File.Exists(PathArchivo) Then
+                strStreamW = File.Open(PathArchivo, FileMode.Open) 'Abrimos el archivo
+            Else
+                strStreamW = File.Create(PathArchivo) ' lo creamos
+            End If
+
+            strStreamWriter = New StreamWriter(strStreamW, System.Text.Encoding.Default) ' tipo de codificacion para escritura
+
+
+            'HD|31026887891.1|20220322|16101000100264957|CRC|593376376.14|781|780|1
+            Linea = Datos.Fila1.Encabezado & "|" & Datos.Fila1.CedulaEmpresa & "1" & "|" & Datos.Fila1.FechaAplicacion & "|" & Datos.Fila1.CuentaClientePatron & "|" & Datos.Fila1.MonedaDebitar & "||" & Datos.Fila1.MontoTotalDebitoCredito & "|" & Datos.Fila1.CantidadTotalMovimientosSitema & "|" & Datos.Fila1.CantidadTotalCreditos & "|" & Datos.Fila1.CantidadTotalDebitos
+            strStreamWriter.WriteLine(Linea)
+            Linea = ""
+
+            'DA|16101000100264957||||296688188.07||||544||EMPRESAPRUEBA|||||||||||EMPRESA PRUEBA|||3102688789|31026887891.1.1443753||
+            Linea = Datos.Fila2.Encabezado & "|" & Datos.Fila2.CuentaClientePatrono & "||||" & Datos.Fila2.CodigoInvariable & "||" & Datos.Fila2.NombreEmpresa & "|||||||||||" & Datos.Fila2.NombreEmpresa & "|||" & Datos.Fila2.CedulaEmpresa & "|" & Datos.Fila2.CRRBILLINGCUSTOMER + "||"
+            strStreamWriter.WriteLine(Linea)
+
+            For Each fila3 As DTO_Planilla.Fila3 In Datos.listaFila3
+                'DA|0000798709||||152978.03||||545||GERARDO MURILLO MONTERO|||||||PAGO DE SALARIO||||GERARDO MURILLO MONTERO|||205240893|31012005751.1.1420324||
+                Linea = fila3.Encabezado & "|" & fila3.CuentaClienteColaborador & "||||" & fila3.MontoAcreditarSalario & "||||" & fila3.CodigoInvariable & "||" &
+                        fila3.NombreColaborador & "|||||||" & fila3.DescripcionPago & "||||" & fila3.NombreColaborador & "|||" & fila3.CedulaColaborador & "|" & fila3.CRRBILLINGCUSTOMER & "||"
+                strStreamWriter.WriteLine(Linea)
+                Linea = ""
+
+                cont += 1
+            Next
+
+
+            '  DetalleCarga = "FIN DE GENERANDO ARCHIVO "
+            strStreamWriter.Close() ' cerramos
+            'INICIO DE LIBERIACION DE MEMORIA
+            sRenglon = Nothing
+            strStreamW.Dispose()
+            strStreamW = Nothing
+            strStreamWriter.Dispose()
+            strStreamWriter = Nothing
+            ContenidoArchivo = Nothing
+            PathArchivo = Nothing
+            i = Nothing
+            Linea = Nothing
+
+        Catch ex As Exception
+            MsgBox("ERROR Crear_PlanillaTxt [ " & ex.Message & " ]")
+        End Try
+        Return 0
+
+    End Function
+
+    Public Function Crear_PlanillaTxt2()
+        Try
+            Dim strStreamW As Stream = Nothing
+            Dim strStreamWriter As StreamWriter = Nothing
+
+            Dim empresa As New Empresa With {
+            .Cedula = Class_VariablesGlobales.frmPlanilla.Txt_CedJuridica.Text,
+            .FechaAplicacion = Now.Date.ToString(),
+            .CuentaCliente = Class_VariablesGlobales.frmPlanilla.TxtBox_CuentaDeducirPlanilla.Text.Substring(5),
+            .Moneda = "CRC",
+            .MontoDebito = Class_VariablesGlobales.frmPlanilla.txtb_TotalPlanilla.Text,
+            .TotalMovimientos = Class_VariablesGlobales.frmPlanilla.DTGV_Planilla.Rows.Count + 1,
+            .TotalCreditos = Class_VariablesGlobales.frmPlanilla.DTGV_Planilla.Rows.Count,
+            .TotalDebito = 1,
+            .Nombre = Class_VariablesGlobales.frmPlanilla.Txt_NombreEmpresa.Text
+        }
+
+            ' Obtener movimientos desde el DataGridView
+            Dim movimientos As List(Of Movimiento) = ArchivoTXT.ObtenerMovimientosDesdeDataGridView(Class_VariablesGlobales.frmPlanilla.DTGV_Planilla)
+
+            ' Crear objeto Transaccion
+            Dim transaccion As New Transaccion With {
+            .empresa = empresa,
+            .movimientos = movimientos,
+            .Convenio = 1
+        }
+
+            ' Directorio base (carpeta de "Documentos")
+            Dim documentosDir As String = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+
+            ' Nombre de la carpeta que quieres crear
+            Dim carpetaPlanillas As String = documentosDir & "\Planillas\" & Class_VariablesGlobales.frmPlanilla.Txb_id_Planilla.Text
+
+            If Not Directory.Exists(carpetaPlanillas) Then ' si no existe la carpeta se crea
+                Directory.CreateDirectory(carpetaPlanillas)
+            End If
+
+            ' Crear un archivo dentro de la carpeta "Planillas"
+            Dim PathArchivo As String = Path.Combine(carpetaPlanillas, "Planilla_" & Class_VariablesGlobales.frmPlanilla.Txb_id_Planilla.Text & ".txt")
+
+            'verificamos si existe el archivo
+            'If File.Exists(PathArchivo) Then
+            '    strStreamW = File.Open(PathArchivo, FileMode.Open) 'Abrimos el archivo
+            'Else
+            '    strStreamW = File.Create(PathArchivo) ' lo creamos
+            'End If
+
+            'strStreamWriter = New StreamWriter(strStreamW, System.Text.Encoding.Default) ' tipo de codificacion para escritura
+
+            ArchivoTXT.GenerarArchivo(transaccion, PathArchivo)
+
+            Return True
+
+        Catch ex As Exception
+            Return False
+
+        End Try
+    End Function
+#End Region
 
 End Class

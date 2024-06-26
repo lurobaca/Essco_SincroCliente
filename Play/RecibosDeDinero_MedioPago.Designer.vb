@@ -30,6 +30,7 @@ Partial Class RecibosDeDinero_MedioPago
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Txtb_CuentaContableEfectivo = New System.Windows.Forms.TextBox()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.Btn_BuscarCuentaCheque = New System.Windows.Forms.Button()
         Me.Label6 = New System.Windows.Forms.Label()
         Me.Txtb_BancoCheque = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
@@ -39,8 +40,8 @@ Partial Class RecibosDeDinero_MedioPago
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Txtb_CuentaContableCheque = New System.Windows.Forms.TextBox()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.Btn_BuscarCuentaTranferencia = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.Label9 = New System.Windows.Forms.Label()
@@ -48,8 +49,7 @@ Partial Class RecibosDeDinero_MedioPago
         Me.Label10 = New System.Windows.Forms.Label()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.btn_AceptarMetodoPago = New System.Windows.Forms.Button()
-        Me.Btn_BuscarCuentaCheque = New System.Windows.Forms.Button()
-        Me.Btn_BuscarCuentaTranferencia = New System.Windows.Forms.Button()
+        Me.CBox_BancoTranferencia = New System.Windows.Forms.ComboBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -147,6 +147,16 @@ Partial Class RecibosDeDinero_MedioPago
         Me.TabPage2.Text = "Cheque"
         Me.TabPage2.UseVisualStyleBackColor = True
         '
+        'Btn_BuscarCuentaCheque
+        '
+        Me.Btn_BuscarCuentaCheque.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_BuscarCuentaCheque.Location = New System.Drawing.Point(406, 19)
+        Me.Btn_BuscarCuentaCheque.Name = "Btn_BuscarCuentaCheque"
+        Me.Btn_BuscarCuentaCheque.Size = New System.Drawing.Size(75, 34)
+        Me.Btn_BuscarCuentaCheque.TabIndex = 13
+        Me.Btn_BuscarCuentaCheque.Text = "Buscar"
+        Me.Btn_BuscarCuentaCheque.UseVisualStyleBackColor = True
+        '
         'Label6
         '
         Me.Label6.AutoSize = True
@@ -221,9 +231,9 @@ Partial Class RecibosDeDinero_MedioPago
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.CBox_BancoTranferencia)
         Me.TabPage3.Controls.Add(Me.Btn_BuscarCuentaTranferencia)
         Me.TabPage3.Controls.Add(Me.Label7)
-        Me.TabPage3.Controls.Add(Me.TextBox1)
         Me.TabPage3.Controls.Add(Me.Label8)
         Me.TabPage3.Controls.Add(Me.TextBox2)
         Me.TabPage3.Controls.Add(Me.Label9)
@@ -237,6 +247,16 @@ Partial Class RecibosDeDinero_MedioPago
         Me.TabPage3.Text = "Tranferencia"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'Btn_BuscarCuentaTranferencia
+        '
+        Me.Btn_BuscarCuentaTranferencia.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_BuscarCuentaTranferencia.Location = New System.Drawing.Point(442, 15)
+        Me.Btn_BuscarCuentaTranferencia.Name = "Btn_BuscarCuentaTranferencia"
+        Me.Btn_BuscarCuentaTranferencia.Size = New System.Drawing.Size(75, 34)
+        Me.Btn_BuscarCuentaTranferencia.TabIndex = 21
+        Me.Btn_BuscarCuentaTranferencia.Text = "Buscar"
+        Me.Btn_BuscarCuentaTranferencia.UseVisualStyleBackColor = True
+        '
         'Label7
         '
         Me.Label7.AutoSize = True
@@ -246,14 +266,6 @@ Partial Class RecibosDeDinero_MedioPago
         Me.Label7.Size = New System.Drawing.Size(156, 20)
         Me.Label7.TabIndex = 20
         Me.Label7.Text = "Banco Tranferencia"
-        '
-        'TextBox1
-        '
-        Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(204, 181)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(220, 27)
-        Me.TextBox1.TabIndex = 19
         '
         'Label8
         '
@@ -319,25 +331,13 @@ Partial Class RecibosDeDinero_MedioPago
         Me.btn_AceptarMetodoPago.Text = "Aceptar"
         Me.btn_AceptarMetodoPago.UseVisualStyleBackColor = True
         '
-        'Btn_BuscarCuentaCheque
+        'CBox_BancoTranferencia
         '
-        Me.Btn_BuscarCuentaCheque.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_BuscarCuentaCheque.Location = New System.Drawing.Point(406, 19)
-        Me.Btn_BuscarCuentaCheque.Name = "Btn_BuscarCuentaCheque"
-        Me.Btn_BuscarCuentaCheque.Size = New System.Drawing.Size(75, 34)
-        Me.Btn_BuscarCuentaCheque.TabIndex = 13
-        Me.Btn_BuscarCuentaCheque.Text = "Buscar"
-        Me.Btn_BuscarCuentaCheque.UseVisualStyleBackColor = True
-        '
-        'Btn_BuscarCuentaTranferencia
-        '
-        Me.Btn_BuscarCuentaTranferencia.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Btn_BuscarCuentaTranferencia.Location = New System.Drawing.Point(442, 15)
-        Me.Btn_BuscarCuentaTranferencia.Name = "Btn_BuscarCuentaTranferencia"
-        Me.Btn_BuscarCuentaTranferencia.Size = New System.Drawing.Size(75, 34)
-        Me.Btn_BuscarCuentaTranferencia.TabIndex = 21
-        Me.Btn_BuscarCuentaTranferencia.Text = "Buscar"
-        Me.Btn_BuscarCuentaTranferencia.UseVisualStyleBackColor = True
+        Me.CBox_BancoTranferencia.FormattingEnabled = True
+        Me.CBox_BancoTranferencia.Location = New System.Drawing.Point(204, 184)
+        Me.CBox_BancoTranferencia.Name = "CBox_BancoTranferencia"
+        Me.CBox_BancoTranferencia.Size = New System.Drawing.Size(220, 24)
+        Me.CBox_BancoTranferencia.TabIndex = 22
         '
         'RecibosDeDinero_MedioPago
         '
@@ -378,7 +378,6 @@ Partial Class RecibosDeDinero_MedioPago
     Friend WithEvents Label5 As Label
     Friend WithEvents Txtb_NumeroCheque As TextBox
     Friend WithEvents Label7 As Label
-    Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label8 As Label
     Friend WithEvents TextBox2 As TextBox
     Friend WithEvents Label9 As Label
@@ -388,4 +387,5 @@ Partial Class RecibosDeDinero_MedioPago
     Friend WithEvents btn_AceptarMetodoPago As Button
     Friend WithEvents Btn_BuscarCuentaCheque As Button
     Friend WithEvents Btn_BuscarCuentaTranferencia As Button
+    Friend WithEvents CBox_BancoTranferencia As ComboBox
 End Class

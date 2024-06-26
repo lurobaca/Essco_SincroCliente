@@ -73,7 +73,11 @@ Public Class ReporteDeDevoluciones
                                             "E-mail: lurobaca@gmail.com" & vbCrLf & _
                                             "Tel: 8880-1662" & vbCrLf
 
-                    Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte de Devoluciones [ " & Trim(Txtb_Desde.Text) & "," & Trim(Txtb_Hasta.Text) & " ]", "", "", "", "", "")
+                    ' Crear una lista de destinatarios de correo electrónico
+                    Dim destinatarios As New List(Of String)()
+                    ' Agregar destinatarios a la lista
+                    destinatarios.Add("bodeguerosbourne@gmail.com")
+                    Class_VariablesGlobales.Obj_MAIL.EnviarCorreo(mensaje, "Nuevo Reporte de Devoluciones [ " & Trim(Txtb_Desde.Text) & "," & Trim(Txtb_Hasta.Text) & " ]", "", destinatarios)
 
                     'SEGUNDO GENERAMOS UN ARCHIVO CON EL INVENTARIO ACTUAL
                     'Dim table As New DataTable
