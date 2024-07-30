@@ -780,6 +780,24 @@
             Admin_ClientesDocumentosExoneracion.DTP_ExoFechaEmision.Text = filaSeleccionada.Cells("FechaEmision").Value.ToString()
             Admin_ClientesDocumentosExoneracion.DTP_ExoFechaVencimiento.Text = filaSeleccionada.Cells("FechaVencimiento").Value.ToString()
             Admin_ClientesDocumentosExoneracion.txtb_ExoPorcentajeCompra.Text = filaSeleccionada.Cells("PorcentajeCompra").Value.ToString()
+            Dim Estado As Integer = filaSeleccionada.Cells("Estado").Value.ToString()
+
+            If Estado = 1 Then
+                Admin_ClientesDocumentosExoneracion.btn_Desagregar.Enabled = False
+                Admin_ClientesDocumentosExoneracion.Btn_Eliminar.Enabled = False
+                Admin_ClientesDocumentosExoneracion.btn_Guardar.Enabled = False
+                Admin_ClientesDocumentosExoneracion.btn_Agregar.Enabled = False
+                Admin_ClientesDocumentosExoneracion.btn_Desagregar.Enabled = False
+                Admin_ClientesDocumentosExoneracion.Lbl_Estado.Visible = True
+            Else
+
+                Admin_ClientesDocumentosExoneracion.btn_Desagregar.Enabled = True
+                Admin_ClientesDocumentosExoneracion.Btn_Eliminar.Enabled = True
+                Admin_ClientesDocumentosExoneracion.btn_Guardar.Enabled = True
+                Admin_ClientesDocumentosExoneracion.btn_Agregar.Enabled = True
+                Admin_ClientesDocumentosExoneracion.btn_Desagregar.Enabled = True
+                Admin_ClientesDocumentosExoneracion.Lbl_Estado.Visible = False
+            End If
 
             Dim Id_TipoDocumentoExoneracion As Integer
 
@@ -793,8 +811,7 @@
 
 
             Admin_ClientesDocumentosExoneracion.DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(Admin_ClientesDocumentosExoneracion.txtb_idDocExoneracion.Text)
-            Admin_ClientesDocumentosExoneracion.btn_Agregar.Enabled = True
-            Admin_ClientesDocumentosExoneracion.btn_Desagregar.Enabled = True
+
             Admin_ClientesDocumentosExoneracion.MdiParent = Principal
             Admin_ClientesDocumentosExoneracion.Show()
         End If

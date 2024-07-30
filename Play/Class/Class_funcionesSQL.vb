@@ -13361,7 +13361,7 @@ Public Class Class_funcionesSQL
             Consulta = "SELECT t0.[PorcentajeCompra]
                         FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[DocumentosExoneracionDeClientes] T0
                         inner join " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].ClientesCabysExentos T1  on T0.[CodCliente]=T1.[CardCode] 
-                        where T0.[CodCliente]='" & CardCode & "' and t1.CodCabys='" & CodCabys & "' AND GETDATE() <=T0.[FechaVencimiento]"
+                        where T0.[Estado]='0' and T1.[Estado]='0' and T0.[CodCliente]='" & CardCode & "' and t1.CodCabys='" & CodCabys & "' AND GETDATE() <=T0.[FechaVencimiento]"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -13421,7 +13421,7 @@ Public Class Class_funcionesSQL
             SQL_Comman = Conectar()
             Consulta = ""
 
-            Consulta = "SELECT id,CodCliente,TipoDocumento,ExoNumero,NombreInstitucion,FechaEmision,FechaVencimiento,PorcentajeCompra from  [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[DocumentosExoneracionDeClientes]  WHERE CodCliente = '" & CodCliente & "'"
+            Consulta = "SELECT id,CodCliente,TipoDocumento,ExoNumero,NombreInstitucion,FechaEmision,FechaVencimiento,PorcentajeCompra,Estado from  [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[DocumentosExoneracionDeClientes]  WHERE CodCliente = '" & CodCliente & "' ORDER BY Estado asc"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
@@ -13438,10 +13438,10 @@ Public Class Class_funcionesSQL
             SQL_Comman = Conectar()
             Consulta = ""
 
-            If Cabys = Nothing Then
-                Consulta = "DELETE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos]  WHERE IdDocExonerado = '" & IdDocExonerado & "'"
+            If Cabys Is Nothing Then
+                Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos] SET Estado = 1 WHERE IdDocExonerado = '" & IdDocExonerado & "'"
             Else
-                Consulta = "DELETE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos]  WHERE IdDocExonerado = '" & IdDocExonerado & "' AND CodCabys = '" & Cabys & "'"
+                Consulta = "DELETE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesCabysExentos] WHERE IdDocExonerado = '" & IdDocExonerado & "' AND CodCabys = '" & Cabys & "'"
             End If
 
             SQL_Comman.CommandText = Consulta
@@ -13452,13 +13452,14 @@ Public Class Class_funcionesSQL
         End Try
     End Function
 
+
     Public Function EliminaDocumentosExoneracionDeClientes(ByVal IdDocExoneracion As String)
         Dim Consulta As String
         Try
             Dim SQL_Comman As New SqlCommand
             SQL_Comman = Conectar()
             Consulta = ""
-            Consulta = "DELETE  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[DocumentosExoneracionDeClientes]  WHERE id = '" & IdDocExoneracion & "'"
+            Consulta = "UPDATE " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[DocumentosExoneracionDeClientes] SET Estado = 1 WHERE id = '" & IdDocExoneracion & "'"
             SQL_Comman.CommandText = Consulta
             SQL_Comman.ExecuteNonQuery()
             SQL_Comman = Nothing
@@ -13466,6 +13467,7 @@ Public Class Class_funcionesSQL
             MessageBox.Show("ERROR EN EliminaDocumentosExoneracionDeClientes [" & ex.Message & "]")
         End Try
     End Function
+
 
     Public Function GuardaDocumentosExoneracionDeClientes(ByVal id As String,
                                                           ByVal CodCliente As String,

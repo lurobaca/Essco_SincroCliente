@@ -327,5 +327,7 @@ Public Class Articulos
         organizar()
     End Sub
 
+    Private Sub Dgv_Articulos_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles Dgv_Articulos.CellContentClick
 
+    End Sub
 End Class

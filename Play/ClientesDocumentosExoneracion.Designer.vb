@@ -49,6 +49,7 @@ Partial Class ClientesDocumentosExoneracion
         Me.Label1 = New System.Windows.Forms.Label()
         Me.txtb_idDocExoneracion = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
+        Me.Lbl_Estado = New System.Windows.Forms.Label()
         CType(Me.DGV_ListaCabysExentos, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -254,7 +255,7 @@ Partial Class ClientesDocumentosExoneracion
         Me.Btn_Eliminar.Name = "Btn_Eliminar"
         Me.Btn_Eliminar.Size = New System.Drawing.Size(125, 52)
         Me.Btn_Eliminar.TabIndex = 130
-        Me.Btn_Eliminar.Text = "Eliminar"
+        Me.Btn_Eliminar.Text = "Inactivar"
         Me.Btn_Eliminar.UseVisualStyleBackColor = True
         '
         'btn_Desagregar
@@ -321,11 +322,25 @@ Partial Class ClientesDocumentosExoneracion
         Me.Label2.Text = "Id"
         Me.Label2.Visible = False
         '
+        'Lbl_Estado
+        '
+        Me.Lbl_Estado.AutoSize = True
+        Me.Lbl_Estado.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Lbl_Estado.ForeColor = System.Drawing.Color.Red
+        Me.Lbl_Estado.Location = New System.Drawing.Point(236, 528)
+        Me.Lbl_Estado.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Lbl_Estado.Name = "Lbl_Estado"
+        Me.Lbl_Estado.Size = New System.Drawing.Size(133, 29)
+        Me.Lbl_Estado.TabIndex = 137
+        Me.Lbl_Estado.Text = "INACTIVO"
+        Me.Lbl_Estado.Visible = False
+        '
         'ClientesDocumentosExoneracion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(600, 584)
+        Me.Controls.Add(Me.Lbl_Estado)
         Me.Controls.Add(Me.txtb_idDocExoneracion)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.txtb_Codigo)
@@ -389,4 +404,5 @@ Partial Class ClientesDocumentosExoneracion
     Friend WithEvents Label1 As Label
     Friend WithEvents txtb_idDocExoneracion As TextBox
     Friend WithEvents Label2 As Label
+    Friend WithEvents Lbl_Estado As Label
 End Class

@@ -94,7 +94,7 @@
     End Function
 
     Private Sub Btn_Eliminar_Click(sender As Object, e As EventArgs) Handles Btn_Eliminar.Click
-        Dim result1 As DialogResult = MessageBox.Show("Si eliminar el documento de exoneracion a la hora de facturar no se le aplicara la exoneracion correspondiente " & vbCrLf & " Esta seguro que desea eliminar el documento de exoneracion?",
+        Dim result1 As DialogResult = MessageBox.Show("Si Inactiva el documento de exoneracion a la hora de facturar no se le aplicara la exoneracion correspondiente " & vbCrLf & " Esta seguro que desea eliminar el documento de exoneracion?",
       "Important Question",
       MessageBoxButtons.YesNo)
 
@@ -114,7 +114,7 @@
             txtb_ExoPorcentajeCompra.Text = ""
             btn_Agregar.Enabled = False
             btn_Desagregar.Enabled = False
-            MsgBox("Documento de exoneracion eliminado con exito")
+            MsgBox("Documento de exoneracion inactivado con exito")
 
         End If
         If result1 = DialogResult.No Then
