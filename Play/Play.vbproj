@@ -309,6 +309,12 @@
     <Compile Include="ClientesDocumentosExoneracion.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ClientesEstadoCuenta.Designer.vb">
+      <DependentUpon>ClientesEstadoCuenta.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ClientesEstadoCuenta.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DTO\DTO_Asientos.vb" />
     <Compile Include="DTO\DTO_Planilla.vb" />
     <Compile Include="DTO\DTO_ReciboDinero.vb" />
@@ -1457,6 +1463,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ClientesDocumentosExoneracion.resx">
       <DependentUpon>ClientesDocumentosExoneracion.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClientesEstadoCuenta.resx">
+      <DependentUpon>ClientesEstadoCuenta.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmReportes.resx">
       <DependentUpon>frmReportes.vb</DependentUpon>

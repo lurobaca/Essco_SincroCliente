@@ -93,7 +93,7 @@
         Class_VariablesGlobales.ClientesLlamadoDesde = "Admin_ClientesModificados"
 
         Class_VariablesGlobales.frmLista_ClientesModificados = New Lista_ClientesModificados
-        Class_VariablesGlobales.frmLista_ClientesModificados.MdiParent = Principal
+        Class_VariablesGlobales.frmLista_ClientesModificados.MdiParent = Class_VariablesGlobales.frmPrincipal
 
         Class_VariablesGlobales.frmLista_ClientesModificados.Show()
 
@@ -464,7 +464,7 @@
                 EXO_PorcentajeCompra = "0"
 
 
-                    Dim Guardar As Boolean
+                Dim Guardar As Boolean
 
                 If txtb_Consecutivo.Enabled = True Then
                     Guardar = True
@@ -760,7 +760,7 @@
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         Class_VariablesGlobales.frmAdmin_ClientesDocumentosExoneracion = New ClientesDocumentosExoneracion
-        Class_VariablesGlobales.frmAdmin_ClientesDocumentosExoneracion.MdiParent = Principal
+        Class_VariablesGlobales.frmAdmin_ClientesDocumentosExoneracion.MdiParent = Class_VariablesGlobales.frmPrincipal
         Class_VariablesGlobales.frmAdmin_ClientesDocumentosExoneracion.Show()
 
 
@@ -812,10 +812,17 @@
 
             Admin_ClientesDocumentosExoneracion.DGV_ListaCabysExentos.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneCabysExcento(Admin_ClientesDocumentosExoneracion.txtb_idDocExoneracion.Text)
 
-            Admin_ClientesDocumentosExoneracion.MdiParent = Principal
+            Admin_ClientesDocumentosExoneracion.MdiParent = Class_VariablesGlobales.frmPrincipal
             Admin_ClientesDocumentosExoneracion.Show()
         End If
 
+    End Sub
+
+    Private Sub Btn_SaldoCuenta_Click(sender As Object, e As EventArgs) Handles Btn_SaldoCuenta.Click
+
+        Class_VariablesGlobales.frmAdmin_ClientesEstadoCuenta = New ClientesEstadoCuenta
+        Class_VariablesGlobales.frmAdmin_ClientesEstadoCuenta.MdiParent = Class_VariablesGlobales.frmPrincipal
+        Class_VariablesGlobales.frmAdmin_ClientesEstadoCuenta.Show()
     End Sub
 
     Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click

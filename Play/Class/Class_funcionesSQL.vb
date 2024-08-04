@@ -4774,6 +4774,43 @@ Public Class Class_funcionesSQL
         End Try
         Return 0
     End Function
+
+    Public Function ObtieneEstadoCuenta(ByVal SQL_Comman As SqlCommand, ByVal FechaIni As String, ByVal FechaFin As String, ByVal Estado As String)
+        Try
+
+            Dim ADATER As New SqlDataAdapter
+            Dim TABLA As New DataTable
+            Dim Consulta As String = ""
+            Dim Condiciones As String = "where Anulado ='0' and [DocDate] >='" & FechaIni & "' and [DocDate] <='" & FechaFin & "' "
+
+            If Estado.Equals("Todos") Then
+                Condiciones = Condiciones
+            End If
+
+            If Estado.Equals("Pendientes") Then
+                Condiciones = Condiciones & " and DocSaldo > 0"
+            End If
+
+            If Estado.Equals("Cancelados") Then
+                Condiciones = Condiciones & " and DocSaldo = 0"
+            End If
+
+            Consulta = "SELECT [DocType],[DocNum],[Clave],[Consecutivo],[DocDate]   
+                      ,[Receptor_Nombre],[DocTotal],[DocSubTotal],[DocTotalImpuesto]
+                      ,[DocSaldo],[CodigoMoneda],[TipoCambio]  
+                      ,[Exoneracion_MontoImpuesto]
+                  FROM [" & Class_VariablesGlobales.XMLParamSQL_dababase & "].[dbo].[CE_FE] " & Condiciones
+
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+            Return TABLA
+        Catch ex As Exception
+            Return 0
+        End Try
+    End Function
+
+
     Public Function ObtieneSaldoCuenta(ByVal SQL_Comman As SqlCommand, ByVal CardCode As String, ByVal Tipo As String)
         Try
             ' Dim SQL_Comman As New SqlCommand
@@ -4784,7 +4821,10 @@ Public Class Class_funcionesSQL
             Dim Consulta As String = ""
             Dim Balance As Integer
             If Tipo = "Interno" Then
-                Consulta = "Select T0.Saldo as Balance FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesModificados] T0 WHERE T0.[CardCode] ='" & CardCode & "'"
+                Consulta = "SELECT SUM([DocSaldo]) as Balance FROM " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[CE_FE]
+                            WHERE Receptor_Numero='" & CardCode & "' and  [DocSaldo]>0 and [Anulado]='0' GROUP BY Receptor_Numero"
+
+                'Consulta = "Select T0.Saldo as Balance FROM  " & Class_VariablesGlobales.XMLParamSQL_dababase & ".[dbo].[ClientesModificados] T0 WHERE T0.[CardCode] ='" & CardCode & "'"
             Else
                 Consulta = "Select T0.Balance FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".[dbo].OCRD T0 WHERE T0.[CardCode] ='" & CardCode & "'"
             End If

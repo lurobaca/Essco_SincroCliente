@@ -1,4 +1,6 @@
-﻿Public Class Lista_ClientesModificados
+﻿Imports System.Globalization
+
+Public Class Lista_ClientesModificados
     Public Obj_SQL_CONEXIONSERVER As New Class_funcionesSQL
     Private Sub Lista_ClientesModificados_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
@@ -96,13 +98,7 @@
 
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.lbl_Estado.Visible = True
 
-                Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Saldo.Text = Obj_SQL_CONEXIONSERVER.ObtieneSaldoCuenta(Class_VariablesGlobales.SQL_Comman2, Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Codigo.Text, CBX_Estado.Text)
 
-                If Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Saldo.Text <> "" And Class_VariablesGlobales.frmAdmin_ClientesModificados.lbl_Estado.Text = "Cerrar" Then
-                    Class_VariablesGlobales.frmAdmin_ClientesModificados.btn_Actualizar.Enabled = False
-                Else
-
-                End If
                 If Class_VariablesGlobales.frmAdmin_ClientesModificados.lbl_Estado.Text = "Cerrar" Then
                     Class_VariablesGlobales.frmAdmin_ClientesModificados.btn_Actualizar.Text = "Cerrar Cliente en SAP"
                 End If
@@ -204,6 +200,27 @@
                     Id_TipoDocumentoExoneracion = -1
                 End If
 
+                Dim SaldoDecimal As String
+                ' Convertir el texto a un valor numérico
+                Dim numero As Decimal
+
+                SaldoDecimal = Obj_SQL_CONEXIONSERVER.ObtieneSaldoCuenta(Class_VariablesGlobales.SQL_Comman2, Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Cedula.Text, CBX_Estado.Text)
+
+                If Decimal.TryParse(SaldoDecimal, NumberStyles.Number, CultureInfo.InvariantCulture, numero) Then
+                    ' Convertir el número a formato de moneda
+                    Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Saldo.Text = numero.ToString("C", CultureInfo.CurrentCulture)
+
+                Else
+
+                End If
+
+
+
+                If Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Saldo.Text <> "" And Class_VariablesGlobales.frmAdmin_ClientesModificados.lbl_Estado.Text = "Cerrar" Then
+                    Class_VariablesGlobales.frmAdmin_ClientesModificados.btn_Actualizar.Enabled = False
+                Else
+
+                End If
 
                 Class_VariablesGlobales.frmAdmin_ClientesModificados.DGV_DocumentosExoneracion.DataSource = Obj_SQL_CONEXIONSERVER.ObtieneDocumentosExoneracionDeClientes(Class_VariablesGlobales.frmAdmin_ClientesModificados.txtb_Codigo.Text)
 

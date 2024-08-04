@@ -831,7 +831,6 @@ Partial Class Admin_Clientes
         Me.Btn_SaldoCuenta.Size = New System.Drawing.Size(36, 33)
         Me.Btn_SaldoCuenta.TabIndex = 96
         Me.Btn_SaldoCuenta.UseVisualStyleBackColor = False
-        Me.Btn_SaldoCuenta.Visible = False
         '
         'Admin_Clientes
         '
