@@ -593,7 +593,7 @@
         Dim LineaMont_ImpNeto As Double
         Dim LineaMont_Desc As Double
 
-        Dim Obj_Mformat As New MonedaFormat
+
 
         Dim TotalGravado As Double
         Dim TotalExento As Double
@@ -664,17 +664,17 @@
         Next
 
         'Asignacion de totales generales
-        txtb_SubTotal.Text = Obj_Mformat.FormatoMoneda(TotalSubtotal)
-        txtb_TotalDescuento.Text = Obj_Mformat.FormatoMoneda(TotalMont_Desc)
-        txtb_TotalImpuestoNeto.Text = Obj_Mformat.FormatoMoneda(TotalMont_Imp)
-        txtb_TotalImpuestoExonerado.Text = Obj_Mformat.FormatoMoneda(TotalMont_ImpExonerado)
-        txtb_TotalImpuestoNeto.Text = Obj_Mformat.FormatoMoneda(TotalMont_ImpNeto)
+        txtb_SubTotal.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalSubtotal)
+        txtb_TotalDescuento.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalMont_Desc)
+        txtb_TotalImpuestoNeto.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalMont_Imp)
+        txtb_TotalImpuestoExonerado.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalMont_ImpExonerado)
+        txtb_TotalImpuestoNeto.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalMont_ImpNeto)
 
-        txtb_TotalDocumento.Text = Obj_Mformat.FormatoMoneda(TotalTotal)
-        txtb_TotalSaldo.Text = Obj_Mformat.FormatoMoneda(TotalTotal)
+        txtb_TotalDocumento.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalTotal)
+        txtb_TotalSaldo.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalTotal)
 
-        txtb_TotalGravado.Text = Obj_Mformat.FormatoMoneda(TotalGravado)
-        txtb_TotalExento.Text = Obj_Mformat.FormatoMoneda(TotalExento)
+        txtb_TotalGravado.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalGravado)
+        txtb_TotalExento.Text = Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(TotalExento)
 
         'Limpieza de memroia
         LineaCantidad = Nothing

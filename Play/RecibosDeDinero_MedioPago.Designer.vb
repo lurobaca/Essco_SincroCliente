@@ -40,6 +40,7 @@ Partial Class RecibosDeDinero_MedioPago
         Me.Label4 = New System.Windows.Forms.Label()
         Me.Txtb_CuentaContableCheque = New System.Windows.Forms.TextBox()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.CBox_BancoTranferencia = New System.Windows.Forms.ComboBox()
         Me.Btn_BuscarCuentaTranferencia = New System.Windows.Forms.Button()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
@@ -49,7 +50,6 @@ Partial Class RecibosDeDinero_MedioPago
         Me.Label10 = New System.Windows.Forms.Label()
         Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.btn_AceptarMetodoPago = New System.Windows.Forms.Button()
-        Me.CBox_BancoTranferencia = New System.Windows.Forms.ComboBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -247,6 +247,14 @@ Partial Class RecibosDeDinero_MedioPago
         Me.TabPage3.Text = "Tranferencia"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'CBox_BancoTranferencia
+        '
+        Me.CBox_BancoTranferencia.FormattingEnabled = True
+        Me.CBox_BancoTranferencia.Location = New System.Drawing.Point(204, 184)
+        Me.CBox_BancoTranferencia.Name = "CBox_BancoTranferencia"
+        Me.CBox_BancoTranferencia.Size = New System.Drawing.Size(220, 24)
+        Me.CBox_BancoTranferencia.TabIndex = 22
+        '
         'Btn_BuscarCuentaTranferencia
         '
         Me.Btn_BuscarCuentaTranferencia.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -330,14 +338,6 @@ Partial Class RecibosDeDinero_MedioPago
         Me.btn_AceptarMetodoPago.TabIndex = 5
         Me.btn_AceptarMetodoPago.Text = "Aceptar"
         Me.btn_AceptarMetodoPago.UseVisualStyleBackColor = True
-        '
-        'CBox_BancoTranferencia
-        '
-        Me.CBox_BancoTranferencia.FormattingEnabled = True
-        Me.CBox_BancoTranferencia.Location = New System.Drawing.Point(204, 184)
-        Me.CBox_BancoTranferencia.Name = "CBox_BancoTranferencia"
-        Me.CBox_BancoTranferencia.Size = New System.Drawing.Size(220, 24)
-        Me.CBox_BancoTranferencia.TabIndex = 22
         '
         'RecibosDeDinero_MedioPago
         '

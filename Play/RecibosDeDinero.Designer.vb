@@ -455,7 +455,7 @@ Partial Class RecibosDeDinero
         Me.btn_Pagar.Name = "btn_Pagar"
         Me.btn_Pagar.Size = New System.Drawing.Size(152, 50)
         Me.btn_Pagar.TabIndex = 168
-        Me.btn_Pagar.Text = "Pagar"
+        Me.btn_Pagar.Text = "Metodo de Pagar"
         Me.btn_Pagar.UseVisualStyleBackColor = True
         '
         'RecibosDeDinero

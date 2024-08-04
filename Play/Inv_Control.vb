@@ -2,7 +2,7 @@
 Imports System.Threading
 
 Public Class Inv_Control
-    Public Obj_Mformat As New MonedaFormat
+    'Public Obj_Mformat As New MonedaFormat
     Public Obj_ExpExcell As ExportarAExcell = New ExportarAExcell
     Private trd1 As Thread
 
@@ -744,11 +744,11 @@ Public Class Inv_Control
             End If
 
 
-            Txtb_Entradas.Text = CStr(Obj_Mformat.FormatoMoneda(Txtb_Entradas.Text))
-            Txtb_Salidas.Text = CStr(Obj_Mformat.FormatoMoneda(Txtb_Salidas.Text))
-            Txtb_Desajuste.Text = CStr(Obj_Mformat.FormatoMoneda(CDbl(Txtb_Entradas.Text) + CDbl(Txtb_Salidas.Text)))
-            txtb_InvFinal.Text = CStr(Obj_Mformat.FormatoMoneda(( CDbl(txtb_Inicial.Text) + ( CDbl(Txtb_Entradas.Text) +  CDbl(Txtb_Salidas.Text)))))
-            txtb_Inicial.Text = CStr(Obj_Mformat.FormatoMoneda((txtb_Inicial.Text)))
+            Txtb_Entradas.Text = CStr(Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(Txtb_Entradas.Text))
+            Txtb_Salidas.Text = CStr(Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(Txtb_Salidas.Text))
+            Txtb_Desajuste.Text = CStr(Class_VariablesGlobales.Obj_Mformat.FormatoMoneda(CDbl(Txtb_Entradas.Text) + CDbl(Txtb_Salidas.Text)))
+            txtb_InvFinal.Text = CStr(Class_VariablesGlobales.Obj_Mformat.FormatoMoneda((CDbl(txtb_Inicial.Text) + (CDbl(Txtb_Entradas.Text) + CDbl(Txtb_Salidas.Text)))))
+            txtb_Inicial.Text = CStr(Class_VariablesGlobales.Obj_Mformat.FormatoMoneda((txtb_Inicial.Text)))
 
             'Cbx_Rutas = Class_VariablesGlobales.Obj_Funciones_SQL.FacturaComentario(False, txb_Numero.Text, Factura, Comentario)
             'Comentario = Nothing

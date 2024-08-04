@@ -7,7 +7,7 @@ Public Class Class_VariablesGlobales
     Public Shared RoxIndexDGV As New Hashtable
 
     Public Shared obj_Validaconexion As New ValidaConexion
-
+    Public Shared Obj_Mformat As New MonedaFormat
     Public Shared obj_SAP As New SAP_BUSSINES_ONE
        Public Shared oCompany As New SAPbobsCOM.Company ' si se genera una exepcion puede ser pro que el proyecto no esta complando en x86 posiblementeeste en AnyCPU en la propiedades del proyecto
 

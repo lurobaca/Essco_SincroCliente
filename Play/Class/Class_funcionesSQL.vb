@@ -15323,7 +15323,7 @@ group by T2.Nombre"
             Dim TABLA As New DataTable
             Dim ADATER As New SqlDataAdapter
 
-            Dim Consulta As String = "SELECT [DocNum],[DocSubTotal],[DocTotalImpuesto],[DocTotal],[DocSaldo] FROM [dbo].[CE_FE] where [Receptor_Numero]='" + Cedula + "' and [DocSaldo]>0"
+            Dim Consulta As String = "SELECT [DocNum],[DocDate],[DocSubTotal],[DocTotalImpuesto],[DocTotal],[DocSaldo] FROM [dbo].[CE_FE] where [Receptor_Numero]='" + Cedula + "' and [DocSaldo]>0"
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
             ADATER.Fill(TABLA)
