@@ -403,79 +403,79 @@ Public Class Planilla_Finalizar
     Public Function ObtieneFacturasYContruyeEstructuraDeReciboDeDinero(ByRef ObjResultados As Resultados)
         Try
 
-            Dim TblFactura As New DataTable
+            'Dim TblFactura As New DataTable
 
-            Dim BackupCardCode As String = ""
-            Dim CrearEnSap As Boolean = False
-            Dim CashSum As Double = 0
-            Dim CardCode As String = ""
-            Dim DocNum As String = ""
-            Dim DocDate As String = ""
-            Dim Id_Planilla As String = ""
+            'Dim BackupCardCode As String = ""
+            'Dim CrearEnSap As Boolean = False
+            'Dim CashSum As Double = 0
+            'Dim CardCode As String = ""
+            'Dim DocNum As String = ""
+            'Dim DocDate As String = ""
+            'Dim Id_Planilla As String = ""
 
-            ProgBar_EnvioPlanilla.Value = 0
-            ProgBar_EnvioPlanilla.Maximum = Class_VariablesGlobales.frmPlanilla.DTGV_Planilla.Rows.Count
-            Lbl_Fin.Text = Class_VariablesGlobales.frmPlanilla.DTGV_Planilla.Rows.Count
-            Dim cont As Integer = 0
+            'ProgBar_EnvioPlanilla.Value = 0
+            'ProgBar_EnvioPlanilla.Maximum = Class_VariablesGlobales.frmPlanilla.DTGV_Planilla.Rows.Count
+            'Lbl_Fin.Text = Class_VariablesGlobales.frmPlanilla.DTGV_Planilla.Rows.Count
+            'Dim cont As Integer = 0
 
-            'Recorre los empleados y a cada uno busca las facturas a cancelar
-            For Each row As DataGridViewRow In Class_VariablesGlobales.frmPlanilla.DTGV_Planilla.Rows
-                Lbl_Inicio.Text = cont
-                ProgBar_EnvioPlanilla.Value = cont
-                Lbl_Empleado.Text = row.Cells.Item("Nombre").Value().ToString()
-                cont += 1
-                CashSum = 0
-                Dim ObjReciboDinero As New DTO_ReciboDinero.ReciboDinero()
-                TblFactura = (Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneFacturasACancelarXEmpleado(Class_VariablesGlobales.frmPlanilla.Txb_id_Planilla.Text, Trim(row.Cells.Item("Codigo").Value), row.Cells.Item("Cedula").Value().ToString(), Class_VariablesGlobales.SQL_Comman2))
-                ' Verificar si TblFactura tiene datos
-                If TblFactura IsNot Nothing AndAlso TblFactura.Rows.Count > 0 Then
+            ''Recorre los empleados y a cada uno busca las facturas a cancelar
+            'For Each row As DataGridViewRow In Class_VariablesGlobales.frmPlanilla.DTGV_Planilla.Rows
+            '    Lbl_Inicio.Text = cont
+            '    ProgBar_EnvioPlanilla.Value = cont
+            '    Lbl_Empleado.Text = row.Cells.Item("Nombre").Value().ToString()
+            '    cont += 1
+            '    CashSum = 0
+            '    Dim ObjReciboDinero As New DTO_ReciboDinero.ReciboDinero()
+            '    TblFactura = (Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneFacturasACancelarXEmpleado(Class_VariablesGlobales.frmPlanilla.Txb_id_Planilla.Text, Trim(row.Cells.Item("Codigo").Value), row.Cells.Item("Cedula").Value().ToString(), Class_VariablesGlobales.SQL_Comman2))
+            '    ' Verificar si TblFactura tiene datos
+            '    If TblFactura IsNot Nothing AndAlso TblFactura.Rows.Count > 0 Then
 
-                    'Recorre las facturas para agregarlas al recibo del empleado
-                    For Each rowFacturas As DataRow In TblFactura.Rows
+            '        'Recorre las facturas para agregarlas al recibo del empleado
+            '        For Each rowFacturas As DataRow In TblFactura.Rows
 
-                        ' Crear instancias de objetos DetalleRecibo y agregarlos a la lista Detalle
-                        Dim detalle As New DTO_ReciboDinero.DetalleRecibo()
-                        detalle.DocNum = rowFacturas("DocNum").ToString()
-                        detalle.NumFac = rowFacturas("DocNum").ToString()
-                        detalle.DocEntry = rowFacturas("DocEntry").ToString()
-                        detalle.SumApplied = rowFacturas("DocSaldo").ToString()
-                        detalle.TransferSum = "0"
-                        detalle.CashSum = rowFacturas("DocSaldo").ToString()
-                        detalle.CheckNumber = "0"
-                        detalle.CheckSum = "0"
-                        detalle.BankCodeCheque = ""
-                        detalle.BankCodeTranferencia = ""
-                        detalle.PostFechaCheque = ""
-                        ObjReciboDinero.Detalle.Add(detalle)
+            '            ' Crear instancias de objetos DetalleRecibo y agregarlos a la lista Detalle
+            '            Dim detalle As New DTO_ReciboDinero.DetalleRecibo()
+            '            detalle.DocNum = rowFacturas("DocNum").ToString()
+            '            detalle.NumFac = rowFacturas("DocNum").ToString()
+            '            detalle.DocEntry = rowFacturas("DocEntry").ToString()
+            '            detalle.SumApplied = rowFacturas("DocSaldo").ToString()
+            '            detalle.TransferSum = "0"
+            '            detalle.CashSum = rowFacturas("DocSaldo").ToString()
+            '            detalle.CheckNumber = "0"
+            '            detalle.CheckSum = "0"
+            '            detalle.BankCodeCheque = ""
+            '            detalle.BankCodeTranferencia = ""
+            '            detalle.PostFechaCheque = ""
+            '            ObjReciboDinero.Detalle.Add(detalle)
 
-                        CashSum = CashSum + CDbl(rowFacturas("DocSaldo").ToString())
+            '            CashSum = CashSum + CDbl(rowFacturas("DocSaldo").ToString())
 
-                    Next
+            '        Next
 
-                    ObjReciboDinero.Encabezado.CardCode = Trim(row.Cells.Item("Codigo").Value())
-                    ObjReciboDinero.Encabezado.CashSum = CashSum
-                    ObjReciboDinero.Encabezado.SalesPersonCode = "01"
-                    ObjReciboDinero.Encabezado.IdPlanilla = Class_VariablesGlobales.frmPlanilla.Txb_id_Planilla.Text.Trim()
-                    'inserta el ultimo recibo creado
+            '        ObjReciboDinero.Encabezado.CardCode = Trim(row.Cells.Item("Codigo").Value())
+            '        ObjReciboDinero.Encabezado.CashSum = CashSum
+            '        ObjReciboDinero.Encabezado.SalesPersonCode = "01"
+            '        ObjReciboDinero.Encabezado.IdPlanilla = Class_VariablesGlobales.frmPlanilla.Txb_id_Planilla.Text.Trim()
+            '        'inserta el ultimo recibo creado
 
-                    Class_VariablesGlobales.obj_SAP.InsertarPago(ObjReciboDinero, ObjResultados)
+            '        Class_VariablesGlobales.obj_SAP.InsertarPago(ObjReciboDinero, ObjResultados)
 
-                End If
+            '    End If
 
-            Next
+            'Next
 
-            Lbl_Inicio.Text = 0
-            ProgBar_EnvioPlanilla.Value = 0
-            Lbl_Empleado.Text = ""
-            ProgBar_EnvioPlanilla.Maximum = 0
+            'Lbl_Inicio.Text = 0
+            'ProgBar_EnvioPlanilla.Value = 0
+            'Lbl_Empleado.Text = ""
+            'ProgBar_EnvioPlanilla.Maximum = 0
 
-            If ObjResultados.ListaMensajesSap.Any(Function(mensaje) mensaje.Estado = "ERROR") Then
-                ' La lista contiene al menos un mensaje con el estado "Exito"
-                Return False
-            Else
-                ' La lista no contiene mensajes con el estado "Exito"
-                Return True
-            End If
+            'If ObjResultados.ListaMensajesSap.Any(Function(mensaje) mensaje.Estado = "ERROR") Then
+            '    ' La lista contiene al menos un mensaje con el estado "Exito"
+            '    Return False
+            'Else
+            '    ' La lista no contiene mensajes con el estado "Exito"
+            '    Return True
+            'End If
 
         Catch ex As Exception
             Return False

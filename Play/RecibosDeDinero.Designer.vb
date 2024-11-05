@@ -43,22 +43,44 @@ Partial Class RecibosDeDinero
         Me.btn_buscar = New System.Windows.Forms.Button()
         Me.btn_Anular = New System.Windows.Forms.Button()
         Me.btn_guardar = New System.Windows.Forms.Button()
-        Me.txtb_TotalImpuestoExonerado = New System.Windows.Forms.TextBox()
-        Me.Label32 = New System.Windows.Forms.Label()
         Me.txtb_TotalDocumento = New System.Windows.Forms.TextBox()
         Me.Label14 = New System.Windows.Forms.Label()
-        Me.txtb_SubTotal = New System.Windows.Forms.TextBox()
-        Me.Label13 = New System.Windows.Forms.Label()
-        Me.txtb_TotalExento = New System.Windows.Forms.TextBox()
-        Me.Label9 = New System.Windows.Forms.Label()
-        Me.txtb_TotalGravado = New System.Windows.Forms.TextBox()
-        Me.Label10 = New System.Windows.Forms.Label()
-        Me.txtb_TotalDescuento = New System.Windows.Forms.TextBox()
-        Me.Label11 = New System.Windows.Forms.Label()
-        Me.txtb_TotalImpuestoNeto = New System.Windows.Forms.TextBox()
-        Me.Label12 = New System.Windows.Forms.Label()
-        Me.btn_Pagar = New System.Windows.Forms.Button()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Txtb_MontoEfectivo = New System.Windows.Forms.TextBox()
+        Me.Btn_BuscarCuentaEfectivo = New System.Windows.Forms.Button()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Txtb_CuentaContableEfectivo = New System.Windows.Forms.TextBox()
+        Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.CBox_BancoCheque = New System.Windows.Forms.ComboBox()
+        Me.Btn_BuscarCuentaCheque = New System.Windows.Forms.Button()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Txtb_NumeroCheque = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Txtb_MontoCheque = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Txtb_CuentaContableCheque = New System.Windows.Forms.TextBox()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.CBox_BancoTranferencia = New System.Windows.Forms.ComboBox()
+        Me.Btn_BuscarCuentaTranferencia = New System.Windows.Forms.Button()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.ComboBox1 = New System.Windows.Forms.ComboBox()
         CType(Me.DGV_DetalleFactura, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabControl1.SuspendLayout()
+        Me.TabPage4.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
+        Me.TabPage3.SuspendLayout()
         Me.SuspendLayout()
         '
         'CBox_TipoCed
@@ -226,10 +248,10 @@ Partial Class RecibosDeDinero
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DGV_DetalleFactura.BackgroundColor = System.Drawing.SystemColors.ButtonHighlight
         Me.DGV_DetalleFactura.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DGV_DetalleFactura.Location = New System.Drawing.Point(27, 171)
+        Me.DGV_DetalleFactura.Location = New System.Drawing.Point(4, 4)
         Me.DGV_DetalleFactura.Margin = New System.Windows.Forms.Padding(4)
         Me.DGV_DetalleFactura.Name = "DGV_DetalleFactura"
-        Me.DGV_DetalleFactura.Size = New System.Drawing.Size(1276, 255)
+        Me.DGV_DetalleFactura.Size = New System.Drawing.Size(1261, 224)
         Me.DGV_DetalleFactura.TabIndex = 148
         '
         'txtb_Comentarios
@@ -292,36 +314,14 @@ Partial Class RecibosDeDinero
         Me.btn_guardar.Text = "Crear"
         Me.btn_guardar.UseVisualStyleBackColor = True
         '
-        'txtb_TotalImpuestoExonerado
-        '
-        Me.txtb_TotalImpuestoExonerado.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtb_TotalImpuestoExonerado.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalImpuestoExonerado.Location = New System.Drawing.Point(1113, 549)
-        Me.txtb_TotalImpuestoExonerado.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_TotalImpuestoExonerado.Name = "txtb_TotalImpuestoExonerado"
-        Me.txtb_TotalImpuestoExonerado.Size = New System.Drawing.Size(193, 26)
-        Me.txtb_TotalImpuestoExonerado.TabIndex = 167
-        '
-        'Label32
-        '
-        Me.Label32.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label32.AutoSize = True
-        Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label32.Location = New System.Drawing.Point(930, 555)
-        Me.Label32.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(161, 20)
-        Me.Label32.TabIndex = 166
-        Me.Label32.Text = "Total IVA Exonerado"
-        '
         'txtb_TotalDocumento
         '
         Me.txtb_TotalDocumento.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtb_TotalDocumento.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalDocumento.Location = New System.Drawing.Point(1113, 609)
+        Me.txtb_TotalDocumento.Location = New System.Drawing.Point(1098, 545)
         Me.txtb_TotalDocumento.Margin = New System.Windows.Forms.Padding(4)
         Me.txtb_TotalDocumento.Name = "txtb_TotalDocumento"
-        Me.txtb_TotalDocumento.Size = New System.Drawing.Size(193, 26)
+        Me.txtb_TotalDocumento.Size = New System.Drawing.Size(198, 26)
         Me.txtb_TotalDocumento.TabIndex = 165
         '
         'Label14
@@ -329,161 +329,333 @@ Partial Class RecibosDeDinero
         Me.Label14.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label14.AutoSize = True
         Me.Label14.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label14.Location = New System.Drawing.Point(932, 612)
+        Me.Label14.Location = New System.Drawing.Point(902, 548)
         Me.Label14.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label14.Name = "Label14"
         Me.Label14.Size = New System.Drawing.Size(46, 20)
         Me.Label14.TabIndex = 164
         Me.Label14.Text = "Total"
         '
-        'txtb_SubTotal
+        'TabControl1
         '
-        Me.txtb_SubTotal.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtb_SubTotal.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_SubTotal.Location = New System.Drawing.Point(1112, 434)
-        Me.txtb_SubTotal.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_SubTotal.Name = "txtb_SubTotal"
-        Me.txtb_SubTotal.Size = New System.Drawing.Size(193, 26)
-        Me.txtb_SubTotal.TabIndex = 163
+        Me.TabControl1.Controls.Add(Me.TabPage4)
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage2)
+        Me.TabControl1.Controls.Add(Me.TabPage3)
+        Me.TabControl1.Location = New System.Drawing.Point(27, 166)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(1277, 261)
+        Me.TabControl1.TabIndex = 169
         '
-        'Label13
+        'TabPage4
         '
-        Me.Label13.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label13.AutoSize = True
-        Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(927, 436)
-        Me.Label13.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(75, 20)
-        Me.Label13.TabIndex = 162
-        Me.Label13.Text = "SubTotal"
+        Me.TabPage4.Controls.Add(Me.DGV_DetalleFactura)
+        Me.TabPage4.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(1269, 232)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "Documentos"
+        Me.TabPage4.UseVisualStyleBackColor = True
         '
-        'txtb_TotalExento
+        'TabPage1
         '
-        Me.txtb_TotalExento.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtb_TotalExento.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalExento.Location = New System.Drawing.Point(1112, 520)
-        Me.txtb_TotalExento.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_TotalExento.Name = "txtb_TotalExento"
-        Me.txtb_TotalExento.Size = New System.Drawing.Size(193, 26)
-        Me.txtb_TotalExento.TabIndex = 161
+        Me.TabPage1.Controls.Add(Me.Label2)
+        Me.TabPage1.Controls.Add(Me.Txtb_MontoEfectivo)
+        Me.TabPage1.Controls.Add(Me.Btn_BuscarCuentaEfectivo)
+        Me.TabPage1.Controls.Add(Me.Label6)
+        Me.TabPage1.Controls.Add(Me.Txtb_CuentaContableEfectivo)
+        Me.TabPage1.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1.Name = "TabPage1"
+        Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1.Size = New System.Drawing.Size(1269, 232)
+        Me.TabPage1.TabIndex = 0
+        Me.TabPage1.Text = "Efectivo"
+        Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'Label9
+        'Label2
         '
-        Me.Label9.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label9.AutoSize = True
-        Me.Label9.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label9.Location = New System.Drawing.Point(927, 526)
-        Me.Label9.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(133, 20)
-        Me.Label9.TabIndex = 160
-        Me.Label9.Text = "Total IVA Exento"
+        Me.Label2.AutoSize = True
+        Me.Label2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label2.Location = New System.Drawing.Point(6, 73)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(120, 20)
+        Me.Label2.TabIndex = 4
+        Me.Label2.Text = "Monto Efectivo"
         '
-        'txtb_TotalGravado
+        'Txtb_MontoEfectivo
         '
-        Me.txtb_TotalGravado.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtb_TotalGravado.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalGravado.Location = New System.Drawing.Point(1112, 491)
-        Me.txtb_TotalGravado.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_TotalGravado.Name = "txtb_TotalGravado"
-        Me.txtb_TotalGravado.Size = New System.Drawing.Size(193, 26)
-        Me.txtb_TotalGravado.TabIndex = 159
+        Me.Txtb_MontoEfectivo.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txtb_MontoEfectivo.Location = New System.Drawing.Point(156, 70)
+        Me.Txtb_MontoEfectivo.Name = "Txtb_MontoEfectivo"
+        Me.Txtb_MontoEfectivo.Size = New System.Drawing.Size(220, 27)
+        Me.Txtb_MontoEfectivo.TabIndex = 3
         '
-        'Label10
+        'Btn_BuscarCuentaEfectivo
         '
-        Me.Label10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label10.AutoSize = True
-        Me.Label10.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label10.Location = New System.Drawing.Point(927, 494)
-        Me.Label10.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(114, 20)
-        Me.Label10.TabIndex = 158
-        Me.Label10.Text = "Total Gravado"
+        Me.Btn_BuscarCuentaEfectivo.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_BuscarCuentaEfectivo.Location = New System.Drawing.Point(393, 17)
+        Me.Btn_BuscarCuentaEfectivo.Name = "Btn_BuscarCuentaEfectivo"
+        Me.Btn_BuscarCuentaEfectivo.Size = New System.Drawing.Size(75, 34)
+        Me.Btn_BuscarCuentaEfectivo.TabIndex = 2
+        Me.Btn_BuscarCuentaEfectivo.Text = "Buscar"
+        Me.Btn_BuscarCuentaEfectivo.UseVisualStyleBackColor = True
         '
-        'txtb_TotalDescuento
+        'Label6
         '
-        Me.txtb_TotalDescuento.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtb_TotalDescuento.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalDescuento.Location = New System.Drawing.Point(1112, 462)
-        Me.txtb_TotalDescuento.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_TotalDescuento.Name = "txtb_TotalDescuento"
-        Me.txtb_TotalDescuento.Size = New System.Drawing.Size(193, 26)
-        Me.txtb_TotalDescuento.TabIndex = 157
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(6, 24)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(133, 20)
+        Me.Label6.TabIndex = 1
+        Me.Label6.Text = "Cuenta Contable"
         '
-        'Label11
+        'Txtb_CuentaContableEfectivo
         '
-        Me.Label11.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label11.AutoSize = True
-        Me.Label11.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label11.Location = New System.Drawing.Point(929, 465)
-        Me.Label11.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(141, 20)
-        Me.Label11.TabIndex = 156
-        Me.Label11.Text = "Monto Descuento"
+        Me.Txtb_CuentaContableEfectivo.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txtb_CuentaContableEfectivo.Location = New System.Drawing.Point(156, 21)
+        Me.Txtb_CuentaContableEfectivo.Name = "Txtb_CuentaContableEfectivo"
+        Me.Txtb_CuentaContableEfectivo.Size = New System.Drawing.Size(220, 27)
+        Me.Txtb_CuentaContableEfectivo.TabIndex = 0
         '
-        'txtb_TotalImpuestoNeto
+        'TabPage2
         '
-        Me.txtb_TotalImpuestoNeto.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtb_TotalImpuestoNeto.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtb_TotalImpuestoNeto.Location = New System.Drawing.Point(1113, 578)
-        Me.txtb_TotalImpuestoNeto.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtb_TotalImpuestoNeto.Name = "txtb_TotalImpuestoNeto"
-        Me.txtb_TotalImpuestoNeto.Size = New System.Drawing.Size(193, 26)
-        Me.txtb_TotalImpuestoNeto.TabIndex = 155
+        Me.TabPage2.Controls.Add(Me.CBox_BancoCheque)
+        Me.TabPage2.Controls.Add(Me.Btn_BuscarCuentaCheque)
+        Me.TabPage2.Controls.Add(Me.Label7)
+        Me.TabPage2.Controls.Add(Me.Label8)
+        Me.TabPage2.Controls.Add(Me.Txtb_NumeroCheque)
+        Me.TabPage2.Controls.Add(Me.Label16)
+        Me.TabPage2.Controls.Add(Me.Txtb_MontoCheque)
+        Me.TabPage2.Controls.Add(Me.Label17)
+        Me.TabPage2.Controls.Add(Me.Txtb_CuentaContableCheque)
+        Me.TabPage2.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2.Name = "TabPage2"
+        Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2.Size = New System.Drawing.Size(1269, 243)
+        Me.TabPage2.TabIndex = 1
+        Me.TabPage2.Text = "Cheque"
+        Me.TabPage2.UseVisualStyleBackColor = True
         '
-        'Label12
+        'CBox_BancoCheque
         '
-        Me.Label12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Label12.AutoSize = True
-        Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(930, 584)
-        Me.Label12.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(168, 20)
-        Me.Label12.TabIndex = 154
-        Me.Label12.Text = "Monto Impuesto Neto"
+        Me.CBox_BancoCheque.FormattingEnabled = True
+        Me.CBox_BancoCheque.Location = New System.Drawing.Point(169, 180)
+        Me.CBox_BancoCheque.Name = "CBox_BancoCheque"
+        Me.CBox_BancoCheque.Size = New System.Drawing.Size(220, 24)
+        Me.CBox_BancoCheque.TabIndex = 23
         '
-        'btn_Pagar
+        'Btn_BuscarCuentaCheque
         '
-        Me.btn_Pagar.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btn_Pagar.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_Pagar.Location = New System.Drawing.Point(507, 582)
-        Me.btn_Pagar.Margin = New System.Windows.Forms.Padding(4)
-        Me.btn_Pagar.Name = "btn_Pagar"
-        Me.btn_Pagar.Size = New System.Drawing.Size(152, 50)
-        Me.btn_Pagar.TabIndex = 168
-        Me.btn_Pagar.Text = "Metodo de Pagar"
-        Me.btn_Pagar.UseVisualStyleBackColor = True
+        Me.Btn_BuscarCuentaCheque.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_BuscarCuentaCheque.Location = New System.Drawing.Point(406, 19)
+        Me.Btn_BuscarCuentaCheque.Name = "Btn_BuscarCuentaCheque"
+        Me.Btn_BuscarCuentaCheque.Size = New System.Drawing.Size(75, 34)
+        Me.Btn_BuscarCuentaCheque.TabIndex = 13
+        Me.Btn_BuscarCuentaCheque.Text = "Buscar"
+        Me.Btn_BuscarCuentaCheque.UseVisualStyleBackColor = True
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label7.Location = New System.Drawing.Point(19, 184)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(119, 20)
+        Me.Label7.TabIndex = 12
+        Me.Label7.Text = "Banco Cheque"
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(19, 128)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(130, 20)
+        Me.Label8.TabIndex = 10
+        Me.Label8.Text = "Numero Cheque"
+        '
+        'Txtb_NumeroCheque
+        '
+        Me.Txtb_NumeroCheque.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txtb_NumeroCheque.Location = New System.Drawing.Point(169, 125)
+        Me.Txtb_NumeroCheque.Name = "Txtb_NumeroCheque"
+        Me.Txtb_NumeroCheque.Size = New System.Drawing.Size(220, 27)
+        Me.Txtb_NumeroCheque.TabIndex = 9
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label16.Location = New System.Drawing.Point(19, 71)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(117, 20)
+        Me.Label16.TabIndex = 8
+        Me.Label16.Text = "Monto Cheque"
+        '
+        'Txtb_MontoCheque
+        '
+        Me.Txtb_MontoCheque.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txtb_MontoCheque.Location = New System.Drawing.Point(169, 68)
+        Me.Txtb_MontoCheque.Name = "Txtb_MontoCheque"
+        Me.Txtb_MontoCheque.Size = New System.Drawing.Size(220, 27)
+        Me.Txtb_MontoCheque.TabIndex = 7
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label17.Location = New System.Drawing.Point(19, 22)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(133, 20)
+        Me.Label17.TabIndex = 6
+        Me.Label17.Text = "Cuenta Contable"
+        '
+        'Txtb_CuentaContableCheque
+        '
+        Me.Txtb_CuentaContableCheque.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Txtb_CuentaContableCheque.Location = New System.Drawing.Point(169, 19)
+        Me.Txtb_CuentaContableCheque.Name = "Txtb_CuentaContableCheque"
+        Me.Txtb_CuentaContableCheque.Size = New System.Drawing.Size(220, 27)
+        Me.Txtb_CuentaContableCheque.TabIndex = 5
+        '
+        'TabPage3
+        '
+        Me.TabPage3.Controls.Add(Me.CBox_BancoTranferencia)
+        Me.TabPage3.Controls.Add(Me.Btn_BuscarCuentaTranferencia)
+        Me.TabPage3.Controls.Add(Me.Label18)
+        Me.TabPage3.Controls.Add(Me.Label20)
+        Me.TabPage3.Controls.Add(Me.TextBox2)
+        Me.TabPage3.Controls.Add(Me.Label21)
+        Me.TabPage3.Controls.Add(Me.TextBox3)
+        Me.TabPage3.Controls.Add(Me.Label22)
+        Me.TabPage3.Controls.Add(Me.TextBox4)
+        Me.TabPage3.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(1269, 243)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "Tranferencia"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'CBox_BancoTranferencia
+        '
+        Me.CBox_BancoTranferencia.FormattingEnabled = True
+        Me.CBox_BancoTranferencia.Location = New System.Drawing.Point(204, 184)
+        Me.CBox_BancoTranferencia.Name = "CBox_BancoTranferencia"
+        Me.CBox_BancoTranferencia.Size = New System.Drawing.Size(220, 24)
+        Me.CBox_BancoTranferencia.TabIndex = 22
+        '
+        'Btn_BuscarCuentaTranferencia
+        '
+        Me.Btn_BuscarCuentaTranferencia.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Btn_BuscarCuentaTranferencia.Location = New System.Drawing.Point(442, 15)
+        Me.Btn_BuscarCuentaTranferencia.Name = "Btn_BuscarCuentaTranferencia"
+        Me.Btn_BuscarCuentaTranferencia.Size = New System.Drawing.Size(75, 34)
+        Me.Btn_BuscarCuentaTranferencia.TabIndex = 21
+        Me.Btn_BuscarCuentaTranferencia.Text = "Buscar"
+        Me.Btn_BuscarCuentaTranferencia.UseVisualStyleBackColor = True
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label18.Location = New System.Drawing.Point(17, 184)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(156, 20)
+        Me.Label18.TabIndex = 20
+        Me.Label18.Text = "Banco Tranferencia"
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label20.Location = New System.Drawing.Point(17, 128)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(167, 20)
+        Me.Label20.TabIndex = 18
+        Me.Label20.Text = "Numero Tranferencia"
+        '
+        'TextBox2
+        '
+        Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox2.Location = New System.Drawing.Point(204, 125)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(220, 27)
+        Me.TextBox2.TabIndex = 17
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label21.Location = New System.Drawing.Point(17, 71)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(154, 20)
+        Me.Label21.TabIndex = 16
+        Me.Label21.Text = "Monto Tranferencia"
+        '
+        'TextBox3
+        '
+        Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox3.Location = New System.Drawing.Point(204, 68)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(220, 27)
+        Me.TextBox3.TabIndex = 15
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label22.Location = New System.Drawing.Point(17, 22)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(133, 20)
+        Me.Label22.TabIndex = 14
+        Me.Label22.Text = "Cuenta Contable"
+        '
+        'TextBox4
+        '
+        Me.TextBox4.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox4.Location = New System.Drawing.Point(204, 19)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(220, 27)
+        Me.TextBox4.TabIndex = 13
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label23.Location = New System.Drawing.Point(902, 93)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(78, 20)
+        Me.Label23.TabIndex = 24
+        Me.Label23.Text = "Cobrador"
+        '
+        'ComboBox1
+        '
+        Me.ComboBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ComboBox1.FormattingEnabled = True
+        Me.ComboBox1.Items.AddRange(New Object() {"", "Cedula Fisica", "Cedula Juridica", "DIMEX", "NITE"})
+        Me.ComboBox1.Location = New System.Drawing.Point(1098, 93)
+        Me.ComboBox1.Margin = New System.Windows.Forms.Padding(4)
+        Me.ComboBox1.Name = "ComboBox1"
+        Me.ComboBox1.Size = New System.Drawing.Size(207, 28)
+        Me.ComboBox1.TabIndex = 170
         '
         'RecibosDeDinero
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1316, 646)
-        Me.Controls.Add(Me.btn_Pagar)
-        Me.Controls.Add(Me.txtb_TotalImpuestoExonerado)
-        Me.Controls.Add(Me.Label32)
+        Me.Controls.Add(Me.ComboBox1)
+        Me.Controls.Add(Me.Label23)
+        Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.txtb_TotalDocumento)
         Me.Controls.Add(Me.Label14)
-        Me.Controls.Add(Me.txtb_SubTotal)
-        Me.Controls.Add(Me.Label13)
-        Me.Controls.Add(Me.txtb_TotalExento)
-        Me.Controls.Add(Me.Label9)
-        Me.Controls.Add(Me.txtb_TotalGravado)
-        Me.Controls.Add(Me.Label10)
-        Me.Controls.Add(Me.txtb_TotalDescuento)
-        Me.Controls.Add(Me.Label11)
-        Me.Controls.Add(Me.txtb_TotalImpuestoNeto)
-        Me.Controls.Add(Me.Label12)
         Me.Controls.Add(Me.btn_buscar)
         Me.Controls.Add(Me.btn_Anular)
         Me.Controls.Add(Me.btn_guardar)
         Me.Controls.Add(Me.txtb_Comentarios)
         Me.Controls.Add(Me.Label15)
-        Me.Controls.Add(Me.DGV_DetalleFactura)
         Me.Controls.Add(Me.txtb_Consecutivo)
         Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.Label19)
@@ -503,6 +675,14 @@ Partial Class RecibosDeDinero
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "RecibosDeDinero"
         CType(Me.DGV_DetalleFactura, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabControl1.ResumeLayout(False)
+        Me.TabPage4.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.TabPage1.PerformLayout()
+        Me.TabPage2.ResumeLayout(False)
+        Me.TabPage2.PerformLayout()
+        Me.TabPage3.ResumeLayout(False)
+        Me.TabPage3.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -529,19 +709,36 @@ Partial Class RecibosDeDinero
     Friend WithEvents btn_buscar As Button
     Friend WithEvents btn_Anular As Button
     Friend WithEvents btn_guardar As Button
-    Friend WithEvents txtb_TotalImpuestoExonerado As TextBox
-    Friend WithEvents Label32 As Label
     Friend WithEvents txtb_TotalDocumento As TextBox
     Friend WithEvents Label14 As Label
-    Friend WithEvents txtb_SubTotal As TextBox
-    Friend WithEvents Label13 As Label
-    Friend WithEvents txtb_TotalExento As TextBox
-    Friend WithEvents Label9 As Label
-    Friend WithEvents txtb_TotalGravado As TextBox
-    Friend WithEvents Label10 As Label
-    Friend WithEvents txtb_TotalDescuento As TextBox
-    Friend WithEvents Label11 As Label
-    Friend WithEvents txtb_TotalImpuestoNeto As TextBox
-    Friend WithEvents Label12 As Label
-    Friend WithEvents btn_Pagar As Button
+    Friend WithEvents TabControl1 As TabControl
+    Friend WithEvents TabPage4 As TabPage
+    Friend WithEvents TabPage1 As TabPage
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Txtb_MontoEfectivo As TextBox
+    Friend WithEvents Btn_BuscarCuentaEfectivo As Button
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Txtb_CuentaContableEfectivo As TextBox
+    Friend WithEvents TabPage2 As TabPage
+    Friend WithEvents CBox_BancoCheque As ComboBox
+    Friend WithEvents Btn_BuscarCuentaCheque As Button
+    Friend WithEvents Label7 As Label
+    Friend WithEvents Label8 As Label
+    Friend WithEvents Txtb_NumeroCheque As TextBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Txtb_MontoCheque As TextBox
+    Friend WithEvents Label17 As Label
+    Friend WithEvents Txtb_CuentaContableCheque As TextBox
+    Friend WithEvents TabPage3 As TabPage
+    Friend WithEvents CBox_BancoTranferencia As ComboBox
+    Friend WithEvents Btn_BuscarCuentaTranferencia As Button
+    Friend WithEvents Label18 As Label
+    Friend WithEvents Label20 As Label
+    Friend WithEvents TextBox2 As TextBox
+    Friend WithEvents Label21 As Label
+    Friend WithEvents TextBox3 As TextBox
+    Friend WithEvents Label22 As Label
+    Friend WithEvents TextBox4 As TextBox
+    Friend WithEvents Label23 As Label
+    Friend WithEvents ComboBox1 As ComboBox
 End Class

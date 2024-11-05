@@ -626,181 +626,181 @@ Public Class SAP_BUSSINES_ONE
 #End Region
 #Region "AGREGA PAGOS (TRANSFERENCIA,CHEQUE,EFECTIVO) A SAP"
     'INSERTA PAGOS RECIBIDOS FUNCIONA AL 100%
-    Public Function InsertarPago(ObjReciboDinero As DTO_ReciboDinero.ReciboDinero, ByRef ObjResultados As Resultados)
+    'Public Function InsertarPago(ObjReciboDinero As DTO_ReciboDinero.ReciboDinero, ByRef ObjResultados As Resultados)
 
-        Try
-            Dim Insertado As Integer = 1
-            Dim RetVal As Long
-            Dim ErrCode As Long
-            Dim ErrMsg As String
-            Dim nErr As Long
-            Dim vPay As SAPbobsCOM.Payments
-            Dim CodError As String
-            Dim Company As New SAPbobsCOM.Company
+    '    Try
+    '        Dim Insertado As Integer = 1
+    '        Dim RetVal As Long
+    '        Dim ErrCode As Long
+    '        Dim ErrMsg As String
+    '        Dim nErr As Long
+    '        Dim vPay As SAPbobsCOM.Payments
+    '        Dim CodError As String
+    '        Dim Company As New SAPbobsCOM.Company
 
-            Company = Class_VariablesGlobales.obj_SAP.ConectarSap()
+    '        Company = Class_VariablesGlobales.obj_SAP.ConectarSap()
 
-            vPay = Company.GetBusinessObject(BoObjectTypes.oIncomingPayments)
-            'vPay.DocNum = CInt(ObjReciboDinero.Encabezado.DocNum)
-            vPay.ApplyVAT = 1
-            vPay.CardCode = ObjReciboDinero.Encabezado.CardCode
-            vPay.UserFields.Fields(3).value = ObjReciboDinero.Encabezado.SalesPersonCode
-            'vPay.DocCurrency = "COL"
-            'vPay.DocCurrency = TablaEncPagos.Rows(0).Item("Currency").ToString()
-            'vPay.DocDate = CDate(ObjReciboDinero.Encabezado.Fecha)
-
-
-            vPay.UserFields.Fields(6).Value = ObjReciboDinero.Encabezado.IdPlanilla
-            vPay.DocRate = 0
-            vPay.DocType = BoRcptTypes.rCustomer
-            vPay.HandWritten = BoYesNoEnum.tNO
-            vPay.JournalRemarks = "Creado por el Agente " & ObjReciboDinero.Encabezado.SalesPersonCode & " #Planilla [" & ObjReciboDinero.Encabezado.IdPlanilla & "]"
-
-            vPay.LocalCurrency = BoYesNoEnum.tYES
-            vPay.Reference1 = 3
-            vPay.TaxDate = Now
-
-            'FORMAS EN QUE SE PAGO LA FACTURA INSICADA ARRIVA
-            ' ------------------ MONTO DE PAGO POR TRANSFERENCIA -----------------
-            If CDbl(ObjReciboDinero.Encabezado.TransferSum) > 0 Then
-                'vPay.TransferAccount = XMLParam_CuentaTranferencia
-                vPay.TransferAccount = "10100101001"
-
-                vPay.TransferDate = CDate(ObjReciboDinero.Encabezado.Fecha)
-                vPay.TransferSum = CDbl(ObjReciboDinero.Encabezado.TransferSum)
-                vPay.TransferReference = ObjReciboDinero.Encabezado.Num_Tranferencia
-                ' vPay.UserFields.Fields(5).value = TablaDetPagos.Rows(0).Item("BankCodeTranferencia").ToString()
-            End If
-            ' ------------------ MONTO DE PAGO POR EFECTIVO -----------------
-            If CDbl(ObjReciboDinero.Encabezado.CashSum) > 0 Then
-                'If TablaEncPagos.Rows(0).Item("Currency").ToString() = "COL" Then
-                'vPay.CashAccount = XMLParam_CuentaEfectivoCOLONES
-
-                'End If
-                'If TablaEncPagos.Rows(0).Item("Currency").ToString() = "DOL" Then
-                '    vPay.CashAccount = XMLParam_CuentaEfectivoDOLARES
-                'End If
-
-                vPay.CashSum = CDbl(ObjReciboDinero.Encabezado.CashSum)
-            End If
-
-            'INSERTA EL DETALLE DEL PAGO
-            InsertaDetallePagos(vPay, ObjReciboDinero.Detalle)
-
-            RetVal = vPay.Add() 'suspendido mientra hacemos pruebas
-
-            'Check the result  
-            If RetVal <> 0 Then
-                Company.GetLastError(ErrCode, ErrMsg)
-                CodError = Mid(ErrMsg, 1, 8)
-
-                Dim mensaje As New Resultados.MensajesSap()
-                mensaje.Estado = "ERROR"
-                mensaje.MensajeDeSap = ErrMsg
-                ObjResultados.ListaMensajesSap.Add(mensaje)
-
-                Class_VariablesGlobales.Obj_Funciones_SQL.InsertarEstadoSubidaSAP(False, 1, "Pagos", vPay.CardCode, "ERROR", ErrMsg, Now.Date.ToShortDateString, Class_VariablesGlobales.SQL_Comman2)
-
-            Else
-                Dim mensaje As New Resultados.MensajesSap()
-                mensaje.Estado = "SUBIDO"
-                mensaje.MensajeDeSap = ErrMsg
-                ObjResultados.ListaMensajesSap.Add(mensaje)
-                Dim DocNum As Integer = 0
-                Company.GetNewObjectCode(DocNum)
-                Class_VariablesGlobales.Obj_Funciones_SQL.InsertarEstadoSubidaSAP(False, 1, "Pagos", DocNum, "SUBIDO", "SUBIDO CORRECTAMENTE A SAP", Now.Date.ToShortDateString, Class_VariablesGlobales.SQL_Comman2)
+    '        vPay = Company.GetBusinessObject(BoObjectTypes.oIncomingPayments)
+    '        'vPay.DocNum = CInt(ObjReciboDinero.Encabezado.DocNum)
+    '        vPay.ApplyVAT = 1
+    '        vPay.CardCode = ObjReciboDinero.Encabezado.CardCode
+    '        vPay.UserFields.Fields(3).value = ObjReciboDinero.Encabezado.SalesPersonCode
+    '        'vPay.DocCurrency = "COL"
+    '        'vPay.DocCurrency = TablaEncPagos.Rows(0).Item("Currency").ToString()
+    '        'vPay.DocDate = CDate(ObjReciboDinero.Encabezado.Fecha)
 
 
-            End If
+    '        vPay.UserFields.Fields(6).Value = ObjReciboDinero.Encabezado.IdPlanilla
+    '        vPay.DocRate = 0
+    '        vPay.DocType = BoRcptTypes.rCustomer
+    '        vPay.HandWritten = BoYesNoEnum.tNO
+    '        vPay.JournalRemarks = "Creado por el Agente " & ObjReciboDinero.Encabezado.SalesPersonCode & " #Planilla [" & ObjReciboDinero.Encabezado.IdPlanilla & "]"
 
-            'disconnect the company Object, And release resource
-            Call Company.Disconnect()
+    '        vPay.LocalCurrency = BoYesNoEnum.tYES
+    '        vPay.Reference1 = 3
+    '        vPay.TaxDate = Now
 
-            Class_VariablesGlobales.obj_SAP.DesconectarSap(Company)
+    '        'FORMAS EN QUE SE PAGO LA FACTURA INSICADA ARRIVA
+    '        ' ------------------ MONTO DE PAGO POR TRANSFERENCIA -----------------
+    '        If CDbl(ObjReciboDinero.Encabezado.TransferSum) > 0 Then
+    '            'vPay.TransferAccount = XMLParam_CuentaTranferencia
+    '            vPay.TransferAccount = "10100101001"
 
-            'Liberamos memoria
-            RetVal = Nothing
-            ErrCode = Nothing
-            ErrMsg = Nothing
-            nErr = Nothing
-            vPay = Nothing
-            CodError = Nothing
-            Company = Nothing
+    '            vPay.TransferDate = CDate(ObjReciboDinero.Encabezado.Fecha)
+    '            vPay.TransferSum = CDbl(ObjReciboDinero.Encabezado.TransferSum)
+    '            vPay.TransferReference = ObjReciboDinero.Encabezado.Num_Tranferencia
+    '            ' vPay.UserFields.Fields(5).value = TablaDetPagos.Rows(0).Item("BankCodeTranferencia").ToString()
+    '        End If
+    '        ' ------------------ MONTO DE PAGO POR EFECTIVO -----------------
+    '        If CDbl(ObjReciboDinero.Encabezado.CashSum) > 0 Then
+    '            'If TablaEncPagos.Rows(0).Item("Currency").ToString() = "COL" Then
+    '            'vPay.CashAccount = XMLParam_CuentaEfectivoCOLONES
 
-            Return Insertado
-            Exit Function
+    '            'End If
+    '            'If TablaEncPagos.Rows(0).Item("Currency").ToString() = "DOL" Then
+    '            '    vPay.CashAccount = XMLParam_CuentaEfectivoDOLARES
+    '            'End If
 
-        Catch ex As Exception
-            'MsgBox("Error a insertar el pago " & ex.Message)
-            Return 1
-            '    Obj_Log.Log("ERROR InsertarPago (Exception:" + Err.Description & ")")
-            '    ERRORES = "[ " & Now & " ] ERROR InsertarPago (Exception:" + Err.Description & ") "
-        End Try
+    '            vPay.CashSum = CDbl(ObjReciboDinero.Encabezado.CashSum)
+    '        End If
 
-    End Function
+    '        'INSERTA EL DETALLE DEL PAGO
+    '        InsertaDetallePagos(vPay, ObjReciboDinero.Detalle)
 
-    Public Function InsertaDetallePagos(ByVal vPay As SAPbobsCOM.Payments, ByVal DetallePagos As List(Of DTO_ReciboDinero.DetalleRecibo))
-        Try
-            Dim PostFecha As String
-            Dim cont As Integer = 0
+    '        RetVal = vPay.Add() 'suspendido mientra hacemos pruebas
 
-            'Dim AgregoDetalle As Boolean = False
+    '        'Check the result  
+    '        If RetVal <> 0 Then
+    '            Company.GetLastError(ErrCode, ErrMsg)
+    '            CodError = Mid(ErrMsg, 1, 8)
 
-            ' recorre toda la tabla que contiene los detalles de todos los PAGOS y solo agregara las lineas que contengan el mismo consecutivo del encabezado
-            For Each detalle As DTO_ReciboDinero.DetalleRecibo In DetallePagos
+    '            Dim mensaje As New Resultados.MensajesSap()
+    '            mensaje.Estado = "ERROR"
+    '            mensaje.MensajeDeSap = ErrMsg
+    '            ObjResultados.ListaMensajesSap.Add(mensaje)
+
+    '            Class_VariablesGlobales.Obj_Funciones_SQL.InsertarEstadoSubidaSAP(False, 1, "Pagos", vPay.CardCode, "ERROR", ErrMsg, Now.Date.ToShortDateString, Class_VariablesGlobales.SQL_Comman2)
+
+    '        Else
+    '            Dim mensaje As New Resultados.MensajesSap()
+    '            mensaje.Estado = "SUBIDO"
+    '            mensaje.MensajeDeSap = ErrMsg
+    '            ObjResultados.ListaMensajesSap.Add(mensaje)
+    '            Dim DocNum As Integer = 0
+    '            Company.GetNewObjectCode(DocNum)
+    '            Class_VariablesGlobales.Obj_Funciones_SQL.InsertarEstadoSubidaSAP(False, 1, "Pagos", DocNum, "SUBIDO", "SUBIDO CORRECTAMENTE A SAP", Now.Date.ToShortDateString, Class_VariablesGlobales.SQL_Comman2)
+
+
+    '        End If
+
+    '        'disconnect the company Object, And release resource
+    '        Call Company.Disconnect()
+
+    '        Class_VariablesGlobales.obj_SAP.DesconectarSap(Company)
+
+    '        'Liberamos memoria
+    '        RetVal = Nothing
+    '        ErrCode = Nothing
+    '        ErrMsg = Nothing
+    '        nErr = Nothing
+    '        vPay = Nothing
+    '        CodError = Nothing
+    '        Company = Nothing
+
+    '        Return Insertado
+    '        Exit Function
+
+    '    Catch ex As Exception
+    '        'MsgBox("Error a insertar el pago " & ex.Message)
+    '        Return 1
+    '        '    Obj_Log.Log("ERROR InsertarPago (Exception:" + Err.Description & ")")
+    '        '    ERRORES = "[ " & Now & " ] ERROR InsertarPago (Exception:" + Err.Description & ") "
+    '    End Try
+
+    'End Function
+
+    'Public Function InsertaDetallePagos(ByVal vPay As SAPbobsCOM.Payments, ByVal DetallePagos As List(Of DTO_ReciboDinero.DetalleRecibo))
+    '    Try
+    '        Dim PostFecha As String
+    '        Dim cont As Integer = 0
+
+    '        'Dim AgregoDetalle As Boolean = False
+
+    '        ' recorre toda la tabla que contiene los detalles de todos los PAGOS y solo agregara las lineas que contengan el mismo consecutivo del encabezado
+    '        For Each detalle As DTO_ReciboDinero.DetalleRecibo In DetallePagos
 
 
 
-                ' ------------------ FACTURA A CANCELAR -----------------
-                vPay.Invoices.AppliedFC = 0
-                vPay.Invoices.DocEntry = CInt(detalle.DocEntry)
-                vPay.Invoices.DocLine = cont
-                vPay.Invoices.InvoiceType = BoRcptInvTypes.it_Invoice
-                'SumApplied es el monto abonado a la factura que se indica segun su DocEntry
-                vPay.Invoices.SumApplied = CDbl(detalle.SumApplied)
-                Call vPay.Invoices.Add()
-                'Call vPay.Invoices.SetCurentLine(1)
+    '            ' ------------------ FACTURA A CANCELAR -----------------
+    '            vPay.Invoices.AppliedFC = 0
+    '            vPay.Invoices.DocEntry = CInt(detalle.DocEntry)
+    '            vPay.Invoices.DocLine = cont
+    '            vPay.Invoices.InvoiceType = BoRcptInvTypes.it_Invoice
+    '            'SumApplied es el monto abonado a la factura que se indica segun su DocEntry
+    '            vPay.Invoices.SumApplied = CDbl(detalle.SumApplied)
+    '            Call vPay.Invoices.Add()
+    '            'Call vPay.Invoices.SetCurentLine(1)
 
-                ' ------------------ MONTO DE PAGO POR CHEQUE -----------------
-                If CDbl(detalle.CheckSum) > 0 Then
-                    If detalle.PostFechaCheque <> "" Then
-                        PostFecha = Trim(detalle.PostFechaCheque)
-                        'vPay.UserFields.Fields(4).value = " " & Trim(DetallePagos.Rows(0).Item("PostFechaCheque").ToString()) & " "
-                        vPay.UserFields.Fields(4).value = PostFecha
-                        'vPay.JournalRemarks = vPay.JournalRemarks & DetallePagos.Rows(0).Item("PostFechaCheque").ToString()
-                    End If
+    '            ' ------------------ MONTO DE PAGO POR CHEQUE -----------------
+    '            If CDbl(detalle.CheckSum) > 0 Then
+    '                If detalle.PostFechaCheque <> "" Then
+    '                    PostFecha = Trim(detalle.PostFechaCheque)
+    '                    'vPay.UserFields.Fields(4).value = " " & Trim(DetallePagos.Rows(0).Item("PostFechaCheque").ToString()) & " "
+    '                    vPay.UserFields.Fields(4).value = PostFecha
+    '                    'vPay.JournalRemarks = vPay.JournalRemarks & DetallePagos.Rows(0).Item("PostFechaCheque").ToString()
+    '                End If
 
-                    'CUENTA DEL BANCO 
-                    vPay.Checks.AccounttNum = Class_VariablesGlobales.XMLParam_CuentaCheque
-                    vPay.Checks.BankCode = detalle.BankCodeCheque
-                    'SUCURSAL DEL BANCO 
-                    'vPay.Checks.Branch = "Branch"
-                    vPay.Checks.CheckNumber = CInt(detalle.CheckNumber)
-                    'MONTO QUE SE PAGA POR MEDIO DE CHEQUE
-                    vPay.Checks.CheckSum = CDbl(detalle.CheckSum)
-                    'vPay.Checks.Currency = "Col"
-                    vPay.Checks.Details = "Pago hecho por Agente"
-                    vPay.Checks.DueDate = CDate(Now.Date)
-                    'vPay.Checks.LineNum = 0
-                    vPay.Checks.Trnsfrable = 0
-                    ' AGREGA LOS DATOS DEL CHEQUE 
-                    Call vPay.Checks.Add()
-                    'Call vPay.Checks.SetCurentLine(1)
+    '                'CUENTA DEL BANCO 
+    '                vPay.Checks.AccounttNum = Class_VariablesGlobales.XMLParam_CuentaCheque
+    '                vPay.Checks.BankCode = detalle.BankCodeCheque
+    '                'SUCURSAL DEL BANCO 
+    '                'vPay.Checks.Branch = "Branch"
+    '                vPay.Checks.CheckNumber = CInt(detalle.CheckNumber)
+    '                'MONTO QUE SE PAGA POR MEDIO DE CHEQUE
+    '                vPay.Checks.CheckSum = CDbl(detalle.CheckSum)
+    '                'vPay.Checks.Currency = "Col"
+    '                vPay.Checks.Details = "Pago hecho por Agente"
+    '                vPay.Checks.DueDate = CDate(Now.Date)
+    '                'vPay.Checks.LineNum = 0
+    '                vPay.Checks.Trnsfrable = 0
+    '                ' AGREGA LOS DATOS DEL CHEQUE 
+    '                Call vPay.Checks.Add()
+    '                'Call vPay.Checks.SetCurentLine(1)
 
-                End If
-                cont += 1
-            Next
+    '            End If
+    '            cont += 1
+    '        Next
 
-            cont = Nothing
-            PostFecha = Nothing
+    '        cont = Nothing
+    '        PostFecha = Nothing
 
-        Catch ex As Exception
-            'Obj_Log.Log("ERROR EN InsertaDetallePagos (" & ex.Message & " )")
-            'ERRORES = "[ " & Now & " ] " & "ERROR EN InsertaDetallePagos (" & ex.Message & " )"
-        End Try
+    '    Catch ex As Exception
+    '        'Obj_Log.Log("ERROR EN InsertaDetallePagos (" & ex.Message & " )")
+    '        'ERRORES = "[ " & Now & " ] " & "ERROR EN InsertaDetallePagos (" & ex.Message & " )"
+    '    End Try
 
-        Return 0
-    End Function
+    '    Return 0
+    'End Function
 
 #End Region
     Public Function CreaNotaCreditoLigada(ByVal Boleta As String, ByVal Agente As String, ByVal Tbl_Ecabezado As DataTable, ByVal Tbl_Detalle As DataTable, ByVal oCompany As SAPbobsCOM.Company, ByVal SQL_Comman2 As SqlCommand)

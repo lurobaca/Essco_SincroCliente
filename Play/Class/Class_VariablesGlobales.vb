@@ -439,7 +439,6 @@ Public Class Class_VariablesGlobales
     Public Shared frmLista_ClientesModificados As New Lista_ClientesModificados
     Public Shared frmLista_Admin_EstadoComprobantes As New Admin_EstadoComprobantes
     Public Shared frmLista_Admin_Acepta_Rechaza As New Acepta_Rechaza
-    Public Shared frmRecibosDeDinero_MedioPago As New RecibosDeDinero_MedioPago
 
     Public Shared frmLista_InfoMsjHacienda As New InfoMsjHacienda
     Public Shared frmLista_FE_Proveedores As New Acepta_Rechaza_Lista_Comprobantes

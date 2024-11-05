@@ -19,18 +19,7 @@
         DGV_DetalleFactura.Columns.Add(chkColumn)
         DGV_DetalleFactura.DataSource = VariablesGlobales.Obj_SQL.ObtieneDocumentosPendiente(Cedula.Trim())
 
-
-
     End Function
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles btn_Pagar.Click
-        Class_VariablesGlobales.frmRecibosDeDinero_MedioPago = New RecibosDeDinero_MedioPago
-        Class_VariablesGlobales.frmRecibosDeDinero_MedioPago.MdiParent = Principal
-
-        Class_VariablesGlobales.frmRecibosDeDinero_MedioPago.Txtb_MontoEfectivo.Text = txtb_TotalDocumento.Text
-        Class_VariablesGlobales.frmRecibosDeDinero_MedioPago.Show()
-
-    End Sub
 
     Public Sub DGV_DetalleFactura_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_DetalleFactura.CellContentClick
         ' Verifica si la celda clickeada es la columna de CheckBox
@@ -60,6 +49,50 @@
     End Sub
 
     Private Sub btn_guardar_Click(sender As Object, e As EventArgs) Handles btn_guardar.Click
+        '    ' Crear un objeto de la clase DTO_ReciboDinero
+        '    Dim reciboDinero As New DTO_ReciboDinero()
 
+        '    ' Crear un objeto de la clase Encabezado
+        '    Dim encabezado As New DTO_ReciboDinero.Encabezado() With {
+        '    .CodCliente = "C001",
+        '    .Fecha = DateTime.Now.ToString("yyyy-MM-dd"), ' Convertir a formato de cadena si es necesario
+        '    .Impreso = 1,
+        '    .Estado = 0,
+        '    .Detalle = New List(Of DTO_ReciboDinero.Detalle)() ' Inicializar la lista de detalles
+        '}
+
+        '    '        For Each row As DataGridViewRow In DGV_DetalleFactura.Rows
+        '    '            Dim isSelected As Boolean = Convert.ToBoolean(row.Cells("Select").Value)
+        '    '            If isSelected Then
+        '    '                saldo += Convert.ToDecimal(row.Cells("DocSaldo").Value)
+        '    '                ' Crear un objeto de la clase Detalle
+        '    '                Dim detalle1 As New DTO_ReciboDinero.Detalle() With {
+        '    '    .IdRecibosDeDineroDetalle = "D001",
+        '    '    .Id_RecibosDeDinero = 1,
+        '    '    .NumeroDocumento = "123456",
+        '    '    .TipoDocumento = "Factura",
+        '    '    .Abono = 1000D,
+        '    '    .TotalDocumento = 1200D,
+        '    '    .Saldo = 200D,
+        '    '    .MontoEfectivo = 500D,
+        '    '    .MontoCheque = 300D,
+        '    '    .MontoTranferencia = 200D,
+        '    '    .IdBancoCheque = 1,
+        '    '    .IdBancoTranferencia = 2
+        '    '}
+
+        '    ' Agregar el detalle a la lista de detalles del encabezado
+        '    'encabezado.Detalle.Add(detalle1)
+        '    '    End If
+        '    'Next
+
+
+
+        '    ' Asignar el encabezado al reciboDinero
+        '    reciboDinero.Encabezado = encabezado
+
+        '    ' Llamar al método para crear el recibo en la base de datos
+        '    VariablesGlobales.Obj_SQL.CrearReciboDinero(reciboDinero)
     End Sub
+
 End Class

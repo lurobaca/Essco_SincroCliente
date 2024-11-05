@@ -470,12 +470,6 @@
     <Compile Include="RecibosDeDinero.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RecibosDeDinero_MedioPago.Designer.vb">
-      <DependentUpon>RecibosDeDinero_MedioPago.vb</DependentUpon>
-    </Compile>
-    <Compile Include="RecibosDeDinero_MedioPago.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Reportes\ColillaDePagoResumenPlanilla..vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -1541,9 +1535,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RecibosDeDinero.resx">
       <DependentUpon>RecibosDeDinero.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RecibosDeDinero_MedioPago.resx">
-      <DependentUpon>RecibosDeDinero_MedioPago.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes\ColillaDePagoResumenPlanilla..rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

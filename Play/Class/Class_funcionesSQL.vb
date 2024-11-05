@@ -6756,7 +6756,7 @@ Public Class Class_funcionesSQL
                 Consulta = "SELECT [CodProveedor],[NameProveedor] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[inv_inventario] WHERE [IdInventario]='" & ObtieneIdInventario() & "' and [Unificado]='0' GROUP BY  [CodProveedor] ,[NameProveedor]"
             ElseIf Class_VariablesGlobales.LlamadoDesde = "PedidorPrincipal" Then
                 'Obtiene los proveedores activos de SAP
-                Consulta = "SELECT T0.[CardCode], T0.[CardName] FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OCRD T0 WHERE T0.[CardType]='S' AND T0.[frozenFor]='N' and (CardCode like 'P0%' )"
+                Consulta = "SELECT T0.[CardCode], T0.[CardName] FROM " & Class_VariablesGlobales.XMLParamSAP_CompanyDB & ".dbo.OCRD T0 WHERE T0.[CardType]='S' AND T0.[frozenFor]='N' and (CardCode like 'P%' )"
             ElseIf LlamadoDesde = "StockManager" Then
                 Consulta = "Select [CardCode] AS [CodProveedor],[CardName] AS [NameProveedor] From [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[ClientesModificados] Where [TipoSocio] = 2"
             Else
