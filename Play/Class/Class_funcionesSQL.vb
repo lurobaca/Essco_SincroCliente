@@ -15933,29 +15933,79 @@ group by T2.Nombre"
         End Try
     End Sub
 
-    Public Function ObtieneCategorizaciones(ByVal SQL_Comman As SqlCommand, Tipo As String, SoloNombre As Boolean)
+    Public Function ObtieneListaPreciosParaStocManager() As DataTable
         Try
-
             Dim TABLA As New DataTable
-            Dim ADATER As New SqlDataAdapter
+            Dim ADAPTER As SqlDataAdapter
+            Dim Consulta As String
+            Dim SQL_Comman As SqlCommand
+            SQL_Comman = Conectar()
 
-            Dim Consulta As String = ""
-            If SoloNombre = False Then
-                Consulta = "SELECT [id],[Tipo],[Nombre] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Categorizaciones_Inventario] where Tipo='" & Tipo & "'"
-            Else
-                Consulta = "SELECT [Nombre] FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[Categorizaciones_Inventario] where Tipo='" & Tipo & "'"
-            End If
+            Consulta = $"SELECT [idListasDePrecio],[Nombre]  FROM [{Trim(Class_VariablesGlobales.XMLParamSQL_dababase)}].[dbo].[ListasDePrecio] where Estado='0' "
 
+            ADAPTER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADAPTER.Fill(TABLA)
 
-            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
-            ADATER.Fill(TABLA)
-
+            Desconectar(SQL_Comman, SQL_Comman.Connection)
 
             Return TABLA
 
         Catch ex As Exception
+            ' Manejo del error
             Return New DataTable
-            'ERRORES = "[ " & Now & " ] ERROR CONSULTAPedidosHoyPendientes ( " & ex.Message & " )"
+        End Try
+    End Function
+    Public Function ObtieneListaPrecios(ByVal SQL_Comman As SqlCommand, nombre As String) As DataTable
+        Try
+            Dim TABLA As New DataTable
+            Dim ADAPTER As SqlDataAdapter
+            Dim Consulta As String
+
+            If nombre <> "" Then
+                Consulta = $"SELECT [idListasDePrecio],[Nombre],[Estado] FROM [{Trim(Class_VariablesGlobales.XMLParamSQL_dababase)}].[dbo].[ListasDePrecio] WHERE [Nombre] like %{nombre}%"
+
+            Else
+                Consulta = $"SELECT [idListasDePrecio],[Nombre],[Estado] FROM [{Trim(Class_VariablesGlobales.XMLParamSQL_dababase)}].[dbo].[ListasDePrecio] "
+
+            End If
+
+            If SQL_Comman.Connection.State = ConnectionState.Closed Then
+                SQL_Comman.Connection.Open()
+            End If
+
+            ADAPTER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADAPTER.Fill(TABLA)
+            Return TABLA
+
+        Catch ex As Exception
+            ' Manejo del error
+            Return New DataTable
+        End Try
+    End Function
+
+    Public Function ObtieneCategorizaciones(ByVal SQL_Comman As SqlCommand, Tipo As String, SoloNombre As Boolean) As DataTable
+        Try
+            Dim TABLA As New DataTable
+            Dim ADAPTER As SqlDataAdapter
+            Dim Consulta As String
+
+            If SoloNombre Then
+                Consulta = $"SELECT [Nombre] FROM [{Trim(Class_VariablesGlobales.XMLParamSQL_dababase)}].[dbo].[Categorizaciones_Inventario] WHERE Tipo = '{Tipo}'"
+            Else
+                Consulta = $"SELECT [id], [Nombre], [Tipo] FROM [{Trim(Class_VariablesGlobales.XMLParamSQL_dababase)}].[dbo].[Categorizaciones_Inventario] WHERE Tipo = '{Tipo}'"
+            End If
+
+            If SQL_Comman.Connection.State = ConnectionState.Closed Then
+                SQL_Comman.Connection.Open()
+            End If
+
+            ADAPTER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADAPTER.Fill(TABLA)
+            Return TABLA
+
+        Catch ex As Exception
+            ' Manejo del error
+            Return New DataTable
         End Try
     End Function
     Public Function ObtieneSectoresSAP(ByVal SQL_Comman As SqlCommand)
@@ -16076,7 +16126,46 @@ group by T2.Nombre"
 
 #End Region
 
+    Public Function GuardaListaPrecio(ByVal SQL_Comman As SqlCommand, id As String, Nombre As String, Guardando As Boolean)
 
+        Try
+            Dim Consulta As String
+            If Guardando = True Then
+                Consulta = "INSERT INTO [dbo].[ListasDePrecio] ([Nombre] )
+                            VALUES ('" & Nombre & "')"
+
+            Else
+
+                Consulta = "UPDATE [dbo].[ListasDePrecio] SET                             
+                           ,[Nombre]='" & Nombre & "'
+                           where  [idListasDePrecio]='" & id & "'"
+
+            End If
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+        Catch ex As Exception
+            'ERRORES = "[ " & Now & " ] Error GuardaCategorizaciones ( " & ex.Message & " )"
+        End Try
+
+
+    End Function
+    Public Function InactivarListaPrecio(ByVal SQL_Comman As SqlCommand, id As String, Estado As Integer)
+
+        Try
+            Dim Consulta As String
+
+            Consulta = "UPDATE [dbo].[ListasDePrecio] SET                             
+                           [Estado]='" & Estado & "'
+                           where  [idListasDePrecio]='" & id & "'"
+
+            SQL_Comman.CommandText = Consulta
+            SQL_Comman.ExecuteNonQuery()
+        Catch ex As Exception
+            'ERRORES = "[ " & Now & " ] Error GuardaCategorizaciones ( " & ex.Message & " )"
+        End Try
+
+    End Function
 #Region "FUNCIONES PARA CONTEOS DE TOMA FISICA (INVENTARIO TRIMESTRAL)"
 
 

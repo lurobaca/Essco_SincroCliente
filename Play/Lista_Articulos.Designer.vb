@@ -38,70 +38,77 @@ Partial Class Lista_Articulos
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView1.Location = New System.Drawing.Point(2, 41)
+        Me.DataGridView1.Location = New System.Drawing.Point(3, 50)
+        Me.DataGridView1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.DataGridView1.Name = "DataGridView1"
-        Me.DataGridView1.Size = New System.Drawing.Size(882, 406)
+        Me.DataGridView1.Size = New System.Drawing.Size(1176, 500)
         Me.DataGridView1.TabIndex = 0
         '
         'TextBox3
         '
         Me.TextBox3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox3.Location = New System.Drawing.Point(57, 12)
+        Me.TextBox3.Location = New System.Drawing.Point(76, 15)
+        Me.TextBox3.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TextBox3.Name = "TextBox3"
-        Me.TextBox3.Size = New System.Drawing.Size(205, 23)
+        Me.TextBox3.Size = New System.Drawing.Size(272, 26)
         Me.TextBox3.TabIndex = 113
         '
         'Label27
         '
         Me.Label27.AutoSize = True
         Me.Label27.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label27.Location = New System.Drawing.Point(1, 12)
+        Me.Label27.Location = New System.Drawing.Point(1, 15)
+        Me.Label27.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(50, 17)
+        Me.Label27.Size = New System.Drawing.Size(60, 20)
         Me.Label27.TabIndex = 112
         Me.Label27.Text = "Barras"
         '
         'TextBox2
         '
         Me.TextBox2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox2.Location = New System.Drawing.Point(356, 12)
+        Me.TextBox2.Location = New System.Drawing.Point(475, 15)
+        Me.TextBox2.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.Size = New System.Drawing.Size(323, 23)
+        Me.TextBox2.Size = New System.Drawing.Size(429, 26)
         Me.TextBox2.TabIndex = 111
         '
         'Label26
         '
         Me.Label26.AutoSize = True
         Me.Label26.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label26.Location = New System.Drawing.Point(268, 12)
+        Me.Label26.Location = New System.Drawing.Point(357, 15)
+        Me.Label26.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(82, 17)
+        Me.Label26.Size = New System.Drawing.Size(99, 20)
         Me.Label26.TabIndex = 110
         Me.Label26.Text = "Descripcion"
         '
         'TextBox1
         '
         Me.TextBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox1.Location = New System.Drawing.Point(739, 12)
+        Me.TextBox1.Location = New System.Drawing.Point(985, 15)
+        Me.TextBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.Size = New System.Drawing.Size(131, 23)
+        Me.TextBox1.Size = New System.Drawing.Size(173, 26)
         Me.TextBox1.TabIndex = 109
         '
         'Label25
         '
         Me.Label25.AutoSize = True
         Me.Label25.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.980198!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label25.Location = New System.Drawing.Point(682, 15)
+        Me.Label25.Location = New System.Drawing.Point(909, 18)
+        Me.Label25.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(52, 17)
+        Me.Label25.Size = New System.Drawing.Size(61, 20)
         Me.Label25.TabIndex = 108
         Me.Label25.Text = "Codigo"
         '
         'Lista_Articulos
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(887, 450)
+        Me.ClientSize = New System.Drawing.Size(1183, 554)
         Me.Controls.Add(Me.TextBox3)
         Me.Controls.Add(Me.Label27)
         Me.Controls.Add(Me.TextBox2)
@@ -109,6 +116,7 @@ Partial Class Lista_Articulos
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label25)
         Me.Controls.Add(Me.DataGridView1)
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
         Me.Name = "Lista_Articulos"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Lista_Articulos"

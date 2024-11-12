@@ -1044,4 +1044,10 @@ Public Class Principal
         Class_VariablesGlobales.frm_RecibosDeDinero.MdiParent = Me
         Class_VariablesGlobales.frm_RecibosDeDinero.Show()
     End Sub
+
+    Private Sub ListaDePreciosToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ListaDePreciosToolStripMenuItem.Click
+        Class_VariablesGlobales.frm_ListaDePrecios = New ListaDePrecios
+        Class_VariablesGlobales.frm_ListaDePrecios.MdiParent = Me
+        Class_VariablesGlobales.frm_ListaDePrecios.Show()
+    End Sub
 End Class

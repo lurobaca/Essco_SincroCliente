@@ -13,11 +13,23 @@
         DGV_ListaCategorizaciones.DataSource = VariablesGlobales.Obj_SQL.ObtieneCategorizaciones(Class_VariablesGlobales.SQL_Comman2, CBox_Categorizaciones.Text, False)
         txtb_Nombre.Text = ""
         DGV_ListaCategorizaciones.DataSource = VariablesGlobales.Obj_SQL.ObtieneCategorizaciones(Class_VariablesGlobales.SQL_Comman2, CBox_Categorizaciones.Text, False)
+
+        RecargarDatos()
+        MessageBox.Show("El registro fue guardado con exito")
+
     End Sub
 
     Private Sub DGV_ListaCategorizaciones_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles DGV_ListaCategorizaciones.CellContentClick
+        btn_guardar.Text = "Modifiar"
         txtb_id.Text = DGV_ListaCategorizaciones.CurrentRow.Cells.Item(0).Value
         txtb_Nombre.Text = DGV_ListaCategorizaciones.CurrentRow.Cells.Item(1).Value
         CBox_Categorizaciones.Text = DGV_ListaCategorizaciones.CurrentRow.Cells.Item(2).Value
     End Sub
+
+    Public Function RecargarDatos()
+        Class_VariablesGlobales.frmStock_Manager.CargarFamilias()
+        Class_VariablesGlobales.frmStock_Manager.ObtieneCategoria()
+        Class_VariablesGlobales.frmStock_Manager.ObtieneMarcas()
+        btn_guardar.Text = "Guardar"
+    End Function
 End Class

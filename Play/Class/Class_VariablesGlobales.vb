@@ -469,5 +469,5 @@ Public Class Class_VariablesGlobales
     Public Shared frmWMS_BancosEssco As Admin_Bancos
     Public Shared frmWMS_MotivosDevolucion As Admin_MotivosDevolucion
     Public Shared frm_RecibosDeDinero As RecibosDeDinero
-
+    Public Shared frm_ListaDePrecios As ListaDePrecios
 End Class

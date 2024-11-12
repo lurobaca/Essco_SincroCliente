@@ -349,6 +349,12 @@
     <Compile Include="Inv_ConteosRealizados.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ListaDePrecios.Designer.vb">
+      <DependentUpon>ListaDePrecios.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ListaDePrecios.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Lista_Facturas.Designer.vb">
       <DependentUpon>Lista_Facturas.vb</DependentUpon>
     </Compile>
@@ -1475,6 +1481,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Inv_ConteosRealizados.resx">
       <DependentUpon>Inv_ConteosRealizados.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ListaDePrecios.resx">
+      <DependentUpon>ListaDePrecios.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Lista_Facturas.resx">
       <DependentUpon>Lista_Facturas.vb</DependentUpon>

@@ -74,12 +74,13 @@ Public Class Stock_Manager
 
 
 
-
+            ObtieneListPrecio()
             'valida que tenga un servidor de SAP 
             If Class_VariablesGlobales.XMLParamSAP_CompanyDB <> "" Then
                 ObtieneDatosItemGroups()
                 ObtieneDatosSectores()
                 ObtieneDatosClasificacionSAP()
+
                 btn_CrearEnSAP.Enabled = True
             End If
 
@@ -94,26 +95,39 @@ Public Class Stock_Manager
 
 
 
-        'With CBox_Familia
-        '    .ValueMember = "Id"
-        '    .DataSource = VariablesGlobales.Obj_SQL.ObtieneCategorizaciones(Class_VariablesGlobales.SQL_Comman2, "Familia", True)
-        '    .DisplayMember = "Familia"
-        'End With
-
-        'With CBox_Categoria
-        '    CBox_Categoria.ValueMember = "Id"
-        '    .DataSource = VariablesGlobales.Obj_SQL.ObtieneCategorizaciones(Class_VariablesGlobales.SQL_Comman2, "Categoria", True)
-        '    .DisplayMember = "Categoria"
-        'End With
-
-        'With CBox_Marca
-        '    CBox_Marca.ValueMember = "Id"
-        '    .DataSource = VariablesGlobales.Obj_SQL.ObtieneCategorizaciones(Class_VariablesGlobales.SQL_Comman2, "Marca", True)
-        '    .DisplayMember = "Marca"
-        'End With
 
 
+
+
+        CargarFamilias()
+        ObtieneCategoria()
+        ObtieneMarcas()
     End Sub
+    Public Function CargarFamilias()
+        CBox_Familia.DataSource = Nothing ' Limpiar antes de cargar
+        With CBox_Familia
+            .ValueMember = "Id"
+            .DisplayMember = "Nombre"
+            .DataSource = VariablesGlobales.Obj_SQL.ObtieneCategorizaciones(Class_VariablesGlobales.SQL_Comman2, "Familia", True)
+        End With
+    End Function
+    Public Function ObtieneCategoria()
+        CBox_Categoria.DataSource = Nothing ' Limpiar antes de cargar
+        With CBox_Categoria
+            CBox_Categoria.ValueMember = "Id"
+            .DataSource = VariablesGlobales.Obj_SQL.ObtieneCategorizaciones(Class_VariablesGlobales.SQL_Comman2, "Categoria", True)
+            .DisplayMember = "Nombre"
+        End With
+    End Function
+    Public Function ObtieneMarcas()
+        CBox_Marca.DataSource = Nothing ' Limpiar antes de cargar
+        With CBox_Marca
+            CBox_Marca.ValueMember = "Id"
+            .DataSource = VariablesGlobales.Obj_SQL.ObtieneCategorizaciones(Class_VariablesGlobales.SQL_Comman2, "Marca", True)
+            .DisplayMember = "Nombre"
+        End With
+    End Function
+
     Public Function ObtieneFotos(Id As String)
 
 
@@ -173,6 +187,24 @@ Public Class Stock_Manager
             MsgBox(ex.Message)
         End Try
 
+    End Function
+
+    Private Function ObtieneListPrecio()
+        Try
+            Dim tabla As DataTable = VariablesGlobales.Obj_SQL.ObtieneListaPreciosParaStocManager()
+
+            ' Verificar que la tabla tenga datos
+            If tabla IsNot Nothing AndAlso tabla.Rows.Count > 0 Then
+                CBox_ListPrecio.DataSource = tabla
+                CBox_ListPrecio.ValueMember = "idListasDePrecio"
+                CBox_ListPrecio.DisplayMember = "Nombre"
+            Else
+                MsgBox("No se encontraron datos para cargar en el ComboBox.")
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error al cargar el ComboBox: " & ex.Message)
+        End Try
     End Function
 
     Private Function ObtieneDatosSectores()
@@ -265,8 +297,6 @@ Public Class Stock_Manager
     End Sub
 
     Public Function Guardar()
-
-
 
         VariablesGlobales.Obj_SQL.GuardarArticulo(Class_VariablesGlobales.SQL_Comman2, txtb_ItemCode.Text _
         , txtb_Descripcion.Text _
@@ -590,6 +620,14 @@ Public Class Stock_Manager
 
         End If
 
+
+    End Sub
+
+    Private Sub btn_AdjuntaFoto_Click(sender As Object, e As EventArgs) Handles btn_AdjuntaFoto.Click
+
+    End Sub
+
+    Private Sub btn_CargarPlantilla_Click(sender As Object, e As EventArgs) Handles btn_CargarPlantilla.Click
 
     End Sub
 End Class
