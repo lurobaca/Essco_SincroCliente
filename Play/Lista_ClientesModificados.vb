@@ -48,6 +48,7 @@ Public Class Lista_ClientesModificados
 
                 Class_VariablesGlobales.frmFacturacion.btn_guardar.Text = "Guardar"
 
+
                 Class_VariablesGlobales.frmFacturacion.Receptor_Nombre = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(2).Value)
                 Class_VariablesGlobales.frmFacturacion.Receptor_NombreComercial = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(11).Value)
                 Class_VariablesGlobales.frmFacturacion.Receptor_Tipo = Trim(DGV_ListaClientesModificados.CurrentRow.Cells.Item(20).Value).ToString().PadLeft(2, "0")

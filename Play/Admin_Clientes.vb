@@ -690,6 +690,8 @@
 
     Private Sub btn_Nuevo_Click(sender As Object, e As EventArgs) Handles btn_Nuevo.Click
         Limpiar()
+        txtb_Consecutivo.Enabled = True
+
 
         txtb_Consecutivo.Text = Obj_SQL_CONEXIONSERVER.ObtieneConsecutivoCliente(Class_VariablesGlobales.SQL_Comman2)
 

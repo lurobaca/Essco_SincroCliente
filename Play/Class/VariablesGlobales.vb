@@ -91,12 +91,7 @@
     Public Shared GCodMensaje As String
     Public Shared GDetalleMensaje As String
 
-
-
-
     Public Shared oCompany As SAPbobsCOM.Company
-
-
     Public Shared CerroSesion As Boolean = False
 
 End Class

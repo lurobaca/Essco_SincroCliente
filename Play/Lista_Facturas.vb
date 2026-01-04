@@ -8,9 +8,6 @@
             ElseIf Class_VariablesGlobales.ComprobanteACrear = "NotasDebito" Then
                 DGV_Facturas.DataSource = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneComprobantes("ND")
             End If
-
-
-
         Catch ex As Exception
 
         End Try
@@ -26,9 +23,15 @@
             'Class_VariablesGlobales.frmFacturacion.txtb_DocReferencia.Text = DGV_Facturas.CurrentRow.Cells("NumeroPedido").Value.ToString
 
             ''--ESTOS DATOS SE OBTIENE AL SELECCIONAR EL CLIENTE
+
+
             Class_VariablesGlobales.frmFacturacion.Receptor_Nombre = DGV_Facturas.CurrentRow.Cells("Receptor_Nombre").Value.ToString
             Class_VariablesGlobales.frmFacturacion.Receptor_NombreComercial = DGV_Facturas.CurrentRow.Cells("Receptor_NombreComercial").Value.ToString
             Class_VariablesGlobales.frmFacturacion.Receptor_Tipo = DGV_Facturas.CurrentRow.Cells("Receptor_Tipo").Value.ToString
+
+            Class_VariablesGlobales.frmFacturacion.CBox_TipoCed.Text = DGV_Facturas.CurrentRow.Cells("Receptor_Tipo").Value.ToString
+            Class_VariablesGlobales.frmFacturacion.txtb_Cedula.Text = DGV_Facturas.CurrentRow.Cells("Receptor_Numero").Value.ToString
+
             Class_VariablesGlobales.frmFacturacion.Receptor_Numero = DGV_Facturas.CurrentRow.Cells("Receptor_Numero").Value.ToString
             Class_VariablesGlobales.frmFacturacion.Receptor_IdentificacionExtranjero = DGV_Facturas.CurrentRow.Cells("Receptor_IdentificacionExtranjero").Value.ToString
             Class_VariablesGlobales.frmFacturacion.Receptor_Provincia = DGV_Facturas.CurrentRow.Cells("Receptor_Provincia").Value.ToString
@@ -45,8 +48,9 @@
             End If
 
             If DGV_Facturas.CurrentRow.Cells("CodigoMoneda").Value.ToString = "USD" Then
-                Class_VariablesGlobales.frmFacturacion.Cmb_Moneda.Text = DGV_Facturas.CurrentRow.Cells("CodigoMoneda").Value.ToString()
                 Class_VariablesGlobales.frmFacturacion.txtb_TipoCambio.Text = DGV_Facturas.CurrentRow.Cells("TipoCambio").Value.ToString()
+                Class_VariablesGlobales.frmFacturacion.Cmb_Moneda.Text = DGV_Facturas.CurrentRow.Cells("CodigoMoneda").Value.ToString()
+
             Else
                 Class_VariablesGlobales.frmFacturacion.Cmb_Moneda.Text = DGV_Facturas.CurrentRow.Cells("CodigoMoneda").Value.ToString()
             End If

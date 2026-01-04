@@ -25,11 +25,14 @@
 
 
     Public Function FormatoFechaSql(ByVal Fecha As String)
-        Dim DiaActual As String = (Fecha).Substring(0, 2).ToString()
-        Dim MesActual As String = (Fecha).Substring(3, 2).ToString()
-        Dim AnoActual As String = (Fecha).Substring(6, 4).ToString()
+        If Fecha.Equals("") = False Then
 
-        Fecha = AnoActual + "-" + MesActual + "-" + DiaActual
+            Dim DiaActual As String = (Fecha).Substring(0, 2).ToString()
+            Dim MesActual As String = (Fecha).Substring(3, 2).ToString()
+            Dim AnoActual As String = (Fecha).Substring(6, 4).ToString()
+
+            Fecha = AnoActual + "-" + MesActual + "-" + DiaActual
+        End If
 
         Return Fecha
     End Function

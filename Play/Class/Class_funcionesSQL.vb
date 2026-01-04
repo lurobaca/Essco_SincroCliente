@@ -15174,11 +15174,38 @@ group by T2.Nombre"
 
             Dim Consulta As String = ""
             If TipoComprobante = "FE" Or TipoComprobante = "FES" Then
-                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE_View] "
+                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE_View] order by DocNum desc "
             ElseIf TipoComprobante = "NC" Or TipoComprobante = "NCS" Then
-                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_NC_View] "
+                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_NC_View] order by DocNum desc"
             ElseIf TipoComprobante = "ND" Or TipoComprobante = "NDS" Then
-                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_ND_View] "
+                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_ND_View] order by DocNum desc"
+            End If
+
+            ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)
+            ADATER.Fill(TABLA)
+
+            Return TABLA
+
+        Catch ex As Exception
+            Return New DataTable
+            'ERRORES = "[ " & Now & " ] ERROR ObtieneMaxLineaFactura ( " & ex.Message & " )"
+        End Try
+
+    End Function
+    Public Function ObtieneComprobantePorDocNum(TipoComprobante As String, DocNum As String)
+        Try
+            Dim SQL_Comman As New SqlCommand
+            SQL_Comman = Conectar()
+            Dim TABLA As New DataTable
+            Dim ADATER As New SqlDataAdapter
+
+            Dim Consulta As String = ""
+            If TipoComprobante = "FE" Or TipoComprobante = "FES" Then
+                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_FE_View] WHERE DocNum ='" & DocNum & "' order by DocNum desc "
+            ElseIf TipoComprobante = "NC" Or TipoComprobante = "NCS" Then
+                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_NC_View] WHERE DocNum ='" & DocNum & "' order by DocNum desc"
+            ElseIf TipoComprobante = "ND" Or TipoComprobante = "NDS" Then
+                Consulta = "SELECT * FROM [" & Trim(Class_VariablesGlobales.XMLParamSQL_dababase) & "].[dbo].[CE_ND_View] WHERE DocNum ='" & DocNum & "' order by DocNum desc"
             End If
 
             ADATER = New SqlDataAdapter(Consulta, SQL_Comman.Connection)

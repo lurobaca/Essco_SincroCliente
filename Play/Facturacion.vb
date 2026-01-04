@@ -1063,6 +1063,7 @@
 
         Me.txtb_TotalGravado.Enabled = False
         Me.txtb_TotalExento.Enabled = False
+        Me.txtb_TotalImpuestoExonerado.Enabled = False
         Me.txtb_SubTotal.Enabled = False
         Me.txtb_TotalImpuestoNeto.Enabled = False
         Me.txtb_TotalDescuento.Enabled = False
@@ -1075,6 +1076,9 @@
         Me.btn_BuscarClientes.Enabled = False
         Me.btn_guardar.Enabled = False
 
+        Me.CBox_TipoCed.Enabled = False
+        Me.txtb_Cedula.Enabled = False
+        Me.Cmb_Moneda.Enabled = False
 
     End Function
     Private Sub btn_buscar_Click(sender As Object, e As EventArgs) Handles btn_buscar.Click
@@ -1221,7 +1225,11 @@
     End Function
 
     Private Sub Cmb_Moneda_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmb_Moneda.SelectedIndexChanged
-        ObtieneTipoDeCambio().GetAwaiter().GetResult()
+        If txtb_TipoCambio.Text = "" Then
+            ObtieneTipoDeCambio().GetAwaiter().GetResult()
+        End If
+
+
     End Sub
     Public Async Function ObtieneTipoDeCambio() As Threading.Tasks.Task
         Try
@@ -1290,4 +1298,103 @@
             Class_VariablesGlobales.ComprobanteACrear = "FE"
         End If
     End Sub
+
+    Private Sub btn_Izquierda_Click(sender As Object, e As EventArgs) Handles btn_Izquierda.Click
+        Navegar(Txtb_DocNum.Text - 1)
+    End Sub
+
+    Private Sub btn_derechza_Click(sender As Object, e As EventArgs) Handles btn_derechza.Click
+        Navegar(Txtb_DocNum.Text + 1)
+    End Sub
+
+    ' Mejor como Sub (no devuelve nada)
+    Private Sub Navegar(docNum As Integer)
+        Try
+            Dim dt As DataTable = Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneComprobantePorDocNum("FE", docNum)
+            If dt Is Nothing OrElse dt.Rows.Count = 0 Then Exit Sub
+
+            Dim r As DataRow = dt.Rows(0)
+            Dim S As Func(Of Object, String) =
+                Function(v) If(v Is Nothing OrElse v Is DBNull.Value, "", v.ToString().Trim())
+
+            With Class_VariablesGlobales.frmFacturacion
+                ' Receptor / cliente
+                .txtb_CodCliente.Text = S(r("CodCliente"))
+                .txtb_Nombre.Text = S(r("Receptor_Nombre"))
+                .txtb_NombreFantacia.Text = S(r("Receptor_NombreComercial"))
+
+                .Receptor_Nombre = S(r("Receptor_Nombre"))
+                .Receptor_NombreComercial = S(r("Receptor_NombreComercial"))
+                .Receptor_Tipo = S(r("Receptor_Tipo"))
+                .CBox_TipoCed.Text = S(r("Receptor_Tipo"))
+                .txtb_Cedula.Text = S(r("Receptor_Numero"))
+                .Receptor_Numero = S(r("Receptor_Numero"))
+                .Receptor_IdentificacionExtranjero = S(r("Receptor_IdentificacionExtranjero"))
+                .Receptor_Provincia = S(r("Receptor_Provincia"))
+                .Receptor_Canton = S(r("Receptor_Canton"))
+                .Receptor_Distrito = S(r("Receptor_Distrito"))
+                .Receptor_Barrio = S(r("Receptor_Barrio"))
+                .Receptor_OtrasSenas = S(r("Receptor_OtrasSenas"))
+                .Receptor_CorreoElectronico = S(r("Receptor_CorreoElectronico"))
+
+                ' Tipo de doc -> tipo de producto
+                Dim docType As String = S(r("DocType"))
+                .CBox_TipoProducto.Text = If(docType = "FES" OrElse docType = "NCS" OrElse docType = "NDS", "Servicio", "Articulo")
+
+                ' Moneda / TC
+                Dim moneda As String = S(r("CodigoMoneda"))
+                .Cmb_Moneda.Text = moneda
+                If moneda = "USD" Then .txtb_TipoCambio.Text = S(r("TipoCambio"))
+
+                ' Condición de venta / Plazo
+                .CBox_TipoVenta.Text = S(r("CondicionVenta"))
+                .Txtb_plazoCredito.Text = S(r("PlazoCredito"))
+
+                ' Encabezado y totales
+                .txtb_Impreso.Text = S(r("Printed"))
+                .CBox_Estado.Text = S(r("Status"))
+                .txtb_Consecutivo.Text = S(r("Consecutivo"))
+                .Txtb_DocNum.Text = S(r("DocNum"))
+                .txtb_clave.Text = S(r("Clave"))
+                .txtb_Comentarios.Text = S(r("Comments"))
+
+                .txtb_SubTotal.Text = S(r("DocSubTotal"))
+                .txtb_TotalImpuestoNeto.Text = S(r("DocTotalImpuesto"))
+                .txtb_TotalDescuento.Text = S(r("DocTotalDescuento"))
+                .txtb_TotalDocumento.Text = S(r("DocTotal"))
+                .txtb_TotalSaldo.Text = S(r("DocSaldo"))
+
+                ' Detalle de líneas
+                .DGV_DetalleFactura.DataSource =
+                    Class_VariablesGlobales.Obj_Funciones_SQL.ObtieneLineasFacturas(.Txtb_DocNum.Text, docType)
+                .DGV_DetalleFactura.ReadOnly = True
+
+                ' Totales y UI
+                .CalculaTotal()
+                For i As Integer = 0 To .DGV_DetalleFactura.Columns.Count - 1
+                    .DGV_DetalleFactura.Columns(i).SortMode = DataGridViewColumnSortMode.NotSortable
+                Next
+
+                .Guardada = True
+                .Inabilitar()
+
+                ' Anulado
+                Dim anulado As String = S(r("Anulado"))
+                If anulado = "1" OrElse anulado.Equals("True", StringComparison.OrdinalIgnoreCase) Then
+                    .btn_Anular.Enabled = False
+                    .lbl_Anulada.Visible = True
+                Else
+                    .btn_Anular.Enabled = True
+                    .lbl_Anulada.Visible = False
+                End If
+            End With
+
+            Me.Close()
+
+        Catch ex As Exception
+            ' TODO: registrar ex.Message
+        End Try
+    End Sub
+
+
 End Class
