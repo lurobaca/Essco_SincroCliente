@@ -6,6 +6,7 @@ using Essco.Infrastructure.Data;
 using Essco.Infrastructure.Security;
 using Essco.SapBridge.Contracts;
 using Essco.Web.Diagnostics;
+using Essco.Web.Security;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -29,10 +30,13 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.SlidingExpiration = true;
     });
-builder.Services.AddAuthorizationBuilder()
+var authorization = builder.Services.AddAuthorizationBuilder()
     .SetFallbackPolicy(new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build());
+foreach (var permission in Permissions.All)
+    authorization.AddPolicy(permission, policy => policy.Requirements.Add(new PermissionRequirement(permission)));
+builder.Services.AddSingleton<Microsoft.AspNetCore.Authorization.IAuthorizationHandler, PermissionAuthorizationHandler>();
 builder.Services.AddProblemDetails(options =>
 {
     options.CustomizeProblemDetails = context =>

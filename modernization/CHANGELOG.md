@@ -15,3 +15,4 @@
 - Núcleo de autenticación con bloqueo, PBKDF2-SHA512 y actualización controlada de credenciales heredadas.
 - Repositorio SQL Server parametrizado y migración reversible para estado de seguridad web.
 - Login/logout web con cookie segura y cambio obligatorio de contraseña.
+- Políticas de autorización para los ocho puestos heredados identificados en el menú principal.
