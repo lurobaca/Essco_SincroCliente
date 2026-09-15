@@ -11,4 +11,8 @@
 9. Sustitución o encapsulado de los 49 reportes Crystal Reports.
 10. Comparación funcional, piloto, estabilización y retiro controlado del cliente WinForms.
 
+## Hallazgo transversal: estado global
+
+`Class_VariablesGlobales.vb` concentra contexto de usuario, empresa, pantallas, conexiones, credenciales leídas de XML y datos transaccionales. Es incompatible con concurrencia web y se descompondrá en opciones seguras, contexto de solicitud, servicios sin estado y persistencia. No se copiará como una clase estática a C#.
+
 Ninguna fase autoriza conexiones o cambios en producción.
