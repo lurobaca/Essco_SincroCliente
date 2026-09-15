@@ -1,9 +1,13 @@
 using Essco.Application;
 using Essco.Application.Configuration;
+using Essco.Application.Security;
 using Essco.Infrastructure;
+using Essco.Infrastructure.Data;
+using Essco.Infrastructure.Security;
 using Essco.SapBridge.Contracts;
 using Essco.Web.Diagnostics;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
@@ -12,6 +16,23 @@ builder.Logging.AddDebug();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Account/Login";
+        options.AccessDeniedPath = "/Account/AccessDenied";
+        options.Cookie.Name = "__Host-Essco.Auth";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+        options.Cookie.SameSite = SameSiteMode.Strict;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        options.SlidingExpiration = true;
+    });
+builder.Services.AddAuthorizationBuilder()
+    .SetFallbackPolicy(new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build());
 builder.Services.AddProblemDetails(options =>
 {
     options.CustomizeProblemDetails = context =>
@@ -28,6 +49,21 @@ builder.Services.AddDataProtection()
     .SetApplicationName("Essco.Modern")
     .PersistKeysToFileSystem(new DirectoryInfo(keyDirectory));
 builder.Services.AddSingleton<ISapJobQueue, InMemorySapJobQueue>();
+builder.Services.AddSingleton<IPasswordService, Pbkdf2PasswordService>();
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddSingleton(AuthenticationPolicy.Default);
+builder.Services.AddSingleton(PasswordPolicy.Default);
+builder.Services.AddScoped<AuthenticationService>();
+builder.Services.AddScoped<PasswordChangeService>();
+
+var initialOptions = builder.Configuration.GetSection(EsscoOptions.SectionName).Get<EsscoOptions>() ?? new();
+var sqlConnectionString = initialOptions.SqlServer.Enabled
+    ? builder.Configuration.GetConnectionString(initialOptions.SqlServer.ConnectionStringName)
+    : null;
+builder.Services.AddScoped<IUserAccountRepository>(_ =>
+    initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
+        ? new SqlServerUserAccountRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
+        : new UnavailableUserAccountRepository());
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
@@ -45,12 +81,14 @@ app.UseMiddleware<CorrelationIdMiddleware>();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseMiddleware<PasswordChangeRequiredMiddleware>();
 app.UseAuthorization();
 
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
-app.MapHealthChecks("/health");
+app.MapHealthChecks("/health").AllowAnonymous();
 app.MapGet("/api/sap/jobs", (ISapJobQueue queue) => Results.Ok(queue.GetSnapshot()));
 app.MapPost("/api/sap/jobs", async (CreateSapJobRequest request, ISapJobQueue queue, CancellationToken cancellationToken) =>
 {

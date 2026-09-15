@@ -18,4 +18,6 @@ La lectura y actualización de la credencial deben ocurrir dentro de una operaci
 
 ## Estado actual
 
-El agregado `UserAccount`, el servicio de autenticación, el algoritmo de hashing y el repositorio SQL parametrizado están implementados. La migración `database/sqlserver/001_web_user_security.sql` crea una tabla complementaria y reversible; no modifica `Users` ni borra su contraseña heredada. Debe probarse primero sobre una copia representativa y ejecutarse únicamente con autorización. Faltan las páginas web de login/logout antes de habilitar autenticación en un ambiente compartido.
+El agregado `UserAccount`, el servicio de autenticación, el algoritmo de hashing, el repositorio SQL parametrizado y las páginas de login/logout/cambio de contraseña están implementados. La cookie es `HttpOnly`, `Secure`, `SameSite=Strict` y no es persistente. Una política predeterminada exige autenticación salvo en login y health check; un middleware restringe la navegación hasta completar el cambio obligatorio.
+
+La migración `database/sqlserver/001_web_user_security.sql` crea una tabla complementaria y reversible; no modifica `Users` ni borra su contraseña heredada. Debe probarse primero sobre una copia representativa y ejecutarse únicamente con autorización. Sin una conexión habilitada, el repositorio web rechaza todos los accesos y no existe una cuenta predeterminada.

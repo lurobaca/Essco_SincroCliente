@@ -76,5 +76,14 @@ public sealed class UserAccount
         MustChangePassword = true;
     }
 
+    public void ChangePassword(string passwordHash)
+    {
+        if (string.IsNullOrWhiteSpace(passwordHash)) throw new ArgumentException("El hash es obligatorio.", nameof(passwordHash));
+        Credential = passwordHash;
+        CredentialFormat = CredentialFormat.Pbkdf2Sha512;
+        MustChangePassword = false;
+        RecordSuccessfulAccess();
+    }
+
     public static string NormalizeUsername(string username) => username.Trim().ToUpperInvariant();
 }
