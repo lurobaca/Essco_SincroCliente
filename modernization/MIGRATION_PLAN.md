@@ -15,4 +15,8 @@
 
 `Class_VariablesGlobales.vb` concentra contexto de usuario, empresa, pantallas, conexiones, credenciales leídas de XML y datos transaccionales. Es incompatible con concurrencia web y se descompondrá en opciones seguras, contexto de solicitud, servicios sin estado y persistencia. No se copiará como una clase estática a C#.
 
+## Hallazgo transversal: persistencia
+
+El análisis estático inicial encontró 34 archivos con acceso directo o sentencias SQL, 43 tablas/objetos únicos y numerosos indicios de construcción dinámica de consultas. No se detectaron límites transaccionales explícitos mediante las APIs buscadas. Durante la migración, cada operación crítica deberá definir atomicidad, parametrización, timeout y cancelación; no se trasladará SQL concatenado sin revisar sus entradas.
+
 Ninguna fase autoriza conexiones o cambios en producción.
