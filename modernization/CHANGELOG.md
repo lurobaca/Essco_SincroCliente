@@ -13,3 +13,4 @@
 - Catálogo individual de 49 Crystal Reports, con invocaciones, parámetros y estrategia inicial de sustitución.
 - Configuración tipada validada al inicio, Problem Details y correlación de solicitudes web.
 - Núcleo de autenticación con bloqueo, PBKDF2-SHA512 y actualización controlada de credenciales heredadas.
+- Repositorio SQL Server parametrizado y migración reversible para estado de seguridad web.

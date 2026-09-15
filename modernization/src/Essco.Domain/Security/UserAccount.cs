@@ -22,7 +22,7 @@ public sealed class UserAccount
         if (id <= 0) throw new ArgumentOutOfRangeException(nameof(id));
         if (string.IsNullOrWhiteSpace(username)) throw new ArgumentException("El usuario es obligatorio.", nameof(username));
         if (string.IsNullOrWhiteSpace(role)) throw new ArgumentException("El puesto o rol es obligatorio.", nameof(role));
-        if (string.IsNullOrEmpty(credential)) throw new ArgumentException("La credencial es obligatoria.", nameof(credential));
+        ArgumentNullException.ThrowIfNull(credential);
 
         Id = id;
         Username = username.Trim();

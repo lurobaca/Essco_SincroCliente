@@ -18,4 +18,4 @@ La lectura y actualización de la credencial deben ocurrir dentro de una operaci
 
 ## Estado actual
 
-El agregado `UserAccount`, el servicio de autenticación y el algoritmo de hashing están implementados y probados. Falta implementar el repositorio SQL parametrizado, la migración de esquema necesaria y las páginas web de login/logout antes de habilitar autenticación en un ambiente compartido.
+El agregado `UserAccount`, el servicio de autenticación, el algoritmo de hashing y el repositorio SQL parametrizado están implementados. La migración `database/sqlserver/001_web_user_security.sql` crea una tabla complementaria y reversible; no modifica `Users` ni borra su contraseña heredada. Debe probarse primero sobre una copia representativa y ejecutarse únicamente con autorización. Faltan las páginas web de login/logout antes de habilitar autenticación en un ambiente compartido.

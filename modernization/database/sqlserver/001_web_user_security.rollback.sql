@@ -1,0 +1,9 @@
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+
+IF OBJECT_ID(N'[dbo].[Web_UserSecurity]', N'U') IS NOT NULL
+BEGIN
+    DROP TABLE [dbo].[Web_UserSecurity];
+END;
+
+COMMIT TRANSACTION;
