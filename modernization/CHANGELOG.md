@@ -12,3 +12,4 @@
 - Inventario de 168 ubicaciones de integración y 97 referencias de ensamblados heredados.
 - Catálogo individual de 49 Crystal Reports, con invocaciones, parámetros y estrategia inicial de sustitución.
 - Configuración tipada validada al inicio, Problem Details y correlación de solicitudes web.
+- Núcleo de autenticación con bloqueo, PBKDF2-SHA512 y actualización controlada de credenciales heredadas.

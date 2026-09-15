@@ -8,5 +8,7 @@
 - Mantener el puente SAP en una red interna; nunca exponerlo directamente a Internet.
 - Sanitizar errores antes de almacenarlos o mostrarlos.
 - Persistir las llaves de Data Protection fuera del artefacto desplegado y proteger su directorio con permisos del sistema operativo.
+- Migrar credenciales heredadas a PBKDF2-SHA512 en el primer acceso válido, sin registrarlas ni conservarlas en texto claro.
+- Bloquear temporalmente cuentas después de intentos fallidos y no revelar si un usuario existe.
 
 Antes del primer push se ejecutará una revisión de secretos sobre todos los archivos nuevos.
