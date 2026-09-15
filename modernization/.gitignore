@@ -1,0 +1,11 @@
+.dotnet-home/
+.keys/
+**/bin/
+**/obj/
+*.user
+*.suo
+*.pfx
+*.p12
+*.snk
+appsettings.*.local.json
+secrets.json
