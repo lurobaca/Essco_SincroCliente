@@ -26,3 +26,5 @@ dotnet run --project src/Essco.Web
 ```
 
 Las cadenas de conexión, credenciales SAP, certificados y secretos se proporcionarán mediante variables de entorno o un almacén de secretos. Nunca deben agregarse al repositorio.
+
+Consulte `CONFIGURATION.md` para la estructura tipada, variables de entorno y diagnóstico por correlación.

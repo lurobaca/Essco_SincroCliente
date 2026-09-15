@@ -1,6 +1,8 @@
 using Essco.Application;
+using Essco.Application.Configuration;
 using Essco.Infrastructure;
 using Essco.SapBridge.Contracts;
+using Essco.Web.Diagnostics;
 using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,16 @@ builder.Logging.AddDebug();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddProblemDetails(options =>
+{
+    options.CustomizeProblemDetails = context =>
+        context.ProblemDetails.Extensions["correlationId"] = context.HttpContext.TraceIdentifier;
+});
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddOptions<EsscoOptions>()
+    .Bind(builder.Configuration.GetSection(EsscoOptions.SectionName))
+    .Validate(options => options.Validate().Count == 0, "La configuración Essco no es válida.")
+    .ValidateOnStart();
 var keyDirectory = builder.Configuration["DataProtection:KeyDirectory"]
     ?? Path.Combine(builder.Environment.ContentRootPath, ".keys");
 builder.Services.AddDataProtection()
@@ -23,11 +35,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
     app.UseHttpsRedirection();
 }
+
+app.UseExceptionHandler();
+app.UseMiddleware<CorrelationIdMiddleware>();
 
 app.UseRouting();
 
