@@ -17,4 +17,4 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | SAP Business One | `SAP_BUSSINES_ONE.vb` y llamadas relacionadas | SapBridge.Worker | Analizando | DI API, bitness y versión instalada |
 | Reportes | 49 archivos `.rpt` | PDF/Excel/web o puente heredado | Pendiente | Comparación reporte por reporte |
 
-El repositorio contiene aproximadamente 393 archivos VB, 146 recursos de formularios y 49 reportes RPT. Las cifras deberán regenerarse en cada actualización del inventario.
+El análisis reproducible identificó 160 archivos `*.Designer.vb`, de los cuales 145 tienen código `*.vb` asociado. También existen aproximadamente 393 archivos VB y 49 reportes RPT. El detalle está en `docs/inventory/FORMS.md` y se regenerará conforme avance el inventario.
