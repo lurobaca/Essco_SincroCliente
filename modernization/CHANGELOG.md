@@ -9,3 +9,4 @@
 - Inventario reproducible de 160 diseñadores WinForms, sus controles, eventos y dependencias detectables.
 - Inventario reproducible de 49 clases/DTO con aproximadamente 30.412 líneas, métodos, dependencias, riesgos y estado global.
 - Inventario de 34 archivos con acceso a datos, 188 referencias y 43 tablas/objetos SQL detectados.
+- Inventario de 168 ubicaciones de integración y 97 referencias de ensamblados heredados.
