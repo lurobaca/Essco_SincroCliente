@@ -2,16 +2,22 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Security.Claims;
 using Essco.Application.Security;
+using Essco.Application.Auditing;
+using Essco.Application.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace Essco.Web.Pages.Account;
 
 [Authorize]
-public sealed class ChangePasswordModel(PasswordChangeService passwordChangeService) : PageModel
+public sealed class ChangePasswordModel(
+    PasswordChangeService passwordChangeService,
+    AuditService auditService,
+    IOptions<EsscoOptions> options) : PageModel
 {
     [BindProperty]
     public InputModel Input { get; set; } = new();
@@ -25,6 +31,17 @@ public sealed class ChangePasswordModel(PasswordChangeService passwordChangeServ
 
         var result = await passwordChangeService.ChangeAsync(
             userId, User.Identity.Name, Input.CurrentPassword, Input.NewPassword, cancellationToken);
+        await auditService.WriteAsync(
+            userId,
+            User.Identity.Name,
+            options.Value.DefaultCompany,
+            "security.password-change",
+            "UserAccount",
+            userId.ToString(CultureInfo.InvariantCulture),
+            result.Succeeded ? "Succeeded" : "Rejected",
+            HttpContext.TraceIdentifier,
+            HttpContext.Connection.RemoteIpAddress?.ToString(),
+            cancellationToken);
         if (!result.Succeeded)
         {
             foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error);

@@ -1,5 +1,6 @@
 using Essco.Application;
 using Essco.Application.Configuration;
+using Essco.Application.Auditing;
 using Essco.Application.Security;
 using Essco.Infrastructure;
 using Essco.Infrastructure.Data;
@@ -68,6 +69,11 @@ builder.Services.AddScoped<IUserAccountRepository>(_ =>
     initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
         ? new SqlServerUserAccountRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
         : new UnavailableUserAccountRepository());
+builder.Services.AddScoped<IAuditSink>(_ =>
+    initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
+        ? new SqlServerAuditSink(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
+        : new UnavailableAuditSink());
+builder.Services.AddScoped<AuditService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

@@ -1,16 +1,22 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using Essco.Application.Security;
+using Essco.Application.Auditing;
+using Essco.Application.Configuration;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 
 namespace Essco.Web.Pages.Account;
 
 [AllowAnonymous]
-public sealed class LoginModel(Essco.Application.Security.AuthenticationService authenticationService) : PageModel
+public sealed class LoginModel(
+    Essco.Application.Security.AuthenticationService authenticationService,
+    AuditService auditService,
+    IOptions<EsscoOptions> options) : PageModel
 {
     [BindProperty]
     public InputModel Input { get; set; } = new();
@@ -30,6 +36,17 @@ public sealed class LoginModel(Essco.Application.Security.AuthenticationService 
 
         var result = await authenticationService.AuthenticateAsync(
             new(Input.Username, Input.Password), cancellationToken);
+        await auditService.WriteAsync(
+            result.UserId,
+            result.Username ?? Input.Username,
+            options.Value.DefaultCompany,
+            "security.login",
+            "UserAccount",
+            result.UserId?.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            result.Status.ToString(),
+            HttpContext.TraceIdentifier,
+            HttpContext.Connection.RemoteIpAddress?.ToString(),
+            cancellationToken);
         if (result.Status != AuthenticationStatus.Succeeded)
         {
             ModelState.AddModelError(string.Empty,
