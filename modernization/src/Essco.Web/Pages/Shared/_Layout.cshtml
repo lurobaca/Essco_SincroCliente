@@ -33,6 +33,10 @@
                         {
                             <li class="nav-item"><a class="nav-link text-dark" asp-page="/Companies/Profile">Empresa</a></li>
                         }
+                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Customers)).Succeeded)
+                        {
+                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Customers/Index">Clientes</a></li>
+                        }
                     </ul>
                     @if (User.Identity?.IsAuthenticated == true)
                     {
