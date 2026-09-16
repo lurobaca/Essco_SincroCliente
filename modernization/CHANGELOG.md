@@ -23,3 +23,4 @@
 - Formulario web auditado de alta/edición de clientes con ubicación encadenada y consecutivo transaccional.
 - Persistencia parametrizada y transaccional de documentos de exoneración y códigos CABYS.
 - Página web auditada para documentos de exoneración, vigencias y asociaciones CABYS.
+- Consulta web del estado de cuenta de comprobantes con filtros, saldos y totales.

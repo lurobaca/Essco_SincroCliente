@@ -95,6 +95,11 @@ builder.Services.AddScoped<ICustomerExemptionRepository>(_ =>
         ? new SqlServerCustomerExemptionRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
         : new UnavailableCustomerExemptionRepository());
 builder.Services.AddScoped<CustomerExemptionService>();
+builder.Services.AddScoped<IAccountStatementRepository>(_ =>
+    initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
+        ? new SqlServerAccountStatementRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
+        : new UnavailableAccountStatementRepository());
+builder.Services.AddScoped<AccountStatementService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

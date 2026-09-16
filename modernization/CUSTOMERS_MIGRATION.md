@@ -14,6 +14,8 @@ Los cuatro estados se conservan textualmente para compatibilidad: `Nuevo`, `Cerr
 
 Las exoneraciones y sus códigos CABYS disponen de repositorio SQL parametrizado. La inactivación se ejecuta en una sola transacción y marca tanto el documento como sus códigos asociados, reproduciendo el flujo heredado sin dejar asociaciones activas.
 
+El estado de cuenta conserva su comportamiento real: consulta globalmente `dbo.CE_FE` por fecha y estado (`Todos`, `Cancelados`, `Pendientes`); el formulario original no filtraba por cliente aunque su nombre lo sugiriera. La versión web limita el intervalo a un año para evitar consultas accidentales sin límite.
+
 ## Diferencias de seguridad deliberadas
 
 La contraseña web heredada continúa representada temporalmente para no romper el intercambio existente, pero se considera dato sensible: no debe aparecer en listados, auditoría ni registros. Antes de habilitar producción se determinará si el consumidor móvil admite hash o cifrado reversible administrado mediante Data Protection.
