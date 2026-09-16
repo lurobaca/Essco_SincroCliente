@@ -28,3 +28,4 @@
 - Despacho idempotente de altas, modificaciones y cierres de clientes hacia el Windows Service SAP.
 - Adaptador COM/DI API en hilo STA para crear, modificar y cerrar clientes, con confirmación SQL posterior al éxito SAP.
 - Catálogo web auditado de motivos de devolución y selección de bodegas SAP.
+- Catálogo web auditado de rutas con CRUD completo.

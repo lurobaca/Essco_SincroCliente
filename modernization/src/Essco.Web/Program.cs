@@ -110,6 +110,8 @@ builder.Services.AddScoped<IReturnReasonRepository>(_ =>
         ? new SqlServerReturnReasonRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds, initialOptions.Sap.CompanyDatabase)
         : new UnavailableReturnReasonRepository());
 builder.Services.AddScoped<ReturnReasonService>();
+builder.Services.AddScoped<IRouteRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerRouteRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableRouteRepository());
+builder.Services.AddScoped<RouteService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

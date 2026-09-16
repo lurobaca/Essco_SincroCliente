@@ -1,0 +1,6 @@
+@page
+@using Essco.Application.Security
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@{ViewData["Title"]="Catálogos";}
+<h1>Catálogos operativos</h1><div class="list-group"><a asp-page="ReturnReasons" class="list-group-item list-group-item-action"><strong>Motivos de devolución</strong><br/><small>Descripción y bodega SAP de recepción.</small></a><a asp-page="Routes" class="list-group-item list-group-item-action"><strong>Rutas</strong><br/><small>Rutas locales utilizadas por operación y sincronización.</small></a></div>

@@ -1,0 +1,3 @@
+using Essco.Application.Catalogs;using Essco.Domain.Catalogs;
+namespace Essco.Infrastructure.Data;
+public sealed class UnavailableRouteRepository:IRouteRepository{public ValueTask<IReadOnlyCollection<OperationalRoute>> ListAsync(CancellationToken t)=>ValueTask.FromResult<IReadOnlyCollection<OperationalRoute>>([]);public ValueTask<int> SaveAsync(OperationalRoute r,CancellationToken t)=>ValueTask.FromException<int>(new InvalidOperationException("El catálogo no está configurado."));public ValueTask<bool> DeleteAsync(int id,CancellationToken t)=>ValueTask.FromException<bool>(new InvalidOperationException("El catálogo no está configurado."));}

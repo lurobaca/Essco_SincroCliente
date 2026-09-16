@@ -10,8 +10,11 @@ Todas las operaciones nuevas usan parámetros SQL, permiso `catalogs.manage` y a
 
 ## Próximos catálogos
 
-- Rutas.
 - Bodegas y bodegueros.
 - Agentes y choferes.
 - Bancos.
 - Razones de no visita.
+
+## Rutas
+
+Fuente heredada: `Admin_Rutas.vb` y `dbo.Rutas`. El formulario original solo tenía funcional el botón Guardar y contenía un SQL de modificación mal formado. La versión web completa alta, consulta, modificación y eliminación con SQL parametrizado, concurrencia básica y auditoría.
