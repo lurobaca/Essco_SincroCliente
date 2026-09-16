@@ -1,0 +1,3 @@
+@page
+@model Essco.Web.Pages.Inventory.IndexModel
+@{ViewData["Title"]="Inventarios";}<h1>Inventarios físicos</h1><table class="table table-striped"><thead><tr><th>Número</th><th>Fecha</th><th>Título</th><th>Estado</th><th>Inicial</th><th>Final</th><th>Diferencias</th></tr></thead><tbody>@foreach(var x in Model.Items){<tr><td><a asp-page="Detail" asp-route-id="@x.Id">@x.Id</a></td><td>@x.Date</td><td>@x.Title</td><td>@(x.Closed?"Cerrado":"Abierto")</td><td>@x.InitialValue.ToString("N2")</td><td>@x.FinalValue.ToString("N2")</td><td>@x.Differences.ToString("N2")</td></tr>}</tbody></table>

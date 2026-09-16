@@ -12,7 +12,7 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | Pedidos y facturación | Pedidos, facturación y búsqueda | Pedidos a proveedores con SAP; consulta y detalle de facturas electrónicas implementados | Analizando | Emisión, consecutivos, XML, firma, transmisión Hacienda y validación SAP |
 | Recibos y depósitos | Recibos, bancos y depósitos | Depósitos web y envío asíncrono a SAP; consulta de recibos y vinculación/desvinculación implementadas | Analizando | Conciliación posterior, asientos y validación SQL/DI API real |
 | Gastos y devoluciones | Gastos, proveedores y devoluciones | Gastos web; bandeja de devoluciones y creación asíncrona de nota de crédito SAP implementadas | Analizando | Tipos, edición de devoluciones, FEC/Hacienda y validación SQL/DI API real |
-| Inventario | Conteos, cruces y grupos | Inventario | Pendiente | Concurrencia y ajustes SAP |
+| Inventario | Conteos, cruces y grupos | Consulta, captura de conteos, diferencias y cierre transaccional implementados | Analizando | Creación, grupos/proveedores, reconteo, cruce y ajustes SAP |
 | Liquidaciones | Agentes y choferes | Cabeceras web: consulta, alta, edición y anulación con consecutivos transaccionales | Analizando | Integrar depósitos, recibos, gastos, facturas, devoluciones, cálculos, reportes y cierre |
 | Planillas | Clases y pantallas de planilla | Planillas | Pendiente | Archivos bancarios y cálculos |
 | Hacienda | XML, token, firma y mensajes | Facturación electrónica | Pendiente | Sandbox oficial y certificados |
