@@ -1,0 +1,19 @@
+@page
+@model Essco.Web.Pages.Products.PriceListsModel
+@{ ViewData["Title"] = "Listas de precios"; }
+<h1>Listas de precios</h1>
+<p><a asp-page="Index">Artículos</a> · <a asp-page="Discounts">Descuentos automáticos</a></p>
+@if (Model.StatusMessage is not null) { <div class="alert alert-info">@Model.StatusMessage</div> }
+<form method="post" asp-page-handler="Save" class="card card-body mb-3">
+    <input asp-for="Input.IsNew" type="hidden" /><input asp-for="Input.Id" type="hidden" />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="row g-2 align-items-end">
+        <div class="col-md-2"><label asp-for="Input.Id">Número</label><input asp-for="Input.Id" class="form-control" disabled="@(!Model.Input.IsNew)" /></div>
+        <div class="col-md-6"><label asp-for="Input.Name">Nombre</label><input asp-for="Input.Name" class="form-control" /></div>
+        <div class="col-md-2 form-check"><input asp-for="Input.IsInactive" class="form-check-input" /><label asp-for="Input.IsInactive" class="form-check-label">Inactiva</label></div>
+        <div class="col-md-2"><button class="btn btn-primary w-100">Guardar</button></div>
+    </div>
+</form>
+<table class="table table-striped"><thead><tr><th>Número</th><th>Nombre</th><th>Estado</th><th></th></tr></thead><tbody>
+@foreach (var x in Model.Items) { <tr><td>@x.Id</td><td>@x.Name</td><td>@(x.IsInactive ? "Inactiva" : "Activa")</td><td><a asp-route-edit="@x.Id" class="btn btn-sm btn-outline-secondary">Editar</a> <form method="post" asp-page-handler="Status" class="d-inline"><input type="hidden" name="id" value="@x.Id"/><input type="hidden" name="inactive" value="@(!x.IsInactive)"/><button class="btn btn-sm btn-outline-warning">@(x.IsInactive ? "Activar" : "Inactivar")</button></form></td></tr> }
+</tbody></table>

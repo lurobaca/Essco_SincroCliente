@@ -8,6 +8,7 @@ using Essco.Application.Catalogs;
 using Essco.Application.Treasury;
 using Essco.Application.Liquidations;
 using Essco.Application.Returns;
+using Essco.Application.Products;
 using Essco.Infrastructure;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure.Security;
@@ -138,6 +139,8 @@ builder.Services.AddScoped<ILiquidationExpenseRepository>(_ => initialOptions.Sq
 builder.Services.AddScoped<LiquidationExpenseService>();
 builder.Services.AddScoped<IReturnRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerReturnRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableReturnRepository());
 builder.Services.AddScoped<ReturnService>();
+builder.Services.AddScoped<IProductRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerProductRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableProductRepository());
+builder.Services.AddScoped<ProductService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
