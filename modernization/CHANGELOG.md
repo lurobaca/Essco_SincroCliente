@@ -21,3 +21,4 @@
 - Página web protegida para administrar Empresa, catálogos geográficos encadenados y auditoría de cambios.
 - Núcleo de solicitudes de cambio de Clientes con validación, filtros paginados, SQL parametrizado y aprobación.
 - Formulario web auditado de alta/edición de clientes con ubicación encadenada y consecutivo transaccional.
+- Persistencia parametrizada y transaccional de documentos de exoneración y códigos CABYS.
