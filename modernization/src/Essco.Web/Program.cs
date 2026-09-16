@@ -122,6 +122,8 @@ builder.Services.AddScoped<IWarehouseOperatorRepository>(_ => initialOptions.Sql
 builder.Services.AddScoped<WarehouseOperatorService>();
 builder.Services.AddScoped<ISalesAgentRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerSalesAgentRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableSalesAgentRepository());
 builder.Services.AddScoped<SalesAgentService>();
+builder.Services.AddScoped<IDriverRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerDriverRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableDriverRepository());
+builder.Services.AddScoped<DriverService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

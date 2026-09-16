@@ -34,3 +34,4 @@
 - Catálogo web de bodegas WMS con geometría protegida y selección predeterminada transaccional.
 - Administración web de bodegueros y sectores autorizados sin exposición de claves heredadas.
 - Mantenimiento web de agentes, puestos y consecutivos, corrigiendo el cruce de campos del alta heredada.
+- Mantenimiento web de choferes históricos, tipos y consecutivos.

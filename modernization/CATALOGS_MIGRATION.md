@@ -10,7 +10,6 @@ Todas las operaciones nuevas usan parámetros SQL, permiso `catalogs.manage` y a
 
 ## Próximos catálogos
 
-- Choferes de la tabla histórica independiente.
 
 ## Rutas
 
@@ -35,3 +34,7 @@ Fuente heredada: `Admin_Bodeguero.vb`, `dbo.Bodegueros` y `dbo.Sectores_autoriza
 ## Agentes
 
 Fuente heredada: `Admin_Agentes.vb` y `dbo.Agentes`. La página `/Catalogs/SalesAgents` conserva alta, edición, eliminación, filtro por puesto y todos los consecutivos operativos. El código `3` permanece oculto y protegido porque el sistema original lo trata como reservado. El alta web mapea los consecutivos por nombre y corrige el cruce heredado entre depósito, gastos y no-visita causado por el orden de argumentos.
+
+## Choferes históricos
+
+Fuente heredada: `Admin_Choferes.vb` y `dbo.Choferes`. La página `/Catalogs/Drivers` conserva alta, edición, eliminación, filtro por tipo y consecutivos. `Tipo` se restringe a `CHOFER` o `AYUDANTE`. Igual que Agentes, el mapeo por nombre corrige el cruce de depósito, gastos y no-visita presente en el alta original.
