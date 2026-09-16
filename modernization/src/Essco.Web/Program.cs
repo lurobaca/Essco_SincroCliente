@@ -4,6 +4,7 @@ using Essco.Application.Auditing;
 using Essco.Application.Security;
 using Essco.Application.Companies;
 using Essco.Application.Customers;
+using Essco.Application.Catalogs;
 using Essco.Infrastructure;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure.Security;
@@ -104,6 +105,11 @@ builder.Services.AddScoped<IAccountStatementRepository>(_ =>
         ? new SqlServerAccountStatementRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
         : new UnavailableAccountStatementRepository());
 builder.Services.AddScoped<AccountStatementService>();
+builder.Services.AddScoped<IReturnReasonRepository>(_ =>
+    initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
+        ? new SqlServerReturnReasonRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds, initialOptions.Sap.CompanyDatabase)
+        : new UnavailableReturnReasonRepository());
+builder.Services.AddScoped<ReturnReasonService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
