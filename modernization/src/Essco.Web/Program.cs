@@ -3,6 +3,7 @@ using Essco.Application.Configuration;
 using Essco.Application.Auditing;
 using Essco.Application.Security;
 using Essco.Application.Companies;
+using Essco.Application.Customers;
 using Essco.Infrastructure;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure.Security;
@@ -84,6 +85,11 @@ builder.Services.AddScoped<IGeographyRepository>(_ =>
         ? new SqlServerGeographyRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
         : new UnavailableGeographyRepository());
 builder.Services.AddScoped<CompanyService>();
+builder.Services.AddScoped<ICustomerChangeRepository>(_ =>
+    initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
+        ? new SqlServerCustomerChangeRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
+        : new UnavailableCustomerChangeRepository());
+builder.Services.AddScoped<CustomerChangeService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

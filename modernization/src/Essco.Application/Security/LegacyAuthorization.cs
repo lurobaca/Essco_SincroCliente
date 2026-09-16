@@ -25,13 +25,14 @@ public static class Permissions
     public const string Reports = "reports.access";
     public const string Users = "users.manage";
     public const string Company = "company.manage";
+    public const string Customers = "customers.manage";
     public const string Warehouse = "warehouse.access";
     public const string LoadReports = "load-reports.access";
     public const string InvoiceReports = "invoice-reports.access";
     public const string LiquidationDifferences = "liquidation-differences.access";
 
     public static IReadOnlyCollection<string> All { get; } =
-    [Billing, Cash, Administration, Payroll, Export, Reports, Users, Company, Warehouse,
+    [Billing, Cash, Administration, Payroll, Export, Reports, Users, Company, Customers, Warehouse,
         LoadReports, InvoiceReports, LiquidationDifferences];
 }
 
@@ -44,20 +45,21 @@ public static class LegacyRolePermissions
             [LegacyRoles.Manager] = Set(Permissions.Billing, Permissions.Cash, Permissions.Administration,
                 Permissions.Export, Permissions.Reports,
                 Permissions.Company,
+                Permissions.Customers,
                 Permissions.InvoiceReports, Permissions.LiquidationDifferences),
             [LegacyRoles.Billing] = Set(Permissions.Billing, Permissions.Administration,
-                Permissions.Export, Permissions.Reports, Permissions.LoadReports, Permissions.InvoiceReports),
+                Permissions.Export, Permissions.Reports, Permissions.Customers, Permissions.LoadReports, Permissions.InvoiceReports),
             [LegacyRoles.Administration] = Set(Permissions.Cash, Permissions.Administration,
                 Permissions.Payroll, Permissions.Export, Permissions.Reports, Permissions.Users,
-                Permissions.LiquidationDifferences),
+                Permissions.Customers, Permissions.LiquidationDifferences),
             [LegacyRoles.AccountsReceivable] = Set(Permissions.Billing, Permissions.Administration,
-                Permissions.Export, Permissions.Reports, Permissions.LiquidationDifferences),
+                Permissions.Export, Permissions.Reports, Permissions.Customers, Permissions.LiquidationDifferences),
             [LegacyRoles.Warehouse] = Set(Permissions.Administration, Permissions.Warehouse,
                 Permissions.LoadReports, Permissions.InvoiceReports),
             [LegacyRoles.Accounting] = Set(Permissions.Export, Permissions.Reports,
                 Permissions.LiquidationDifferences),
             [LegacyRoles.Reception] = Set(Permissions.Billing, Permissions.Administration,
-                Permissions.Export, Permissions.Reports, Permissions.LiquidationDifferences)
+                Permissions.Export, Permissions.Reports, Permissions.Customers, Permissions.LiquidationDifferences)
         };
 
     public static bool HasPermission(string? role, string permission) =>
