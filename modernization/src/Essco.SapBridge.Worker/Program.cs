@@ -3,6 +3,7 @@ using Essco.Application.Configuration;
 using Essco.Application.Companies;
 using Essco.Application.Customers;
 using Essco.Application.Treasury;
+using Essco.Application.Returns;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure;
 using Essco.SapBridge.Worker;
@@ -32,6 +33,9 @@ builder.Services.AddSingleton<IIncomingReceiptSapJobProcessor, IncomingReceiptSa
 builder.Services.AddSingleton<IDepositRepository>(_ => options.SqlServer.Enabled && !string.IsNullOrWhiteSpace(connectionString) ? new SqlServerDepositRepository(connectionString, options.SqlServer.CommandTimeoutSeconds) : new UnavailableDepositRepository());
 builder.Services.AddSingleton<ISapDepositGateway, ComSapDepositGateway>();
 builder.Services.AddSingleton<IDepositSapJobProcessor, DepositSapJobProcessor>();
+builder.Services.AddSingleton<IReturnRepository>(_ => options.SqlServer.Enabled && !string.IsNullOrWhiteSpace(connectionString) ? new SqlServerReturnRepository(connectionString, options.SqlServer.CommandTimeoutSeconds) : new UnavailableReturnRepository());
+builder.Services.AddSingleton<ISapReturnGateway, ComSapReturnGateway>();
+builder.Services.AddSingleton<IReturnSapJobProcessor, ReturnSapJobProcessor>();
 builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();

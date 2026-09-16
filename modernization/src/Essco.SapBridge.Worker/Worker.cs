@@ -1,15 +1,16 @@
 using Essco.Application;
 using Essco.Application.Customers;
 using Essco.Application.Treasury;
+using Essco.Application.Returns;
 using Essco.Domain;
 
 namespace Essco.SapBridge.Worker;
 
-public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor, IDepositSapJobProcessor depositProcessor) : BackgroundService
+public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor, IDepositSapJobProcessor depositProcessor, IReturnSapJobProcessor returnProcessor) : BackgroundService
 {
     private readonly ISapJobQueue _queue = null!;
 
-    public Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor, IDepositSapJobProcessor depositProcessor, ISapJobQueue queue) : this(logger, customerProcessor, receiptProcessor, depositProcessor)
+    public Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor, IDepositSapJobProcessor depositProcessor, IReturnSapJobProcessor returnProcessor, ISapJobQueue queue) : this(logger, customerProcessor, receiptProcessor, depositProcessor, returnProcessor)
     {
         _queue = queue;
     }
@@ -35,6 +36,8 @@ public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerPro
                         ? await receiptProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
                         : job.OperationType.StartsWith("Deposit.", StringComparison.Ordinal)
                             ? await depositProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
+                            : job.OperationType.StartsWith("Return.", StringComparison.Ordinal)
+                                ? await returnProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
                         : new SapProcessingResult(false, null, "Tipo de operación SAP no soportado por el servicio.", false);
                 if (result.Succeeded)
                     await _queue.CompleteAsync(job.Id, result.ExternalId ?? job.Id.ToString(), stoppingToken);
