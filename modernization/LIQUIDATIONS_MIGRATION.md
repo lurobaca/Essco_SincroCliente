@@ -6,4 +6,6 @@ La página `/Liquidations` unifica consulta, creación, edición y anulación l�
 
 El acceso usa `liquidation-differences.access` y todas las mutaciones se auditan. Los registros anulados no se pueden editar.
 
-Este incremento cubre la cabecera. Aún deben incorporarse al flujo transaccional los depósitos, recibos, gastos, facturas, devoluciones, diferencias calculadas y generación de reportes; hasta entonces no existe paridad completa con las pantallas heredadas.
+La página `/Liquidations/Expenses` migra el mantenimiento de `dbo.GastosLiquidaciones`: consulta parametrizada, creación con reserva transaccional de `ConseGastos`, edición, asociación a liquidación y anulación lógica. Conserva la marca de factura electrónica, proveedor, inclusión y estado de Hacienda.
+
+Aún deben incorporarse al flujo transaccional las facturas, devoluciones, diferencias calculadas, cierre y generación de reportes; hasta entonces no existe paridad completa con las pantallas heredadas.

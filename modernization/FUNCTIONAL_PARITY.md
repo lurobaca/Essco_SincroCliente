@@ -11,7 +11,7 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | Artículos y precios | Artículos, listas y descuentos | Catálogo comercial | Pendiente | Reglas de precio y unidades |
 | Pedidos y facturación | Pedidos, facturación y búsqueda | Ventas | Pendiente | Totales, impuestos, inventario y SAP |
 | Recibos y depósitos | Recibos, bancos y depósitos | Depósitos web y envío asíncrono a SAP; consulta de recibos y vinculación/desvinculación implementadas | Analizando | Conciliación posterior, asientos y validación SQL/DI API real |
-| Gastos y devoluciones | Gastos, proveedores y devoluciones | Operaciones | Pendiente | Estados y aprobaciones |
+| Gastos y devoluciones | Gastos, proveedores y devoluciones | Gastos web con alta, edición, asociación y anulación implementados | Analizando | Tipos, devoluciones, FEC/Hacienda y validación SQL real |
 | Inventario | Conteos, cruces y grupos | Inventario | Pendiente | Concurrencia y ajustes SAP |
 | Liquidaciones | Agentes y choferes | Cabeceras web: consulta, alta, edición y anulación con consecutivos transaccionales | Analizando | Integrar depósitos, recibos, gastos, facturas, devoluciones, cálculos, reportes y cierre |
 | Planillas | Clases y pantallas de planilla | Planillas | Pendiente | Archivos bancarios y cálculos |

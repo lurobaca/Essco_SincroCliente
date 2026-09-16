@@ -133,6 +133,8 @@ builder.Services.AddScoped<IIncomingReceiptRepository>(_ => initialOptions.SqlSe
 builder.Services.AddScoped<IncomingReceiptService>();
 builder.Services.AddScoped<ILiquidationRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerLiquidationRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableLiquidationRepository());
 builder.Services.AddScoped<LiquidationService>();
+builder.Services.AddScoped<ILiquidationExpenseRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerLiquidationExpenseRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableLiquidationExpenseRepository());
+builder.Services.AddScoped<LiquidationExpenseService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
