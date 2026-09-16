@@ -1,5 +1,9 @@
 # Plan de migración
 
+## Directiva de ejecución continua
+
+No detener la ejecución ni presentar un módulo, prueba, commit o `push` incremental como terminación de la migración. Después de cada bloque verificado se debe crear y publicar su commit y continuar inmediatamente con el siguiente bloque pendiente. La migración solo puede declararse completa cuando toda la matriz `FUNCTIONAL_PARITY.md` esté cerrada, las pruebas automatizadas estén aprobadas, las integraciones externas tengan adaptador y procedimiento de validación, la documentación operativa esté completa y la rama remota contenga todos los cambios. Una dependencia externa inaccesible debe quedar aislada, simulada y documentada, pero no autoriza a abandonar los demás módulos que puedan seguir migrándose.
+
 1. Inventario reproducible de formularios, clases, reportes, consultas y dependencias.
 2. Base transversal: configuración, autenticación, roles, auditoría y manejo de errores.
 3. Acceso a SQL Server/MySQL con pruebas contra entornos no productivos.

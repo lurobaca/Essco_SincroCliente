@@ -10,6 +10,7 @@ using Essco.Application.Liquidations;
 using Essco.Application.Returns;
 using Essco.Application.Products;
 using Essco.Application.Purchasing;
+using Essco.Application.Billing;
 using Essco.Infrastructure;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure.Security;
@@ -144,6 +145,8 @@ builder.Services.AddScoped<IProductRepository>(_ => initialOptions.SqlServer.Ena
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<IPurchaseOrderRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerPurchaseOrderRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailablePurchaseOrderRepository());
 builder.Services.AddScoped<PurchaseOrderService>();
+builder.Services.AddScoped<IElectronicInvoiceRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerElectronicInvoiceRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableElectronicInvoiceRepository());
+builder.Services.AddScoped<ElectronicInvoiceService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

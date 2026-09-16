@@ -1,0 +1,3 @@
+using Essco.Domain.Billing;namespace Essco.Application.Billing;
+public interface IElectronicInvoiceRepository{ValueTask<IReadOnlyCollection<ElectronicInvoice>>ListAsync(ElectronicInvoiceFilter filter,CancellationToken token);ValueTask<ElectronicInvoice?>GetAsync(string documentNumber,CancellationToken token);}
+public sealed class ElectronicInvoiceService(IElectronicInvoiceRepository repository){public ValueTask<IReadOnlyCollection<ElectronicInvoice>>ListAsync(ElectronicInvoiceFilter f,CancellationToken t)=>repository.ListAsync(f,t);public ValueTask<ElectronicInvoice?>GetAsync(string n,CancellationToken t)=>repository.GetAsync(n.Trim(),t);}
