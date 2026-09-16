@@ -17,6 +17,6 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | Planillas | Clases y pantallas de planilla | Listado, creación, desglose por empleado, finalización y anulación implementados | Analizando | Caracterizar cálculos, expedientes, aguinaldo, vacaciones, archivos bancarios y asiento SAP |
 | Hacienda | XML, token, firma y mensajes | Facturación electrónica | Pendiente | Sandbox oficial y certificados |
 | SAP Business One | `SAP_BUSSINES_ONE.vb` y llamadas relacionadas | SapBridge.Worker | Analizando | DI API, bitness y versión instalada |
-| Reportes | 49 archivos `.rpt` inventariados; 48 con uso detectable | PDF/Excel/web o puente heredado | Analizando | Comparación reporte por reporte |
+| Reportes | 49 archivos `.rpt` inventariados; 48 con uso detectable | Exportaciones CSV iniciales de facturación, inventario y planillas | Analizando | Plantillas PDF y comparación reporte por reporte |
 
 El análisis reproducible identificó 160 archivos `*.Designer.vb`, de los cuales 145 tienen código `*.vb` asociado. También existen aproximadamente 393 archivos VB y 49 reportes RPT. El detalle está en `docs/inventory/FORMS.md` y se regenerará conforme avance el inventario.
