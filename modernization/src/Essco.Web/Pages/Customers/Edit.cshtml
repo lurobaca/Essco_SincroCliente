@@ -1,0 +1,44 @@
+@page "{id:long?}"
+@model Essco.Web.Pages.Customers.EditModel
+@using Essco.Domain.Customers
+@{ ViewData["Title"]=Model.Input.Id==0?"Nuevo cliente":"Editar cliente"; }
+<h1>@ViewData["Title"]</h1>
+<p class="text-muted">Solicitud que será procesada y sincronizada con SAP.</p>
+<form method="post">
+ <input asp-for="Input.Id" type="hidden" />
+ <div asp-validation-summary="All" class="text-danger"></div>
+ <div class="row g-3">
+  <div class="col-md-3"><label asp-for="Input.State" class="form-label"></label><select asp-for="Input.State" class="form-select"><option value="New">Nuevo</option><option value="Close">Cerrar</option><option value="Modified">Modificado</option><option value="Internal">Interno</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.Code" class="form-label"></label>@if(Model.Input.Id!=0){<input asp-for="Input.Code" class="form-control" readonly />}else{<input asp-for="Input.Code" class="form-control" />}</div>
+  <div class="col-md-3"><label asp-for="Input.IdentificationType" class="form-label"></label><select asp-for="Input.IdentificationType" class="form-select"><option value="1">Física</option><option value="2">Jurídica</option><option value="3">DIMEX</option><option value="4">NITE</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.TaxId" class="form-label"></label><input asp-for="Input.TaxId" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.Name" class="form-label"></label><input asp-for="Input.Name" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.TradeName" class="form-label"></label><input asp-for="Input.TradeName" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.TaxResponsible" class="form-label"></label><input asp-for="Input.TaxResponsible" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.Phone1" class="form-label"></label><input asp-for="Input.Phone1" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.Phone2" class="form-label"></label><input asp-for="Input.Phone2" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.Email" class="form-label"></label><input asp-for="Input.Email" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.AgentCode" class="form-label"></label><input asp-for="Input.AgentCode" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.PartnerType" class="form-label"></label><input asp-for="Input.PartnerType" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.VisitSchedule" class="form-label"></label><select asp-for="Input.VisitSchedule" class="form-select"><option value="">Seleccione</option><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.WebPassword" class="form-label"></label><input asp-for="Input.WebPassword" class="form-control" autocomplete="new-password" /><small class="text-muted">Vacío conserva la actual.</small></div>
+  <div class="col-md-3"><label asp-for="Input.ProvinceId" class="form-label"></label><select asp-for="Input.ProvinceId" asp-items="Model.Provinces" class="form-select"><option value="">Seleccione</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.CantonId" class="form-label"></label><select asp-for="Input.CantonId" asp-items="Model.Cantons" class="form-select"><option value="">Seleccione</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.DistrictId" class="form-label"></label><select asp-for="Input.DistrictId" asp-items="Model.Districts" class="form-select"><option value="">Seleccione</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.NeighborhoodId" class="form-label"></label><select asp-for="Input.NeighborhoodId" asp-items="Model.Neighborhoods" class="form-select"><option value="">Seleccione</option></select></div>
+  <div class="col-12"><label asp-for="Input.Address" class="form-label"></label><textarea asp-for="Input.Address" class="form-control" rows="3"></textarea></div>
+  <div class="col-md-3"><label asp-for="Input.Latitude" class="form-label"></label><input asp-for="Input.Latitude" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.Longitude" class="form-label"></label><input asp-for="Input.Longitude" class="form-control" /></div>
+ </div>
+ <div class="mt-4"><button class="btn btn-primary">Guardar solicitud</button> <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a></div>
+</form>
+@section Scripts {
+ <partial name="_ValidationScriptsPartial" />
+ <script>
+ const province=document.getElementById('Input_ProvinceId'),canton=document.getElementById('Input_CantonId'),district=document.getElementById('Input_DistrictId'),neighborhood=document.getElementById('Input_NeighborhoodId');
+ async function fill(select,url){select.innerHTML='<option value="">Seleccione</option>';if(!url)return;const response=await fetch(url,{headers:{Accept:'application/json'}});if(!response.ok)return;for(const item of await response.json())select.add(new Option(item.name,item.id));}
+ province.addEventListener('change',async()=>{await fill(canton,province.value?`?handler=Cantons&provinceId=${province.value}`:null);await fill(district);await fill(neighborhood);});
+ canton.addEventListener('change',async()=>{await fill(district,canton.value?`?handler=Districts&provinceId=${province.value}&cantonId=${canton.value}`:null);await fill(neighborhood);});
+ district.addEventListener('change',()=>fill(neighborhood,district.value?`?handler=Neighborhoods&provinceId=${province.value}&cantonId=${canton.value}&districtId=${district.value}`:null));
+ </script>
+}

@@ -2,7 +2,7 @@ using System.Net.Mail;
 
 namespace Essco.Domain.Customers;
 
-public enum CustomerChangeState { Active = 0, Inactive = 1 }
+public enum CustomerChangeState { New, Close, Modified, Internal }
 
 public sealed record CustomerChangeRequest
 {
@@ -44,7 +44,11 @@ public sealed record CustomerChangeRequest
         Required(Code, 50, "Código", errors);
         Required(Name, 200, "Nombre", errors);
         Required(TaxId, 20, "Identificación", errors);
-        Required(Sequence, 50, "Consecutivo", errors);
+        var taxIdLengths = IdentificationType switch { 1 => new[] { 9 }, 2 => new[] { 10 }, 3 => new[] { 11, 12 }, 4 => new[] { 10 }, _ => [] };
+        if (taxIdLengths.Length == 0) errors.Add("El tipo de identificación no es válido.");
+        else if (!TaxId.All(char.IsDigit) || !taxIdLengths.Contains(TaxId.Length))
+            errors.Add($"La identificación debe contener {string.Join(" o ", taxIdLengths)} dígitos.");
+        if (Id != 0) Required(Sequence, 50, "Consecutivo", errors);
         if (!string.IsNullOrWhiteSpace(Email)) try { _ = new MailAddress(Email); } catch (FormatException) { errors.Add("El correo electrónico no es válido."); }
         if (Latitude is < -90 or > 90) errors.Add("La latitud debe estar entre -90 y 90.");
         if (Longitude is < -180 or > 180) errors.Add("La longitud debe estar entre -180 y 180.");

@@ -10,7 +10,7 @@ public sealed class CustomerChangeServiceTests
     {
         var repository = new Repository();
         var result = await new CustomerChangeService(repository).SaveAsync(new CustomerChangeRequest
-        { Sequence="", Code="", Name="", TaxId="", RequestedAt=DateTime.UtcNow }, CancellationToken.None);
+        { Sequence="", Code="", Name="", TaxId="", IdentificationType=2, RequestedAt=DateTime.UtcNow }, CancellationToken.None);
         Assert.False(result.Succeeded);
         Assert.Equal(0, repository.SaveCalls);
     }
@@ -19,7 +19,7 @@ public sealed class CustomerChangeServiceTests
     public async Task SaveAsync_ReturnsGeneratedId()
     {
         var repository = new Repository();
-        var request = new CustomerChangeRequest { Sequence="1",Code="C1",Name="Cliente",TaxId="1",ProvinceId=1,CantonId=1,DistrictId=1,NeighborhoodId=1,RequestedAt=DateTime.UtcNow };
+        var request = new CustomerChangeRequest { Sequence="1",Code="C1",Name="Cliente",TaxId="3101123456",IdentificationType=2,ProvinceId=1,CantonId=1,DistrictId=1,NeighborhoodId=1,RequestedAt=DateTime.UtcNow };
         var result = await new CustomerChangeService(repository).SaveAsync(request,CancellationToken.None);
         Assert.True(result.Succeeded);
         Assert.Equal(42,result.Id);

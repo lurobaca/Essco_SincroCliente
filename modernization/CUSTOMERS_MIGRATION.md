@@ -8,7 +8,9 @@
 - `ClientesEstadoCuenta`: consulta financiera dependiente de SAP.
 - `CambioInfoClientes` y `ClientesShow`: consulta y selección.
 
-El primer incremento incorpora el dominio, validación, búsqueda paginada, alta/edición y aprobación de `ClientesModificados`. Todas las consultas nuevas son parametrizadas.
+Los incrementos actuales incorporan dominio, validación tributaria y geográfica, búsqueda paginada, formulario web de alta/edición y aprobación de `ClientesModificados`. Todas las consultas nuevas son parametrizadas. El consecutivo se incrementa junto con la inserción dentro de una transacción serializable.
+
+Los cuatro estados se conservan textualmente para compatibilidad: `Nuevo`, `Cerrar`, `Modificado` e `Interno`.
 
 ## Diferencias de seguridad deliberadas
 

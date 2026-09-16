@@ -21,9 +21,16 @@ public sealed class CustomerChangeRequestTests
         Assert.Contains(request.Validate(), x => x.Contains("vencimiento", StringComparison.OrdinalIgnoreCase));
     }
 
+    [Fact]
+    public void Validate_RejectsTaxIdThatDoesNotMatchType()
+    {
+        var request = Valid() with { IdentificationType = 1 };
+        Assert.Contains(request.Validate(), x => x.Contains("9 dígitos", StringComparison.Ordinal));
+    }
+
     private static CustomerChangeRequest Valid() => new()
     {
-        Sequence = "1", Code = "C001", Name = "Cliente", TaxId = "3101123456",
+        Sequence = "1", Code = "C001", Name = "Cliente", TaxId = "3101123456", IdentificationType = 2,
         ProvinceId = 1, CantonId = 1, DistrictId = 1, NeighborhoodId = 1,
         RequestedAt = DateTime.UtcNow
     };

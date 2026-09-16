@@ -18,7 +18,7 @@ public sealed class IndexModel(CustomerChangeService service, AuditService audit
     [BindProperty(SupportsGet = true)] public string? Term { get; set; }
     [BindProperty(SupportsGet = true)] public bool ByName { get; set; }
     [BindProperty(SupportsGet = true)] public bool Approved { get; set; }
-    [BindProperty(SupportsGet = true)] public CustomerChangeState State { get; set; }
+    [BindProperty(SupportsGet = true)] public CustomerChangeState State { get; set; } = CustomerChangeState.Modified;
     [BindProperty(SupportsGet = true)] public string? Agent { get; set; }
     [BindProperty(SupportsGet = true)] public DateOnly? From { get; set; }
     [BindProperty(SupportsGet = true)] public DateOnly? To { get; set; }
