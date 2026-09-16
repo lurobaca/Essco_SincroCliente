@@ -1,0 +1,20 @@
+@page "{CustomerCode}"
+@model Essco.Web.Pages.Customers.ExemptionsModel
+@{ViewData["Title"]="Exoneraciones";}
+<div class="d-flex justify-content-between"><div><h1>Exoneraciones</h1><p class="text-muted">Cliente @Model.CustomerCode</p></div><a asp-page="Index" class="btn btn-outline-secondary align-self-start">Volver</a></div>
+@if(!string.IsNullOrWhiteSpace(Model.StatusMessage)){<div class="alert alert-info">@Model.StatusMessage</div>}
+<div class="row g-4">
+ <div class="col-lg-5">
+  <form method="post" asp-page-handler="Save" class="card card-body">
+   <h2 class="h5">@(Model.Input.Id==0?"Nuevo documento":"Editar documento")</h2><input asp-for="Input.Id" type="hidden"/><div asp-validation-summary="All" class="text-danger"></div>
+   <label asp-for="Input.DocumentType" class="form-label"></label><select asp-for="Input.DocumentType" class="form-select mb-2"><option value="01">01 - Compras autorizadas</option><option value="02">02 - Diplomáticos</option><option value="03">03 - Ley especial</option><option value="04">04 - Hacienda</option><option value="05">05 - Transitorio V</option><option value="06">06 - Transitorio IX</option><option value="07">07 - Transitorio XVII</option><option value="99">99 - Otros</option></select>
+   <label asp-for="Input.Number" class="form-label"></label><input asp-for="Input.Number" class="form-control mb-2"/><label asp-for="Input.Institution" class="form-label"></label><input asp-for="Input.Institution" class="form-control mb-2"/>
+   <div class="row"><div class="col"><label asp-for="Input.IssuedOn" class="form-label"></label><input asp-for="Input.IssuedOn" type="date" class="form-control"/></div><div class="col"><label asp-for="Input.ExpiresOn" class="form-label"></label><input asp-for="Input.ExpiresOn" type="date" class="form-control"/></div></div>
+   <label asp-for="Input.PurchasePercent" class="form-label mt-2"></label><input asp-for="Input.PurchasePercent" class="form-control"/>
+   <div class="mt-3"><button class="btn btn-primary">Guardar</button> <a asp-route-CustomerCode="@Model.CustomerCode" class="btn btn-outline-secondary">Nuevo</a></div>
+  </form>
+  @if(Model.Input.Id!=0){<div class="card card-body mt-3"><h2 class="h5">Códigos CABYS</h2><form method="post" asp-page-handler="AddCabys" class="input-group mb-2"><input type="hidden" name="exemptionId" value="@Model.Input.Id"/><input asp-for="CabysCode" class="form-control" placeholder="Código CABYS"/><button class="btn btn-outline-primary">Agregar</button></form>@foreach(var code in Model.Cabys){<div class="d-flex justify-content-between border-top py-2"><span>@code.CabysCode @(code.Inactive?"(inactivo)":"")</span>@if(!code.Inactive){<form method="post" asp-page-handler="RemoveCabys"><input type="hidden" name="exemptionId" value="@Model.Input.Id"/><input type="hidden" name="cabys" value="@code.CabysCode"/><button class="btn btn-sm btn-outline-danger">Quitar</button></form>}</div>}</div>}
+ </div>
+ <div class="col-lg-7"><div class="table-responsive"><table class="table table-striped"><thead><tr><th>Documento</th><th>Institución</th><th>Vigencia</th><th>%</th><th></th></tr></thead><tbody>@foreach(var item in Model.Items){<tr class="@(item.Inactive?"text-muted":"")"><td>@item.DocumentType - @item.Number @(item.Inactive?"(inactivo)":"")</td><td>@item.Institution</td><td>@item.IssuedOn.ToString("dd/MM/yyyy") - @item.ExpiresOn.ToString("dd/MM/yyyy")</td><td>@item.PurchasePercent</td><td class="text-nowrap"><a asp-route-CustomerCode="@Model.CustomerCode" asp-route-exemptionId="@item.Id" class="btn btn-sm btn-outline-secondary">Ver</a>@if(!item.Inactive){<form method="post" asp-page-handler="Deactivate" class="d-inline"><input type="hidden" name="id" value="@item.Id"/><button class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Inactivar este documento y sus CABYS?')">Inactivar</button></form>}</td></tr>}</tbody></table></div></div>
+</div>
+@section Scripts{<partial name="_ValidationScriptsPartial"/>}

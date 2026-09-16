@@ -30,7 +30,7 @@
   <div class="col-md-3"><label asp-for="Input.Latitude" class="form-label"></label><input asp-for="Input.Latitude" class="form-control" /></div>
   <div class="col-md-3"><label asp-for="Input.Longitude" class="form-label"></label><input asp-for="Input.Longitude" class="form-control" /></div>
  </div>
- <div class="mt-4"><button class="btn btn-primary">Guardar solicitud</button> <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a></div>
+ <div class="mt-4"><button class="btn btn-primary">Guardar solicitud</button> <a asp-page="Index" class="btn btn-outline-secondary">Cancelar</a> @if(Model.Input.Id!=0){<a asp-page="Exemptions" asp-route-CustomerCode="@Model.Input.Code" class="btn btn-outline-primary">Exoneraciones</a>}</div>
 </form>
 @section Scripts {
  <partial name="_ValidationScriptsPartial" />
