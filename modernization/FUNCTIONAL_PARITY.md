@@ -14,7 +14,7 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | Gastos y devoluciones | Gastos, proveedores y devoluciones | Gastos web; bandeja de devoluciones y creación asíncrona de nota de crédito SAP implementadas | Analizando | Tipos, edición de devoluciones, FEC/Hacienda y validación SQL/DI API real |
 | Inventario | Conteos, cruces y grupos | Consulta, captura de conteos, diferencias y cierre transaccional implementados | Analizando | Creación, grupos/proveedores, reconteo, cruce y ajustes SAP |
 | Liquidaciones | Agentes y choferes | Cabeceras web: consulta, alta, edición y anulación con consecutivos transaccionales | Analizando | Integrar depósitos, recibos, gastos, facturas, devoluciones, cálculos, reportes y cierre |
-| Planillas | Clases y pantallas de planilla | Planillas | Pendiente | Archivos bancarios y cálculos |
+| Planillas | Clases y pantallas de planilla | Listado, creación, desglose por empleado, finalización y anulación implementados | Analizando | Caracterizar cálculos, expedientes, aguinaldo, vacaciones, archivos bancarios y asiento SAP |
 | Hacienda | XML, token, firma y mensajes | Facturación electrónica | Pendiente | Sandbox oficial y certificados |
 | SAP Business One | `SAP_BUSSINES_ONE.vb` y llamadas relacionadas | SapBridge.Worker | Analizando | DI API, bitness y versión instalada |
 | Reportes | 49 archivos `.rpt` inventariados; 48 con uso detectable | PDF/Excel/web o puente heredado | Analizando | Comparación reporte por reporte |
