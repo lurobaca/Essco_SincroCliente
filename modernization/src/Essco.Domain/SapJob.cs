@@ -53,4 +53,24 @@ public sealed class SapJob
         ProcessedAt = DateTimeOffset.UtcNow;
         Status = retryable ? SapJobStatus.RetryableFailure : SapJobStatus.PermanentFailure;
     }
+
+    public static SapJob Restore(Guid id, string operationType, string company, string requestedBy,
+        string payload, SapJobStatus status, int attempts, DateTimeOffset createdAt,
+        DateTimeOffset? processedAt, string? externalId, string? sanitizedError)
+    {
+        return new SapJob
+        {
+            Id = id,
+            OperationType = operationType,
+            Company = company,
+            RequestedBy = requestedBy,
+            Payload = payload,
+            Status = status,
+            Attempts = attempts,
+            CreatedAt = createdAt,
+            ProcessedAt = processedAt,
+            ExternalId = externalId,
+            SanitizedError = sanitizedError
+        };
+    }
 }

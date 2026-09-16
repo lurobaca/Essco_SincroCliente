@@ -24,3 +24,4 @@
 - Persistencia parametrizada y transaccional de documentos de exoneración y códigos CABYS.
 - Página web auditada para documentos de exoneración, vigencias y asociaciones CABYS.
 - Consulta web del estado de cuenta de comprobantes con filtros, saldos y totales.
+- Cola SAP persistente en SQL Server con idempotencia, adquisición atómica, recuperación y reintentos.

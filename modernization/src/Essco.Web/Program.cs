@@ -55,7 +55,6 @@ var keyDirectory = builder.Configuration["DataProtection:KeyDirectory"]
 builder.Services.AddDataProtection()
     .SetApplicationName("Essco.Modern")
     .PersistKeysToFileSystem(new DirectoryInfo(keyDirectory));
-builder.Services.AddSingleton<ISapJobQueue, InMemorySapJobQueue>();
 builder.Services.AddSingleton<IPasswordService, Pbkdf2PasswordService>();
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton(AuthenticationPolicy.Default);
@@ -67,6 +66,10 @@ var initialOptions = builder.Configuration.GetSection(EsscoOptions.SectionName).
 var sqlConnectionString = initialOptions.SqlServer.Enabled
     ? builder.Configuration.GetConnectionString(initialOptions.SqlServer.ConnectionStringName)
     : null;
+builder.Services.AddSingleton<ISapJobQueue>(_ =>
+    initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
+        ? new SqlServerSapJobQueue(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
+        : new InMemorySapJobQueue());
 builder.Services.AddScoped<IUserAccountRepository>(_ =>
     initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
         ? new SqlServerUserAccountRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
@@ -125,7 +128,8 @@ app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
 app.MapHealthChecks("/health").AllowAnonymous();
-app.MapGet("/api/sap/jobs", (ISapJobQueue queue) => Results.Ok(queue.GetSnapshot()));
+app.MapGet("/api/sap/jobs", async (ISapJobQueue queue, CancellationToken cancellationToken) =>
+    Results.Ok(await queue.GetSnapshotAsync(cancellationToken)));
 app.MapPost("/api/sap/jobs", async (CreateSapJobRequest request, ISapJobQueue queue, CancellationToken cancellationToken) =>
 {
     if (string.IsNullOrWhiteSpace(request.OperationType) ||
