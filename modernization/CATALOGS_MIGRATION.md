@@ -10,7 +10,6 @@ Todas las operaciones nuevas usan parámetros SQL, permiso `catalogs.manage` y a
 
 ## Próximos catálogos
 
-- Bodegueros.
 - Agentes y choferes.
 
 ## Rutas
@@ -28,3 +27,7 @@ Fuente heredada: la sección correspondiente de `Manager_Empresa.vb` y `dbo.Razo
 ## Bodegas WMS
 
 Fuente heredada: `WMS_MantenimientoBodegas.vb`, `WMS_CroquisBodega.vb`, `dbo.Picking_Bodega` y `dbo.Picking_Ubicaciones`. La página `/Catalogs/Warehouses` conserva creación, modificación, eliminación y selección de bodega predeterminada. La selección predeterminada ahora es transaccional. Antes de reducir racks/columnas o eliminar una bodega, se comprueban los nombres de ubicación heredados `B{columna}-{rack}{bodega}` y se rechaza la operación si perdería ubicaciones configuradas.
+
+## Bodegueros
+
+Fuente heredada: `Admin_Bodeguero.vb`, `dbo.Bodegueros` y `dbo.Sectores_autorizados`. La página `/Catalogs/WarehouseOperators` conserva los datos personales y operativos, consecutivos, ruta FTP, usuario móvil y los 20 sectores. La clave heredada nunca se consulta ni se devuelve al navegador: en edición solo cambia cuando se introduce una nueva. Por compatibilidad con el cliente móvil existente aún se persiste en el formato heredado; su reemplazo por hash depende de migrar ese consumidor. La fila principal y los sectores se actualizan/eliminan en una sola transacción.

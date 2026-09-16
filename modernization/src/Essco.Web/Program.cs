@@ -118,6 +118,8 @@ builder.Services.AddScoped<INoVisitReasonRepository>(_ => initialOptions.SqlServ
 builder.Services.AddScoped<NoVisitReasonService>();
 builder.Services.AddScoped<IWarehouseRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerWarehouseRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableWarehouseRepository());
 builder.Services.AddScoped<WarehouseService>();
+builder.Services.AddScoped<IWarehouseOperatorRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerWarehouseOperatorRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableWarehouseOperatorRepository());
+builder.Services.AddScoped<WarehouseOperatorService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

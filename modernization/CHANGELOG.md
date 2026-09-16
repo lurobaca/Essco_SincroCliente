@@ -32,3 +32,4 @@
 - Catálogo web auditado de bancos y cuentas asignadas.
 - Catálogo web auditado de razones de no visita, corrigiendo la actualización por índice visual heredada.
 - Catálogo web de bodegas WMS con geometría protegida y selección predeterminada transaccional.
+- Administración web de bodegueros y sectores autorizados sin exposición de claves heredadas.
