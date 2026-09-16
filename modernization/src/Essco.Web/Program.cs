@@ -127,6 +127,8 @@ builder.Services.AddScoped<IDriverRepository>(_ => initialOptions.SqlServer.Enab
 builder.Services.AddScoped<DriverService>();
 builder.Services.AddScoped<IDepositRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerDepositRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableDepositRepository());
 builder.Services.AddScoped<DepositService>();
+builder.Services.AddScoped<IIncomingReceiptRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) && !string.IsNullOrWhiteSpace(initialOptions.Sap.CompanyDatabase) ? new SqlServerIncomingReceiptRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds, initialOptions.Sap.CompanyDatabase) : new UnavailableIncomingReceiptRepository());
+builder.Services.AddScoped<IncomingReceiptService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

@@ -2,6 +2,7 @@ using Essco.Application;
 using Essco.Application.Configuration;
 using Essco.Application.Companies;
 using Essco.Application.Customers;
+using Essco.Application.Treasury;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure;
 using Essco.SapBridge.Worker;
@@ -26,6 +27,8 @@ builder.Services.AddSingleton<IGeographyRepository>(_ => options.SqlServer.Enabl
     : new UnavailableGeographyRepository());
 builder.Services.AddSingleton<ISapCustomerGateway, ComSapCustomerGateway>();
 builder.Services.AddSingleton<ICustomerSapJobProcessor, CustomerSapJobProcessor>();
+builder.Services.AddSingleton<ISapIncomingReceiptGateway, ComSapIncomingReceiptGateway>();
+builder.Services.AddSingleton<IIncomingReceiptSapJobProcessor, IncomingReceiptSapJobProcessor>();
 builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();

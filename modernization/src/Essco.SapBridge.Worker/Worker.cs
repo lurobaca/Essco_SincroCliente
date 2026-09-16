@@ -1,14 +1,15 @@
 using Essco.Application;
 using Essco.Application.Customers;
+using Essco.Application.Treasury;
 using Essco.Domain;
 
 namespace Essco.SapBridge.Worker;
 
-public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor) : BackgroundService
+public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor) : BackgroundService
 {
     private readonly ISapJobQueue _queue = null!;
 
-    public Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, ISapJobQueue queue) : this(logger, customerProcessor)
+    public Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor, ISapJobQueue queue) : this(logger, customerProcessor, receiptProcessor)
     {
         _queue = queue;
     }
@@ -30,7 +31,9 @@ public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerPro
 
                 var result = job.OperationType.StartsWith("Customer.", StringComparison.Ordinal)
                     ? await customerProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
-                    : new SapProcessingResult(false, null, "Tipo de operación SAP no soportado por el servicio.", false);
+                    : job.OperationType.StartsWith("IncomingReceipt.", StringComparison.Ordinal)
+                        ? await receiptProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
+                        : new SapProcessingResult(false, null, "Tipo de operación SAP no soportado por el servicio.", false);
                 if (result.Succeeded)
                     await _queue.CompleteAsync(job.Id, result.ExternalId ?? job.Id.ToString(), stoppingToken);
                 else

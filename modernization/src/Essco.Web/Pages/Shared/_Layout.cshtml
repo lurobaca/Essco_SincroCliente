@@ -43,7 +43,8 @@
                         }
                         @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Cash)).Succeeded)
                         {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Treasury/Deposits">Tesorería</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Treasury/Deposits">Depósitos</a></li>
+                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Treasury/Receipts">Recibos</a></li>
                         }
                     </ul>
                     @if (User.Identity?.IsAuthenticated == true)

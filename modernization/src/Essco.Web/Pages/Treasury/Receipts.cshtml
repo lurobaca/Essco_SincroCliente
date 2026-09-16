@@ -1,0 +1,17 @@
+@page
+@model Essco.Web.Pages.Treasury.ReceiptsModel
+@{ ViewData["Title"] = "Recibos de dinero"; }
+<h1>Recibos de dinero</h1>
+<p><a asp-page="Deposits">Depósitos</a></p>
+@if(!string.IsNullOrWhiteSpace(Model.StatusMessage)){<div class="alert alert-info">@Model.StatusMessage</div>}
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="get" class="card card-body mb-3"><div class="row g-2">
+<div class="col"><label class="form-label">Desde</label><input asp-for="Filter.From" class="form-control"/></div><div class="col"><label class="form-label">Hasta</label><input asp-for="Filter.To" class="form-control"/></div>
+<div class="col"><label class="form-label">Cobrador</label><input asp-for="Filter.Collector" class="form-control"/></div><div class="col"><label class="form-label">Liquidación</label><input asp-for="Filter.Liquidation" class="form-control"/></div><div class="col"><label class="form-label">Recibo</label><input asp-for="Filter.Number" class="form-control"/></div>
+</div><div class="mt-2"><label class="form-check"><input asp-for="Filter.OnlyUnlinked" class="form-check-input"/> Solo sin liquidación</label><button class="btn btn-outline-primary">Buscar</button> <a asp-page="Receipts" class="btn btn-outline-secondary">Limpiar</a></div></form>
+<table class="table table-striped"><thead><tr><th>Recibo</th><th>Fecha</th><th>Cliente</th><th class="text-end">Total</th><th>Cobrador</th><th>Liquidación</th><th>Acción</th></tr></thead><tbody>
+@foreach(var item in Model.Items){<tr><td>@item.DocNumber</td><td>@item.Date</td><td>@item.CustomerCode - @item.CustomerName</td><td class="text-end">@item.Total.ToString("N2")</td><td>@item.CollectorCode</td><td>@item.LiquidationNumber</td><td>
+<form method="post" asp-page-handler="Link" class="d-flex gap-1"><input type="hidden" name="Link.DocEntry" value="@item.DocEntry"/><input name="Link.CollectorCode" value="@item.CollectorCode" placeholder="Cobrador" class="form-control form-control-sm"/><input name="Link.LiquidationNumber" value="@item.LiquidationNumber" placeholder="Liquidación" class="form-control form-control-sm"/><button class="btn btn-sm btn-primary">Vincular</button></form>
+@if(!string.IsNullOrWhiteSpace(item.LiquidationNumber)){<form method="post" asp-page-handler="Unlink" class="mt-1"><input type="hidden" name="docEntry" value="@item.DocEntry"/><button class="btn btn-sm btn-outline-danger">Desvincular</button></form>}</td></tr>}
+</tbody></table>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
