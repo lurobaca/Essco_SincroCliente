@@ -116,6 +116,8 @@ builder.Services.AddScoped<IBankRepository>(_ => initialOptions.SqlServer.Enable
 builder.Services.AddScoped<BankService>();
 builder.Services.AddScoped<INoVisitReasonRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerNoVisitReasonRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableNoVisitReasonRepository());
 builder.Services.AddScoped<NoVisitReasonService>();
+builder.Services.AddScoped<IWarehouseRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerWarehouseRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableWarehouseRepository());
+builder.Services.AddScoped<WarehouseService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

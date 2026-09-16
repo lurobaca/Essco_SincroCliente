@@ -6,7 +6,7 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 |---|---|---|---|---|
 | Acceso y seguridad | `LoginForm1`, usuarios, licencia | Login/logout, hashing, bloqueo y cambio obligatorio implementados | Implementado | Validar repositorio y credenciales en copia SQL; roles y licencia pendientes |
 | Empresa | `Manager_Empresa`, `Empresa`, `Ubicaciones_CostaRica` | Perfil web, validaciones, ubicaciones encadenadas, autorización y auditoría | Implementado | Verificar columnas y valores reales en copia SQL |
-| Catálogos operativos | Motivos, rutas, bodegas, agentes, choferes, bancos y razones de no visita | Motivos de devolución, rutas, bancos y razones de no visita implementados; restantes en migración | Analizando | Validar esquemas reales, bodegas SAP y relaciones SQL |
+| Catálogos operativos | Motivos, rutas, bodegas, agentes, choferes, bancos y razones de no visita | Motivos de devolución, rutas, bancos, razones de no visita y bodegas WMS implementados; restantes en migración | Analizando | Validar esquemas reales, bodegas SAP y relaciones SQL |
 | Clientes | Administración, estado de cuenta, exoneraciones | Solicitudes, alta/edición, aprobación, exoneraciones/CABYS y estado de cuenta implementados | Analizando | Ejecución SAP pendiente; validar contra copia SQL |
 | Artículos y precios | Artículos, listas y descuentos | Catálogo comercial | Pendiente | Reglas de precio y unidades |
 | Pedidos y facturación | Pedidos, facturación y búsqueda | Ventas | Pendiente | Totales, impuestos, inventario y SAP |

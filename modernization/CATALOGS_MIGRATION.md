@@ -10,7 +10,7 @@ Todas las operaciones nuevas usan parámetros SQL, permiso `catalogs.manage` y a
 
 ## Próximos catálogos
 
-- Bodegas y bodegueros.
+- Bodegueros.
 - Agentes y choferes.
 
 ## Rutas
@@ -24,3 +24,7 @@ Fuente heredada: `Admin_Bancos.vb` y `dbo.BancosEssco`. La página `/Catalogs/Ba
 ## Razones de no visita
 
 Fuente heredada: la sección correspondiente de `Manager_Empresa.vb` y `dbo.Razones_NoVisita`. La página `/Catalogs/NoVisitReasons` conserva alta, modificación y eliminación. La actualización usa el valor real de `Codigo`; corrige así el defecto original que enviaba el índice visual del `ComboBox` como identificador SQL.
+
+## Bodegas WMS
+
+Fuente heredada: `WMS_MantenimientoBodegas.vb`, `WMS_CroquisBodega.vb`, `dbo.Picking_Bodega` y `dbo.Picking_Ubicaciones`. La página `/Catalogs/Warehouses` conserva creación, modificación, eliminación y selección de bodega predeterminada. La selección predeterminada ahora es transaccional. Antes de reducir racks/columnas o eliminar una bodega, se comprueban los nombres de ubicación heredados `B{columna}-{rack}{bodega}` y se rechaza la operación si perdería ubicaciones configuradas.
