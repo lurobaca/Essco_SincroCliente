@@ -158,6 +158,8 @@ builder.Services.AddScoped<IPayrollRepository>(_ => initialOptions.SqlServer.Ena
 builder.Services.AddScoped<PayrollService>();
 builder.Services.AddScoped<IEmployeeRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeRepository());
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<IEmployeeMovementRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeMovementRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeMovementRepository());
+builder.Services.AddScoped<EmployeeMovementService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
