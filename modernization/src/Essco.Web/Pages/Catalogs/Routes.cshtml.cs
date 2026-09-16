@@ -1,11 +1,24 @@
-using System.ComponentModel.DataAnnotations;using System.Globalization;using System.Security.Claims;using Essco.Application.Auditing;using Essco.Application.Catalogs;using Essco.Application.Configuration;using Essco.Application.Security;using Essco.Domain.Catalogs;using Microsoft.AspNetCore.Authorization;using Microsoft.AspNetCore.Mvc;using Microsoft.AspNetCore.Mvc.RazorPages;using Microsoft.Extensions.Options;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using System.Security.Claims;
+using Essco.Application.Auditing;
+using Essco.Application.Catalogs;
+using Essco.Application.Configuration;
+using Essco.Application.Security;
+using Essco.Domain.Catalogs;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
 namespace Essco.Web.Pages.Catalogs;
-[Authorize(Policy=Permissions.Catalogs)]public sealed class RoutesModel(RouteService service,AuditService audit,IOptions<EsscoOptions> options):PageModel
+
+[Authorize(Policy = Permissions.Catalogs)]
+public sealed class RoutesModel(RouteService service, AuditService audit, IOptions<EsscoOptions> options) : PageModel
 {
- [BindProperty]public InputModel Input{get;set;}=new();public IReadOnlyCollection<OperationalRoute> Items{get;private set;}=[];[TempData]public string? StatusMessage{get;set;}
- public async Task OnGetAsync(int? id,CancellationToken t){Items=await service.ListAsync(t);if(id is not null){var item=Items.FirstOrDefault(x=>x.Id==id);if(item is not null)Input=new(){Id=item.Id,Description=item.Description};}}
- public async Task<IActionResult> OnPostSaveAsync(CancellationToken t){if(ModelState.IsValid){var result=await service.SaveAsync(new(){Id=Input.Id,Description=Input.Description},t);if(result.Succeeded){await Log("catalog.route-save",result.Id,"Succeeded",t);StatusMessage="Ruta guardada.";return RedirectToPage();}foreach(var e in result.Errors)ModelState.AddModelError(string.Empty,e);}Items=await service.ListAsync(t);return Page();}
- public async Task<IActionResult> OnPostDeleteAsync(int id,CancellationToken t){var changed=await service.DeleteAsync(id,t);await Log("catalog.route-delete",id,changed?"Succeeded":"NotChanged",t);StatusMessage=changed?"Ruta eliminada.":"La ruta ya no existía.";return RedirectToPage();}
- private async Task Log(string op,int id,string result,CancellationToken t){var userId=int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier),NumberStyles.None,CultureInfo.InvariantCulture,out var parsed)?parsed:(int?)null;await audit.WriteAsync(userId,User.Identity?.Name??"",options.Value.DefaultCompany,op,"Rutas",id.ToString(CultureInfo.InvariantCulture),result,HttpContext.TraceIdentifier,HttpContext.Connection.RemoteIpAddress?.ToString(),t);}
- public sealed class InputModel{public int Id{get;set;}[Required,StringLength(150),Display(Name="Descripción")]public string Description{get;set;}="";}
+    [BindProperty] public InputModel Input { get; set; } = new(); public IReadOnlyCollection<OperationalRoute> Items { get; private set; } = []; [TempData] public string? StatusMessage { get; set; }
+    public async Task OnGetAsync(int? id, CancellationToken t) { Items = await service.ListAsync(t); if (id is not null) { var item = Items.FirstOrDefault(x => x.Id == id); if (item is not null) Input = new() { Id = item.Id, Description = item.Description }; } }
+    public async Task<IActionResult> OnPostSaveAsync(CancellationToken t) { if (ModelState.IsValid) { var result = await service.SaveAsync(new() { Id = Input.Id, Description = Input.Description }, t); if (result.Succeeded) { await Log("catalog.route-save", result.Id, "Succeeded", t); StatusMessage = "Ruta guardada."; return RedirectToPage(); } foreach (var e in result.Errors) ModelState.AddModelError(string.Empty, e); } Items = await service.ListAsync(t); return Page(); }
+    public async Task<IActionResult> OnPostDeleteAsync(int id, CancellationToken t) { var changed = await service.DeleteAsync(id, t); await Log("catalog.route-delete", id, changed ? "Succeeded" : "NotChanged", t); StatusMessage = changed ? "Ruta eliminada." : "La ruta ya no existía."; return RedirectToPage(); }
+    private async Task Log(string op, int id, string result, CancellationToken t) { var userId = int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), NumberStyles.None, CultureInfo.InvariantCulture, out var parsed) ? parsed : (int?)null; await audit.WriteAsync(userId, User.Identity?.Name ?? "", options.Value.DefaultCompany, op, "Rutas", id.ToString(CultureInfo.InvariantCulture), result, HttpContext.TraceIdentifier, HttpContext.Connection.RemoteIpAddress?.ToString(), t); }
+    public sealed class InputModel { public int Id { get; set; } [Required, StringLength(150), Display(Name = "Descripción")] public string Description { get; set; } = ""; }
 }

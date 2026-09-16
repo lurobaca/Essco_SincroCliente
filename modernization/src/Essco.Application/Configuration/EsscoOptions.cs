@@ -34,8 +34,8 @@ public sealed class EsscoOptions
         return errors;
     }
 
-    private static void Required(string value,string path,ICollection<string> errors)
-    { if(string.IsNullOrWhiteSpace(value))errors.Add($"{path} es obligatorio cuando SAP está habilitado."); }
+    private static void Required(string value, string path, ICollection<string> errors)
+    { if (string.IsNullOrWhiteSpace(value)) errors.Add($"{path} es obligatorio cuando SAP está habilitado."); }
 
     private static void ValidateDatabase(DatabaseEndpointOptions options, string name, ICollection<string> errors)
     {

@@ -1,0 +1,18 @@
+@page
+@model Essco.Web.Pages.Catalogs.BanksModel
+@{ ViewData["Title"] = "Bancos"; }
+<div class="d-flex justify-content-between"><h1>Bancos</h1><a asp-page="Index" class="btn btn-outline-secondary align-self-start">Catálogos</a></div>
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage)) { <div class="alert alert-info">@Model.StatusMessage</div> }
+<div class="row g-4">
+ <div class="col-md-5"><form method="post" asp-page-handler="Save" class="card card-body">
+  <div asp-validation-summary="All" class="text-danger"></div>
+  <label asp-for="Input.Code" class="form-label"></label><input asp-for="Input.Code" class="form-control" />
+  <label asp-for="Input.Name" class="form-label mt-2"></label><input asp-for="Input.Name" class="form-control" />
+  <label asp-for="Input.Account" class="form-label mt-2"></label><input asp-for="Input.Account" class="form-control" />
+  <div class="mt-3"><button class="btn btn-primary">Guardar</button> <a class="btn btn-outline-secondary">Limpiar</a></div>
+ </form></div>
+ <div class="col-md-7"><table class="table table-striped"><thead><tr><th>Código</th><th>Nombre</th><th>Cuenta</th><th></th></tr></thead><tbody>
+ @foreach (var item in Model.Items) { <tr><td>@item.Code</td><td>@item.Name</td><td>@item.Account</td><td><form method="post" asp-page-handler="Delete"><input type="hidden" name="code" value="@item.Code"/><button class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar este banco?')">Eliminar</button></form></td></tr> }
+ </tbody></table></div>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

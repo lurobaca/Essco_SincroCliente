@@ -29,3 +29,4 @@
 - Adaptador COM/DI API en hilo STA para crear, modificar y cerrar clientes, con confirmación SQL posterior al éxito SAP.
 - Catálogo web auditado de motivos de devolución y selección de bodegas SAP.
 - Catálogo web auditado de rutas con CRUD completo.
+- Catálogo web auditado de bancos y cuentas asignadas.

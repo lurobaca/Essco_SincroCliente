@@ -25,8 +25,8 @@ public sealed record CustomerExemption
         if (PurchasePercent is < 0 or > 100) errors.Add("El porcentaje de compra debe estar entre 0 y 100.");
         return errors;
     }
-    private static void Required(string? value,int max,string name,ICollection<string> errors)
-    { if(string.IsNullOrWhiteSpace(value))errors.Add($"{name} es obligatorio.");else if(value.Trim().Length>max)errors.Add($"{name} no puede superar {max} caracteres."); }
+    private static void Required(string? value, int max, string name, ICollection<string> errors)
+    { if (string.IsNullOrWhiteSpace(value)) errors.Add($"{name} es obligatorio."); else if (value.Trim().Length > max) errors.Add($"{name} no puede superar {max} caracteres."); }
 }
 
 public sealed record ExemptCabysCode(long Id, long ExemptionId, string CustomerCode, string CabysCode, bool Inactive);

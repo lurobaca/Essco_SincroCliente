@@ -1,9 +1,14 @@
-using System.Data;using Essco.Application.Catalogs;using Essco.Domain.Catalogs;using Microsoft.Data.SqlClient;
+using System.Data;
+using Essco.Application.Catalogs;
+using Essco.Domain.Catalogs;
+using Microsoft.Data.SqlClient;
 namespace Essco.Infrastructure.Data;
-public sealed class SqlServerRouteRepository(string connectionString,int timeout):IRouteRepository
+
+public sealed class SqlServerRouteRepository(string connectionString, int timeout) : IRouteRepository
 {
- public async ValueTask<IReadOnlyCollection<OperationalRoute>> ListAsync(CancellationToken t){await using var c=await Open(t);await using var cmd=Cmd("SELECT [id],[Descripcion] FROM [dbo].[Rutas] ORDER BY [Descripcion]",c);var result=new List<OperationalRoute>();await using var r=await cmd.ExecuteReaderAsync(t);while(await r.ReadAsync(t))result.Add(new(){Id=Convert.ToInt32(r["id"]),Description=Convert.ToString(r["Descripcion"])?.Trim()??""});return result;}
- public async ValueTask<int> SaveAsync(OperationalRoute x,CancellationToken t){const string insert="INSERT INTO [dbo].[Rutas]([Descripcion]) OUTPUT INSERTED.[id] VALUES(@Description)";const string update="UPDATE [dbo].[Rutas] SET [Descripcion]=@Description WHERE [id]=@Id;SELECT CASE WHEN @@ROWCOUNT=1 THEN @Id ELSE 0 END";await using var c=await Open(t);await using var cmd=Cmd(x.Id==0?insert:update,c);cmd.Parameters.Add("@Id",SqlDbType.Int).Value=x.Id;cmd.Parameters.Add("@Description",SqlDbType.NVarChar,150).Value=x.Description.Trim();var id=Convert.ToInt32(await cmd.ExecuteScalarAsync(t));if(id==0)throw new DBConcurrencyException("La ruta ya no existe.");return id;}
- public async ValueTask<bool> DeleteAsync(int id,CancellationToken t){await using var c=await Open(t);await using var cmd=Cmd("DELETE FROM [dbo].[Rutas] WHERE [id]=@Id",c);cmd.Parameters.Add("@Id",SqlDbType.Int).Value=id;return await cmd.ExecuteNonQueryAsync(t)==1;}
- private async ValueTask<SqlConnection> Open(CancellationToken t){var c=new SqlConnection(connectionString);await c.OpenAsync(t);return c;}private SqlCommand Cmd(string sql,SqlConnection c)=>new(sql,c){CommandTimeout=timeout};
+    public async ValueTask<IReadOnlyCollection<OperationalRoute>> ListAsync(CancellationToken t) { await using var c = await Open(t); await using var cmd = Cmd("SELECT [id],[Descripcion] FROM [dbo].[Rutas] ORDER BY [Descripcion]", c); var result = new List<OperationalRoute>(); await using var r = await cmd.ExecuteReaderAsync(t); while (await r.ReadAsync(t)) result.Add(new() { Id = Convert.ToInt32(r["id"]), Description = Convert.ToString(r["Descripcion"])?.Trim() ?? "" }); return result; }
+    public async ValueTask<int> SaveAsync(OperationalRoute x, CancellationToken t) { const string insert = "INSERT INTO [dbo].[Rutas]([Descripcion]) OUTPUT INSERTED.[id] VALUES(@Description)"; const string update = "UPDATE [dbo].[Rutas] SET [Descripcion]=@Description WHERE [id]=@Id;SELECT CASE WHEN @@ROWCOUNT=1 THEN @Id ELSE 0 END"; await using var c = await Open(t); await using var cmd = Cmd(x.Id == 0 ? insert : update, c); cmd.Parameters.Add("@Id", SqlDbType.Int).Value = x.Id; cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 150).Value = x.Description.Trim(); var id = Convert.ToInt32(await cmd.ExecuteScalarAsync(t)); if (id == 0) throw new DBConcurrencyException("La ruta ya no existe."); return id; }
+    public async ValueTask<bool> DeleteAsync(int id, CancellationToken t) { await using var c = await Open(t); await using var cmd = Cmd("DELETE FROM [dbo].[Rutas] WHERE [id]=@Id", c); cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id; return await cmd.ExecuteNonQueryAsync(t) == 1; }
+    private async ValueTask<SqlConnection> Open(CancellationToken t) { var c = new SqlConnection(connectionString); await c.OpenAsync(t); return c; }
+    private SqlCommand Cmd(string sql, SqlConnection c) => new(sql, c) { CommandTimeout = timeout };
 }
