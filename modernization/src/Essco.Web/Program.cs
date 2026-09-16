@@ -120,6 +120,8 @@ builder.Services.AddScoped<IWarehouseRepository>(_ => initialOptions.SqlServer.E
 builder.Services.AddScoped<WarehouseService>();
 builder.Services.AddScoped<IWarehouseOperatorRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerWarehouseOperatorRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableWarehouseOperatorRepository());
 builder.Services.AddScoped<WarehouseOperatorService>();
+builder.Services.AddScoped<ISalesAgentRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerSalesAgentRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableSalesAgentRepository());
+builder.Services.AddScoped<SalesAgentService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

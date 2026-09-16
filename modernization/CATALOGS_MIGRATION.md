@@ -10,7 +10,7 @@ Todas las operaciones nuevas usan parámetros SQL, permiso `catalogs.manage` y a
 
 ## Próximos catálogos
 
-- Agentes y choferes.
+- Choferes de la tabla histórica independiente.
 
 ## Rutas
 
@@ -31,3 +31,7 @@ Fuente heredada: `WMS_MantenimientoBodegas.vb`, `WMS_CroquisBodega.vb`, `dbo.Pic
 ## Bodegueros
 
 Fuente heredada: `Admin_Bodeguero.vb`, `dbo.Bodegueros` y `dbo.Sectores_autorizados`. La página `/Catalogs/WarehouseOperators` conserva los datos personales y operativos, consecutivos, ruta FTP, usuario móvil y los 20 sectores. La clave heredada nunca se consulta ni se devuelve al navegador: en edición solo cambia cuando se introduce una nueva. Por compatibilidad con el cliente móvil existente aún se persiste en el formato heredado; su reemplazo por hash depende de migrar ese consumidor. La fila principal y los sectores se actualizan/eliminan en una sola transacción.
+
+## Agentes
+
+Fuente heredada: `Admin_Agentes.vb` y `dbo.Agentes`. La página `/Catalogs/SalesAgents` conserva alta, edición, eliminación, filtro por puesto y todos los consecutivos operativos. El código `3` permanece oculto y protegido porque el sistema original lo trata como reservado. El alta web mapea los consecutivos por nombre y corrige el cruce heredado entre depósito, gastos y no-visita causado por el orden de argumentos.
