@@ -1,13 +1,14 @@
 using Essco.Application;
+using Essco.Application.Customers;
 using Essco.Domain;
 
 namespace Essco.SapBridge.Worker;
 
-public class Worker(ILogger<Worker> logger) : BackgroundService
+public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor) : BackgroundService
 {
     private readonly ISapJobQueue _queue = null!;
 
-    public Worker(ILogger<Worker> logger, ISapJobQueue queue) : this(logger)
+    public Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, ISapJobQueue queue) : this(logger, customerProcessor)
     {
         _queue = queue;
     }
@@ -27,9 +28,13 @@ public class Worker(ILogger<Worker> logger) : BackgroundService
             {
                 logger.LogInformation("Procesando trabajo SAP {JobId} de tipo {OperationType}", job.Id, job.OperationType);
 
-                // La implementación DI API se agregará tras validar versión, arquitectura y ambiente SAP.
-                await _queue.FailAsync(job.Id, "Conector SAP DI API pendiente de configuración.", retryable: job.Attempts < 10, stoppingToken);
-                if (job.Attempts < 10) await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
+                var result = job.OperationType.StartsWith("Customer.", StringComparison.Ordinal)
+                    ? await customerProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
+                    : new SapProcessingResult(false, null, "Tipo de operación SAP no soportado por el servicio.", false);
+                if (result.Succeeded)
+                    await _queue.CompleteAsync(job.Id, result.ExternalId ?? job.Id.ToString(), stoppingToken);
+                else
+                    await _queue.FailAsync(job.Id, result.Error ?? "La operación SAP falló.", result.Retryable && job.Attempts < 10, stoppingToken);
             }
             catch (Exception exception)
             {

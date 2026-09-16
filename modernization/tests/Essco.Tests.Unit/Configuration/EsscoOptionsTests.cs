@@ -33,4 +33,19 @@ public sealed class EsscoOptionsTests
 
         Assert.Contains(options.Validate(), error => error.Contains("InMemory", StringComparison.Ordinal));
     }
+
+    [Fact]
+    public void Validate_AllowsSqlTransportWithoutEndpoint()
+    {
+        var options = new EsscoOptions { SapBridge = new SapBridgeOptions { Enabled = true, Transport = "SqlServer" } };
+        Assert.DoesNotContain(options.Validate(), error => error.Contains("Endpoint", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Validate_RejectsEnabledSapWithoutCredentials()
+    {
+        var options = new EsscoOptions { Sap = new SapCompanyOptions { Enabled = true } };
+        Assert.Contains(options.Validate(), error => error.Contains("Sap:Server", StringComparison.Ordinal));
+        Assert.Contains(options.Validate(), error => error.Contains("DatabaseServerType", StringComparison.Ordinal));
+    }
 }

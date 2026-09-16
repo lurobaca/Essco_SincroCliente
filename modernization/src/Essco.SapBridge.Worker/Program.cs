@@ -1,5 +1,7 @@
 using Essco.Application;
 using Essco.Application.Configuration;
+using Essco.Application.Companies;
+using Essco.Application.Customers;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure;
 using Essco.SapBridge.Worker;
@@ -14,6 +16,16 @@ var connectionString=options.SqlServer.Enabled?builder.Configuration.GetConnecti
 builder.Services.AddSingleton<ISapJobQueue>(_=>options.SqlServer.Enabled&&!string.IsNullOrWhiteSpace(connectionString)
     ?new SqlServerSapJobQueue(connectionString,options.SqlServer.CommandTimeoutSeconds)
     :new InMemorySapJobQueue());
+builder.Services.AddOptions<EsscoOptions>().Bind(builder.Configuration.GetSection(EsscoOptions.SectionName))
+    .Validate(value=>value.Validate().Count==0,"La configuración Essco no es válida.").ValidateOnStart();
+builder.Services.AddSingleton<ICustomerChangeRepository>(_=>options.SqlServer.Enabled&&!string.IsNullOrWhiteSpace(connectionString)
+    ?new SqlServerCustomerChangeRepository(connectionString,options.SqlServer.CommandTimeoutSeconds)
+    :new UnavailableCustomerChangeRepository());
+builder.Services.AddSingleton<IGeographyRepository>(_=>options.SqlServer.Enabled&&!string.IsNullOrWhiteSpace(connectionString)
+    ?new SqlServerGeographyRepository(connectionString,options.SqlServer.CommandTimeoutSeconds)
+    :new UnavailableGeographyRepository());
+builder.Services.AddSingleton<ISapCustomerGateway,ComSapCustomerGateway>();
+builder.Services.AddSingleton<ICustomerSapJobProcessor,CustomerSapJobProcessor>();
 builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();

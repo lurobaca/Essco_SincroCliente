@@ -12,6 +12,12 @@ Antes de integrar DI API se debe confirmar:
 - Política de reintentos y tratamiento de transacciones inciertas.
 - Validación de la política final de reintentos con el ambiente SAP.
 
+## Adaptador DI API de Clientes
+
+El Windows Service crea `SAPbobsCOM.Company` mediante COM en un hilo STA dedicado. Implementa alta, modificación y cierre de socios de negocio, incluidos UDF heredados, dirección y conversión histórica de provincia. Tras éxito en SAP marca `ClientesModificados.Aprobado`; ante error conserva la solicitud pendiente y clasifica errores transitorios para reintento.
+
+La configuración `Essco:Sap` contiene servidor, base de compañía, usuario SAP, usuario SQL, license server y el valor numérico de `BoDataServerTypes`. Las contraseñas no deben guardarse en `appsettings.json`: se suministran mediante variables de entorno, secretos protegidos o el almacén de secretos del servidor. El host debe tener instalada y registrada una DI API compatible con la arquitectura publicada.
+
 La cola SQL sobrevive reinicios y funciona como transporte compartido entre procesos. Antes del piloto debe aplicarse la migración `003` y configurarse la misma cadena de conexión en ambos ejecutables.
 
 El proyecto apunta a `net10.0-windows` y registra el host con el nombre `Essco SAP Bridge`, por lo que puede publicarse e instalarse como servicio de Windows. La instalación definitiva se habilitará cuando exista transporte persistente y configuración SAP validada.

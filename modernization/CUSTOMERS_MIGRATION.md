@@ -29,4 +29,4 @@ La contraseña web heredada continúa representada temporalmente para no romper 
 
 ## Despacho SAP
 
-Las solicitudes `Nuevo`, `Modificado` y `Cerrar` generan respectivamente trabajos `Customer.Create`, `Customer.Update` y `Customer.Close`. El payload solo contiene el identificador de `ClientesModificados`; así la cola no duplica la clave web ni otros datos sensibles. La solicitud no se marca aprobada al encolarse: esa transición debe ocurrir únicamente después de una respuesta exitosa de SAP.
+Las solicitudes `Nuevo`, `Modificado` y `Cerrar` generan respectivamente trabajos `Customer.Create`, `Customer.Update` y `Customer.Close`. El payload solo contiene el identificador de `ClientesModificados`; así la cola no duplica la clave web ni otros datos sensibles. La solicitud no se marca aprobada al encolarse: el Windows Service realiza esa transición únicamente después de una respuesta exitosa de SAP.
