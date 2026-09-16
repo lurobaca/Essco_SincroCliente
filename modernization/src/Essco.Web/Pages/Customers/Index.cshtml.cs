@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 namespace Essco.Web.Pages.Customers;
 
 [Authorize(Policy = Permissions.Customers)]
-public sealed class IndexModel(CustomerChangeService service, AuditService audit, IOptions<EsscoOptions> options) : PageModel
+public sealed class IndexModel(CustomerChangeService service, CustomerSapDispatchService sapDispatch, AuditService audit, IOptions<EsscoOptions> options) : PageModel
 {
     [BindProperty(SupportsGet = true)] public string? Term { get; set; }
     [BindProperty(SupportsGet = true)] public bool ByName { get; set; }
@@ -30,15 +30,15 @@ public sealed class IndexModel(CustomerChangeService service, AuditService audit
 
     public async Task OnGetAsync(CancellationToken cancellationToken) => await LoadAsync(cancellationToken);
 
-    public async Task<IActionResult> OnPostApproveAsync(long id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostProcessSapAsync(long id, CancellationToken cancellationToken)
     {
-        var changed = await service.ApproveAsync(id, cancellationToken);
+        var result = await sapDispatch.DispatchAsync(id, options.Value.DefaultCompany, User.Identity?.Name ?? "", cancellationToken);
         var userId = int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), NumberStyles.None, CultureInfo.InvariantCulture, out var parsed) ? parsed : (int?)null;
         await audit.WriteAsync(userId, User.Identity?.Name ?? "", options.Value.DefaultCompany,
-            "customers.change-approve", "ClientesModificados", id.ToString(CultureInfo.InvariantCulture),
-            changed ? "Succeeded" : "NotChanged", HttpContext.TraceIdentifier,
+            "customers.sap-dispatch", "ClientesModificados", id.ToString(CultureInfo.InvariantCulture),
+            result.Succeeded ? "Succeeded" : "Rejected", HttpContext.TraceIdentifier,
             HttpContext.Connection.RemoteIpAddress?.ToString(), cancellationToken);
-        StatusMessage = changed ? "La solicitud fue aprobada." : "La solicitud ya no estaba pendiente.";
+        StatusMessage = result.Succeeded ? $"Trabajo SAP {result.Job!.Id} encolado." : result.Error;
         return RedirectToPage(new { Term, ByName, Approved, State, Agent, From, To, PageNumber });
     }
 

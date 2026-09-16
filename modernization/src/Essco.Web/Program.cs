@@ -93,6 +93,7 @@ builder.Services.AddScoped<ICustomerChangeRepository>(_ =>
         ? new SqlServerCustomerChangeRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
         : new UnavailableCustomerChangeRepository());
 builder.Services.AddScoped<CustomerChangeService>();
+builder.Services.AddScoped<CustomerSapDispatchService>();
 builder.Services.AddScoped<ICustomerExemptionRepository>(_ =>
     initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
         ? new SqlServerCustomerExemptionRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)

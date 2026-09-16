@@ -25,7 +25,7 @@
   <tbody>
   @foreach (var item in Model.Result.Items) {
    <tr><td>@item.Sequence</td><td>@item.Code</td><td>@item.Name</td><td>@item.TaxId</td><td>@item.AgentCode</td><td>@item.RequestedAt.ToString("dd/MM/yyyy HH:mm")</td><td>@(item.Approved ? "Aprobado" : "Pendiente")</td>
-    <td class="text-nowrap"><a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Editar</a> @if (!item.Approved) { <form method="post" asp-page-handler="Approve" class="d-inline"><input type="hidden" name="id" value="@item.Id" /><button class="btn btn-sm btn-success" onclick="return confirm('¿Aprobar esta solicitud?')">Aprobar</button></form> }</td></tr>
+    <td class="text-nowrap"><a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">Editar</a> @if (!item.Approved && item.State != Essco.Domain.Customers.CustomerChangeState.Internal) { <form method="post" asp-page-handler="ProcessSap" class="d-inline"><input type="hidden" name="id" value="@item.Id" /><button class="btn btn-sm btn-success" onclick="return confirm('¿Enviar esta solicitud al servicio SAP?')">Procesar SAP</button></form> }</td></tr>
   }
   </tbody>
  </table>

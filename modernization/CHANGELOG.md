@@ -25,3 +25,4 @@
 - Página web auditada para documentos de exoneración, vigencias y asociaciones CABYS.
 - Consulta web del estado de cuenta de comprobantes con filtros, saldos y totales.
 - Cola SAP persistente en SQL Server con idempotencia, adquisición atómica, recuperación y reintentos.
+- Despacho idempotente de altas, modificaciones y cierres de clientes hacia el Windows Service SAP.
