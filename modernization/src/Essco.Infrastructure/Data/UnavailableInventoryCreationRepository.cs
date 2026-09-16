@@ -1,0 +1,1 @@
+using Essco.Application.Inventory;namespace Essco.Infrastructure.Data;public sealed class UnavailableInventoryCreationRepository:IInventoryCreationRepository{public ValueTask<InventoryCreationResult>CreateAsync(string t,string c,CancellationToken x)=>ValueTask.FromResult(new InventoryCreationResult(false,Error:"Inventario no está configurado."));}

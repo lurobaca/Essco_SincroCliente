@@ -151,6 +151,8 @@ builder.Services.AddScoped<IElectronicInvoiceRepository>(_ => initialOptions.Sql
 builder.Services.AddScoped<ElectronicInvoiceService>();
 builder.Services.AddScoped<IInventoryRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerInventoryRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableInventoryRepository());
 builder.Services.AddScoped<InventoryService>();
+builder.Services.AddScoped<IInventoryCreationRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerInventoryCreationRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableInventoryCreationRepository());
+builder.Services.AddScoped<InventoryCreationService>();
 builder.Services.AddScoped<IPayrollRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerPayrollRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailablePayrollRepository());
 builder.Services.AddScoped<PayrollService>();
 builder.Services.AddHealthChecks();
