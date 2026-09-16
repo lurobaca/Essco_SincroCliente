@@ -1,4 +1,7 @@
 ﻿<!DOCTYPE html>
+@using Essco.Application.Security
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -26,6 +29,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacidad</a>
                         </li>
+                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Company)).Succeeded)
+                        {
+                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Companies/Profile">Empresa</a></li>
+                        }
                     </ul>
                     @if (User.Identity?.IsAuthenticated == true)
                     {

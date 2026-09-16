@@ -31,6 +31,9 @@ public sealed class SqlServerCompanyRepository(string connectionString, int comm
     public async ValueTask SaveAsync(CompanyProfile company, CancellationToken cancellationToken)
     {
         const string sql = """
+            IF (SELECT COUNT_BIG(*) FROM [dbo].[Empresa] WITH (UPDLOCK, HOLDLOCK)) > 1
+                THROW 51000, 'La tabla Empresa contiene más de un registro.', 1;
+
             IF EXISTS (SELECT 1 FROM [dbo].[Empresa] WITH (UPDLOCK, HOLDLOCK))
             BEGIN
                 UPDATE [dbo].[Empresa] SET

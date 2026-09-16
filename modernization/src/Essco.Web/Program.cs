@@ -2,6 +2,7 @@ using Essco.Application;
 using Essco.Application.Configuration;
 using Essco.Application.Auditing;
 using Essco.Application.Security;
+using Essco.Application.Companies;
 using Essco.Infrastructure;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure.Security;
@@ -74,6 +75,15 @@ builder.Services.AddScoped<IAuditSink>(_ =>
         ? new SqlServerAuditSink(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
         : new UnavailableAuditSink());
 builder.Services.AddScoped<AuditService>();
+builder.Services.AddScoped<ICompanyRepository>(_ =>
+    initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
+        ? new SqlServerCompanyRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
+        : new UnavailableCompanyRepository());
+builder.Services.AddScoped<IGeographyRepository>(_ =>
+    initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString)
+        ? new SqlServerGeographyRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds)
+        : new UnavailableGeographyRepository());
+builder.Services.AddScoped<CompanyService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();

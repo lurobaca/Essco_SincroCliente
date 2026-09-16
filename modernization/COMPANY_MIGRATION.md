@@ -8,6 +8,8 @@
 
 El formulario original trata la tabla como un registro único y actualiza sin cláusula `WHERE`. El repositorio nuevo conserva la semántica de registro único, pero rechaza la lectura si encuentra más de una fila y realiza el guardado dentro de una transacción serializable.
 
+La página `/Companies/Profile` exige el permiso `company.manage`, registra cada guardado exitoso en auditoría y obtiene provincia, cantón, distrito y barrio mediante consultas parametrizadas sobre `dbo.Ubicaciones_CostaRica`.
+
 ## Datos migrados
 
 - Identificación y tipo.
@@ -30,6 +32,6 @@ Esos valores son configuración operativa y secretos, no datos editables del per
 ## Validación pendiente
 
 - Confirmar el orden real de `Tipo_Cedula` en la base.
-- Confirmar que los identificadores geográficos almacenan índices y no llaves reales.
+- Confirmar con datos reales que los identificadores geográficos coinciden con las llaves de `Ubicaciones_CostaRica`.
 - Confirmar tipos y longitudes reales de todas las columnas en una copia SQL.
 - Comparar un registro real anonimizado con el mapeo nuevo.

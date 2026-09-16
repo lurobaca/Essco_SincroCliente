@@ -8,6 +8,16 @@ public interface ICompanyRepository
     ValueTask SaveAsync(CompanyProfile company, CancellationToken cancellationToken);
 }
 
+public sealed record LocationOption(int Id, string Name);
+
+public interface IGeographyRepository
+{
+    ValueTask<IReadOnlyCollection<LocationOption>> GetProvincesAsync(CancellationToken cancellationToken);
+    ValueTask<IReadOnlyCollection<LocationOption>> GetCantonsAsync(int provinceId, CancellationToken cancellationToken);
+    ValueTask<IReadOnlyCollection<LocationOption>> GetDistrictsAsync(int provinceId, int cantonId, CancellationToken cancellationToken);
+    ValueTask<IReadOnlyCollection<LocationOption>> GetNeighborhoodsAsync(int provinceId, int cantonId, int districtId, CancellationToken cancellationToken);
+}
+
 public sealed class CompanyService(ICompanyRepository repository)
 {
     public ValueTask<CompanyProfile?> GetAsync(CancellationToken cancellationToken) =>

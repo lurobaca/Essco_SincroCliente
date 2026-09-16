@@ -5,6 +5,7 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | Área original | Ejemplos encontrados | Destino web | Estado | Validación pendiente |
 |---|---|---|---|---|
 | Acceso y seguridad | `LoginForm1`, usuarios, licencia | Login/logout, hashing, bloqueo y cambio obligatorio implementados | Implementado | Validar repositorio y credenciales en copia SQL; roles y licencia pendientes |
+| Empresa | `Manager_Empresa`, `Empresa`, `Ubicaciones_CostaRica` | Perfil web, validaciones, ubicaciones encadenadas, autorización y auditoría | Implementado | Verificar columnas y valores reales en copia SQL |
 | Clientes | Administración, estado de cuenta, exoneraciones | Módulo Clientes | Pendiente | Datos, filtros y permisos |
 | Artículos y precios | Artículos, listas y descuentos | Catálogo comercial | Pendiente | Reglas de precio y unidades |
 | Pedidos y facturación | Pedidos, facturación y búsqueda | Ventas | Pendiente | Totales, impuestos, inventario y SAP |

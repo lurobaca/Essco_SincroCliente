@@ -18,3 +18,4 @@
 - Políticas de autorización para los ocho puestos heredados identificados en el menú principal.
 - Auditoría SQL estructurada para accesos, cierres de sesión y cambios de contraseña.
 - Dominio y repositorio parametrizado para el perfil empresarial, excluyendo secretos heredados.
+- Página web protegida para administrar Empresa, catálogos geográficos encadenados y auditoría de cambios.

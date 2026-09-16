@@ -63,6 +63,8 @@ public sealed record CompanyProfile
         catch (FormatException) { errors.Add("El correo electrónico no es válido."); }
         if (Email.Length > 254) errors.Add("El correo electrónico no puede superar 254 caracteres.");
         if (MaximumInvoiceLines < 0) errors.Add("El máximo de líneas de factura no puede ser negativo.");
+        if (ProvinceId <= 0 || CantonId <= 0 || DistrictId <= 0 || NeighborhoodId <= 0)
+            errors.Add("Provincia, cantón, distrito y barrio son obligatorios.");
         if (MaximumDiscountPercent is < 0 or > 100) errors.Add("El descuento máximo debe estar entre 0 y 100.");
         if (LoadReportSequence < 0 || ReturnReportSequence < 0 || ExtensionDays < 0)
             errors.Add("Los consecutivos y días de extensión no pueden ser negativos.");

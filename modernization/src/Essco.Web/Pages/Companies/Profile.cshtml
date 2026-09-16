@@ -1,0 +1,44 @@
+@page
+@model Essco.Web.Pages.Companies.ProfileModel
+@using Essco.Domain.Companies
+@{ ViewData["Title"] = "Empresa"; }
+<h1>Perfil de la empresa</h1>
+<p class="text-muted">Datos fiscales, comerciales y parámetros operativos.</p>
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage)) { <div class="alert alert-success">@Model.StatusMessage</div> }
+<form method="post">
+ <div asp-validation-summary="All" class="text-danger"></div>
+ <div class="row g-3">
+  <div class="col-md-3"><label asp-for="Input.IdentificationType" class="form-label"></label><select asp-for="Input.IdentificationType" asp-items="Html.GetEnumSelectList<CompanyIdentificationType>()" class="form-select"></select></div>
+  <div class="col-md-3"><label asp-for="Input.TaxId" class="form-label"></label><input asp-for="Input.TaxId" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.LegalName" class="form-label"></label><input asp-for="Input.LegalName" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.TradeName" class="form-label"></label><input asp-for="Input.TradeName" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.Phone" class="form-label"></label><input asp-for="Input.Phone" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.SecondaryPhone" class="form-label"></label><input asp-for="Input.SecondaryPhone" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.Email" class="form-label"></label><input asp-for="Input.Email" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.Website" class="form-label"></label><input asp-for="Input.Website" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.ProvinceId" class="form-label"></label><select asp-for="Input.ProvinceId" asp-items="Model.Provinces" class="form-select"><option value="">Seleccione</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.CantonId" class="form-label"></label><select asp-for="Input.CantonId" asp-items="Model.Cantons" class="form-select"><option value="">Seleccione</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.DistrictId" class="form-label"></label><select asp-for="Input.DistrictId" asp-items="Model.Districts" class="form-select"><option value="">Seleccione</option></select></div>
+  <div class="col-md-3"><label asp-for="Input.NeighborhoodId" class="form-label"></label><select asp-for="Input.NeighborhoodId" asp-items="Model.Neighborhoods" class="form-select"><option value="">Seleccione</option></select></div>
+  <div class="col-12"><label asp-for="Input.Address" class="form-label"></label><textarea asp-for="Input.Address" class="form-control" rows="3"></textarea></div>
+  <div class="col-md-3"><label asp-for="Input.EconomicActivityCode" class="form-label"></label><input asp-for="Input.EconomicActivityCode" class="form-control" /></div>
+  <div class="col-md-9"><label asp-for="Input.EconomicActivityDescription" class="form-label"></label><input asp-for="Input.EconomicActivityDescription" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.MaximumInvoiceLines" class="form-label"></label><input asp-for="Input.MaximumInvoiceLines" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.MaximumDiscountPercent" class="form-label"></label><input asp-for="Input.MaximumDiscountPercent" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.ExtensionDays" class="form-label"></label><input asp-for="Input.ExtensionDays" class="form-control" /></div>
+  <div class="col-md-3"><label asp-for="Input.DiscountGrouping" class="form-label"></label><select asp-for="Input.DiscountGrouping" asp-items="Html.GetEnumSelectList<DiscountGroupingType>()" class="form-select"></select></div>
+  <div class="col-md-6"><label asp-for="Input.LoadReportSequence" class="form-label"></label><input asp-for="Input.LoadReportSequence" class="form-control" /></div>
+  <div class="col-md-6"><label asp-for="Input.ReturnReportSequence" class="form-label"></label><input asp-for="Input.ReturnReportSequence" class="form-control" /></div>
+ </div>
+ <button type="submit" class="btn btn-primary mt-4">Guardar empresa</button>
+</form>
+@section Scripts {
+ <partial name="_ValidationScriptsPartial" />
+ <script>
+ const province=document.getElementById('Input_ProvinceId'), canton=document.getElementById('Input_CantonId'), district=document.getElementById('Input_DistrictId'), neighborhood=document.getElementById('Input_NeighborhoodId');
+ async function fill(select,url){select.innerHTML='<option value="">Seleccione</option>';if(!url)return;const response=await fetch(url,{headers:{Accept:'application/json'}});if(!response.ok)return;for(const item of await response.json())select.add(new Option(item.name,item.id));}
+ province.addEventListener('change',async()=>{await fill(canton,province.value?`?handler=Cantons&provinceId=${province.value}`:null);await fill(district);await fill(neighborhood);});
+ canton.addEventListener('change',async()=>{await fill(district,canton.value?`?handler=Districts&provinceId=${province.value}&cantonId=${canton.value}`:null);await fill(neighborhood);});
+ district.addEventListener('change',()=>fill(neighborhood,district.value?`?handler=Neighborhoods&provinceId=${province.value}&cantonId=${canton.value}&districtId=${district.value}`:null));
+ </script>
+}

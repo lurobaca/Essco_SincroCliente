@@ -33,6 +33,10 @@ public sealed class CompanyProfileTests
         Phone = "22223333",
         Email = "empresa@example.invalid",
         Address = "San José",
+        ProvinceId = 1,
+        CantonId = 1,
+        DistrictId = 1,
+        NeighborhoodId = 1,
         MaximumInvoiceLines = 100,
         MaximumDiscountPercent = 10,
         DiscountGrouping = DiscountGroupingType.CustomerGroup
