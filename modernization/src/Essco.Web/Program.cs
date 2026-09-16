@@ -13,6 +13,7 @@ using Essco.Application.Purchasing;
 using Essco.Application.Billing;
 using Essco.Application.Inventory;
 using Essco.Application.Payroll;
+using Essco.Application.HumanResources;
 using Essco.Infrastructure;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure.Security;
@@ -155,6 +156,8 @@ builder.Services.AddScoped<IInventoryCreationRepository>(_ => initialOptions.Sql
 builder.Services.AddScoped<InventoryCreationService>();
 builder.Services.AddScoped<IPayrollRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerPayrollRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailablePayrollRepository());
 builder.Services.AddScoped<PayrollService>();
+builder.Services.AddScoped<IEmployeeRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeRepository());
+builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
