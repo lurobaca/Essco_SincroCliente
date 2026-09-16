@@ -8,4 +8,6 @@ El acceso usa `liquidation-differences.access` y todas las mutaciones se auditan
 
 La página `/Liquidations/Expenses` migra el mantenimiento de `dbo.GastosLiquidaciones`: consulta parametrizada, creación con reserva transaccional de `ConseGastos`, edición, asociación a liquidación y anulación lógica. Conserva la marca de factura electrónica, proveedor, inclusión y estado de Hacienda.
 
-Aún deben incorporarse al flujo transaccional las facturas, devoluciones, diferencias calculadas, cierre y generación de reportes; hasta entonces no existe paridad completa con las pantallas heredadas.
+El resumen web consolida facturas, depósitos, recibos SAP y gastos vinculados. Conserva la fórmula heredada de diferencia `(depósitos + gastos) - recibos` y permite recalcular el resultado persistido. Las facturas se muestran para conciliación, pero no participan en esa fórmula histórica.
+
+Aún deben incorporarse al flujo transaccional las devoluciones, el cierre definitivo y la generación de reportes PDF.

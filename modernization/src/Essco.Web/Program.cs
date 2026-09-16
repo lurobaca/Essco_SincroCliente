@@ -137,7 +137,7 @@ builder.Services.AddScoped<DepositService>();
 builder.Services.AddScoped<DepositSapDispatchService>();
 builder.Services.AddScoped<IIncomingReceiptRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) && !string.IsNullOrWhiteSpace(initialOptions.Sap.CompanyDatabase) ? new SqlServerIncomingReceiptRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds, initialOptions.Sap.CompanyDatabase) : new UnavailableIncomingReceiptRepository());
 builder.Services.AddScoped<IncomingReceiptService>();
-builder.Services.AddScoped<ILiquidationRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerLiquidationRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableLiquidationRepository());
+builder.Services.AddScoped<ILiquidationRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerLiquidationRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds, initialOptions.Sap.CompanyDatabase) : new UnavailableLiquidationRepository());
 builder.Services.AddScoped<LiquidationService>();
 builder.Services.AddScoped<ILiquidationExpenseRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerLiquidationExpenseRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableLiquidationExpenseRepository());
 builder.Services.AddScoped<LiquidationExpenseService>();

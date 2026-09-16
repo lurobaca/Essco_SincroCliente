@@ -13,7 +13,7 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | Recibos y depósitos | Recibos, bancos y depósitos | Depósitos web y envío asíncrono a SAP; consulta de recibos y vinculación/desvinculación implementadas | Analizando | Conciliación posterior, asientos y validación SQL/DI API real |
 | Gastos y devoluciones | Gastos, proveedores y devoluciones | Gastos web; bandeja de devoluciones y creación asíncrona de nota de crédito SAP implementadas | Analizando | Tipos, edición de devoluciones, FEC/Hacienda y validación SQL/DI API real |
 | Inventario | Conteos, cruces y grupos | Consulta, captura de conteos, diferencias y cierre transaccional implementados | Analizando | Creación, grupos/proveedores, reconteo, cruce y ajustes SAP |
-| Liquidaciones | Agentes y choferes | Cabeceras web: consulta, alta, edición y anulación con consecutivos transaccionales | Analizando | Integrar depósitos, recibos, gastos, facturas, devoluciones, cálculos, reportes y cierre |
+| Liquidaciones | Agentes y choferes | Cabeceras, gastos y conciliación de facturas, depósitos, recibos SAP y diferencia implementados | Analizando | Devoluciones, cierre definitivo, reportes PDF y validación SQL/SAP real |
 | Planillas | Clases y pantallas de planilla | Listado, creación, desglose por empleado, finalización y anulación implementados | Analizando | Caracterizar cálculos, expedientes, aguinaldo, vacaciones, archivos bancarios y asiento SAP |
 | Hacienda | XML, token, firma y mensajes | Facturación electrónica | Pendiente | Sandbox oficial y certificados |
 | SAP Business One | `SAP_BUSSINES_ONE.vb` y llamadas relacionadas | SapBridge.Worker | Analizando | DI API, bitness y versión instalada |

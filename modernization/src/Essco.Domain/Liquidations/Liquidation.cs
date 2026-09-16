@@ -32,3 +32,7 @@ public sealed record Liquidation
     }
 }
 public sealed record LiquidationFilter(LiquidationKind Kind,DateOnly? From=null,DateOnly? To=null,int? Consecutive=null,bool IncludeAnnulled=false);
+public sealed record LiquidationSummary(decimal Invoices,decimal Deposits,decimal Receipts,decimal Expenses)
+{
+    public decimal Result => Deposits + Expenses - Receipts;
+}
