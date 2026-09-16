@@ -35,3 +35,4 @@
 - Administración web de bodegueros y sectores autorizados sin exposición de claves heredadas.
 - Mantenimiento web de agentes, puestos y consecutivos, corrigiendo el cruce de campos del alta heredada.
 - Mantenimiento web de choferes históricos, tipos y consecutivos.
+- Núcleo transaccional de depósitos de tesorería con filtros, duplicados, anulación, conciliación y vínculo a liquidaciones.

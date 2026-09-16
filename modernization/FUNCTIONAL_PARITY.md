@@ -10,7 +10,7 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | Clientes | Administración, estado de cuenta, exoneraciones | Solicitudes, alta/edición, aprobación, exoneraciones/CABYS y estado de cuenta implementados | Analizando | Ejecución SAP pendiente; validar contra copia SQL |
 | Artículos y precios | Artículos, listas y descuentos | Catálogo comercial | Pendiente | Reglas de precio y unidades |
 | Pedidos y facturación | Pedidos, facturación y búsqueda | Ventas | Pendiente | Totales, impuestos, inventario y SAP |
-| Recibos y depósitos | Recibos, bancos y depósitos | Tesorería | Pendiente | Conciliación y asientos |
+| Recibos y depósitos | Recibos, bancos y depósitos | Núcleo y mantenimiento web de depósitos implementados | Analizando | Recibos, conciliación bancaria, asientos y validación SQL |
 | Gastos y devoluciones | Gastos, proveedores y devoluciones | Operaciones | Pendiente | Estados y aprobaciones |
 | Inventario | Conteos, cruces y grupos | Inventario | Pendiente | Concurrencia y ajustes SAP |
 | Liquidaciones | Agentes y choferes | Liquidaciones | Pendiente | Cálculos y reportes |

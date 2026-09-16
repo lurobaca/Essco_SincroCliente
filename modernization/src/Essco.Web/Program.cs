@@ -5,6 +5,7 @@ using Essco.Application.Security;
 using Essco.Application.Companies;
 using Essco.Application.Customers;
 using Essco.Application.Catalogs;
+using Essco.Application.Treasury;
 using Essco.Infrastructure;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure.Security;
@@ -124,6 +125,8 @@ builder.Services.AddScoped<ISalesAgentRepository>(_ => initialOptions.SqlServer.
 builder.Services.AddScoped<SalesAgentService>();
 builder.Services.AddScoped<IDriverRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerDriverRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableDriverRepository());
 builder.Services.AddScoped<DriverService>();
+builder.Services.AddScoped<IDepositRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerDepositRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableDepositRepository());
+builder.Services.AddScoped<DepositService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
