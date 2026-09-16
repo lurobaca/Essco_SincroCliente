@@ -4,6 +4,7 @@ using Essco.Application.Companies;
 using Essco.Application.Customers;
 using Essco.Application.Treasury;
 using Essco.Application.Returns;
+using Essco.Application.Purchasing;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure;
 using Essco.SapBridge.Worker;
@@ -36,6 +37,9 @@ builder.Services.AddSingleton<IDepositSapJobProcessor, DepositSapJobProcessor>()
 builder.Services.AddSingleton<IReturnRepository>(_ => options.SqlServer.Enabled && !string.IsNullOrWhiteSpace(connectionString) ? new SqlServerReturnRepository(connectionString, options.SqlServer.CommandTimeoutSeconds) : new UnavailableReturnRepository());
 builder.Services.AddSingleton<ISapReturnGateway, ComSapReturnGateway>();
 builder.Services.AddSingleton<IReturnSapJobProcessor, ReturnSapJobProcessor>();
+builder.Services.AddSingleton<IPurchaseOrderRepository>(_ => options.SqlServer.Enabled && !string.IsNullOrWhiteSpace(connectionString) ? new SqlServerPurchaseOrderRepository(connectionString, options.SqlServer.CommandTimeoutSeconds) : new UnavailablePurchaseOrderRepository());
+builder.Services.AddSingleton<ISapPurchaseOrderGateway, ComSapPurchaseOrderGateway>();
+builder.Services.AddSingleton<IPurchaseOrderSapJobProcessor, PurchaseOrderSapJobProcessor>();
 builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();

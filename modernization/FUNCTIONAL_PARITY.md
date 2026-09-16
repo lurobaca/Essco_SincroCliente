@@ -9,7 +9,7 @@ Estados: `Pendiente`, `Analizando`, `Implementado`, `Verificado` y `Bloqueado`.
 | Catálogos operativos | Motivos, rutas, bodegas, bodegueros, agentes, choferes, bancos y razones de no visita | Mantenimientos principales implementados, incluidos Agentes y Choferes históricos | Implementado | Validar esquemas y relaciones contra copia SQL; pruebas end-to-end |
 | Clientes | Administración, estado de cuenta, exoneraciones | Solicitudes, alta/edición, aprobación, exoneraciones/CABYS y estado de cuenta implementados | Analizando | Ejecución SAP pendiente; validar contra copia SQL |
 | Artículos y precios | Artículos, listas y descuentos | Consulta de catálogo, listas de precios y descuentos automáticos implementados | Analizando | Validar esquema SQL, reglas de unidades y autoridad del maestro SAP |
-| Pedidos y facturación | Pedidos, facturación y búsqueda | Ventas | Pendiente | Totales, impuestos, inventario y SAP |
+| Pedidos y facturación | Pedidos, facturación y búsqueda | Pedidos a proveedores web con edición, anulación y creación asíncrona en SAP; facturación aún pendiente | Analizando | Validar SP de sugerido, unidades, totales, impuestos e iniciar facturación/Hacienda |
 | Recibos y depósitos | Recibos, bancos y depósitos | Depósitos web y envío asíncrono a SAP; consulta de recibos y vinculación/desvinculación implementadas | Analizando | Conciliación posterior, asientos y validación SQL/DI API real |
 | Gastos y devoluciones | Gastos, proveedores y devoluciones | Gastos web; bandeja de devoluciones y creación asíncrona de nota de crédito SAP implementadas | Analizando | Tipos, edición de devoluciones, FEC/Hacienda y validación SQL/DI API real |
 | Inventario | Conteos, cruces y grupos | Inventario | Pendiente | Concurrencia y ajustes SAP |
