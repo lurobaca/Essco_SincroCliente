@@ -30,3 +30,4 @@
 - Catálogo web auditado de motivos de devolución y selección de bodegas SAP.
 - Catálogo web auditado de rutas con CRUD completo.
 - Catálogo web auditado de bancos y cuentas asignadas.
+- Catálogo web auditado de razones de no visita, corrigiendo la actualización por índice visual heredada.

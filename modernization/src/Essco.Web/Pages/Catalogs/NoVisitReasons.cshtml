@@ -1,0 +1,37 @@
+@page
+@model Essco.Web.Pages.Catalogs.NoVisitReasonsModel
+@{ ViewData["Title"] = "Razones de no visita"; }
+<div class="d-flex justify-content-between">
+    <h1>Razones de no visita</h1>
+    <a asp-page="Index" class="btn btn-outline-secondary align-self-start">Catálogos</a>
+</div>
+@if (!string.IsNullOrWhiteSpace(Model.StatusMessage))
+{
+    <div class="alert alert-info">@Model.StatusMessage</div>
+}
+<div class="row g-4">
+    <div class="col-md-5">
+        <form method="post" asp-page-handler="Save" class="card card-body">
+            <input asp-for="Input.Code" type="hidden" />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <label asp-for="Input.Reason" class="form-label"></label>
+            <input asp-for="Input.Reason" class="form-control" />
+            <div class="mt-3"><button class="btn btn-primary">Guardar</button> <a class="btn btn-outline-secondary">Nuevo</a></div>
+        </form>
+    </div>
+    <div class="col-md-7">
+        <table class="table table-striped">
+            <thead><tr><th>Código</th><th>Razón</th><th></th></tr></thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr><td>@item.Code</td><td>@item.Reason</td><td><a asp-route-code="@item.Code" class="btn btn-sm btn-outline-secondary">Editar</a> <form method="post" asp-page-handler="Delete" class="d-inline"><input type="hidden" name="code" value="@item.Code" /><button class="btn btn-sm btn-outline-danger" onclick="return confirm('¿Eliminar esta razón de no visita?')">Eliminar</button></form></td></tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
