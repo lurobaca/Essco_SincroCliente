@@ -71,4 +71,6 @@ public sealed class SapCompanyOptions
     public string DatabasePassword { get; init; } = "";
     public string LicenseServer { get; init; } = "";
     public int DatabaseServerType { get; init; } = -1;
+    public string DepositCurrency { get; init; } = "COL";
+    public string DepositAllocationAccount { get; init; } = "10100101001";
 }

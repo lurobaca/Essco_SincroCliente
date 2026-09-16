@@ -17,3 +17,11 @@ Fuente heredada: `AddRecibo.vb`, `Class_funcionesSQL.ObtieneRecibos` y `SAP_BUSS
 La página `/Treasury/Receipts`, protegida por `cash.access`, consulta pagos entrantes no anulados de SAP (`ORCT`) con parámetros SQL, límite de 500 registros y filtros por fechas, cobrador, liquidación y número. La aplicación web nunca carga DI API: vincular o desvincular genera un trabajo idempotente `IncomingReceipt.*` en la cola persistente.
 
 El servicio Windows procesa esos trabajos en un hilo STA, abre el pago entrante por `DocEntry` y actualiza los UDF `U_BP_COBRADOR` y `U_NumLiquidacion`. El resultado queda registrado en la cola y la solicitud web se audita. Falta validar nombres/tipos de UDF y comportamiento de desvinculación contra una copia real de SAP antes del piloto.
+
+## Envío de depósitos a SAP
+
+Fuente heredada: `RevisaDepositos.vb` y `SAP_BUSSINES_ONE.CreaDeposito`.
+
+Los depósitos pendientes que no son boletas pueden enviarse desde `/Treasury/Deposits`. La aplicación exige una coincidencia del banco con `dbo.BancosEssco` para obtener la cuenta contable y encola `Deposit.Create` con una clave idempotente por consecutivo. El servicio Windows crea el depósito de efectivo con `DepositsService`; solamente después de una respuesta satisfactoria marca `DP_SUBIDO=1`.
+
+La moneda y cuenta de asignación se configuran en `Essco:Sap:DepositCurrency` y `Essco:Sap:DepositAllocationAccount`. Antes del piloto deben validarse las cuentas bancarias, la moneda y la compatibilidad de `DepositsService` con la versión/arquitectura instalada de DI API.

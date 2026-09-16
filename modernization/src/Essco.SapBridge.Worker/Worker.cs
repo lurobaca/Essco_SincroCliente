@@ -5,11 +5,11 @@ using Essco.Domain;
 
 namespace Essco.SapBridge.Worker;
 
-public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor) : BackgroundService
+public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor, IDepositSapJobProcessor depositProcessor) : BackgroundService
 {
     private readonly ISapJobQueue _queue = null!;
 
-    public Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor, ISapJobQueue queue) : this(logger, customerProcessor, receiptProcessor)
+    public Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerProcessor, IIncomingReceiptSapJobProcessor receiptProcessor, IDepositSapJobProcessor depositProcessor, ISapJobQueue queue) : this(logger, customerProcessor, receiptProcessor, depositProcessor)
     {
         _queue = queue;
     }
@@ -33,6 +33,8 @@ public class Worker(ILogger<Worker> logger, ICustomerSapJobProcessor customerPro
                     ? await customerProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
                     : job.OperationType.StartsWith("IncomingReceipt.", StringComparison.Ordinal)
                         ? await receiptProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
+                        : job.OperationType.StartsWith("Deposit.", StringComparison.Ordinal)
+                            ? await depositProcessor.ProcessAsync(job.OperationType, job.Payload, stoppingToken)
                         : new SapProcessingResult(false, null, "Tipo de operación SAP no soportado por el servicio.", false);
                 if (result.Succeeded)
                     await _queue.CompleteAsync(job.Id, result.ExternalId ?? job.Id.ToString(), stoppingToken);

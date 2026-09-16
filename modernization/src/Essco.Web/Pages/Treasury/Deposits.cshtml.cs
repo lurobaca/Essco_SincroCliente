@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 namespace Essco.Web.Pages.Treasury;
 
 [Authorize(Policy = Permissions.Cash)]
-public sealed class DepositsModel(DepositService service, AuditService audit, IOptions<EsscoOptions> options) : PageModel
+public sealed class DepositsModel(DepositService service, DepositSapDispatchService sapDispatch, AuditService audit, IOptions<EsscoOptions> options) : PageModel
 {
     [BindProperty] public InputModel Input { get; set; } = new();
     [BindProperty(SupportsGet = true)] public FilterModel Filter { get; set; } = new();
@@ -56,6 +56,14 @@ public sealed class DepositsModel(DepositService service, AuditService audit, IO
         var changed = await service.AnnulAsync(consecutive, token);
         await LogAsync("treasury.deposit-annul", consecutive, changed ? "Succeeded" : "Rejected", token);
         StatusMessage = changed ? $"Depósito {consecutive} anulado." : "El depósito no existe o ya estaba anulado.";
+        return RedirectToPage(Filter.RouteValues());
+    }
+
+    public async Task<IActionResult> OnPostUploadAsync(int consecutive, CancellationToken token)
+    {
+        var result = await sapDispatch.DispatchAsync(consecutive, options.Value.DefaultCompany, User.Identity?.Name ?? "", token);
+        await LogAsync("treasury.deposit-upload", consecutive, result.Succeeded ? "Queued" : "Rejected", token);
+        StatusMessage = result.Succeeded ? $"Depósito encolado para SAP. Trabajo: {result.Job!.Id}" : result.Error;
         return RedirectToPage(Filter.RouteValues());
     }
 

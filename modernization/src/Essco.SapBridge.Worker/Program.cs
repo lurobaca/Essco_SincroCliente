@@ -29,6 +29,9 @@ builder.Services.AddSingleton<ISapCustomerGateway, ComSapCustomerGateway>();
 builder.Services.AddSingleton<ICustomerSapJobProcessor, CustomerSapJobProcessor>();
 builder.Services.AddSingleton<ISapIncomingReceiptGateway, ComSapIncomingReceiptGateway>();
 builder.Services.AddSingleton<IIncomingReceiptSapJobProcessor, IncomingReceiptSapJobProcessor>();
+builder.Services.AddSingleton<IDepositRepository>(_ => options.SqlServer.Enabled && !string.IsNullOrWhiteSpace(connectionString) ? new SqlServerDepositRepository(connectionString, options.SqlServer.CommandTimeoutSeconds) : new UnavailableDepositRepository());
+builder.Services.AddSingleton<ISapDepositGateway, ComSapDepositGateway>();
+builder.Services.AddSingleton<IDepositSapJobProcessor, DepositSapJobProcessor>();
 builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();
