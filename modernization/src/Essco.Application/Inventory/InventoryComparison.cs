@@ -3,7 +3,7 @@ namespace Essco.Application.Inventory;
 
 public sealed record InventoryComparisonLine(string Code, string Description, decimal? First, decimal? Second, decimal? Cost)
 {
-    public decimal? Difference => Second - First;
+    public decimal? Difference => First - Second;
     public decimal? DifferenceAmount => Difference * Cost;
     public bool Incomplete => First is null || Second is null || Cost is null;
     public bool RequiresRecount(decimal threshold) =>
