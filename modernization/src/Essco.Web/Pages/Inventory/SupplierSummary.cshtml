@@ -2,11 +2,11 @@
 @model Essco.Web.Pages.Inventory.SupplierSummaryModel
 @{ ViewData["Title"] = "Unificación por proveedor — vista previa"; }
 <h1>@ViewData["Title"]</h1>
-<p>Sumatoria del conteo 3 de los grupos del proveedor. Esta consulta no crea el conteo 4 ni modifica el inventario.</p>
-<p class="alert alert-warning">Consulta de solo lectura. El estado puede cambiar después de consultar; una futura escritura deberá comprobarlo de nuevo dentro de su transacción.</p>
+<p>Sumatoria del último conteo (desde el 3) de cada grupo original del proveedor. Esta consulta no modifica el inventario.</p>
+<p class="alert alert-warning">Consulta de solo lectura. La creación del grupo unificado vuelve a comprobar los datos en su transacción.</p>
 @if (!string.IsNullOrWhiteSpace(Model.Supplier))
 {
-    <p>@(Model.GroupsCompleted ? "Todos los grupos originales tienen un único conteo 3 finalizado." : "No se puede confirmar la finalización: faltan grupos o existen controles pendientes, ausentes o duplicados.")</p>
+    <p>@(Model.GroupsCompleted ? "Todos los grupos originales tienen su último control finalizado." : "No se puede confirmar la finalización: faltan grupos o existen controles pendientes, ausentes o duplicados.")</p>
     <ul>
     @foreach (var group in Model.Groups)
     {
@@ -21,7 +21,7 @@
     <div class="col-auto"><button class="btn btn-primary">Comparar con sistema</button></div>
 </form>
 <table class="table">
-<thead><tr><th>Artículo</th><th>Suma conteo 3</th><th>Sistema</th><th>Sistema − conteo</th><th>Importe</th><th>Revisión</th></tr></thead>
+<thead><tr><th>Artículo</th><th>Suma últimos conteos</th><th>Sistema</th><th>Sistema − conteo</th><th>Importe</th><th>Revisión</th></tr></thead>
 <tbody>
 @foreach (var line in Model.Lines)
 {

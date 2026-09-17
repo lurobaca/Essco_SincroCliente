@@ -16,7 +16,8 @@ public sealed class SqlServerInventoryConsolidationReadiness(string connectionSt
                 SUM(CASE WHEN A.Finalizado=1 THEN 1 ELSE 0 END) Completed
             FROM (SELECT DISTINCT idGrupo FROM dbo.Inv_Grupos
                   WHERE CodInventario=@Id AND CodProveedor=@Supplier AND LEN(idGrupo)=1) G
-            LEFT JOIN dbo.Inv_ConActivo A ON A.IdInventario=@Id AND A.Grupo=G.idGrupo AND A.Conteo=3
+            LEFT JOIN dbo.Inv_ConActivo A ON A.IdInventario=@Id AND A.Grupo=G.idGrupo AND A.Conteo>=3
+                AND A.Conteo=(SELECT MAX(TRY_CONVERT(int,N.Conteo)) FROM dbo.Inv_ConActivo N WHERE N.IdInventario=@Id AND N.Grupo=G.idGrupo)
             GROUP BY G.idGrupo ORDER BY G.idGrupo
             """;
         await using var command = new SqlCommand(sql, connection) { CommandTimeout = timeout };

@@ -31,6 +31,9 @@ public sealed class SqlServerInventoryRecountRepository(string connectionString,
             SELECT CodArticulo,Descripcion,Cuenta,Reconteo,CodProveedor
             INTO #Source FROM dbo.Inv_Conteos WITH (UPDLOCK,HOLDLOCK)
             WHERE IdInventario=@Id AND Grupo=@Group AND NumConteo=@Previous;
+            IF LEN(@Group)=1 AND EXISTS(SELECT 1 FROM #Source C JOIN dbo.Inv_Inventario I
+                ON I.IdInventario=@Id AND I.Codigo=C.CodArticulo WHERE ISNULL(I.Unificado,0)=1)
+                BEGIN SELECT 0; RETURN; END;
             SELECT CONVERT(nvarchar(100),value) Code INTO #Selected FROM OPENJSON(@Items);
             IF NOT EXISTS(SELECT 1 FROM #Source)
                 OR EXISTS(SELECT CodArticulo FROM #Source GROUP BY CodArticulo HAVING COUNT(*)<>1)

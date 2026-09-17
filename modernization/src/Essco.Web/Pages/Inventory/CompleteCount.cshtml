@@ -3,6 +3,7 @@
 @{ ViewData["Title"] = "Finalizar conteo"; }
 <h1>Finalizar conteo</h1>
 <p>Confirme las cantidades antes de finalizar. Un conteo finalizado queda bloqueado para edición y disponible para cruce.</p>
+<p>Para grupos unificados, finalizar acepta las cantidades del último conteo como resultado actual. Puede abrir otro reconteo mientras el inventario siga abierto.</p>
 <div asp-validation-summary="All" class="text-danger"></div>
 <form method="post">
     <label asp-for="Group">Grupo</label><input asp-for="Group" required class="form-control" />

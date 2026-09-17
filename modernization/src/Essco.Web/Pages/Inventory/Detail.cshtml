@@ -1,5 +1,6 @@
 @page "{id:int}"
 @model Essco.Web.Pages.Inventory.DetailModel
+<p><a asp-page="Consolidate" asp-route-id="@RouteData.Values["id"]">Crear grupo unificado por proveedor</a></p>
 <p><a asp-page="Recount" asp-route-id="@RouteData.Values["id"]">Abrir siguiente reconteo</a></p>
 <p><a asp-page="SupplierSummary" asp-route-id="@RouteData.Values["id"]">Vista previa de unificación por proveedor</a></p>
 <p><a asp-page="CompleteCount" asp-route-id="@RouteData.Values["id"]">Finalizar un conteo</a></p>

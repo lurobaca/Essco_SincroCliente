@@ -1,0 +1,16 @@
+@page "{id:int}"
+@model Essco.Web.Pages.Inventory.ConsolidateModel
+@{ ViewData["Title"]="Unificar proveedor"; }
+<h1>@ViewData["Title"]</h1>
+<p>Se suman los últimos conteos finalizados de los grupos originales y se crea el conteo 4 de un nuevo grupo. No se sobrescribe el historial.</p>
+<p>Las diferencias que alcancen el umbral quedan pendientes de captura. Finalizar un conteo no impide solicitar otro reconteo.</p>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post">
+<label asp-for="Supplier">Proveedor</label><input asp-for="Supplier" class="form-control" required />
+<label asp-for="Group">Nuevo grupo (mínimo 2 caracteres)</label><input asp-for="Group" class="form-control" required />
+<label asp-for="Responsible">Responsable</label><input asp-for="Responsible" class="form-control" required />
+<label asp-for="Companion">Acompañante (opcional)</label><input asp-for="Companion" class="form-control" />
+<label asp-for="Threshold">Umbral monetario</label><input asp-for="Threshold" class="form-control" />
+<button class="btn btn-primary mt-3">Crear grupo unificado</button>
+</form>
+<a asp-page="Detail" asp-route-id="@RouteData.Values["id"]">Volver</a>

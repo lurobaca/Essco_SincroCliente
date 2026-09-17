@@ -3,6 +3,14 @@ using Essco.Domain.Inventory;
 namespace Essco.Tests.Unit.Inventory;
 public sealed class InventorySupplierSummaryTests
 {
+    [Fact]
+    public void Uses_latest_count_per_original_group_and_excludes_unified_group()
+    {
+        var result = InventorySupplierSummary.Calculate(1, "P", [Count("A", 3),
+            Count("A", 7) with { Number = 10 }, Count("B", 2), Count("PX", 50) with { Number = 4 }], [Item]).Single();
+        Assert.Equal(9m, result.Quantity);
+        Assert.False(result.Invalid);
+    }
     private static InventoryItem Item => new("X", "Artículo", "P", 10, 0, 5, 0, 0);
     private static InventoryCount Count(string group, decimal quantity) => new(1, group, 3, "X", "Artículo", quantity, true, "P");
     [Fact]

@@ -19,7 +19,8 @@ public static class InventorySupplierSummary
         ArgumentException.ThrowIfNullOrWhiteSpace(supplier);
         if (inventory <= 0) throw new ArgumentOutOfRangeException(nameof(inventory));
         var stock = items.Where(x => x.SupplierCode == supplier).ToLookup(x => x.Code);
-        var third = counts.Where(x => x.InventoryId == inventory && x.SupplierCode == supplier && x.Number == 3)
+        var third = counts.Where(x => x.InventoryId == inventory && x.SupplierCode == supplier && x.Number >= 3 && x.Group.Trim().Length == 1)
+            .GroupBy(x => x.Group).SelectMany(g => g.Where(x => x.Number == g.Max(c => c.Number)))
             .ToLookup(x => x.ItemCode);
         return stock.Select(x => x.Key).Union(third.Select(x => x.Key)).OrderBy(x => x)
             .Select(code =>
