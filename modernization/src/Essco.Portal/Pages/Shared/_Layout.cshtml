@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>@ViewData["Title"] · ESSCO</title>
+<link rel="stylesheet" href="~/css/portal.css" asp-append-version="true" />
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="topbar"><a class="brand" asp-page="/Index" aria-label="ESSCO, inicio"><span class="brand-mark" aria-hidden="true">E</span> ESSCO</a>
+<nav aria-label="Navegación principal"><a href="/#aplicaciones">Aplicaciones</a>
+@if(User.Identity?.IsAuthenticated == true) {
+<a asp-page="/Portal/Index">Mi portal</a><form method="post" asp-page="/Account/Logout"><button class="text-button">Cerrar sesión</button></form>
+} else { <a class="button small" asp-page="/Account/Login">Acceso de clientes</a> }
+</nav></header>
+<main id="contenido" tabindex="-1">@RenderBody()</main>
+<footer><strong>ESSCO</strong><span>Un espacio para tus aplicaciones empresariales.</span><a asp-page="/Privacy">Privacidad</a></footer>
+</body></html>

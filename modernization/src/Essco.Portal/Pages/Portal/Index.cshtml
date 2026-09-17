@@ -1,0 +1,21 @@
+@page
+@model Essco.Portal.Pages.Portal.IndexModel
+@{ViewData["Title"]="Mi portal";}
+<section class="section">
+<p class="eyebrow">MI ESPACIO ESSCO</p><h1>Hola, @User.Identity?.Name</h1><p class="lead">Tus organizaciones y aplicaciones, desde un solo panel.</p>
+@if(Model.Selected is null) { <p class="notice">Tu cuenta todavía no pertenece a una organización activa. Solicita acceso al administrador.</p> }
+else {
+<form method="get" class="organization-picker"><label for="organization">Organización activa</label><select name="organization" id="organization">
+@foreach(var org in Model.Organizations) { <option value="@org.Id" selected="@(org.Id==Model.Selected.Id)">@org.Name</option> }
+</select><button class="secondary">Cambiar organización</button></form>
+<div class="dashboard-heading"><h2>Mis aplicaciones</h2><span class="badge">@Model.Selected.Role</span></div>
+<div class="cards">
+@foreach(var application in Model.Applications) {
+<article class="card featured"><span class="badge neutral">@(application.Enabled ? "Asignada · Conexión pendiente" : "Pendiente de activación")</span><h3>@application.Name</h3><p>@application.Description</p><p class="notice">El enlace seguro al ERP de esta organización todavía no está conectado. El ERP existente permanece separado.</p></article>
+}
+@if(Model.Applications.Count==0) { <p>No hay aplicaciones asignadas a esta organización.</p> }
+</div>
+<div class="cards section compact"><article class="card"><p class="eyebrow">ORGANIZACIÓN</p><h3>@Model.Selected.Name</h3><p>Tu pertenencia y rol se verifican en cada consulta.</p><span class="muted">Invitaciones y administración de accesos: pendientes.</span></article>
+<article class="card"><p class="eyebrow">SUSCRIPCIONES</p><h3>Planes y pagos</h3><p>La estructura de suscripciones está preparada.</p><span class="muted">Contratación y métodos de pago: pendientes. No se realizan cobros.</span></article></div>
+}
+</section>

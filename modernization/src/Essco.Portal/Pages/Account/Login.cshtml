@@ -1,0 +1,12 @@
+@page
+@model Essco.Portal.Pages.Account.LoginModel
+@{ViewData["Title"]="Acceso de clientes";}
+<section class="auth-card"><p class="eyebrow">PORTAL ESSCO</p><h1>Bienvenido de nuevo</h1><p>Inicia sesión para ver las organizaciones a las que perteneces.</p>
+@if(!Model.Configured) { <p class="notice" role="status">El portal todavía no tiene configurada su base de datos.</p> }
+<form method="post">
+<div asp-validation-summary="All" class="validation" role="alert"></div>
+<label asp-for="Email">Correo electrónico</label><input asp-for="Email" type="email" autocomplete="username" required />
+<label asp-for="Password">Contraseña</label><input asp-for="Password" type="password" autocomplete="current-password" required />
+<button class="button full" disabled="@(!Model.Configured)">Iniciar sesión</button>
+</form><p class="muted">Las cuentas de Syncro Cliente no se trasladan automáticamente al portal. El acceso inicial debe configurarlo un administrador.</p>
+</section>
