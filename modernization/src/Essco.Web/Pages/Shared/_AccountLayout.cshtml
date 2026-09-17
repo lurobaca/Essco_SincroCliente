@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Essco</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="account-body">
+    <header class="account-header"><span class="account-brand">Essco<span>GESTIÓN WEB</span></span>
+    @if(User.Identity?.IsAuthenticated==true)
+    {
+        <form method="post" asp-page="/Account/Logout"><button class="btn btn-outline-secondary btn-sm">Cerrar sesión</button></form>
+    }
+    </header>
+    <main class="account-main">@RenderBody()</main>
+    <footer class="account-footer">Essco · Acceso seguro</footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -23,6 +23,17 @@ body {
   color: #18283b;
 }
 
+.account-body {margin:0;min-height:100vh;display:flex;flex-direction:column;background:#eef3f8;}
+.account-header {padding:1.2rem max(1.5rem,5vw);display:flex;align-items:center;justify-content:space-between;background:white;border-bottom:1px solid #dce4ec;}
+.account-brand {font-size:1.5rem;font-weight:750;color:#142d49;}
+.account-brand span {display:block;font-size:.65rem;letter-spacing:.18em;color:#526277;}
+.account-main {flex:1;width:100%;display:flex;justify-content:center;align-items:center;padding:2.5rem 1rem;}
+.account-card {width:100%;max-width:520px;padding:2.2rem;background:white;border:1px solid #dce4ec;border-radius:1rem;box-shadow:0 12px 38px #142d4910;}
+.account-kicker {font-size:.72rem;letter-spacing:.13em;font-weight:700;color:#11665f;}
+.password-rules {background:#edf6f5;color:#26544f;padding:1rem;border-radius:.5rem;font-size:.9rem;margin:1.5rem 0;}
+.account-footer {text-align:center;padding:1rem;color:#526277;font-size:.8rem;}
+@media(max-width:575px){.account-card{padding:1.4rem;}.account-main{padding:1.5rem 1rem;}}
+
 .workspace-hero {background:#142d49;color:white;padding:2.5rem;border-radius:1rem;margin:1rem 0 1.5rem;}
 .workspace-hero h1 {font-size:clamp(1.8rem,4vw,2.7rem);font-weight:700;}
 .workspace-hero p {max-width:45rem;color:#d0dfec;}
