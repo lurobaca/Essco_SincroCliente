@@ -7,5 +7,53 @@ public sealed class SqlServerInventoryRepository(string connectionString,int tim
  public async ValueTask<IReadOnlyCollection<InventoryGroup>>ListGroupsAsync(int id,CancellationToken t){await using var c=await Open(t);await using var cmd=Cmd("SELECT [CodInventario],[idGrupo],[Responsable],[Acompanante],[CodProveedor],[NombreProveedor] FROM [dbo].[Inv_Grupos] WHERE [CodInventario]=@Id ORDER BY [idGrupo],[CodProveedor]",c);cmd.Parameters.Add("@Id",SqlDbType.Int).Value=id;var a=new List<InventoryGroup>();await using var r=await cmd.ExecuteReaderAsync(t);while(await r.ReadAsync(t))a.Add(new(Convert.ToInt32(r["CodInventario"]),S(r,"idGrupo"),S(r,"Responsable"),S(r,"Acompanante"),S(r,"CodProveedor"),S(r,"NombreProveedor")));return a;}
  public async ValueTask<bool>SaveGroupAsync(InventoryGroup x,CancellationToken t){await using var c=await Open(t);const string sql="INSERT INTO [dbo].[Inv_Grupos]([idGrupo],[Responsable],[Acompanante],[CodProveedor],[NombreProveedor],[CodInventario]) SELECT @Code,@Responsible,@Companion,@Supplier,@SupplierName,@Id WHERE EXISTS(SELECT 1 FROM [dbo].[Inv_Registro] WHERE [id]=@Id AND ISNULL([Cerrado],0)=0) AND NOT EXISTS(SELECT 1 FROM [dbo].[Inv_Grupos] WHERE [CodInventario]=@Id AND [idGrupo]=@Code AND [CodProveedor]=@Supplier)";await using var cmd=Cmd(sql,c);cmd.Parameters.Add("@Id",SqlDbType.Int).Value=x.InventoryId;P(cmd,"@Code",50,x.Code);P(cmd,"@Responsible",200,x.Responsible);P(cmd,"@Companion",200,x.Companion);P(cmd,"@Supplier",100,x.SupplierCode);P(cmd,"@SupplierName",300,x.SupplierName);return await cmd.ExecuteNonQueryAsync(t)==1;}
  public async ValueTask<bool>DeleteGroupAsync(int id,string code,string supplier,CancellationToken t){await using var c=await Open(t);const string sql="DELETE G FROM [dbo].[Inv_Grupos] G INNER JOIN [dbo].[Inv_Registro] R ON R.[id]=G.[CodInventario] WHERE G.[CodInventario]=@Id AND G.[idGrupo]=@Code AND G.[CodProveedor]=@Supplier AND ISNULL(R.[Cerrado],0)=0 AND NOT EXISTS(SELECT 1 FROM [dbo].[Inv_Conteos] C WHERE C.[IdInventario]=G.[CodInventario] AND C.[Grupo]=G.[idGrupo] AND C.[CodProveedor]=G.[CodProveedor] AND ISNULL(C.[Cuenta],0)<>0)";await using var cmd=Cmd(sql,c);cmd.Parameters.Add("@Id",SqlDbType.Int).Value=id;P(cmd,"@Code",50,code);P(cmd,"@Supplier",100,supplier);return await cmd.ExecuteNonQueryAsync(t)==1;}
- public async ValueTask<bool>CloseAsync(int id,decimal entries,decimal exits,CancellationToken t){await using var c=await Open(t);await using var tx=(SqlTransaction)await c.BeginTransactionAsync(t);try{await using(var guard=new SqlCommand("SELECT CASE WHEN EXISTS(SELECT 1 FROM dbo.Inv_ConActivo WITH (UPDLOCK,HOLDLOCK) WHERE IdInventario=@Id AND ISNULL(Finalizado,0)=0) THEN 1 ELSE 0 END",c,tx){CommandTimeout=timeout}){guard.Parameters.Add("@Id",SqlDbType.Int).Value=id;if(Convert.ToInt32(await guard.ExecuteScalarAsync(t))!=0){await tx.RollbackAsync(t);return false;}}decimal final,diff;await using(var q=new SqlCommand("SELECT ISNULL(SUM([CF]*[Costo]),0),ISNULL(SUM([DFM]),0) FROM [dbo].[Inv_Inventario] WHERE [IdInventario]=@Id AND ISNULL([Cerrado],0)=0",c,tx){CommandTimeout=timeout}){q.Parameters.Add("@Id",SqlDbType.Int).Value=id;await using var r=await q.ExecuteReaderAsync(t);if(!await r.ReadAsync(t)){await tx.RollbackAsync(t);return false;}final=Convert.ToDecimal(r[0]);diff=Convert.ToDecimal(r[1]);}await using(var a=new SqlCommand("UPDATE [dbo].[Inv_Inventario] SET [Cerrado]=1 WHERE [IdInventario]=@Id AND ISNULL([Cerrado],0)=0",c,tx){CommandTimeout=timeout}){a.Parameters.Add("@Id",SqlDbType.Int).Value=id;if(await a.ExecuteNonQueryAsync(t)==0){await tx.RollbackAsync(t);return false;}}await using(var b=new SqlCommand("UPDATE [dbo].[Inv_Registro] SET [Cerrado]=1,[InvFinal]=@Final,[ENTRADAS]=@Entries,[SALIDAS]=@Exits,[DIFERENCIAS]=@Diff WHERE [id]=@Id AND ISNULL([Cerrado],0)=0",c,tx){CommandTimeout=timeout}){b.Parameters.Add("@Id",SqlDbType.Int).Value=id;Dec(b,"@Final",final);Dec(b,"@Entries",entries);Dec(b,"@Exits",exits);Dec(b,"@Diff",diff);if(await b.ExecuteNonQueryAsync(t)!=1){await tx.RollbackAsync(t);return false;}}await tx.CommitAsync(t);return true;}catch{await tx.RollbackAsync(t);throw;}}
+ public async ValueTask<bool>CloseAsync(int id,decimal entries,decimal exits,CancellationToken t)
+ {
+     if(id<=0) return false;
+     await using var c=await Open(t);
+     await using var tx=(SqlTransaction)await c.BeginTransactionAsync(IsolationLevel.Serializable,t);
+     const string sql="""
+         SET NOCOUNT ON;
+         IF NOT EXISTS(SELECT 1 FROM dbo.Inv_Registro WITH (UPDLOCK,HOLDLOCK) WHERE id=@Id AND ISNULL(Cerrado,0)=0)
+             BEGIN SELECT 0; RETURN; END;
+         IF EXISTS(SELECT 1 FROM dbo.Inv_ConActivo WITH (UPDLOCK,HOLDLOCK)
+             WHERE IdInventario=@Id AND ISNULL(Finalizado,0)<>1)
+             BEGIN SELECT 0; RETURN; END;
+         IF NOT EXISTS(SELECT 1 FROM dbo.Inv_Inventario WITH (UPDLOCK,HOLDLOCK) WHERE IdInventario=@Id)
+             OR EXISTS(SELECT 1 FROM dbo.Inv_Inventario WHERE IdInventario=@Id
+                 AND (ISNULL(Unificado,0)<>1 OR ISNULL(Cerrado,0)<>0 OR CF IS NULL OR CF<0 OR Stock IS NULL OR Costo IS NULL))
+             BEGIN SELECT 0; RETURN; END;
+         SELECT Grupo,MAX(TRY_CONVERT(int,Conteo)) Latest INTO #Latest
+             FROM dbo.Inv_ConActivo WITH (UPDLOCK,HOLDLOCK) WHERE IdInventario=@Id AND LEN(Grupo)>1 GROUP BY Grupo;
+         IF EXISTS(SELECT 1 FROM #Latest WHERE Latest IS NULL OR Latest<4)
+             OR EXISTS(SELECT 1 FROM #Latest L WHERE (SELECT COUNT(*) FROM dbo.Inv_ConActivo A
+                 WHERE A.IdInventario=@Id AND A.Grupo=L.Grupo AND A.Conteo=L.Latest AND A.Finalizado=1)<>1)
+             BEGIN SELECT 0; RETURN; END;
+         SELECT C.CodArticulo,C.CodProveedor,C.Reconteo,
+             TRY_CONVERT(decimal(19,4),NULLIF(LTRIM(RTRIM(CONVERT(nvarchar(100),C.Cuenta))),'')) Quantity
+             INTO #Accepted FROM dbo.Inv_Conteos C WITH (UPDLOCK,HOLDLOCK)
+             JOIN #Latest L ON L.Grupo=C.Grupo AND L.Latest=C.NumConteo WHERE C.IdInventario=@Id;
+         IF EXISTS(SELECT 1 FROM #Accepted WHERE Quantity IS NULL OR Quantity<0 OR ISNULL(Reconteo,0)<>1)
+             OR EXISTS(SELECT CodArticulo FROM #Accepted GROUP BY CodArticulo HAVING COUNT(*)<>1)
+             OR EXISTS(SELECT Codigo FROM dbo.Inv_Inventario WHERE IdInventario=@Id GROUP BY Codigo HAVING COUNT(*)<>1)
+             OR EXISTS(SELECT 1 FROM dbo.Inv_Inventario I WHERE I.IdInventario=@Id
+                 AND NOT EXISTS(SELECT 1 FROM #Accepted A WHERE A.CodArticulo=I.Codigo AND A.CodProveedor=I.CodProveedor AND A.Quantity=I.CF))
+             OR EXISTS(SELECT 1 FROM #Accepted A WHERE NOT EXISTS(SELECT 1 FROM dbo.Inv_Inventario I WHERE I.IdInventario=@Id AND I.Codigo=A.CodArticulo))
+             BEGIN SELECT 0; RETURN; END;
+         UPDATE dbo.Inv_Inventario SET Cerrado=1,DF=Stock-CF,DFM=(Stock-CF)*Costo WHERE IdInventario=@Id;
+         UPDATE dbo.Inv_Registro SET Cerrado=1,
+             InvFinal=(SELECT SUM(CF*Costo) FROM dbo.Inv_Inventario WHERE IdInventario=@Id),
+             ENTRADAS=(SELECT SUM(CASE WHEN CF>Stock THEN (CF-Stock)*Costo ELSE 0 END) FROM dbo.Inv_Inventario WHERE IdInventario=@Id),
+             SALIDAS=(SELECT SUM(CASE WHEN CF<Stock THEN (CF-Stock)*Costo ELSE 0 END) FROM dbo.Inv_Inventario WHERE IdInventario=@Id),
+             DIFERENCIAS=(SELECT SUM((CF-Stock)*Costo) FROM dbo.Inv_Inventario WHERE IdInventario=@Id)
+             WHERE id=@Id AND ISNULL(Cerrado,0)=0;
+         IF @@ROWCOUNT<>1 BEGIN SELECT 0; RETURN; END;
+         SELECT 1;
+         """;
+     await using var command=new SqlCommand(sql,c,tx){CommandTimeout=timeout};
+     command.Parameters.Add("@Id",SqlDbType.Int).Value=id;
+     var succeeded=Convert.ToInt32(await command.ExecuteScalarAsync(t))==1;
+     if(succeeded) await tx.CommitAsync(t); else await tx.RollbackAsync(t);
+     return succeeded;
+ }
  private static PhysicalInventory Map(SqlDataReader r)=>new(Convert.ToInt32(r["id"]),DateOnly.FromDateTime(Convert.ToDateTime(r["Fecha"])),S(r,"Titulo"),S(r,"Comentario"),B(r,"Cerrado"),D(r,"InvInicial"),D(r,"InvFinal"),D(r,"ENTRADAS"),D(r,"SALIDAS"),D(r,"DIFERENCIAS"));private static string S(SqlDataReader r,string n)=>r[n] is DBNull?"":Convert.ToString(r[n])?.Trim()??"";private static decimal D(SqlDataReader r,string n)=>r[n] is DBNull?0:Convert.ToDecimal(r[n]);private static bool B(SqlDataReader r,string n)=>r[n] is not DBNull&&(r[n] is bool b?b:Convert.ToString(r[n])?.Trim() is "1" or "True" or "TRUE");private static void P(SqlCommand c,string n,int z,string? v)=>c.Parameters.Add(n,SqlDbType.NVarChar,z).Value=v?.Trim()??"";private static void Dec(SqlCommand c,string n,decimal v){var p=c.Parameters.Add(n,SqlDbType.Decimal);p.Precision=19;p.Scale=4;p.Value=v;}private async ValueTask<SqlConnection>Open(CancellationToken t){var c=new SqlConnection(connectionString);await c.OpenAsync(t);return c;}private SqlCommand Cmd(string s,SqlConnection c)=>new(s,c){CommandTimeout=timeout};}

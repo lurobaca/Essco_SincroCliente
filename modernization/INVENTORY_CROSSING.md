@@ -1,5 +1,11 @@
 # Cruce de inventario
 
+## Cierre general
+
+El cierre exige inventario abierto, todos los controles finalizados y todos los artículos unificados. Comprueba que cada artículo tenga exactamente una cantidad aceptada en el último conteo de un grupo unificado y que coincida con CF. Rechaza artículos duplicados, datos ausentes y cantidades negativas. Calcula los importes de cierre a partir de esas cantidades dentro de una transacción serializable: ENTRADAS positivas y SALIDAS negativas según (CF-Stock)*Costo, como Inv_Control.vb. Ignora los importes enviados por el formulario. No crea ajustes SAP.
+
+Pruebas pendientes en una copia SQL aislada: dos solicitudes simultáneas de unificación (solo una debe crear el grupo); dos solicitudes del mismo reconteo (solo una debe crear el sucesor); fallo a mitad de una operación (sin cambios parciales); conteos 9/10 (orden numérico); cierre con reconteo pendiente (rechazado); finalización del reconteo 10 y cierre (cantidades coincidentes); modificación concurrente durante el cierre. No ejecutar estas pruebas en producción.
+
 ## Comprobación previa de grupos
 
 La vista de proveedor consulta los grupos originales (LEN(idGrupo)=1, como PuedeUnifica) del inventario explícitamente seleccionado. Cada grupo debe tener exactamente un control del último conteo (desde el 3) y estar finalizado. Ausencia, duplicados o controles pendientes impiden confirmar la finalización. Esta consulta es informativa; la escritura repite las comprobaciones en su propia transacción. No se ha probado esta consulta contra una copia SQL real.
