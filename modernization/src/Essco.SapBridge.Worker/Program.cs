@@ -5,6 +5,7 @@ using Essco.Application.Customers;
 using Essco.Application.Treasury;
 using Essco.Application.Returns;
 using Essco.Application.Purchasing;
+using Essco.Application.Payroll;
 using Essco.Infrastructure.Data;
 using Essco.Infrastructure;
 using Essco.SapBridge.Worker;
@@ -40,6 +41,9 @@ builder.Services.AddSingleton<IReturnSapJobProcessor, ReturnSapJobProcessor>();
 builder.Services.AddSingleton<IPurchaseOrderRepository>(_ => options.SqlServer.Enabled && !string.IsNullOrWhiteSpace(connectionString) ? new SqlServerPurchaseOrderRepository(connectionString, options.SqlServer.CommandTimeoutSeconds) : new UnavailablePurchaseOrderRepository());
 builder.Services.AddSingleton<ISapPurchaseOrderGateway, ComSapPurchaseOrderGateway>();
 builder.Services.AddSingleton<IPurchaseOrderSapJobProcessor, PurchaseOrderSapJobProcessor>();
+builder.Services.AddSingleton<IPayrollJournalRepository>(_ => options.SqlServer.Enabled && !string.IsNullOrWhiteSpace(connectionString) ? new SqlServerPayrollJournalRepository(connectionString, options.SqlServer.CommandTimeoutSeconds) : new UnavailablePayrollJournalRepository());
+builder.Services.AddSingleton<ISapPayrollGateway, ComSapPayrollGateway>();
+builder.Services.AddSingleton<IPayrollSapJobProcessor, PayrollSapJobProcessor>();
 builder.Services.AddHostedService<Worker>();
 
 var host = builder.Build();

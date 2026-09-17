@@ -14,7 +14,7 @@ public sealed class ComSapIncomingReceiptGateway(IOptions<EsscoOptions> options,
         if (!options.Value.Sap.Enabled) return ValueTask.FromResult(new SapProcessingResult(false,null,"La conexión SAP no está habilitada.",false));
         var completion=new TaskCompletionSource<SapProcessingResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         var thread=new Thread(()=>{try{completion.TrySetResult(Execute(operation,receipt));}catch(COMException ex){logger.LogWarning("Error COM SAP {Code} actualizando recibo {Receipt}",ex.ErrorCode,receipt.DocNumber);completion.TrySetResult(new(false,null,$"Error COM SAP ({ex.ErrorCode}).",true));}catch(Exception ex){logger.LogError(ex,"Error actualizando recibo {Receipt}",receipt.DocNumber);completion.TrySetResult(new(false,null,"Error interno del adaptador SAP.",true));}}){IsBackground=true,Name="Essco SAP DI API Receipt"};
-        thread.SetApartmentState(ApartmentState.STA);thread.Start();return new(completion.Task);
+        thread.SetApartmentState(ApartmentState.STA);thread.Start();return new ValueTask<SapProcessingResult>(completion.Task);
     }
     private SapProcessingResult Execute(string operation,IncomingReceiptSapPayload receipt)
     {
@@ -25,10 +25,10 @@ public sealed class ComSapIncomingReceiptGateway(IOptions<EsscoOptions> options,
             var c=options.Value.Sap;company.Server=c.Server;company.CompanyDB=c.CompanyDatabase;company.UserName=c.UserName;company.Password=c.Password;company.DbUserName=c.DatabaseUserName;company.DbPassword=c.DatabasePassword;company.LicenseServer=c.LicenseServer;company.DbServerType=c.DatabaseServerType;company.UseTrusted=false;
             var connected=(int)company.Connect();if(connected!=0)return Failure(company,connected,true);
             payment=company.GetBusinessObject(24); // BoObjectTypes.oIncomingPayments
-            if(!(bool)payment.GetByKey(receipt.DocEntry))return new(false,null,"El recibo no existe en SAP.",false);
+            if(!(bool)payment.GetByKey(receipt.DocEntry))return new SapProcessingResult(false,null,"El recibo no existe en SAP.",false);
             SetUserField(payment,"U_BP_COBRADOR",operation==IncomingReceiptSapOperations.Unlink?"":receipt.CollectorCode);
             SetUserField(payment,"U_NumLiquidacion",operation==IncomingReceiptSapOperations.Unlink?"":receipt.LiquidationNumber);
-            var updated=(int)payment.Update();return updated==0?new(true,receipt.DocNumber.ToString(System.Globalization.CultureInfo.InvariantCulture),null,false):Failure(company,updated,false);
+            var updated=(int)payment.Update();return updated==0?new SapProcessingResult(true,receipt.DocNumber.ToString(System.Globalization.CultureInfo.InvariantCulture),null,false):Failure(company,updated,false);
         }
         finally{Release(payment);try{if(company is not null&&(bool)company.Connected)company.Disconnect();}catch(COMException){}Release(company);}
     }
