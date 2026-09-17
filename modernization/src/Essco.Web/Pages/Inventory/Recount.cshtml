@@ -1,0 +1,15 @@
+@page "{id:int}"
+@model Essco.Web.Pages.Inventory.RecountModel
+@{ ViewData["Title"] = "Abrir siguiente reconteo"; }
+<h1>@ViewData["Title"]</h1>
+<p>El usuario decide qué artículos vuelve a contar. Finalice primero el conteo actual. Se crea el siguiente número sin modificar los anteriores.</p>
+<p>Las líneas seleccionadas quedan pendientes; las demás conservan su cantidad. Abrir un reconteo no acepta ni cierra el inventario.</p>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post">
+    <label asp-for="Group">Grupo</label><input asp-for="Group" maxlength="50" class="form-control" required />
+    <label asp-for="Previous">Último conteo finalizado</label><input asp-for="Previous" min="3" class="form-control" required />
+    <label asp-for="ItemCodes">Códigos de artículos que desea recontar (uno por línea)</label>
+    <textarea asp-for="ItemCodes" rows="8" class="form-control" required></textarea>
+    <button class="btn btn-primary mt-3">Crear siguiente reconteo</button>
+</form>
+<a asp-page="Detail" asp-route-id="@RouteData.Values["id"]">Volver</a>

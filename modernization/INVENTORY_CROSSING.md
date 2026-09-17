@@ -4,7 +4,11 @@
 
 La vista de proveedor consulta ahora los grupos originales (LEN(idGrupo)=1, como PuedeUnifica) del inventario explícitamente seleccionado. Cada grupo debe tener exactamente un control del conteo 3 y estar finalizado. Ausencia, duplicados o controles pendientes impiden confirmar la finalización. Esta consulta es informativa; la futura escritura debe repetir las comprobaciones en su propia transacción. No se ha probado esta consulta contra una copia SQL real.
 
-Decisión pendiente: GuardaGrupo en Inv_Cruzar.vb inserta el conteo 4 al unificar, pero después llama a ActualizaConteo con número 1 y a Recuenta con NumConteo+1 (5). Es necesario confirmar si las diferencias deben capturarse en 4 o generar 5 antes de implementar esa escritura. No se ha modificado silenciosamente esta regla heredada.
+Regla confirmada por el usuario: las diferencias se recuentan tantas veces como el usuario decida, sin límite funcional fijo (4, 5, 6, etc.). Se conserva el historial de conteos.
+
+La página Recount permite seleccionar códigos de artículos, uno por línea, y crear el sucesor de un conteo finalizado desde el 3. La transacción comprueba inventario abierto, un único control finalizado, ausencia de sucesores y líneas válidas/resueltas sin duplicados. Copia todas las líneas al siguiente número: las seleccionadas quedan en cero y pendientes; las demás conservan su cantidad y estado resuelto. No sobrescribe conteos anteriores. El cierre de inventario rechaza controles todavía abiertos. La consulta utiliza OPENJSON (requiere SQL Server con compatibilidad 130 o superior); falta validación de esquema, concurrencia y ejecución contra copia SQL.
+
+Este incremento no crea todavía el grupo unificado por proveedor ni acepta sus cantidades como resultado definitivo. La creación del conteo inicial de ese grupo y la aceptación final siguen pendientes; finalizar un conteo solo bloquea su captura.
 
 SupplierSummary ofrece una vista previa de la unificación por proveedor: suma las líneas del conteo 3 del inventario seleccionado, calcula diferencia como Stock menos suma (convención de GuardaGrupo en Inv_Cruzar.vb) y aplica el umbral monetario inclusivo. Detecta artículos sin conteo o sin maestro, duplicados dentro del mismo grupo y reconteos pendientes. No certifica finalización de grupos, no crea el conteo 4 y no modifica datos. La escritura transaccional de unificación continúa pendiente.
 
