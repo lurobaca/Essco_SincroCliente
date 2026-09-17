@@ -1,5 +1,7 @@
 namespace Essco.Web.Diagnostics;
 
+public sealed class PublicStaticAssetMetadata { }
+
 public sealed class PasswordChangeRequiredMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext context)
@@ -10,7 +12,8 @@ public sealed class PasswordChangeRequiredMiddleware(RequestDelegate next)
             context.Request.Path.StartsWithSegments("/Account/Logout") ||
             context.Request.Path.StartsWithSegments("/health");
 
-        if (requiresChange && !allowedPath)
+        var publicAsset = context.GetEndpoint()?.Metadata.GetMetadata<PublicStaticAssetMetadata>() is not null;
+        if (requiresChange && !allowedPath && !publicAsset)
         {
             context.Response.Redirect("/Account/ChangePassword");
             return;

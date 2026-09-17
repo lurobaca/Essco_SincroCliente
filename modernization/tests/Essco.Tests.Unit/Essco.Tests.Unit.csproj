@@ -16,6 +16,9 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <Using Include="Microsoft.AspNetCore.Http" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <Compile Include="..\..\src\Essco.Web\Diagnostics\PasswordChangeRequiredMiddleware.cs" Link="Web\PasswordChangeRequiredMiddleware.cs" />
   </ItemGroup>
 
   <ItemGroup>
