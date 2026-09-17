@@ -1,0 +1,22 @@
+@page "{id:int}"
+@model Essco.Web.Pages.Inventory.SupplierSummaryModel
+@{ ViewData["Title"] = "Unificación por proveedor — vista previa"; }
+<h1>@ViewData["Title"]</h1>
+<p>Sumatoria del conteo 3 de los grupos del proveedor. Esta consulta no crea el conteo 4 ni modifica el inventario.</p>
+<p class="alert alert-warning">La vista previa no certifica que todos los grupos estén finalizados. Datos incompletos, duplicados o líneas sin resolver se marcan para revisión.</p>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="get" class="row g-2">
+    <div class="col"><label asp-for="Supplier">Código del proveedor</label><input asp-for="Supplier" class="form-control" required /></div>
+    <div class="col"><label asp-for="Threshold">Umbral monetario</label><input asp-for="Threshold" class="form-control" /></div>
+    <div class="col-auto"><button class="btn btn-primary">Comparar con sistema</button></div>
+</form>
+<table class="table">
+<thead><tr><th>Artículo</th><th>Suma conteo 3</th><th>Sistema</th><th>Sistema − conteo</th><th>Importe</th><th>Revisión</th></tr></thead>
+<tbody>
+@foreach (var line in Model.Lines)
+{
+    <tr><td>@line.Code — @line.Description</td><td>@line.Quantity</td><td>@line.Stock</td><td>@line.Difference</td><td>@line.Amount</td><td>@(line.Invalid ? "Datos incompletos o pendientes" : line.RequiresRecount(Model.Threshold) ? "Reconteo" : "Sin diferencia significativa")</td></tr>
+}
+</tbody>
+</table>
+<a asp-page="Detail" asp-route-id="@RouteData.Values["id"]">Volver al inventario</a>

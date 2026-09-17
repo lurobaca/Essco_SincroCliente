@@ -1,5 +1,7 @@
 # Cruce de inventario
 
+SupplierSummary ofrece una vista previa de la unificación por proveedor: suma las líneas del conteo 3 del inventario seleccionado, calcula diferencia como Stock menos suma (convención de GuardaGrupo en Inv_Cruzar.vb) y aplica el umbral monetario inclusivo. Detecta artículos sin conteo o sin maestro, duplicados dentro del mismo grupo y reconteos pendientes. No certifica finalización de grupos, no crea el conteo 4 y no modifica datos. La escritura transaccional de unificación continúa pendiente.
+
 La página Inventory/Compare compara dos conteos del grupo seleccionado. La diferencia se calcula como primer conteo menos segundo conteo y el importe multiplica por el costo del inventario seleccionado. El umbral incluye la igualdad; las diferencias cero no requieren reconteo.
 
 El botón de cruce admite únicamente 1 contra 2 y genera el conteo 3. En una transacción serializable comprueba que el inventario esté abierto, ambos conteos finalizados, ningún cruce posterior exista y cada artículo tenga una sola fila por conteo y un costo/stock disponible. Un fallo revierte la operación.

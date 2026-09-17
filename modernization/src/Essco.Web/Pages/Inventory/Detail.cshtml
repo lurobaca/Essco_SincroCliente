@@ -1,5 +1,6 @@
 @page "{id:int}"
 @model Essco.Web.Pages.Inventory.DetailModel
+<p><a asp-page="SupplierSummary" asp-route-id="@RouteData.Values["id"]">Vista previa de unificación por proveedor</a></p>
 <p><a asp-page="CompleteCount" asp-route-id="@RouteData.Values["id"]">Finalizar un conteo</a></p>
 <p><a asp-page="Compare" asp-route-id="@RouteData.Values["id"]">Comparar conteos</a></p>
 <p><a asp-page="Groups" asp-route-id="@Model.Inventory.Id">Administrar grupos y proveedores</a></p>
