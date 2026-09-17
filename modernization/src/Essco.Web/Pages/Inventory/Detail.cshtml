@@ -1,5 +1,9 @@
 @page "{id:int}"
 @model Essco.Web.Pages.Inventory.DetailModel
+@if (Model.Inventory.Closed)
+{
+    <p><a asp-page="SapTemplate" asp-route-id="@Model.Inventory.Id">Descargar plantilla SAP (.xlsx)</a> — almacén 01; cuentas de aumento 50100102001 y reducción 50100102002, como el original. Revise antes de importar.</p>
+}
 <p><a asp-page="Consolidate" asp-route-id="@RouteData.Values["id"]">Crear grupo unificado por proveedor</a></p>
 <p><a asp-page="Recount" asp-route-id="@RouteData.Values["id"]">Abrir siguiente reconteo</a></p>
 <p><a asp-page="SupplierSummary" asp-route-id="@RouteData.Values["id"]">Vista previa de unificación por proveedor</a></p>
