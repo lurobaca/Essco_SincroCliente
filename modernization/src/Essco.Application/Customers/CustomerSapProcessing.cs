@@ -23,6 +23,10 @@ public sealed class CustomerSapJobProcessor(ICustomerChangeRepository customers,
 
         var customer = await customers.GetAsync(request.CustomerChangeId, token);
         if (customer is null) return new(false, null, "La solicitud de cliente ya no existe.", false);
+        if (string.IsNullOrWhiteSpace(request.Fingerprint))
+            return new(false, null, "El trabajo no contiene una versión verificable de la solicitud. Reenvíela desde Clientes.", false);
+        if (!string.Equals(request.Fingerprint, CustomerRequestFingerprint.Compute(customer), StringComparison.Ordinal))
+            return new(false, null, "La solicitud cambió después de enviarse a la cola. Revise los datos y reenvíela desde Clientes.", false);
         var expected = customer.State switch
         {
             CustomerChangeState.New => CustomerSapOperations.Create,

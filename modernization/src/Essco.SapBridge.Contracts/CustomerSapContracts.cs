@@ -6,4 +6,4 @@ public static class CustomerSapOperations
     public const string Update = "Customer.Update";
     public const string Close = "Customer.Close";
 }
-public sealed record CustomerSapPayload(long CustomerChangeId);
+public sealed record CustomerSapPayload(long CustomerChangeId, string? Fingerprint = null);

@@ -16,7 +16,10 @@ public sealed class CustomerSapDispatchService(ICustomerChangeRepository custome
         if (operation is null) return new(false, null, "Los clientes internos no requieren procesamiento SAP.");
         var error = CustomerSapValidation.Error(customer);
         if (error is not null) return new(false, null, error);
-        var request = new CreateSapJobRequest(operation, company, requestedBy, JsonSerializer.Serialize(new CustomerSapPayload(customer.Id)), $"customer-change:{customer.Id}:{operation}");
+        var fingerprint = CustomerRequestFingerprint.Compute(customer);
+        var request = new CreateSapJobRequest(operation, company, requestedBy,
+            JsonSerializer.Serialize(new CustomerSapPayload(customer.Id, fingerprint)),
+            $"customer-change:{customer.Id}:{operation}:{fingerprint}");
         var job = await queue.EnqueueAsync(request, token); return new(true, job, null);
     }
 }
