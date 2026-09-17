@@ -16,8 +16,9 @@ namespace Essco.Web.Pages.Account;
 public sealed class LoginModel(
     Essco.Application.Security.AuthenticationService authenticationService,
     AuditService auditService,
-    IOptions<EsscoOptions> options) : PageModel
+    IOptions<EsscoOptions> options, IConfiguration configuration) : PageModel
 {
+    public bool AccessConfigured => options.Value.SqlServer.Enabled && !string.IsNullOrWhiteSpace(configuration.GetConnectionString(options.Value.SqlServer.ConnectionStringName));
     [BindProperty]
     public InputModel Input { get; set; } = new();
 
@@ -32,6 +33,11 @@ public sealed class LoginModel(
 
     public async Task<IActionResult> OnPostAsync(CancellationToken cancellationToken)
     {
+        if (!AccessConfigured || !Request.IsHttps)
+        {
+            ModelState.AddModelError(string.Empty,"Se requiere configurar el acceso y abrir la aplicación por HTTPS.");
+            return Page();
+        }
         if (!ModelState.IsValid) return Page();
 
         var result = await authenticationService.AuthenticateAsync(

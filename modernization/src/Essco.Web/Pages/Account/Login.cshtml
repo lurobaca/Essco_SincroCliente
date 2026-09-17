@@ -7,6 +7,14 @@
 <div class="row justify-content-center">
     <div class="col-md-5 col-lg-4">
         <h1 class="h3 mb-3">Iniciar sesión</h1>
+        @if (!Model.AccessConfigured)
+        {
+            <p class="alert alert-warning">El acceso todavía no está configurado. Conecta una copia SQL de pruebas y habilita los usuarios antes de iniciar sesión.</p>
+        }
+        @if (!Request.IsHttps)
+        {
+            <p class="alert alert-warning">Abre la aplicación con el perfil HTTPS de Visual Studio. La sesión requiere una conexión segura.</p>
+        }
         <form method="post">
             <input type="hidden" asp-for="ReturnUrl" />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>

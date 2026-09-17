@@ -11,9 +11,11 @@ Referencia: https://learn.microsoft.com/en-us/dotnet/core/porting/versioning-sdk
 Alternativa por consola, desde la raíz del repositorio:
 
 ```powershell
-dotnet run --project modernization/src/Essco.Web/Essco.Web.csproj --launch-profile http
+dotnet run --project modernization/src/Essco.Web/Essco.Web.csproj --launch-profile https
 ```
 
-El perfil http usa http://localhost:5029. Iniciar el servidor no certifica que SQL, credenciales, SAP o Hacienda estén configurados. No use datos productivos para validar la migración.
+Seleccione el perfil https y abra https://localhost:7152. La cookie de sesión requiere HTTPS; el perfil http solo sirve para inspeccionar la portada, no para iniciar sesión. Si Visual Studio solicita confiar en el certificado de desarrollo, revise y acepte esa solicitud local para probar HTTPS. Iniciar el servidor no certifica que SQL, credenciales, SAP o Hacienda estén configurados. No use datos productivos para validar la migración.
+
+La portada presenta los módulos sin consultar datos del negocio y muestra en Development si falta configurar SQL. No crea usuarios de demostración ni evita la autenticación. Con sesión iniciada, las tarjetas se filtran por permisos. La configuración base no permite operar los módulos hasta habilitar la copia SQL y sus usuarios.
 
 Si sigue apareciendo «sin cargar» con el IDE compatible, recopile el mensaje exacto de «Volver a cargar proyecto» y la salida del cargador de proyectos. No se ha observado directamente el diálogo del usuario: la incompatibilidad de versiones sí está comprobada, pero puede coexistir con otros errores.
