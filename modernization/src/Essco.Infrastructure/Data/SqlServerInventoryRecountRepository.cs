@@ -1,5 +1,4 @@
 using System.Data;
-using System.Text.Json;
 using Essco.Application.Inventory;
 using Microsoft.Data.SqlClient;
 namespace Essco.Infrastructure.Data;
@@ -12,6 +11,24 @@ public sealed class SqlServerInventoryRecountRepository(string connectionString,
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync(token);
         await using var transaction = (SqlTransaction)await connection.BeginTransactionAsync(IsolationLevel.Serializable, token);
+        // A connection-local staging table supports legacy SQL compatibility levels
+        // and avoids both JSON parsing and the 2,100 SQL parameter limit.
+        await using (var create = new SqlCommand(
+            "CREATE TABLE #Selected (Code nvarchar(100) COLLATE DATABASE_DEFAULT NOT NULL);",
+            connection, transaction) { CommandTimeout = timeout })
+            await create.ExecuteNonQueryAsync(token);
+        using (var selected = new DataTable())
+        {
+            selected.Columns.Add("Code", typeof(string));
+            foreach (var item in request.Items) selected.Rows.Add(item.Trim());
+            using var copy = new SqlBulkCopy(connection, SqlBulkCopyOptions.Default, transaction)
+            {
+                DestinationTableName = "#Selected",
+                BulkCopyTimeout = timeout
+            };
+            copy.ColumnMappings.Add("Code", "Code");
+            await copy.WriteToServerAsync(selected, token);
+        }
         const string sql = """
             SET NOCOUNT ON;
             IF NOT EXISTS(SELECT 1 FROM dbo.Inv_Registro WITH (UPDLOCK,HOLDLOCK)
@@ -34,20 +51,19 @@ public sealed class SqlServerInventoryRecountRepository(string connectionString,
             IF LEN(@Group)=1 AND EXISTS(SELECT 1 FROM #Source C JOIN dbo.Inv_Inventario I
                 ON I.IdInventario=@Id AND I.Codigo=C.CodArticulo WHERE ISNULL(I.Unificado,0)=1)
                 BEGIN SELECT 0; RETURN; END;
-            SELECT CONVERT(nvarchar(100),value) Code INTO #Selected FROM OPENJSON(@Items);
             IF NOT EXISTS(SELECT 1 FROM #Source)
                 OR EXISTS(SELECT CodArticulo FROM #Source GROUP BY CodArticulo HAVING COUNT(*)<>1)
                 OR EXISTS(SELECT Code FROM #Selected GROUP BY Code HAVING COUNT(*)<>1)
                 OR EXISTS(SELECT 1 FROM #Source WHERE ISNULL(Reconteo,0)<>1
-                    OR TRY_CONVERT(decimal(19,4),NULLIF(LTRIM(RTRIM(CONVERT(nvarchar(100),Cuenta))),'')) IS NULL
-                    OR TRY_CONVERT(decimal(19,4),Cuenta)<0)
+                    OR CONVERT(decimal(19,4),Cuenta) IS NULL
+                    OR CONVERT(decimal(19,4),Cuenta)<0)
                 OR EXISTS(SELECT 1 FROM #Selected S WHERE NOT EXISTS(SELECT 1 FROM #Source C WHERE C.CodArticulo=S.Code))
                 BEGIN SELECT 0; RETURN; END;
 
             INSERT INTO dbo.Inv_Conteos
                 (IdInventario,Grupo,NumConteo,CodArticulo,Descripcion,Cuenta,Reconteo,CodProveedor)
             SELECT @Id,@Group,@Previous+1,C.CodArticulo,C.Descripcion,
-                CASE WHEN S.Code IS NULL THEN TRY_CONVERT(decimal(19,4),C.Cuenta) ELSE 0 END,
+                CASE WHEN S.Code IS NULL THEN CONVERT(decimal(19,4),C.Cuenta) ELSE 0 END,
                 CASE WHEN S.Code IS NULL THEN 1 ELSE 0 END,C.CodProveedor
             FROM #Source C LEFT JOIN #Selected S ON S.Code=C.CodArticulo;
             INSERT INTO dbo.Inv_ConActivo (IdInventario,Grupo,Conteo,Finalizado)
@@ -58,7 +74,6 @@ public sealed class SqlServerInventoryRecountRepository(string connectionString,
         command.Parameters.Add("@Id", SqlDbType.Int).Value = request.Inventory;
         command.Parameters.Add("@Group", SqlDbType.NVarChar, 50).Value = request.Group.Trim();
         command.Parameters.Add("@Previous", SqlDbType.Int).Value = request.Previous;
-        command.Parameters.Add("@Items", SqlDbType.NVarChar, -1).Value = JsonSerializer.Serialize(request.Items.Select(x => x.Trim()));
         var succeeded = Convert.ToInt32(await command.ExecuteScalarAsync(token)) == 1;
         if (succeeded) await transaction.CommitAsync(token); else await transaction.RollbackAsync(token);
         return succeeded;

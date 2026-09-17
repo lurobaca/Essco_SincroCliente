@@ -23,14 +23,14 @@ public sealed class SqlServerInventoryRepository(string connectionString,int tim
              OR EXISTS(SELECT 1 FROM dbo.Inv_Inventario WHERE IdInventario=@Id
                  AND (ISNULL(Unificado,0)<>1 OR ISNULL(Cerrado,0)<>0 OR CF IS NULL OR CF<0 OR Stock IS NULL OR Costo IS NULL))
              BEGIN SELECT 0; RETURN; END;
-         SELECT Grupo,MAX(TRY_CONVERT(int,Conteo)) Latest INTO #Latest
+         SELECT Grupo,MAX(Conteo) Latest INTO #Latest
              FROM dbo.Inv_ConActivo WITH (UPDLOCK,HOLDLOCK) WHERE IdInventario=@Id AND LEN(Grupo)>1 GROUP BY Grupo;
          IF EXISTS(SELECT 1 FROM #Latest WHERE Latest IS NULL OR Latest<4)
              OR EXISTS(SELECT 1 FROM #Latest L WHERE (SELECT COUNT(*) FROM dbo.Inv_ConActivo A
                  WHERE A.IdInventario=@Id AND A.Grupo=L.Grupo AND A.Conteo=L.Latest AND A.Finalizado=1)<>1)
              BEGIN SELECT 0; RETURN; END;
          SELECT C.CodArticulo,C.CodProveedor,C.Reconteo,
-             TRY_CONVERT(decimal(19,4),NULLIF(LTRIM(RTRIM(CONVERT(nvarchar(100),C.Cuenta))),'')) Quantity
+             CONVERT(decimal(19,4),C.Cuenta) Quantity
              INTO #Accepted FROM dbo.Inv_Conteos C WITH (UPDLOCK,HOLDLOCK)
              JOIN #Latest L ON L.Grupo=C.Grupo AND L.Latest=C.NumConteo WHERE C.IdInventario=@Id;
          IF EXISTS(SELECT 1 FROM #Accepted WHERE Quantity IS NULL OR Quantity<0 OR ISNULL(Reconteo,0)<>1)

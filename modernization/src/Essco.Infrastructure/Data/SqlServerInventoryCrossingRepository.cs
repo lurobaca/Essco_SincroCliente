@@ -22,8 +22,8 @@ public sealed class SqlServerInventoryCrossingRepository(string connectionString
             ELSE
             BEGIN
                 SELECT C.CodArticulo, MAX(C.Descripcion) Descripcion, MAX(C.CodProveedor) CodProveedor,
-                    MAX(CASE WHEN C.NumConteo=1 THEN TRY_CONVERT(decimal(19,4),C.Cuenta) END) C1,
-                    MAX(CASE WHEN C.NumConteo=2 THEN TRY_CONVERT(decimal(19,4),C.Cuenta) END) C2,
+                    MAX(CASE WHEN C.NumConteo=1 THEN CONVERT(decimal(19,4),C.Cuenta) END) C1,
+                    MAX(CASE WHEN C.NumConteo=2 THEN CONVERT(decimal(19,4),C.Cuenta) END) C2,
                     SUM(CASE WHEN C.NumConteo=1 THEN 1 ELSE 0 END) N1,
                     SUM(CASE WHEN C.NumConteo=2 THEN 1 ELSE 0 END) N2
                 INTO #Counts FROM dbo.Inv_Conteos C WITH (UPDLOCK,HOLDLOCK)

@@ -24,7 +24,7 @@ public sealed class SqlServerInventoryCountCompletion(string connectionString, i
                 WHERE C.IdInventario=@Id AND C.Grupo=@Group AND C.NumConteo=@Number)
             AND NOT EXISTS(SELECT 1 FROM dbo.Inv_Conteos C WITH (UPDLOCK,HOLDLOCK)
                 WHERE C.IdInventario=@Id AND C.Grupo=@Group AND C.NumConteo=@Number
-                AND (TRY_CONVERT(decimal(19,4),NULLIF(LTRIM(RTRIM(CONVERT(nvarchar(100),C.Cuenta))),'')) IS NULL OR TRY_CONVERT(decimal(19,4),C.Cuenta)<0
+                AND (CONVERT(decimal(19,4),C.Cuenta) IS NULL OR CONVERT(decimal(19,4),C.Cuenta)<0
                     OR (@Number>=3 AND ISNULL(C.Reconteo,0)=0)))
             IF @@ROWCOUNT<>1 BEGIN SELECT 0; RETURN; END;
             IF LEN(@Group)>1 AND @Number>=4
@@ -36,9 +36,9 @@ public sealed class SqlServerInventoryCountCompletion(string connectionString, i
                         AND (SELECT COUNT(*) FROM dbo.Inv_Inventario I WHERE I.IdInventario=@Id AND I.Codigo=C.CodArticulo
                             AND I.CodProveedor=C.CodProveedor AND ISNULL(I.Unificado,0)=1 AND I.Stock IS NOT NULL AND I.Costo IS NOT NULL)<>1)
                     BEGIN SELECT 0; RETURN; END;
-                UPDATE I SET CF=TRY_CONVERT(decimal(19,4),C.Cuenta),
-                    DF=I.Stock-TRY_CONVERT(decimal(19,4),C.Cuenta),
-                    DFM=(I.Stock-TRY_CONVERT(decimal(19,4),C.Cuenta))*I.Costo
+                UPDATE I SET CF=CONVERT(decimal(19,4),C.Cuenta),
+                    DF=I.Stock-CONVERT(decimal(19,4),C.Cuenta),
+                    DFM=(I.Stock-CONVERT(decimal(19,4),C.Cuenta))*I.Costo
                     FROM dbo.Inv_Inventario I JOIN dbo.Inv_Conteos C
                     ON C.IdInventario=I.IdInventario AND C.CodArticulo=I.Codigo AND C.CodProveedor=I.CodProveedor
                     WHERE C.IdInventario=@Id AND C.Grupo=@Group AND C.NumConteo=@Number;

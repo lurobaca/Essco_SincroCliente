@@ -8,6 +8,18 @@ La creación bloquea inventarios abiertos, crea la cabecera, copia el universo d
 
 Se implementaron cruce 1/2, finalización, reconteos sucesivos elegidos por el usuario, unificación por proveedor y aceptación del último conteo. Consulte INVENTORY_CROSSING.md para condiciones y pruebas SQL pendientes.
 
+## Compatibilidad del esquema heredado
+
+Se verificaron columnas Cuenta/Conteo/Stock/CF/Pack enteras y el universo con Sector textual y valores numéricos. Los repositorios de inventario ya no utilizan TRY_CONVERT ni OPENJSON: las conversiones respetan esos tipos y funcionan con compatibilidad 100. La creación rechaza sectores no convertibles y stock/empaque fraccionarios o fuera de rango antes de insertar la cabecera. La captura rechaza cantidades fraccionarias o mayores que Int32.MaxValue para evitar truncamientos silenciosos. La unificación rechaza sumas que no caben en Cuenta/CF.
+
+Prueba reproducible con autenticación integrada, usando exclusivamente tablas temporales:
+
+```powershell
+./scripts/Test-InventorySqlCompatibility.ps1 -Server '<servidor-pruebas>' -Database '<base-pruebas>' -SqlCmd '<ruta-sqlcmd>'
+```
+
+La prueba valida los lotes SQL, no reemplaza las pruebas funcionales desde la web ni las pruebas de concurrencia.
+
 ## Plantilla para SAP
 
 SapTemplate descarga un XLSX solo para inventarios cerrados. Conserva las 14 columnas de Obtiene_DatosPlantilla (Class_funcionesSQL.vb) y celdas de texto como ExportarPlantilla (ExportarAExcell.vb), sin automatizar Excel en el servidor. Solo exporta artículos con cantidad final diferente del stock, ordenados por código. Mantiene almacén 01 y cuentas 50100102001/50100102002 del original; se muestran explícitamente en la interfaz para revisión antes de importar. No transmite documentos a SAP.

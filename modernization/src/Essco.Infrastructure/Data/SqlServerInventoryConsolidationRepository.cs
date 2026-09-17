@@ -22,7 +22,7 @@ public sealed class SqlServerInventoryConsolidationRepository(string connectionS
                 BEGIN SELECT 0; RETURN; END;
             SELECT DISTINCT idGrupo INTO #Groups FROM dbo.Inv_Grupos WITH (UPDLOCK,HOLDLOCK)
                 WHERE CodInventario=@Id AND CodProveedor=@Supplier AND LEN(idGrupo)=1;
-            SELECT G.idGrupo,MAX(TRY_CONVERT(int,A.Conteo)) Latest INTO #Latest FROM #Groups G
+            SELECT G.idGrupo,MAX(A.Conteo) Latest INTO #Latest FROM #Groups G
                 LEFT JOIN dbo.Inv_ConActivo A WITH (UPDLOCK,HOLDLOCK) ON A.IdInventario=@Id AND A.Grupo=G.idGrupo
                 GROUP BY G.idGrupo;
             IF NOT EXISTS(SELECT 1 FROM #Groups)
@@ -34,7 +34,7 @@ public sealed class SqlServerInventoryConsolidationRepository(string connectionS
                     OR EXISTS(SELECT 1 FROM dbo.Inv_Conteos C WHERE C.IdInventario=@Id AND C.Grupo=L.idGrupo AND C.NumConteo>L.Latest))
                 BEGIN SELECT 0; RETURN; END;
             SELECT C.Grupo,C.CodArticulo,C.Descripcion,C.Reconteo,
-                TRY_CONVERT(decimal(19,4),NULLIF(LTRIM(RTRIM(CONVERT(nvarchar(100),C.Cuenta))),'')) Quantity
+                CONVERT(decimal(19,4),C.Cuenta) Quantity
                 INTO #Source FROM dbo.Inv_Conteos C WITH (UPDLOCK,HOLDLOCK)
                 JOIN #Latest L ON L.idGrupo=C.Grupo AND L.Latest=C.NumConteo
                 WHERE C.IdInventario=@Id AND C.CodProveedor=@Supplier;
@@ -43,6 +43,7 @@ public sealed class SqlServerInventoryConsolidationRepository(string connectionS
                 BEGIN SELECT 0; RETURN; END;
             SELECT CodArticulo,MAX(Descripcion) Descripcion,SUM(Quantity) Quantity INTO #Totals FROM #Source GROUP BY CodArticulo;
             IF NOT EXISTS(SELECT 1 FROM #Totals)
+                OR EXISTS(SELECT 1 FROM #Totals WHERE Quantity>2147483647)
                 OR EXISTS(SELECT 1 FROM #Totals T WHERE
                     (SELECT COUNT(*) FROM dbo.Inv_Inventario I WHERE I.IdInventario=@Id AND I.Codigo=T.CodArticulo)<>1
                     OR NOT EXISTS(SELECT 1 FROM dbo.Inv_Inventario I WHERE I.IdInventario=@Id AND I.Codigo=T.CodArticulo
