@@ -9,6 +9,16 @@ namespace Essco.Infrastructure.Data;
 
 public sealed class SqlServerCustomerChangeRepository(string connectionString, int commandTimeoutSeconds) : ICustomerChangeRepository
 {
+    private const string SequenceSql = """
+        IF (SELECT COUNT_BIG(*) FROM [dbo].[Empresa] WITH (UPDLOCK,HOLDLOCK)) <> 1
+            THROW 51001, 'Empresa debe contener exactamente un registro para asignar consecutivo de cliente.', 1;
+        IF EXISTS(SELECT 1 FROM [dbo].[Empresa]
+            WHERE [Conse_Clientes] IS NULL OR [Conse_Clientes]<0 OR [Conse_Clientes]=2147483647)
+            THROW 51003, 'El consecutivo de clientes no está configurado o está agotado.', 1;
+        UPDATE [dbo].[Empresa] SET [Conse_Clientes]=[Conse_Clientes]+1
+        OUTPUT INSERTED.[Conse_Clientes];
+        """;
+
     private const string Columns = """
         [Consecutivo],[CardCode],[CardName],[Cedula],[Respolsabletributario],[U_Visita],[U_ClaveWeb],
         [Phone1],[Phone2],[Street],[E_Mail],[NameFicticio],[Latitud],[Longitud],[Agente],
@@ -86,12 +96,7 @@ public sealed class SqlServerCustomerChangeRepository(string connectionString, i
         var sequence = request.Sequence;
         if (request.Id == 0)
         {
-            await using var sequenceCommand = new SqlCommand("""
-                IF (SELECT COUNT_BIG(*) FROM [dbo].[Empresa] WITH (UPDLOCK,HOLDLOCK)) <> 1
-                    THROW 51001, 'Empresa debe contener exactamente un registro para asignar consecutivo de cliente.', 1;
-                UPDATE [dbo].[Empresa] SET [Conse_Clientes]=ISNULL(TRY_CONVERT(int,[Conse_Clientes]),0)+1
-                OUTPUT INSERTED.[Conse_Clientes];
-                """, connection, transaction) { CommandTimeout = commandTimeoutSeconds };
+            await using var sequenceCommand = new SqlCommand(SequenceSql, connection, transaction) { CommandTimeout = commandTimeoutSeconds };
             sequence = Convert.ToString(await sequenceCommand.ExecuteScalarAsync(cancellationToken), CultureInfo.InvariantCulture) ?? "";
         }
         await using var command = new SqlCommand(request.Id == 0 ? insert : update, connection, transaction) { CommandTimeout = commandTimeoutSeconds };
