@@ -1,5 +1,11 @@
 # Cruce de inventario
 
+## Comprobación previa de grupos
+
+La vista de proveedor consulta ahora los grupos originales (LEN(idGrupo)=1, como PuedeUnifica) del inventario explícitamente seleccionado. Cada grupo debe tener exactamente un control del conteo 3 y estar finalizado. Ausencia, duplicados o controles pendientes impiden confirmar la finalización. Esta consulta es informativa; la futura escritura debe repetir las comprobaciones en su propia transacción. No se ha probado esta consulta contra una copia SQL real.
+
+Decisión pendiente: GuardaGrupo en Inv_Cruzar.vb inserta el conteo 4 al unificar, pero después llama a ActualizaConteo con número 1 y a Recuenta con NumConteo+1 (5). Es necesario confirmar si las diferencias deben capturarse en 4 o generar 5 antes de implementar esa escritura. No se ha modificado silenciosamente esta regla heredada.
+
 SupplierSummary ofrece una vista previa de la unificación por proveedor: suma las líneas del conteo 3 del inventario seleccionado, calcula diferencia como Stock menos suma (convención de GuardaGrupo en Inv_Cruzar.vb) y aplica el umbral monetario inclusivo. Detecta artículos sin conteo o sin maestro, duplicados dentro del mismo grupo y reconteos pendientes. No certifica finalización de grupos, no crea el conteo 4 y no modifica datos. La escritura transaccional de unificación continúa pendiente.
 
 La página Inventory/Compare compara dos conteos del grupo seleccionado. La diferencia se calcula como primer conteo menos segundo conteo y el importe multiplica por el costo del inventario seleccionado. El umbral incluye la igualdad; las diferencias cero no requieren reconteo.

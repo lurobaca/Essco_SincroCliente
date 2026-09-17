@@ -3,7 +3,17 @@
 @{ ViewData["Title"] = "Unificación por proveedor — vista previa"; }
 <h1>@ViewData["Title"]</h1>
 <p>Sumatoria del conteo 3 de los grupos del proveedor. Esta consulta no crea el conteo 4 ni modifica el inventario.</p>
-<p class="alert alert-warning">La vista previa no certifica que todos los grupos estén finalizados. Datos incompletos, duplicados o líneas sin resolver se marcan para revisión.</p>
+<p class="alert alert-warning">Consulta de solo lectura. El estado puede cambiar después de consultar; una futura escritura deberá comprobarlo de nuevo dentro de su transacción.</p>
+@if (!string.IsNullOrWhiteSpace(Model.Supplier))
+{
+    <p>@(Model.GroupsCompleted ? "Todos los grupos originales tienen un único conteo 3 finalizado." : "No se puede confirmar la finalización: faltan grupos o existen controles pendientes, ausentes o duplicados.")</p>
+    <ul>
+    @foreach (var group in Model.Groups)
+    {
+        <li>Grupo @group.Group: @group.Completed finalizados de @group.Controls controles.</li>
+    }
+    </ul>
+}
 <div asp-validation-summary="All" class="text-danger"></div>
 <form method="get" class="row g-2">
     <div class="col"><label asp-for="Supplier">Código del proveedor</label><input asp-for="Supplier" class="form-control" required /></div>
