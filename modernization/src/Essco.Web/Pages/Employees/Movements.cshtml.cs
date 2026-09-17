@@ -10,7 +10,7 @@ namespace Essco.Web.Pages.Employees;
 [Authorize(Policy = Permissions.Payroll)]
 public sealed class MovementsModel(EmployeeService employees, EmployeeMovementService movements) : PageModel
 {
-    public EmployeeFile File { get; private set; } = null!;
+    public new EmployeeFile File { get; private set; } = null!;
     [BindProperty] public VacationForm Vacation { get; set; } = new();
     [BindProperty] public DisabilityForm Disability { get; set; } = new();
     [BindProperty] public DeductionForm Deduction { get; set; } = new();

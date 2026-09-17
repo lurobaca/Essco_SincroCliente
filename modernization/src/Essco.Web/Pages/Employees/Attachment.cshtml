@@ -1,0 +1,12 @@
+@page "{id}/{kind}/{number:int}"
+@model Essco.Web.Pages.Employees.AttachmentModel
+@{ ViewData["Title"] = "Adjunto del movimiento"; }
+<h1>Adjunto del movimiento</h1>
+<p>Seleccione la imagen del documento firmado. Guardar reemplaza el adjunto existente.</p>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post" enctype="multipart/form-data">
+    <label asp-for="Upload">Imagen PNG o JPEG (máximo 5 MB)</label>
+    <input asp-for="Upload" type="file" accept="image/png,image/jpeg" class="form-control" required />
+    <button class="btn btn-primary mt-2">Guardar adjunto</button>
+</form>
+<a asp-page-handler="Download" class="btn btn-outline-secondary mt-2">Descargar adjunto actual</a>

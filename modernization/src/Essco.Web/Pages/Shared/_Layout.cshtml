@@ -57,7 +57,7 @@
                         {
                             <li class="nav-item"><a class="nav-link text-dark" asp-page="/Liquidations/Index">Liquidaciones</a></li>
                         }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Inventory)).Succeeded)
+                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Warehouse)).Succeeded)
                         {
                             <li class="nav-item"><a class="nav-link text-dark" asp-page="/Inventory/Index">Inventario</a></li>
                         }
