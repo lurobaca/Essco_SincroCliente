@@ -41,7 +41,7 @@ public sealed class SqlServerUserAccountRepository(
         if (!await reader.ReadAsync(cancellationToken)) return null;
 
         return new UserAccount(
-            reader.GetInt32(reader.GetOrdinal("id")),
+            checked(Convert.ToInt32(reader.GetValue(reader.GetOrdinal("id")), System.Globalization.CultureInfo.InvariantCulture)),
             reader.GetString(reader.GetOrdinal("Usuario")),
             reader.GetString(reader.GetOrdinal("DisplayName")),
             reader.GetString(reader.GetOrdinal("Role")),

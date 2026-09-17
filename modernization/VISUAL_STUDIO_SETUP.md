@@ -1,5 +1,7 @@
 # Abrir y ejecutar la solución web
 
+La conexión específica del equipo se guarda en appsettings.Local.json, excluido de Git y cargado únicamente en Development. Visual Studio debe ejecutarse con una cuenta Windows autorizada en la instancia configurada. SAP permanece deshabilitado en esta configuración local. TrustServerCertificate=True es exclusivo de pruebas y no debe copiarse a producción. El acceso requiere las tablas auxiliares de los scripts 001/002; la cola usa el script 003. No confundir conexión configurada con esquema preparado.
+
 Para restaurar, compilar TODOS los proyectos y ejecutar las pruebas desde la raíz del repositorio: `powershell -File modernization/scripts/Verify.ps1`. El script usa una caché NuGet temporal de ruta corta y restaura antes de compilar: se detectaron activos de restauración antiguos que permitían compilar, pero no cargar SqlClient en ejecución. También se observaron errores de copia de dependencias con la caché anidada dentro de esta ruta larga del repositorio. La caché temporal no modifica la configuración global de NuGet.
 
 Diagnóstico del 17 de septiembre de 2026: en el equipo están registrados Visual Studio 2017 y Visual Studio 2022 17.14.10. La solución apunta a net10.0 y el Worker a net10.0-windows. global.json selecciona el SDK 10.0.400, que está instalado. Los IDE registrados no admiten ese destino; instalar el SDK por sí solo no actualiza Visual Studio.
