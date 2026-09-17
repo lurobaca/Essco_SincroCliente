@@ -199,7 +199,9 @@ app.UseAuthentication();
 app.UseMiddleware<PasswordChangeRequiredMiddleware>();
 app.UseAuthorization();
 
-app.MapStaticAssets();
+// Public CSS/JS must load on anonymous pages such as the dashboard and login.
+// Business pages retain the authenticated fallback policy and their permissions.
+app.MapStaticAssets().AllowAnonymous();
 app.MapRazorPages()
    .WithStaticAssets();
 app.MapHealthChecks("/health").AllowAnonymous();
