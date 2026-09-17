@@ -6,4 +6,18 @@ public sealed class PayrollSapDispatchService(IPayrollJournalRepository reposito
 {public async ValueTask<(bool Succeeded,SapJob?Job,string?Error)>DispatchAsync(int number,string company,string user,CancellationToken t){var journal=await repository.GetAsync(number,t);if(journal is null)return(false,null,"La planilla no existe o no produjo asiento.");if(journal.Lines.Count==0)return(false,null,"El asiento no contiene líneas.");if(journal.Lines.Any(x=>string.IsNullOrWhiteSpace(x.AccountCode)))return(false,null,"El asiento contiene cuentas contables vacías.");var debit=journal.Lines.Sum(x=>x.Debit);var credit=journal.Lines.Sum(x=>x.Credit);if(debit<=0||debit!=credit)return(false,null,$"El asiento no está balanceado: débito {debit:N2}, crédito {credit:N2}.");var job=await queue.EnqueueAsync(new(PayrollSapOperations.CreateJournal,company,user,JsonSerializer.Serialize(new PayrollSapPayload(number)),$"payroll:{number}:journal"),t);return(true,job,null);}}
 public interface ISapPayrollGateway{ValueTask<SapProcessingResult>CreateJournalAsync(PayrollJournal journal,CancellationToken token);}public interface IPayrollSapJobProcessor{ValueTask<SapProcessingResult>ProcessAsync(string operation,string payload,CancellationToken token);}
 public sealed class PayrollSapJobProcessor(IPayrollJournalRepository repository,ISapPayrollGateway gateway):IPayrollSapJobProcessor
-{public async ValueTask<SapProcessingResult>ProcessAsync(string operation,string payload,CancellationToken t){if(operation!=PayrollSapOperations.CreateJournal)return new(false,null,"Operación de planilla no soportada.",false);PayrollSapPayload? data;try{data=JsonSerializer.Deserialize<PayrollSapPayload>(payload);}catch(JsonException){return new(false,null,"Payload de planilla inválido.",false);}if(data is null)return new(false,null,"Payload de planilla vacío.",false);var journal=await repository.GetAsync(data.Number,t);if(journal is null)return new(false,null,"La planilla ya no existe o no produjo asiento.",false);return await gateway.CreateJournalAsync(journal,t);}}
+{
+    public async ValueTask<SapProcessingResult> ProcessAsync(string operation, string payload, CancellationToken t)
+    {
+        if (operation != PayrollSapOperations.CreateJournal) return new(false, null, "Operación de planilla no soportada.", false);
+        PayrollSapPayload? data;
+        try { data = JsonSerializer.Deserialize<PayrollSapPayload>(payload); }
+        catch (JsonException) { return new(false, null, "Payload de planilla inválido.", false); }
+        if (data is null || data.Number <= 0) return new(false, null, "Número de planilla inválido.", false);
+        var journal = await repository.GetAsync(data.Number, t);
+        if (journal is null) return new(false, null, "La planilla ya no existe o no produjo asiento.", false);
+        var error = PayrollJournalValidation.Error(journal);
+        if (error is not null) return new(false, null, error, false);
+        return await gateway.CreateJournalAsync(journal, t);
+    }
+}
