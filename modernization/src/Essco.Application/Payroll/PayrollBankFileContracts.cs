@@ -1,0 +1,13 @@
+using System.Globalization;using System.Text;
+namespace Essco.Application.Payroll;
+public sealed record PayrollBankHeader(int PayrollNumber,string CompanyTaxId,string CompanyName,string DebitAccount,string Description,DateOnly ApplicationDate);
+public sealed record PayrollBankMovement(string Account,decimal Amount,string Name,string Identification,string CollaboratorId);
+public sealed record PayrollBankBatch(PayrollBankHeader Header,IReadOnlyCollection<PayrollBankMovement> Movements);
+public interface IPayrollBankRepository{ValueTask<PayrollBankBatch?>GetAsync(int payrollNumber,DateOnly applicationDate,CancellationToken token);}
+public sealed class PayrollBankFileService(IPayrollBankRepository repository)
+{
+ public async ValueTask<(bool Succeeded,byte[] Content,string? Error)>GenerateAsync(int number,DateOnly date,CancellationToken t){var batch=await repository.GetAsync(number,date,t);if(batch is null)return(false,[],"La planilla no existe.");var errors=Validate(batch);if(errors.Count>0)return(false,[],string.Join(" ",errors));return(true,Encoding.UTF8.GetBytes(Render(batch)),null);}
+ public static string Render(PayrollBankBatch batch){var h=batch.Header;var total=batch.Movements.Sum(x=>x.Amount);var lines=new List<string>{$"HD|{Clean(h.CompanyTaxId)}.1|{h.ApplicationDate:yyyyMMdd}|{Clean(h.DebitAccount)}|CRC|{Money(total)}|{batch.Movements.Count+1}|{batch.Movements.Count}|1",$"DA|{Clean(h.DebitAccount)}||||{Money(total)}||||544||{Clean(h.CompanyName)}|||||||||||{Clean(h.CompanyName)}|||{Clean(h.CompanyTaxId)}|{Clean(h.CompanyTaxId)}.1.{Clean(h.CompanyTaxId)}||"};lines.AddRange(batch.Movements.Select(x=>$"DA|{Clean(x.Account)}||||{Money(x.Amount)}||||545||{Clean(x.Name)}|||||||{Clean(h.Description)}||||{Clean(x.Name)}|||{Clean(x.Identification)}|{Clean(h.CompanyTaxId)}.1.{Clean(x.CollaboratorId)}||"));return string.Join("\r\n",lines)+"\r\n";}
+ private static IReadOnlyCollection<string>Validate(PayrollBankBatch b){var e=new List<string>();if(string.IsNullOrWhiteSpace(b.Header.CompanyTaxId)||string.IsNullOrWhiteSpace(b.Header.DebitAccount))e.Add("Faltan la identificación o cuenta bancaria de la empresa.");if(b.Movements.Count==0)e.Add("La planilla no contiene empleados.");foreach(var x in b.Movements){if(string.IsNullOrWhiteSpace(x.Account)||string.IsNullOrWhiteSpace(x.CollaboratorId))e.Add($"{x.Name}: falta cuenta o identificador bancario.");if(x.Amount<=0)e.Add($"{x.Name}: el monto debe ser positivo.");}return e;}
+ private static string Clean(string? value)=>(value??"").Replace("|","").Replace("\r"," ").Replace("\n"," ").Trim();private static string Money(decimal value)=>value.ToString("0.00",CultureInfo.InvariantCulture);
+}
