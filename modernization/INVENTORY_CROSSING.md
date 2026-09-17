@@ -6,4 +6,6 @@ El botón de cruce admite únicamente 1 contra 2 y genera el conteo 3. En una tr
 
 Se conserva la convención heredada: Reconteo=1 indica línea resuelta; Reconteo=0 indica pendiente. Las líneas resueltas conservan la cantidad del primer conteo; las pendientes se inicializan en cero. Las columnas CF/DF/DFM siguen la fórmula de Inv_Cruzar.vb y se habilita el conteo 3 en Inv_ConActivo.
 
-Verificado: compilación de toda la solución y pruebas de cálculo, igualdad del umbral y datos ausentes. Pendiente: ejecución de la transacción contra copia SQL, caracterización con inventario real, flujo de finalización de conteos, unificación por proveedor y ajustes SAP. Esta funcionalidad no declara completado todo el módulo.
+La página CompleteCount finaliza un conteo activo de un inventario abierto. Requiere filas con cantidades válidas y no negativas; desde el conteo 3 exige que todas las líneas estén resueltas. La actualización es transaccional y revierte si no afecta exactamente un control. Guardar un reconteo lo marca resuelto y el repositorio rechaza modificaciones de conteos finalizados. Los formularios rechazan errores de conversión antes de guardar.
+
+Verificado: compilación de toda la solución (incluidos Web y Worker), 120 pruebas unitarias y 4 de integración. Estas pruebas no ejecutan las nuevas transacciones contra SQL Server. Pendiente: ejecución de las transacciones contra copia SQL, caracterización con inventario real, unificación por proveedor y ajustes SAP. Esta funcionalidad no declara completado todo el módulo.

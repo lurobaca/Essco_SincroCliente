@@ -1,0 +1,11 @@
+@page "{id:int}"
+@model Essco.Web.Pages.Inventory.CompleteCountModel
+@{ ViewData["Title"] = "Finalizar conteo"; }
+<h1>Finalizar conteo</h1>
+<p>Confirme las cantidades antes de finalizar. Un conteo finalizado queda bloqueado para edición y disponible para cruce.</p>
+<div asp-validation-summary="All" class="text-danger"></div>
+<form method="post">
+    <label asp-for="Group">Grupo</label><input asp-for="Group" required class="form-control" />
+    <label asp-for="Number">Número de conteo</label><input asp-for="Number" min="1" class="form-control" />
+    <button class="btn btn-warning mt-3">Confirmar finalización</button>
+</form>
