@@ -79,6 +79,20 @@ public sealed class SqlServerCustomerChangeRepository(string connectionString, i
 
     public async ValueTask<long> SaveAsync(CustomerChangeRequest request, CancellationToken cancellationToken)
     {
+        try { return await SaveCoreAsync(request, cancellationToken); }
+        catch (SqlException exception) when (exception.Number is 51001 or 51002 or 51003)
+        {
+            throw new CustomerChangeConflictException(exception.Number switch
+            {
+                51001 => "Debe configurarse una única empresa antes de crear solicitudes de cliente.",
+                51002 => "Ya existe una solicitud para ese código de cliente. Busque y edite la solicitud existente.",
+                _ => "El consecutivo de clientes no está configurado o está agotado. Revise la configuración de la empresa."
+            });
+        }
+    }
+
+    private async ValueTask<long> SaveCoreAsync(CustomerChangeRequest request, CancellationToken cancellationToken)
+    {
         const string insert = """
             IF EXISTS (SELECT 1 FROM [dbo].[ClientesModificados] WITH (UPDLOCK,HOLDLOCK) WHERE [CardCode]=@Code)
                 THROW 51002, 'Ya existe una solicitud para el código de cliente indicado.', 1;
@@ -89,7 +103,7 @@ public sealed class SqlServerCustomerChangeRepository(string connectionString, i
             """;
         const string update = """
             UPDATE [dbo].[ClientesModificados] SET [Consecutivo]=@Sequence,[CardCode]=@Code,[CardName]=@Name,[Cedula]=@TaxId,[Respolsabletributario]=@TaxResponsible,[U_Visita]=@VisitSchedule,[U_ClaveWeb]=@WebPassword,[Phone1]=@Phone1,[Phone2]=@Phone2,[Street]=@Address,[E_Mail]=@Email,[NameFicticio]=@TradeName,[Latitud]=@Latitude,[Longitud]=@Longitude,[Agente]=@Agent,[Id_Provincia]=@Province,[Id_Canton]=@Canton,[Id_Distrito]=@District,[Id_Barrio]=@Neighborhood,[Estado]=@State,[Tipo_Cedula]=@IdentificationType,[Fecha]=@Date,[Hora]=@Time,[Aprobado]=@Approved,[TipoSocio]=@PartnerType,[EXO_TipoDocumento]=@ExemptionType,[EXO_Numero]=@ExemptionNumber,[EXO_NombreInstitucion]=@ExemptionInstitution,[EXO_FechaEmision]=@ExemptionIssued,[EXO_PorcentajeCompra]=@ExemptionPercent,[EXO_FechaVencimiento]=@ExemptionExpires WHERE [id]=@Id;
-            SELECT CAST(@Id AS bigint);
+            IF @@ROWCOUNT=1 SELECT CAST(@Id AS bigint); ELSE SELECT CAST(0 AS bigint);
             """;
         await using var connection = await OpenAsync(cancellationToken);
         await using var transaction = (SqlTransaction)await connection.BeginTransactionAsync(IsolationLevel.Serializable, cancellationToken);

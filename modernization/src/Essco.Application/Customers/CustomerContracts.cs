@@ -6,6 +6,7 @@ public sealed record CustomerSearch(bool Approved, CustomerChangeState State, st
     bool SearchByName = false, string? AgentCode = null, DateOnly? From = null, DateOnly? To = null,
     int Page = 1, int PageSize = 50);
 public sealed record CustomerSearchResult(IReadOnlyCollection<CustomerChangeRequest> Items, int Total);
+public sealed class CustomerChangeConflictException(string message) : Exception(message);
 
 public interface ICustomerChangeRepository
 {
@@ -23,7 +24,16 @@ public sealed class CustomerChangeService(ICustomerChangeRepository repository)
     {
         var errors = request.Validate();
         if (errors.Count > 0) return (false, request.Id, errors);
-        return (true, await repository.SaveAsync(request, cancellationToken), []);
+        try
+        {
+            var id = await repository.SaveAsync(request, cancellationToken);
+            return id > 0 ? (true, id, []) :
+                (false, request.Id, ["La solicitud ya no está disponible. Recargue la lista antes de volver a editar."]);
+        }
+        catch (CustomerChangeConflictException exception)
+        {
+            return (false, request.Id, [exception.Message]);
+        }
     }
     public ValueTask<bool> ApproveAsync(long id, CancellationToken cancellationToken) => repository.ApproveAsync(id, cancellationToken);
 }

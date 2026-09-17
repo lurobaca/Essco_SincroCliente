@@ -30,15 +30,21 @@ public sealed class CustomerChangeRequestTests
 
     private static CustomerChangeRequest Valid() => new()
     {
-        Sequence = "1",
-        Code = "C001",
-        Name = "Cliente",
-        TaxId = "3101123456",
-        IdentificationType = 2,
-        ProvinceId = 1,
-        CantonId = 1,
-        DistrictId = 1,
-        NeighborhoodId = 1,
-        RequestedAt = DateTime.UtcNow
+        Sequence = "1", Code = "C001", Name = "Cliente", TaxId = "3101123456",
+        IdentificationType = 2, ProvinceId = 1, CantonId = 1, DistrictId = 1,
+        NeighborhoodId = 1, RequestedAt = DateTime.UtcNow
     };
+
+    [Fact]
+    public void Validate_RejectsNullIdentificationWithoutThrowing() =>
+        Assert.NotEmpty((Valid() with { TaxId = null! }).Validate());
+
+    [Fact]
+    public void Validate_RejectsUndefinedState() =>
+        Assert.Contains((Valid() with { State = (CustomerChangeState)99 }).Validate(), x => x.Contains("tipo de solicitud"));
+
+    [Fact]
+    public void Validate_RejectsNegativeId() =>
+        Assert.Contains((Valid() with { Id = -1 }).Validate(), x => x.Contains("identificador"));
+
 }

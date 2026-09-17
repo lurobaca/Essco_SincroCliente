@@ -41,12 +41,14 @@ public sealed record CustomerChangeRequest
     public IReadOnlyCollection<string> Validate()
     {
         var errors = new List<string>();
+        if (Id < 0) errors.Add("El identificador de solicitud no es válido.");
+        if (!Enum.IsDefined(State)) errors.Add("El tipo de solicitud no es válido.");
         Required(Code, 50, "Código", errors);
         Required(Name, 200, "Nombre", errors);
         Required(TaxId, 20, "Identificación", errors);
         var taxIdLengths = IdentificationType switch { 1 => new[] { 9 }, 2 => new[] { 10 }, 3 => new[] { 11, 12 }, 4 => new[] { 10 }, _ => [] };
         if (taxIdLengths.Length == 0) errors.Add("El tipo de identificación no es válido.");
-        else if (!TaxId.All(char.IsDigit) || !taxIdLengths.Contains(TaxId.Length))
+        else if (string.IsNullOrEmpty(TaxId) || !TaxId.All(char.IsAsciiDigit) || !taxIdLengths.Contains(TaxId.Length))
             errors.Add($"La identificación debe contener {string.Join(" o ", taxIdLengths)} dígitos.");
         if (Id != 0) Required(Sequence, 50, "Consecutivo", errors);
         if (!string.IsNullOrWhiteSpace(Email)) try { _ = new MailAddress(Email); } catch (FormatException) { errors.Add("El correo electrónico no es válido."); }
