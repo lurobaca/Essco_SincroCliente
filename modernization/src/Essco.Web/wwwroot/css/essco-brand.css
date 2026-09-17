@@ -1,0 +1,55 @@
+/* ESSCO blue/white identity. This file must match in Web and Portal. */
+:root {
+ --essco-navy:#102d50; --essco-blue:#175fc4; --essco-dark:#124c9d;
+ --essco-pale:#eff5fd; --essco-line:#d6e2ef; --essco-muted:#526780;
+ --bs-primary:#175fc4; --bs-primary-rgb:23,95,196;
+ --bs-success-rgb:23,95,196; --bs-danger-rgb:16,45,80;
+ --bs-warning-rgb:215,230,249; --bs-info-rgb:215,230,249;
+ --bs-link-color:#175fc4; --bs-link-hover-color:#124c9d;
+ --bs-body-color:#102d50; --bs-body-bg:#fff; --bs-border-color:#d6e2ef;
+}
+body{background:#fff;color:var(--essco-navy);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+a{text-underline-offset:.2em}
+.essco-wordmark,a.essco-wordmark{display:inline-flex;flex-direction:column;align-items:flex-start;gap:4px;text-decoration:none;color:var(--essco-navy);white-space:normal;word-break:normal;text-align:left;line-height:1.2}
+.essco-wordmark .essco-name{display:block;font-size:1.8rem;font-weight:800;font-style:normal;letter-spacing:.08em;color:var(--essco-navy);line-height:1}
+.essco-wordmark .essco-fullname{display:block;font-size:.65rem;letter-spacing:.025em;font-weight:500;color:var(--essco-muted);white-space:nowrap}
+.essco-footer-brand{display:flex;flex-direction:column;gap:4px}
+:focus-visible{outline:3px solid var(--essco-blue);outline-offset:3px}
+.btn:focus-visible,.form-control:focus,.form-select:focus,.form-check-input:focus{border-color:var(--essco-blue);box-shadow:0 0 0 .2rem #175fc426}
+.btn-primary,.btn-success,.btn-danger,.btn-warning,.btn-info{
+ --bs-btn-color:#fff;--bs-btn-bg:var(--essco-blue);--bs-btn-border-color:var(--essco-blue);
+ --bs-btn-hover-color:#fff;--bs-btn-hover-bg:var(--essco-dark);--bs-btn-hover-border-color:var(--essco-dark);
+ --bs-btn-active-color:#fff;--bs-btn-active-bg:var(--essco-navy);--bs-btn-active-border-color:var(--essco-navy);
+ --bs-btn-disabled-color:#fff;--bs-btn-disabled-bg:var(--essco-blue);--bs-btn-disabled-border-color:var(--essco-blue);
+ background-color:var(--bs-btn-bg);border-color:var(--bs-btn-border-color);color:var(--bs-btn-color)
+}
+.btn-primary:hover,.btn-success:hover,.btn-danger:hover,.btn-warning:hover,.btn-info:hover{background-color:var(--bs-btn-hover-bg);border-color:var(--bs-btn-hover-border-color)}
+.btn-primary:active,.btn-success:active,.btn-danger:active{background-color:var(--essco-navy)}
+.btn-danger{--bs-btn-bg:var(--essco-navy);--bs-btn-border-color:var(--essco-navy)}
+.btn-outline-primary,.btn-outline-secondary,.btn-outline-success,.btn-outline-danger,.btn-outline-warning,.btn-outline-info{
+ --bs-btn-color:var(--essco-blue);--bs-btn-border-color:var(--essco-blue);
+ --bs-btn-hover-color:#fff;--bs-btn-hover-bg:var(--essco-blue);--bs-btn-hover-border-color:var(--essco-blue);
+ --bs-btn-active-color:#fff;--bs-btn-active-bg:var(--essco-navy);--bs-btn-active-border-color:var(--essco-navy);
+ --bs-btn-disabled-color:var(--essco-muted);--bs-btn-disabled-border-color:var(--essco-line)
+}
+.btn-outline-danger{--bs-btn-color:var(--essco-navy);--bs-btn-border-color:var(--essco-navy);border-style:dashed}
+.alert{--bs-alert-color:var(--essco-navy);--bs-alert-bg:var(--essco-pale);--bs-alert-border-color:var(--essco-line);border-left:4px solid var(--essco-blue)}
+.alert-danger{border-left:6px double var(--essco-navy)}
+.alert-warning{border-left-style:dashed}
+.text-danger,.text-success,.text-warning,.text-info,.text-primary{color:var(--essco-dark)!important}
+.field-validation-error,.validation-summary-errors{color:var(--essco-navy);font-weight:600}
+.validation-summary-errors{padding:.75rem;border-left:4px double var(--essco-navy);background:var(--essco-pale)}
+.input-validation-error,.form-control.is-invalid,.form-select.is-invalid{border:2px solid var(--essco-navy);background-image:none}
+.form-check-input:checked{background-color:var(--essco-blue);border-color:var(--essco-blue)}
+.bg-success,.bg-danger,.bg-primary,.text-bg-success,.text-bg-danger,.text-bg-primary{background-color:var(--essco-navy)!important;color:#fff!important}
+.bg-warning,.bg-info,.text-bg-warning,.text-bg-info{background-color:#d7e6f9!important;color:var(--essco-navy)!important}
+.table{--bs-table-color:var(--essco-navy);--bs-table-border-color:var(--essco-line);--bs-table-striped-bg:#f3f7fd;--bs-table-hover-bg:#e7f0fc}
+.table thead,.table thead tr,.table thead th{--bs-table-bg:var(--essco-navy);--bs-table-color:#fff;background:var(--essco-navy);color:#fff}
+.table thead a{color:#fff}
+.table-success,.table-danger,.table-warning,.table-info{--bs-table-bg:var(--essco-pale);--bs-table-striped-bg:#e7f0fc;--bs-table-hover-bg:#d7e6f9;--bs-table-color:var(--essco-navy);--bs-table-border-color:var(--essco-line)}
+.card,.list-group-item{border-color:var(--essco-line)}
+.card-header{background:var(--essco-pale);border-color:var(--essco-line)}
+.nav-pills .nav-link.active,.page-item.active .page-link{background:var(--essco-blue);border-color:var(--essco-blue);color:#fff}
+.footer{white-space:normal;line-height:1.6;position:static;margin-top:2rem;padding:1rem 0}
+body:not(.account-body){margin-bottom:0}
+@media(max-width:575px){.essco-wordmark .essco-name{font-size:1.6rem}.essco-wordmark .essco-fullname{font-size:.6rem}}

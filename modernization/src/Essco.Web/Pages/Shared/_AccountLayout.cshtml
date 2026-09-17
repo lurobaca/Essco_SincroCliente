@@ -3,19 +3,20 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] - Essco</title>
+    <title>@ViewData["Title"] - ESSCO</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/essco-brand.css" asp-append-version="true" />
 </head>
 <body class="account-body">
-    <header class="account-header"><span class="account-brand">Essco<span>GESTIÓN WEB</span></span>
+    <header class="account-header"><a asp-page="/Index" class="essco-wordmark"><span class="essco-name">ESSCO</span><span class="essco-fullname">Easy Software Solution Company</span></a>
     @if(User.Identity?.IsAuthenticated==true)
     {
         <form method="post" asp-page="/Account/Logout"><button class="btn btn-outline-secondary btn-sm">Cerrar sesión</button></form>
     }
     </header>
     <main class="account-main">@RenderBody()</main>
-    <footer class="account-footer">Essco · Acceso seguro</footer>
+    <footer class="account-footer">ESSCO · Un mundo con menos clic.</footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
