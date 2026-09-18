@@ -4,9 +4,10 @@
 <section class="auth-card"><p class="eyebrow">PORTAL ESSCO</p><h1>Bienvenido de nuevo</h1><p>Inicia sesión para ver las organizaciones a las que perteneces.</p>
 @if(!Model.Configured) { <p class="notice" role="status">El portal todavía no tiene configurada su base de datos.</p> }
 <form method="post">
-<div asp-validation-summary="All" class="validation" role="alert"></div>
+<div asp-validation-summary="All" class="validation validation-alert" role="alert"></div>
 <label asp-for="Email">Correo electrónico</label><input asp-for="Email" type="email" autocomplete="username" required />
-<label asp-for="Password">Contraseña</label><input asp-for="Password" type="password" autocomplete="current-password" required />
+<label asp-for="Password">Contraseña</label><div class="password-field"><input asp-for="Password" type="password" autocomplete="current-password" required /><button type="button" class="password-toggle" data-password-toggle="Password" aria-pressed="false">Mostrar</button></div>
 <button class="button full" disabled="@(!Model.Configured)">Iniciar sesión</button>
-</form><p class="muted">Las cuentas de Syncro Cliente no se trasladan automáticamente al portal. El acceso inicial debe configurarlo un administrador.</p>
+</form><p class="muted">Este es el Portal ESSCO y utiliza correo electrónico. Syncro Cliente mantiene por ahora un inicio de sesión separado.</p>
+<script>document.querySelectorAll('[data-password-toggle]').forEach(button=>button.addEventListener('click',()=>{const input=document.getElementById(button.dataset.passwordToggle);const show=input.type==='password';input.type=show?'text':'password';button.textContent=show?'Ocultar':'Mostrar';button.setAttribute('aria-pressed',show.toString());}));</script>
 </section>

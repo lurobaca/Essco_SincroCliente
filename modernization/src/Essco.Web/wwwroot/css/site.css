@@ -31,6 +31,7 @@ body {
 .account-card {width:100%;max-width:520px;padding:2.2rem;background:white;border:1px solid #dce4ec;border-radius:1rem;box-shadow:0 12px 38px #142d4910;}
 .account-kicker {font-size:.72rem;letter-spacing:.13em;font-weight:700;color:#175fc4;}
 .password-rules {background:#eff5fd;color:#102d50;padding:1rem;border-radius:.5rem;font-size:.9rem;margin:1.5rem 0;}
+.password-field{position:relative}.password-field .form-control{padding-right:5.5rem}.password-toggle{position:absolute;right:.65rem;top:50%;transform:translateY(-50%);z-index:5;border:0;background:transparent;color:#175fc4;font-weight:700;padding:.35rem;cursor:pointer}.login-error.validation-summary-valid{display:none}.login-error{--bs-alert-color:#842029!important;--bs-alert-bg:#f8d7da!important;--bs-alert-border-color:#f5c2c7!important;border-left:5px solid #b02a37!important}.login-error ul{margin:0;padding-left:1.2rem}
 .account-footer {text-align:center;padding:1rem;color:#526277;font-size:.8rem;}
 @media(max-width:575px){.account-card{padding:1.4rem;}.account-main{padding:1.5rem 1rem;}}
 
