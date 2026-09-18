@@ -19,7 +19,7 @@ Actualizada: 2026-09-18. `Listo para probar` significa que existe un flujo web u
 | Inventario | `/Inventory` | Apertura, grupos, conteos variables, cruces, reconteos, consolidación, cierre y XLSX SAP | Listo; ajuste SAP pendiente |
 | Liquidaciones | `/Liquidations` | Agentes/choferes, gastos, conciliación, diferencias y resumen | Parcial |
 | Planillas | `/Payroll` | Crear, consultar, finalizar, anular, detalle, TXT bancario y asiento SAP | Parcial; requiere caracterización |
-| Empleados | `/Employees` | Alta, edición, expediente, movimientos, adjuntos, educación y experiencia | Listo para este alcance |
+| Empleados | `/Employees` | Alta, edición, expediente, movimientos, aumentos salariales, adicionales, adjuntos, educación y experiencia | Listo para este alcance |
 | Reportes | `/Reports` | CSV iniciales de facturación, inventario y planillas | Parcial |
 | Portal público/clientes | `https://localhost:7252` | Sitio público, organizaciones, aplicaciones y acceso a Syncro Cliente | Parcial |
 
@@ -29,7 +29,7 @@ Actualizada: 2026-09-18. `Listo para probar` significa que existe un flujo web u
 |---|---|---|
 | Alta | Facturación electrónica | Emisión, consecutivos, XML 4.4, XAdES, token y respuesta de Hacienda |
 | Alta | SAP Business One | Certificar DI API, arquitectura, UDF, impuestos, bodegas y recuperación del servicio Windows |
-| Alta | Empleados | Aumentos, adicionales, días adicionales, liquidación laboral, fotografía y reglas de vacaciones |
+| Alta | Empleados | Días adicionales, liquidación laboral, fotografía y reglas de vacaciones |
 | Alta | Planillas | Validar cálculos, incapacidades, renta/CCSS, aguinaldo, liquidaciones y formato bancario |
 | Alta | Portal de clientes | Registro persistente, invitaciones, usuarios/permisos, facturas, pagos y soporte |
 | Media | Liquidaciones | Devoluciones, cierre definitivo y PDF final |

@@ -175,6 +175,8 @@ builder.Services.AddScoped<IEmployeeRepository>(_ => initialOptions.SqlServer.En
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<IEmployeeMovementRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeMovementRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeMovementRepository());
 builder.Services.AddScoped<EmployeeMovementService>();
+builder.Services.AddScoped<IEmployeeCompensationRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeCompensationRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeCompensationRepository());
+builder.Services.AddScoped<EmployeeCompensationService>();
 builder.Services.AddScoped<IEmployeeAttachmentRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeAttachmentRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeAttachmentRepository());
 builder.Services.AddScoped<IEmployeeBackgroundRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeBackgroundRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeBackgroundRepository());
 builder.Services.AddScoped<EmployeeBackgroundService>();
