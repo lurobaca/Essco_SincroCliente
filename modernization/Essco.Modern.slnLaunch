@@ -1,0 +1,24 @@
+[
+  {
+    "Name": "Portal + Syncro Cliente",
+    "Projects": [
+      {
+        "Path": "src\\Essco.Portal\\Essco.Portal.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Essco.Web\\Essco.Web.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "Solo Syncro Cliente",
+    "Projects": [
+      {
+        "Path": "src\\Essco.Web\\Essco.Web.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

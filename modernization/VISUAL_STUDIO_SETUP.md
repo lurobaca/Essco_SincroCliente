@@ -18,6 +18,10 @@ dotnet run --project modernization/src/Essco.Web/Essco.Web.csproj --launch-profi
 
 Seleccione el perfil https y abra https://localhost:7152. La cookie de sesión requiere HTTPS; el perfil http solo sirve para inspeccionar la portada, no para iniciar sesión. Si Visual Studio solicita confiar en el certificado de desarrollo, revise y acepte esa solicitud local para probar HTTPS. Iniciar el servidor no certifica que SQL, credenciales, SAP o Hacienda estén configurados. No use datos productivos para validar la migración.
 
+## Portal y Syncro Cliente al mismo tiempo
+
+Para probar el recorrido completo desde el portal, seleccione en la barra de inicio de Visual Studio el perfil de solución **Portal + Syncro Cliente**. Este perfil inicia `Essco.Portal` en `https://localhost:7252` y `Essco.Web` en `https://localhost:7152`. Si el perfil no aparece después de actualizar la rama, cierre y vuelva a abrir `Essco.Modern.sln`.
+
 La portada presenta los módulos sin consultar datos del negocio y muestra en Development si falta configurar SQL. No crea usuarios de demostración ni evita la autenticación. Con sesión iniciada, las tarjetas se filtran por permisos. La configuración base no permite operar los módulos hasta habilitar la copia SQL y sus usuarios.
 
 Si sigue apareciendo «sin cargar» con el IDE compatible, recopile el mensaje exacto de «Volver a cargar proyecto» y la salida del cargador de proyectos. No se ha observado directamente el diálogo del usuario: la incompatibilidad de versiones sí está comprobada, pero puede coexistir con otros errores.
