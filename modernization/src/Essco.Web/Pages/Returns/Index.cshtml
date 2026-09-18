@@ -19,12 +19,12 @@
   {<div class="alert alert-warning">La base actual no proporciona bodega para una o más líneas. Puedes guardar el preliminar, pero el envío a SAP permanecerá bloqueado hasta configurar las bodegas.</div>}
   @if(!Model.Selected.Processed)
   {
-   <form method="post" asp-page-handler="AddLine" class="card card-body mb-3">
-    <input type="hidden" name="NewLine.Number" value="@Model.Selected.Number"/>
+   <div class="card card-body mb-3">
     <h3 class="h6">Agregar artículo al preliminar</h3>
-    <div class="row g-2"><div class="col-md-2"><label class="form-label" for="new-code">Código</label><input id="new-code" name="NewLine.ItemCode" maxlength="10" required class="form-control"/></div><div class="col-md-4"><label class="form-label" for="new-name">Descripción</label><input id="new-name" name="NewLine.ItemName" maxlength="100" required class="form-control"/></div><div class="col-md-2"><label class="form-label" for="new-price">Precio</label><input id="new-price" name="NewLine.Price" type="number" min="0" step="0.0001" required class="form-control"/></div><div class="col-md-2"><label class="form-label" for="new-tax">Impuesto %</label><input id="new-tax" name="NewLine.TaxPercent" type="number" min="0" max="100" step="0.01" required class="form-control"/></div><div class="col-md-2 d-flex align-items-end"><button class="btn btn-outline-primary w-100">Agregar</button></div></div>
-    <small class="text-muted mt-2">Se agrega con cantidad cero, igual que en el sistema anterior. Luego completa cantidad y motivo y guarda la línea.</small>
-   </form>
+    <form method="get" class="row g-2"><input type="hidden" name="view" value="@Model.Selected.Number"/><div class="col"><label class="visually-hidden" for="product-search">Descripción del artículo</label><input id="product-search" name="ProductSearch" value="@Model.ProductSearch" placeholder="Buscar por descripción" class="form-control" required/></div><div class="col-auto"><button class="btn btn-outline-primary">Buscar</button></div></form>
+    @if(Model.ProductOptions.Count>0){<div class="list-group mt-2">@foreach(var product in Model.ProductOptions.Take(25)){<form method="post" asp-page-handler="AddLine" class="list-group-item d-flex justify-content-between align-items-center"><input type="hidden" name="NewLine.Number" value="@Model.Selected.Number"/><input type="hidden" name="NewLine.ItemCode" value="@product.Code"/><span><strong>@product.Code</strong> — @product.Description <small class="text-muted">Precio @product.Price.ToString("N2") · IVA @product.TaxRate%</small></span><button class="btn btn-sm btn-outline-primary">Agregar</button></form>}</div>}
+    <small class="text-muted mt-2">Precio, descripción e impuesto se toman del catálogo; no se aceptan valores escritos manualmente.</small>
+   </div>
   }
   <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Descuentos</th><th>Total</th><th>Motivo y comentarios</th><th>Acción</th></tr></thead><tbody>
   @foreach(var line in Model.Selected.Lines)

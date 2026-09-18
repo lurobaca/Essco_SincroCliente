@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Essco.Application.Auditing;
 using Essco.Application.Configuration;
 using Essco.Application.Returns;
+using Essco.Application.Products;
 using Essco.Application.Security;
 using Essco.Domain.Returns;
 using Microsoft.AspNetCore.Authorization;
@@ -12,11 +13,13 @@ using Microsoft.Extensions.Options;
 namespace Essco.Web.Pages.Returns;
 
 [Authorize(Policy=Permissions.Billing)]
-public sealed class IndexModel(ReturnService service,AuditService audit,IOptions<EsscoOptions> options):PageModel
+public sealed class IndexModel(ReturnService service,ProductService products,AuditService audit,IOptions<EsscoOptions> options):PageModel
 {
     [BindProperty(SupportsGet=true)] public FilterModel Filter {get;set;}=new();
     [BindProperty] public LineInput Input {get;set;}=new();
     [BindProperty] public NewLineInput NewLine {get;set;}=new();
+    [BindProperty(SupportsGet=true)] public string? ProductSearch {get;set;}
+    public IReadOnlyCollection<Essco.Domain.Products.Product> ProductOptions {get;private set;}=[];
     public IReadOnlyCollection<ReturnRequest> Items {get;private set;}=[];
     public ReturnRequest? Selected {get;private set;}
     [TempData] public string? StatusMessage {get;set;}
@@ -56,7 +59,12 @@ public sealed class IndexModel(ReturnService service,AuditService audit,IOptions
     public async Task<IActionResult> OnPostAddLineAsync(CancellationToken token)
     {
         (bool Succeeded,IReadOnlyCollection<string> Errors) result;
-        if(ModelState.IsValid) result=await service.AddLineAsync(NewLine.ToDomain(),token);
+        if(ModelState.IsValid)
+        {
+            var matches=await products.ListAsync(new(NewLine.ItemCode,null,false),token);
+            var product=matches.SingleOrDefault(x=>string.Equals(x.Code,NewLine.ItemCode.Trim(),StringComparison.OrdinalIgnoreCase));
+            result=product is null?(false,["El artículo no existe en el catálogo."]):await service.AddLineAsync(new(NewLine.Number,product.Code,product.Description,product.Price,product.TaxRate),token);
+        }
         else result=(false,ModelState.Values.SelectMany(x=>x.Errors).Select(x=>x.ErrorMessage).ToArray());
         await WriteLineAudit("return.line-add",NewLine.Number,-1,result.Succeeded?"Succeeded":"Rejected",token);
         StatusMessage=result.Succeeded?"Artículo agregado al preliminar. Indica la cantidad y el motivo antes de procesar.":string.Join(" ",result.Errors);
@@ -75,6 +83,7 @@ public sealed class IndexModel(ReturnService service,AuditService audit,IOptions
     {
         Items=await service.ListAsync(Filter.Domain(),token);
         if(view is not null) Selected=await service.GetAsync(view.Value,token);
+        if(view is not null && !string.IsNullOrWhiteSpace(ProductSearch)) ProductOptions=await products.ListAsync(new(ProductSearch,null,true),token);
     }
 
     private Task WriteLineAudit(string operation,int number,int line,string outcome,CancellationToken token)=>audit.WriteAsync(null,User.Identity?.Name??"",options.Value.DefaultCompany,operation,"DevolucionesDetalle",$"{number}:{line}",outcome,HttpContext.TraceIdentifier,HttpContext.Connection.RemoteIpAddress?.ToString(),token).AsTask();
@@ -101,9 +110,5 @@ public sealed class IndexModel(ReturnService service,AuditService audit,IOptions
     {
         [Range(1,int.MaxValue)] public int Number {get;set;}
         [Required,StringLength(10)] public string ItemCode {get;set;}="";
-        [Required,StringLength(100)] public string ItemName {get;set;}="";
-        [Range(typeof(decimal),"0","999999999")] public decimal Price {get;set;}
-        [Range(typeof(decimal),"0","100")] public decimal TaxPercent {get;set;}
-        public NewReturnLine ToDomain()=>new(Number,ItemCode,ItemName,Price,TaxPercent);
     }
 }
