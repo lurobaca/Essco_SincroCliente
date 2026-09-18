@@ -6,7 +6,7 @@ namespace Essco.Portal;
 
 public sealed record PortalUser(Guid Id, string Name);
 public sealed record Organization(Guid Id, string Name, string Role);
-public sealed record PortalApplication(string Name, string Description, bool Enabled);
+public sealed record PortalApplication(string Code, string Name, string Description, bool Enabled);
 
 public sealed class PortalStore(IConfiguration configuration)
 {
@@ -76,7 +76,7 @@ public sealed class PortalStore(IConfiguration configuration)
     {
         await using var connection = await Open(token);
         await using var cmd = new SqlCommand("""
-            SELECT A.Nombre,A.Descripcion,
+            SELECT A.Codigo,A.Nombre,A.Descripcion,
             CAST(CASE WHEN OA.Habilitada=1 AND (M.Rol='Administrador' OR X.UsuarioId IS NOT NULL) THEN 1 ELSE 0 END AS bit)
             FROM Identidad.Membresias M
             JOIN Identidad.Usuarios U ON U.Id=M.UsuarioId AND U.Activo=1
@@ -90,7 +90,7 @@ public sealed class PortalStore(IConfiguration configuration)
         cmd.Parameters.Add("@Org", SqlDbType.UniqueIdentifier).Value = organizationId;
         var list = new List<PortalApplication>();
         await using var reader = await cmd.ExecuteReaderAsync(token);
-        while (await reader.ReadAsync(token)) list.Add(new(reader.GetString(0),reader.GetString(1),reader.GetBoolean(2)));
+        while (await reader.ReadAsync(token)) list.Add(new(reader.GetString(0),reader.GetString(1),reader.GetString(2),reader.GetBoolean(3)));
         return list;
     }
     // Local, interactive initialization only; not exposed as an HTTP endpoint.

@@ -11,7 +11,12 @@ else {
 <div class="dashboard-heading"><h2>Mis aplicaciones</h2><span class="badge">@Model.Selected.Role</span></div>
 <div class="cards">
 @foreach(var application in Model.Applications) {
-<article class="card featured"><span class="badge neutral">@(application.Enabled ? "Asignada · Conexión pendiente" : "Pendiente de activación")</span><h3>@application.Name</h3><p>@application.Description</p><p class="notice">El enlace seguro al ERP de esta organización todavía no está conectado. El ERP existente permanece separado.</p></article>
+var applicationUrl = Model.ApplicationUrl(application);
+<article class="card featured"><span class="badge neutral">@(application.Enabled ? "Aplicación habilitada" : "Pendiente de activación")</span><h3>@application.Name</h3><p>@application.Description</p>
+@if(application.Enabled && !string.IsNullOrWhiteSpace(applicationUrl)) { <a class="button application-launch" href="@applicationUrl">Abrir @application.Name <span aria-hidden="true">↗</span></a><p class="muted">Syncro Cliente utiliza por ahora sus propias credenciales.</p> }
+else if(application.Enabled) { <p class="notice">La aplicación está asignada, pero su dirección todavía no fue configurada.</p> }
+else { <p class="notice">Solicita al administrador de tu organización la activación de esta aplicación.</p> }
+</article>
 }
 @if(Model.Applications.Count==0) { <p>No hay aplicaciones asignadas a esta organización.</p> }
 </div>

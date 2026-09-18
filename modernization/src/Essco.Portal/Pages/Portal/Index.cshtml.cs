@@ -4,11 +4,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Essco.Portal.Pages.Portal;
 [Authorize]
-public sealed class IndexModel(PortalStore store) : PageModel
+public sealed class IndexModel(PortalStore store, IConfiguration configuration) : PageModel
 {
     public IReadOnlyList<Organization> Organizations {get;private set;}=[];
     public IReadOnlyList<PortalApplication> Applications {get;private set;}=[];
     public Organization? Selected {get;private set;}
+    public string? ApplicationUrl(PortalApplication application) => application.Code switch
+    {
+        "syncro-cliente" => configuration["ExternalApplications:SyncroClienteUrl"],
+        _ => null
+    };
     public async Task<IActionResult> OnGetAsync(Guid? organization,CancellationToken token)
     {
         if(!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier),out var userId)) return Challenge();
