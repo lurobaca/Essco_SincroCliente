@@ -1,5 +1,48 @@
 @page
 @model Essco.Web.Pages.Returns.IndexModel
-@{ViewData["Title"]="Devoluciones";}<h1>Devoluciones</h1>@if(!string.IsNullOrWhiteSpace(Model.StatusMessage)){<div class="alert alert-info">@Model.StatusMessage</div>}<form method="get" class="card card-body mb-3"><div class="row g-2"><div class="col"><input asp-for="Filter.Number" placeholder="Número" class="form-control"/></div><div class="col"><input asp-for="Filter.Driver" placeholder="Chofer/agente" class="form-control"/></div><div class="col"><select asp-for="Filter.Status" class="form-select"><option value="Pending">Pendientes</option><option value="Processed">Procesadas</option><option value="All">Todas</option></select></div></div><button class="btn btn-outline-primary mt-2">Buscar</button></form>
-@if(Model.Selected is not null){<section class="card card-body mb-3"><h2>Devolución @Model.Selected.Number</h2><p>@Model.Selected.CustomerCode - @Model.Selected.CustomerName · Factura @Model.Selected.InvoiceNumber · @Model.Selected.Reason</p><table class="table"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Precio</th><th>Total</th><th>Motivo</th></tr></thead><tbody>@foreach(var line in Model.Selected.Lines){<tr><td>@line.ItemCode - @line.ItemName</td><td>@line.Quantity</td><td>@line.Price.ToString("N2")</td><td>@line.Total.ToString("N2")</td><td>@line.Reason</td></tr>}</tbody></table></section>}
-<table class="table table-striped"><thead><tr><th>#</th><th>Fecha</th><th>Cliente</th><th>Chofer</th><th>Factura</th><th class="text-end">Total</th><th>Estado</th><th></th></tr></thead><tbody>@foreach(var x in Model.Items){<tr><td>@x.Number</td><td>@x.Date</td><td>@x.CustomerCode - @x.CustomerName</td><td>@x.DriverCode</td><td>@x.InvoiceNumber</td><td class="text-end">@x.Total.ToString("N2")</td><td>@(x.Processed?$"Procesada SAP {x.SapDocumentEntry}":"Pendiente")</td><td><a asp-route-view="@x.Number" class="btn btn-sm btn-outline-secondary">Detalle</a>@if(!x.Processed){<form method="post" asp-page-handler="Process" class="d-inline"><input type="hidden" name="number" value="@x.Number"/><button class="btn btn-sm btn-primary" onclick="return confirm('¿Crear la nota de crédito en SAP?')">Procesar</button></form>}</td></tr>}</tbody></table>
+@{ViewData["Title"]="Devoluciones";}
+<h1>Devoluciones</h1>
+@if(!string.IsNullOrWhiteSpace(Model.StatusMessage)){<div class="alert alert-info" role="status">@Model.StatusMessage</div>}
+<form method="get" class="card card-body mb-3">
+ <div class="row g-2">
+  <div class="col"><label asp-for="Filter.Number" class="visually-hidden">Número</label><input asp-for="Filter.Number" placeholder="Número" class="form-control"/></div>
+  <div class="col"><label asp-for="Filter.Driver" class="visually-hidden">Chofer o agente</label><input asp-for="Filter.Driver" placeholder="Chofer/agente" class="form-control"/></div>
+  <div class="col"><label asp-for="Filter.Status" class="visually-hidden">Estado</label><select asp-for="Filter.Status" class="form-select"><option value="Pending">Pendientes</option><option value="Processed">Procesadas</option><option value="All">Todas</option></select></div>
+ </div><button class="btn btn-outline-primary mt-2">Buscar</button>
+</form>
+@if(Model.Selected is not null)
+{
+ <section class="card card-body mb-3">
+  <h2>Devolución @Model.Selected.Number</h2>
+  <p>@Model.Selected.CustomerCode - @Model.Selected.CustomerName · Factura @Model.Selected.InvoiceNumber · @Model.Selected.Reason</p>
+  @if(!Model.Selected.Processed && Model.Selected.Lines.Any(x=>string.IsNullOrWhiteSpace(x.Warehouse)))
+  {<div class="alert alert-warning">La base actual no proporciona bodega para una o más líneas. Puedes guardar el preliminar, pero el envío a SAP permanecerá bloqueado hasta configurar las bodegas.</div>}
+  <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Descuentos</th><th>Total</th><th>Motivo y comentarios</th><th>Acción</th></tr></thead><tbody>
+  @foreach(var line in Model.Selected.Lines)
+  {
+   <tr>
+   @if(Model.Selected.Processed)
+   {
+    <td>@line.ItemCode - @line.ItemName</td><td>@line.Quantity</td><td>@line.FixedDiscount% + @line.PromotionalDiscount%</td><td>@line.Total.ToString("N2")</td><td>@line.Reason<br/><small>@line.Comments</small></td><td>Procesada</td>
+   }
+   else
+   {
+    <form method="post" asp-page-handler="SaveLine">
+     <td>@line.ItemCode - @line.ItemName<input type="hidden" name="Input.Number" value="@Model.Selected.Number"/><input type="hidden" name="Input.LineNumber" value="@line.LineNumber"/></td>
+     <td><label class="visually-hidden" for="q-@line.LineNumber">Cantidad</label><input id="q-@line.LineNumber" name="Input.Quantity" value="@line.Quantity" type="number" min="1" step="1" class="form-control return-number"/></td>
+     <td><div class="d-flex gap-1"><div><label class="small" for="f-@line.LineNumber">Fijo %</label><input id="f-@line.LineNumber" name="Input.FixedDiscount" value="@line.FixedDiscount" type="number" min="0" max="100" step="0.01" class="form-control return-number"/></div><div><label class="small" for="p-@line.LineNumber">Promo %</label><input id="p-@line.LineNumber" name="Input.PromotionalDiscount" value="@line.PromotionalDiscount" type="number" min="0" max="100" step="0.01" class="form-control return-number"/></div></div></td>
+     <td>@line.Total.ToString("N2")</td>
+     <td><label class="visually-hidden" for="r-@line.LineNumber">Motivo</label><input id="r-@line.LineNumber" name="Input.Reason" value="@line.Reason" maxlength="200" required class="form-control mb-1"/><label class="visually-hidden" for="c-@line.LineNumber">Comentarios</label><input id="c-@line.LineNumber" name="Input.Comments" value="@line.Comments" maxlength="200" placeholder="Comentarios" class="form-control"/></td>
+     <td><button class="btn btn-sm btn-primary">Guardar preliminar</button></td>
+    </form>
+   }
+   </tr>
+  }</tbody></table></div>
+ </section>
+}
+<div class="table-responsive"><table class="table table-striped"><thead><tr><th>#</th><th>Fecha</th><th>Cliente</th><th>Chofer</th><th>Factura</th><th class="text-end">Total</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
+@foreach(var item in Model.Items)
+{
+ <tr><td>@item.Number</td><td>@item.Date</td><td>@item.CustomerCode - @item.CustomerName</td><td>@item.DriverCode</td><td>@item.InvoiceNumber</td><td class="text-end">@item.Total.ToString("N2")</td><td>@(item.Processed?$"Procesada SAP {item.SapDocumentEntry}":"Pendiente")</td><td><a asp-route-view="@item.Number" class="btn btn-sm btn-outline-secondary">Detalle</a>
+ @if(!item.Processed){<form method="post" asp-page-handler="Process" class="d-inline"><input type="hidden" name="number" value="@item.Number"/><button class="btn btn-sm btn-primary" onclick="return confirm('¿Crear la nota de crédito en SAP?')">Procesar</button></form>}</td></tr>
+}</tbody></table></div>

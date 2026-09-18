@@ -6,8 +6,53 @@ namespace Essco.Infrastructure.Data;
 
 public sealed class SqlServerReturnReasonRepository(string connectionString, int commandTimeoutSeconds, string sapCompanyDatabase) : IReturnReasonRepository
 {
-    public async ValueTask<IReadOnlyCollection<ReturnReason>> ListAsync(CancellationToken token) { const string sql = "SELECT [Codigo],[Descripcion],[Bodega] FROM [dbo].[MotivoDevolucion] ORDER BY [Descripcion]"; await using var c = await Open(token); await using var cmd = Command(sql, c); var result = new List<ReturnReason>(); await using var r = await cmd.ExecuteReaderAsync(token); while (await r.ReadAsync(token)) result.Add(new() { Code = Convert.ToInt32(r["Codigo"]), Description = Convert.ToString(r["Descripcion"])?.Trim() ?? "", WarehouseCode = Convert.ToString(r["Bodega"])?.Trim() ?? "" }); return result; }
-    public async ValueTask<int> SaveAsync(ReturnReason x, CancellationToken token) { const string insert = "INSERT INTO [dbo].[MotivoDevolucion]([Descripcion],[Bodega]) OUTPUT INSERTED.[Codigo] VALUES(@Description,@Warehouse)"; const string update = "UPDATE [dbo].[MotivoDevolucion] SET [Descripcion]=@Description,[Bodega]=@Warehouse WHERE [Codigo]=@Code; SELECT CASE WHEN @@ROWCOUNT=1 THEN @Code ELSE 0 END"; await using var c = await Open(token); await using var cmd = Command(x.Code == 0 ? insert : update, c); cmd.Parameters.Add("@Code", SqlDbType.Int).Value = x.Code; cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 150).Value = x.Description.Trim(); cmd.Parameters.Add("@Warehouse", SqlDbType.NVarChar, 20).Value = x.WarehouseCode.Trim(); var code = Convert.ToInt32(await cmd.ExecuteScalarAsync(token)); if (code == 0) throw new DBConcurrencyException("El motivo ya no existe."); return code; }
+    public async ValueTask<IReadOnlyCollection<ReturnReason>> ListAsync(CancellationToken token)
+    {
+        const string sql = """
+            IF COL_LENGTH('dbo.MotivoDevolucion','Bodega') IS NULL
+                SELECT [Codigo],[Descripcion],CAST('' AS varchar(20)) [Bodega]
+                FROM [dbo].[MotivoDevolucion] ORDER BY [Descripcion];
+            ELSE
+                SELECT [Codigo],[Descripcion],[Bodega]
+                FROM [dbo].[MotivoDevolucion] ORDER BY [Descripcion];
+            """;
+        await using var c = await Open(token);
+        await using var cmd = Command(sql, c);
+        var result = new List<ReturnReason>();
+        await using var r = await cmd.ExecuteReaderAsync(token);
+        while (await r.ReadAsync(token)) result.Add(new()
+        {
+            Code = Convert.ToInt32(r["Codigo"]),
+            Description = Convert.ToString(r["Descripcion"])?.Trim() ?? "",
+            WarehouseCode = Convert.ToString(r["Bodega"])?.Trim() ?? ""
+        });
+        return result;
+    }
+
+    public async ValueTask<int> SaveAsync(ReturnReason x, CancellationToken token)
+    {
+        const string insert = """
+            IF COL_LENGTH('dbo.MotivoDevolucion','Bodega') IS NULL
+                INSERT INTO [dbo].[MotivoDevolucion]([Descripcion]) OUTPUT INSERTED.[Codigo] VALUES(@Description);
+            ELSE
+                INSERT INTO [dbo].[MotivoDevolucion]([Descripcion],[Bodega]) OUTPUT INSERTED.[Codigo] VALUES(@Description,@Warehouse);
+            """;
+        const string update = """
+            IF COL_LENGTH('dbo.MotivoDevolucion','Bodega') IS NULL
+                UPDATE [dbo].[MotivoDevolucion] SET [Descripcion]=@Description WHERE [Codigo]=@Code;
+            ELSE
+                UPDATE [dbo].[MotivoDevolucion] SET [Descripcion]=@Description,[Bodega]=@Warehouse WHERE [Codigo]=@Code;
+            SELECT CASE WHEN @@ROWCOUNT=1 THEN @Code ELSE 0 END;
+            """;
+        await using var c = await Open(token);
+        await using var cmd = Command(x.Code == 0 ? insert : update, c);
+        cmd.Parameters.Add("@Code", SqlDbType.Int).Value = x.Code;
+        cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 150).Value = x.Description.Trim();
+        cmd.Parameters.Add("@Warehouse", SqlDbType.NVarChar, 20).Value = x.WarehouseCode.Trim();
+        var code = Convert.ToInt32(await cmd.ExecuteScalarAsync(token));
+        if (code == 0) throw new DBConcurrencyException("El motivo ya no existe.");
+        return code;
+    }
     public async ValueTask<bool> DeleteAsync(int code, CancellationToken token) { await using var c = await Open(token); await using var cmd = Command("DELETE FROM [dbo].[MotivoDevolucion] WHERE [Codigo]=@Code", c); cmd.Parameters.Add("@Code", SqlDbType.Int).Value = code; return await cmd.ExecuteNonQueryAsync(token) == 1; }
     public async ValueTask<IReadOnlyCollection<WarehouseOption>> ListWarehousesAsync(CancellationToken token) { if (string.IsNullOrWhiteSpace(sapCompanyDatabase)) return []; var database = new SqlCommandBuilder().QuoteIdentifier(sapCompanyDatabase); var sql = $"SELECT [WhsCode],[WhsName] FROM {database}.[dbo].[OWHS] WHERE ISNULL([Inactive],'N')<>'Y' ORDER BY [WhsName]"; await using var c = await Open(token); await using var cmd = Command(sql, c); var result = new List<WarehouseOption>(); await using var r = await cmd.ExecuteReaderAsync(token); while (await r.ReadAsync(token)) result.Add(new(Convert.ToString(r[0])?.Trim() ?? "", Convert.ToString(r[1])?.Trim() ?? "")); return result; }
     private async ValueTask<SqlConnection> Open(CancellationToken token) { var c = new SqlConnection(connectionString); await c.OpenAsync(token); return c; }
