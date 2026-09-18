@@ -2,7 +2,7 @@
 @model Essco.Portal.Pages.Portal.IndexModel
 @{ViewData["Title"]="Mi portal";}
 <section class="section">
-<p class="eyebrow">MI ESPACIO ESSCO</p><h1>Hola, @User.Identity?.Name</h1><p class="lead">Tus organizaciones y aplicaciones, desde un solo panel.</p>
+<p class="eyebrow">PORTAL DEL CLIENTE</p><h1>Hola, @User.Identity?.Name</h1><p class="lead">Administra las herramientas y servicios de tu organización desde un solo lugar.</p>
 @if(Model.Selected is null) { <p class="notice">Tu cuenta todavía no pertenece a una organización activa. Solicita acceso al administrador.</p> }
 else {
 <form method="get" class="organization-picker"><label for="organization">Organización activa</label><select name="organization" id="organization">
@@ -15,7 +15,11 @@ else {
 }
 @if(Model.Applications.Count==0) { <p>No hay aplicaciones asignadas a esta organización.</p> }
 </div>
-<div class="cards section compact"><article class="card"><p class="eyebrow">ORGANIZACIÓN</p><h3>@Model.Selected.Name</h3><p>Tu pertenencia y rol se verifican en cada consulta.</p><span class="muted">Invitaciones y administración de accesos: pendientes.</span></article>
-<article class="card"><p class="eyebrow">SUSCRIPCIONES</p><h3>Planes y pagos</h3><p>La estructura de suscripciones está preparada.</p><span class="muted">Contratación y métodos de pago: pendientes. No se realizan cobros.</span></article></div>
+<div class="portal-modules">
+<article class="card"><p class="eyebrow">FACTURACIÓN</p><h3>Facturas y pagos</h3><p>Consulta de cargos, comprobantes y estado de la suscripción.</p><span class="badge neutral">Próxima fase · Sin cobros activos</span></article>
+<article class="card"><p class="eyebrow">SOPORTE</p><h3>Casos de soporte</h3><p>Registro, seguimiento y comunicación de incidencias de las aplicaciones.</p><span class="badge neutral">Próxima fase</span></article>
+<article class="card"><p class="eyebrow">EQUIPO</p><h3>Usuarios y permisos</h3><p>Alta, activación y permisos del equipo por cada aplicación contratada.</p><span class="badge neutral">Próxima fase</span></article>
+<article class="card"><p class="eyebrow">ORGANIZACIÓN</p><h3>@Model.Selected.Name</h3><p>Configuración de la empresa y responsables administrativos.</p><span class="muted">Tu rol actual: @Model.Selected.Role</span></article>
+</div>
 }
 </section>
