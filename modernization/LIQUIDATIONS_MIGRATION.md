@@ -10,7 +10,7 @@ La página `/Liquidations/Expenses` migra el mantenimiento de `dbo.GastosLiquida
 
 El resumen web consolida facturas, depósitos, recibos SAP y gastos vinculados. Conserva la fórmula heredada de diferencia `(depósitos + gastos) - recibos` y permite recalcular el resultado persistido. Las facturas se muestran para conciliación, pero no participan en esa fórmula histórica.
 
-Aún deben incorporarse al flujo transaccional las devoluciones, el cierre definitivo y la generación de reportes PDF.
+El resumen dispone de una presentación corporativa imprimible que permite generar PDF mediante la función estándar del navegador, conserva el desglose y explica la fórmula histórica. Aún deben incorporarse al flujo transaccional las devoluciones. No se implementa un cierre definitivo hasta encontrar evidencia de su estado en el esquema.
 
 ## Validación y conciliación
 
