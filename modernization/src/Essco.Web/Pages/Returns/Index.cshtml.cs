@@ -16,6 +16,7 @@ public sealed class IndexModel(ReturnService service,AuditService audit,IOptions
 {
     [BindProperty(SupportsGet=true)] public FilterModel Filter {get;set;}=new();
     [BindProperty] public LineInput Input {get;set;}=new();
+    [BindProperty] public NewLineInput NewLine {get;set;}=new();
     public IReadOnlyCollection<ReturnRequest> Items {get;private set;}=[];
     public ReturnRequest? Selected {get;private set;}
     [TempData] public string? StatusMessage {get;set;}
@@ -52,11 +53,31 @@ public sealed class IndexModel(ReturnService service,AuditService audit,IOptions
         return RedirectToPage();
     }
 
+    public async Task<IActionResult> OnPostAddLineAsync(CancellationToken token)
+    {
+        (bool Succeeded,IReadOnlyCollection<string> Errors) result;
+        if(ModelState.IsValid) result=await service.AddLineAsync(NewLine.ToDomain(),token);
+        else result=(false,ModelState.Values.SelectMany(x=>x.Errors).Select(x=>x.ErrorMessage).ToArray());
+        await WriteLineAudit("return.line-add",NewLine.Number,-1,result.Succeeded?"Succeeded":"Rejected",token);
+        StatusMessage=result.Succeeded?"Artículo agregado al preliminar. Indica la cantidad y el motivo antes de procesar.":string.Join(" ",result.Errors);
+        return RedirectToPage(new {view=NewLine.Number});
+    }
+
+    public async Task<IActionResult> OnPostDeleteLineAsync(int number,int lineNumber,CancellationToken token)
+    {
+        var result=await service.DeleteLineAsync(number,lineNumber,token);
+        await WriteLineAudit("return.line-delete",number,lineNumber,result.Succeeded?"Succeeded":"Rejected",token);
+        StatusMessage=result.Succeeded?"La línea se eliminó y los totales se recalcularon.":result.Error;
+        return RedirectToPage(new {view=number});
+    }
+
     private async Task LoadAsync(int? view,CancellationToken token)
     {
         Items=await service.ListAsync(Filter.Domain(),token);
         if(view is not null) Selected=await service.GetAsync(view.Value,token);
     }
+
+    private Task WriteLineAudit(string operation,int number,int line,string outcome,CancellationToken token)=>audit.WriteAsync(null,User.Identity?.Name??"",options.Value.DefaultCompany,operation,"DevolucionesDetalle",$"{number}:{line}",outcome,HttpContext.TraceIdentifier,HttpContext.Connection.RemoteIpAddress?.ToString(),token).AsTask();
 
     public sealed class FilterModel
     {
@@ -75,5 +96,14 @@ public sealed class IndexModel(ReturnService service,AuditService audit,IOptions
         [Required,StringLength(200)] public string Reason {get;set;}="";
         [StringLength(200)] public string? Comments {get;set;}
         public ReturnLineDraft ToDomain()=>new(Number,LineNumber,Quantity,FixedDiscount,PromotionalDiscount,Reason,Comments??"");
+    }
+    public sealed class NewLineInput
+    {
+        [Range(1,int.MaxValue)] public int Number {get;set;}
+        [Required,StringLength(10)] public string ItemCode {get;set;}="";
+        [Required,StringLength(100)] public string ItemName {get;set;}="";
+        [Range(typeof(decimal),"0","999999999")] public decimal Price {get;set;}
+        [Range(typeof(decimal),"0","100")] public decimal TaxPercent {get;set;}
+        public NewReturnLine ToDomain()=>new(Number,ItemCode,ItemName,Price,TaxPercent);
     }
 }

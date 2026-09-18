@@ -15,4 +15,17 @@ public sealed record ReturnLineDraft(int ReturnNumber,int LineNumber,decimal Qua
         return errors;
     }
 }
+public sealed record NewReturnLine(int ReturnNumber,string ItemCode,string ItemName,decimal Price,decimal TaxPercent)
+{
+    public IReadOnlyCollection<string> Validate()
+    {
+        var errors=new List<string>();
+        if(ReturnNumber<=0) errors.Add("La devolución es obligatoria.");
+        if(string.IsNullOrWhiteSpace(ItemCode) || ItemCode.Trim().Length>10) errors.Add("El código del artículo es obligatorio y admite hasta 10 caracteres.");
+        if(string.IsNullOrWhiteSpace(ItemName) || ItemName.Trim().Length>100) errors.Add("La descripción es obligatoria y admite hasta 100 caracteres.");
+        if(Price<0) errors.Add("El precio no puede ser negativo.");
+        if(TaxPercent is <0 or >100) errors.Add("El impuesto debe estar entre 0 y 100.");
+        return errors;
+    }
+}
 public sealed record ReturnFilter(bool? Processed=null,string? DriverCode=null,int? Number=null);

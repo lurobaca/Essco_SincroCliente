@@ -8,15 +8,10 @@ public sealed class SqlServerReturnReasonRepository(string connectionString, int
 {
     public async ValueTask<IReadOnlyCollection<ReturnReason>> ListAsync(CancellationToken token)
     {
-        const string sql = """
-            IF COL_LENGTH('dbo.MotivoDevolucion','Bodega') IS NULL
-                SELECT [Codigo],[Descripcion],CAST('' AS varchar(20)) [Bodega]
-                FROM [dbo].[MotivoDevolucion] ORDER BY [Descripcion];
-            ELSE
-                SELECT [Codigo],[Descripcion],[Bodega]
-                FROM [dbo].[MotivoDevolucion] ORDER BY [Descripcion];
-            """;
         await using var c = await Open(token);
+        var sql = await HasWarehouseAsync(c, token)
+            ? "SELECT [Codigo],[Descripcion],[Bodega] FROM [dbo].[MotivoDevolucion] ORDER BY [Descripcion]"
+            : "SELECT [Codigo],[Descripcion],CAST('' AS varchar(20)) [Bodega] FROM [dbo].[MotivoDevolucion] ORDER BY [Descripcion]";
         await using var cmd = Command(sql, c);
         var result = new List<ReturnReason>();
         await using var r = await cmd.ExecuteReaderAsync(token);
@@ -31,20 +26,10 @@ public sealed class SqlServerReturnReasonRepository(string connectionString, int
 
     public async ValueTask<int> SaveAsync(ReturnReason x, CancellationToken token)
     {
-        const string insert = """
-            IF COL_LENGTH('dbo.MotivoDevolucion','Bodega') IS NULL
-                INSERT INTO [dbo].[MotivoDevolucion]([Descripcion]) OUTPUT INSERTED.[Codigo] VALUES(@Description);
-            ELSE
-                INSERT INTO [dbo].[MotivoDevolucion]([Descripcion],[Bodega]) OUTPUT INSERTED.[Codigo] VALUES(@Description,@Warehouse);
-            """;
-        const string update = """
-            IF COL_LENGTH('dbo.MotivoDevolucion','Bodega') IS NULL
-                UPDATE [dbo].[MotivoDevolucion] SET [Descripcion]=@Description WHERE [Codigo]=@Code;
-            ELSE
-                UPDATE [dbo].[MotivoDevolucion] SET [Descripcion]=@Description,[Bodega]=@Warehouse WHERE [Codigo]=@Code;
-            SELECT CASE WHEN @@ROWCOUNT=1 THEN @Code ELSE 0 END;
-            """;
         await using var c = await Open(token);
+        var hasWarehouse = await HasWarehouseAsync(c, token);
+        var insert = hasWarehouse ? "INSERT INTO [dbo].[MotivoDevolucion]([Descripcion],[Bodega]) OUTPUT INSERTED.[Codigo] VALUES(@Description,@Warehouse)" : "INSERT INTO [dbo].[MotivoDevolucion]([Descripcion]) OUTPUT INSERTED.[Codigo] VALUES(@Description)";
+        var update = hasWarehouse ? "UPDATE [dbo].[MotivoDevolucion] SET [Descripcion]=@Description,[Bodega]=@Warehouse WHERE [Codigo]=@Code; SELECT CASE WHEN @@ROWCOUNT=1 THEN @Code ELSE 0 END" : "UPDATE [dbo].[MotivoDevolucion] SET [Descripcion]=@Description WHERE [Codigo]=@Code; SELECT CASE WHEN @@ROWCOUNT=1 THEN @Code ELSE 0 END";
         await using var cmd = Command(x.Code == 0 ? insert : update, c);
         cmd.Parameters.Add("@Code", SqlDbType.Int).Value = x.Code;
         cmd.Parameters.Add("@Description", SqlDbType.NVarChar, 150).Value = x.Description.Trim();
@@ -56,5 +41,6 @@ public sealed class SqlServerReturnReasonRepository(string connectionString, int
     public async ValueTask<bool> DeleteAsync(int code, CancellationToken token) { await using var c = await Open(token); await using var cmd = Command("DELETE FROM [dbo].[MotivoDevolucion] WHERE [Codigo]=@Code", c); cmd.Parameters.Add("@Code", SqlDbType.Int).Value = code; return await cmd.ExecuteNonQueryAsync(token) == 1; }
     public async ValueTask<IReadOnlyCollection<WarehouseOption>> ListWarehousesAsync(CancellationToken token) { if (string.IsNullOrWhiteSpace(sapCompanyDatabase)) return []; var database = new SqlCommandBuilder().QuoteIdentifier(sapCompanyDatabase); var sql = $"SELECT [WhsCode],[WhsName] FROM {database}.[dbo].[OWHS] WHERE ISNULL([Inactive],'N')<>'Y' ORDER BY [WhsName]"; await using var c = await Open(token); await using var cmd = Command(sql, c); var result = new List<WarehouseOption>(); await using var r = await cmd.ExecuteReaderAsync(token); while (await r.ReadAsync(token)) result.Add(new(Convert.ToString(r[0])?.Trim() ?? "", Convert.ToString(r[1])?.Trim() ?? "")); return result; }
     private async ValueTask<SqlConnection> Open(CancellationToken token) { var c = new SqlConnection(connectionString); await c.OpenAsync(token); return c; }
+    private async ValueTask<bool> HasWarehouseAsync(SqlConnection c, CancellationToken token) { await using var cmd = Command("SELECT CASE WHEN COL_LENGTH('dbo.MotivoDevolucion','Bodega') IS NULL THEN 0 ELSE 1 END", c); return Convert.ToInt32(await cmd.ExecuteScalarAsync(token)) == 1; }
     private SqlCommand Command(string sql, SqlConnection c) => new(sql, c) { CommandTimeout = commandTimeoutSeconds };
 }

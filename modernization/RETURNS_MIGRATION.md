@@ -2,7 +2,7 @@
 
 Fuentes heredadas: `Devoluciones.vb`, `Devoluciones_Pendientes.vb`, `SAP_BUSSINES_ONE.AddDevolucion`, `dbo.Devoluciones` y `dbo.DevolucionesDetalle`.
 
-La página `/Returns` presenta la bandeja parametrizada de devoluciones, filtros por estado, agente/chofer y número, además del detalle de artículos. Las devoluciones pendientes permiten editar cantidad, descuentos fijo y promocional, motivo y comentario antes de enviarlas a SAP. El guardado recalcula detalle y totales del encabezado con las mismas reglas del WinForms y no despacha el documento.
+La página `/Returns` presenta la bandeja parametrizada de devoluciones, filtros por estado, agente/chofer y número, además del detalle de artículos. Las devoluciones pendientes permiten agregar, editar y eliminar líneas antes de enviarlas a SAP. La edición cubre cantidad, descuentos fijo y promocional, motivo y comentario. Cada guardado o eliminación recalcula detalle y totales del encabezado con las mismas reglas del WinForms y no despacha el documento.
 
 El esquema encontrado en `Sic_Local_Web_Pruebas` no contiene la columna `MotivoDevolucion.Bodega`, y `DevolucionesDetalle` tampoco almacena la bodega. La lectura y el mantenimiento de motivos son compatibles tanto con bases antiguas sin esa columna como con bases actualizadas. Cuando la columna no existe, la pantalla deja la bodega vacía y bloquea el envío a SAP con un mensaje explícito; no se inventa una bodega. Antes del piloto debe agregarse/migrarse esa relación o definirse la regla de negocio que permita resolverla.
 

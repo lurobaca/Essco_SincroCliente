@@ -52,15 +52,47 @@ public sealed class ReturnServiceTests
         Assert.Contains("bodega",result.Error!,StringComparison.OrdinalIgnoreCase);
     }
 
-    private sealed class Repo(bool lines,string warehouse="01"):IReturnRepository
+    [Fact]
+    public async Task AddLine_rejects_invalid_article_before_repository()
+    {
+        var repository=new Repo(true);
+        var result=await new ReturnService(repository,new Queue()).AddLineAsync(new(1,"","Artículo",10,13),default);
+        Assert.False(result.Succeeded);
+        Assert.Equal(0,repository.AddCalls);
+    }
+
+    [Fact]
+    public async Task DeleteLine_delegates_valid_identity()
+    {
+        var repository=new Repo(true);
+        var result=await new ReturnService(repository,new Queue()).DeleteLineAsync(1,0,default);
+        Assert.True(result.Succeeded);
+        Assert.Equal(1,repository.DeleteCalls);
+    }
+
+    [Fact]
+    public async Task Dispatch_rejects_incomplete_new_line()
+    {
+        var queue=new Queue();
+        var result=await new ReturnService(new Repo(true,"01",0),queue).DispatchAsync(1,"E","u",default);
+        Assert.False(result.Succeeded);
+        Assert.Null(queue.Request);
+        Assert.Contains("cantidad",result.Error!,StringComparison.OrdinalIgnoreCase);
+    }
+
+    private sealed class Repo(bool lines,string warehouse="01",decimal quantity=1):IReturnRepository
     {
         public int SaveCalls {get;private set;}
+        public int AddCalls {get;private set;}
+        public int DeleteCalls {get;private set;}
         public ValueTask<ReturnRequest?> GetAsync(int number,CancellationToken token)=>
             ValueTask.FromResult<ReturnRequest?>(new(number,new(2026,1,1),"1","A","C1","C",false,10,"F","M",false,null,"","","",
-                lines?[new(1,"I","Item",10,1,0,0,13,10,"M","",warehouse)]:[]));
+                lines?[new(1,"I","Item",10,quantity,0,0,13,10,"M","",warehouse)]:[]));
         public ValueTask<IReadOnlyCollection<ReturnRequest>> ListAsync(ReturnFilter filter,CancellationToken token)=>
             ValueTask.FromResult<IReadOnlyCollection<ReturnRequest>>([]);
         public ValueTask<bool> SaveLineAsync(ReturnLineDraft line,CancellationToken token){SaveCalls++;return ValueTask.FromResult(true);}
+        public ValueTask<bool> AddLineAsync(NewReturnLine line,CancellationToken token){AddCalls++;return ValueTask.FromResult(true);}
+        public ValueTask<bool> DeleteLineAsync(int number,int lineNumber,CancellationToken token){DeleteCalls++;return ValueTask.FromResult(true);}
         public ValueTask<bool> MarkProcessedAsync(int number,int entry,CancellationToken token)=>ValueTask.FromResult(true);
     }
 

@@ -17,6 +17,15 @@
   <p>@Model.Selected.CustomerCode - @Model.Selected.CustomerName · Factura @Model.Selected.InvoiceNumber · @Model.Selected.Reason</p>
   @if(!Model.Selected.Processed && Model.Selected.Lines.Any(x=>string.IsNullOrWhiteSpace(x.Warehouse)))
   {<div class="alert alert-warning">La base actual no proporciona bodega para una o más líneas. Puedes guardar el preliminar, pero el envío a SAP permanecerá bloqueado hasta configurar las bodegas.</div>}
+  @if(!Model.Selected.Processed)
+  {
+   <form method="post" asp-page-handler="AddLine" class="card card-body mb-3">
+    <input type="hidden" name="NewLine.Number" value="@Model.Selected.Number"/>
+    <h3 class="h6">Agregar artículo al preliminar</h3>
+    <div class="row g-2"><div class="col-md-2"><label class="form-label" for="new-code">Código</label><input id="new-code" name="NewLine.ItemCode" maxlength="10" required class="form-control"/></div><div class="col-md-4"><label class="form-label" for="new-name">Descripción</label><input id="new-name" name="NewLine.ItemName" maxlength="100" required class="form-control"/></div><div class="col-md-2"><label class="form-label" for="new-price">Precio</label><input id="new-price" name="NewLine.Price" type="number" min="0" step="0.0001" required class="form-control"/></div><div class="col-md-2"><label class="form-label" for="new-tax">Impuesto %</label><input id="new-tax" name="NewLine.TaxPercent" type="number" min="0" max="100" step="0.01" required class="form-control"/></div><div class="col-md-2 d-flex align-items-end"><button class="btn btn-outline-primary w-100">Agregar</button></div></div>
+    <small class="text-muted mt-2">Se agrega con cantidad cero, igual que en el sistema anterior. Luego completa cantidad y motivo y guarda la línea.</small>
+   </form>
+  }
   <div class="table-responsive"><table class="table align-middle"><thead><tr><th>Artículo</th><th>Cantidad</th><th>Descuentos</th><th>Total</th><th>Motivo y comentarios</th><th>Acción</th></tr></thead><tbody>
   @foreach(var line in Model.Selected.Lines)
   {
@@ -28,12 +37,12 @@
    else
    {
     <form method="post" asp-page-handler="SaveLine">
-     <td>@line.ItemCode - @line.ItemName<input type="hidden" name="Input.Number" value="@Model.Selected.Number"/><input type="hidden" name="Input.LineNumber" value="@line.LineNumber"/></td>
+     <td>@line.ItemCode - @line.ItemName<input type="hidden" name="Input.Number" value="@Model.Selected.Number"/><input type="hidden" name="Input.LineNumber" value="@line.LineNumber"/><input type="hidden" name="number" value="@Model.Selected.Number"/><input type="hidden" name="lineNumber" value="@line.LineNumber"/></td>
      <td><label class="visually-hidden" for="q-@line.LineNumber">Cantidad</label><input id="q-@line.LineNumber" name="Input.Quantity" value="@line.Quantity" type="number" min="1" step="1" class="form-control return-number"/></td>
      <td><div class="d-flex gap-1"><div><label class="small" for="f-@line.LineNumber">Fijo %</label><input id="f-@line.LineNumber" name="Input.FixedDiscount" value="@line.FixedDiscount" type="number" min="0" max="100" step="0.01" class="form-control return-number"/></div><div><label class="small" for="p-@line.LineNumber">Promo %</label><input id="p-@line.LineNumber" name="Input.PromotionalDiscount" value="@line.PromotionalDiscount" type="number" min="0" max="100" step="0.01" class="form-control return-number"/></div></div></td>
      <td>@line.Total.ToString("N2")</td>
      <td><label class="visually-hidden" for="r-@line.LineNumber">Motivo</label><input id="r-@line.LineNumber" name="Input.Reason" value="@line.Reason" maxlength="200" required class="form-control mb-1"/><label class="visually-hidden" for="c-@line.LineNumber">Comentarios</label><input id="c-@line.LineNumber" name="Input.Comments" value="@line.Comments" maxlength="200" placeholder="Comentarios" class="form-control"/></td>
-     <td><button class="btn btn-sm btn-primary">Guardar preliminar</button></td>
+     <td><button class="btn btn-sm btn-primary mb-1">Guardar preliminar</button><button asp-page-handler="DeleteLine" class="btn btn-sm btn-outline-danger" formnovalidate onclick="return confirm('¿Eliminar esta línea del preliminar?')">Eliminar</button></td>
     </form>
    }
    </tr>
