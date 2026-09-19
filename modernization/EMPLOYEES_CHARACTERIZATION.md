@@ -45,7 +45,7 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 
 **Dependencias.** `Empleado`, validación de cuenta contable y cliente en SAP, ruta local de fotografías, `Planilla_List_Empleados`, reporte `ExpedienteEmpleado`.
 
-**Web actual.** Lista, filtro, alta y edición. No incluye fotografía, consecutivo compatible, validaciones SAP, cálculo de antigüedad, navegación anterior/siguiente, cierre, impresión ni diferenciación completa de estados.
+**Web actual (Fase A).** Lista, filtro, alta, edición e inactivación explícita; fotografía en base de datos; validaciones SAP; antigüedad y salarios derivados; estado legado `0=activo`, `1=inactivo`; permisos de consulta/mantenimiento y auditoría. El identificador técnico lo genera SQL y la lista sustituye la navegación anterior/siguiente. Cierre/liquidación e impresión permanecen fuera de Fase A.
 
 ### 1. Experiencia
 
@@ -231,23 +231,23 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 
 | Área | Funcionalidad WinForms | Web | Estado | Implementación actual / diferencia | Acción necesaria | Riesgo |
 |---|---|---|---|---|---|---|
-| General | Listar empleados | Sí | IMPLEMENTADO | `/Employees`; falta validar columnas y orden | Comparar con base real | Medio |
-| General | Buscar por cédula/código/nombre | Sí | IMPLEMENTADO | Filtro parametrizado | Probar coincidencias y acentos | Bajo |
-| General | Incluir inactivos | Sí | IMPLEMENTADO | Filtro web | Validar códigos de estado | Medio |
-| General | Obtener consecutivo | No | NO INICIADO | Web exige código manual | Definir compatibilidad | Medio |
-| General | Alta | Sí | EN DESARROLLO | Persiste datos principales | Completar reglas, foto y SAP | Alto |
-| General | Edición | Sí | EN DESARROLLO | Actualiza por identificación original | Validar cambio de cédula y concurrencia | Alto |
-| General | Inactivar con confirmación | No | NO INICIADO | Solo se edita `Active` | Crear operación explícita auditada | Alto |
+| General | Listar empleados | Sí | IMPLEMENTADO | `/Employees`; usa `Estado=0` como activo | Validación manual con base real | Medio |
+| General | Buscar por cédula/código/nombre | Sí | IMPLEMENTADO | Filtro parametrizado | Validación manual | Bajo |
+| General | Incluir inactivos | Sí | IMPLEMENTADO | Incluye todos los códigos al solicitarlo | Validación manual | Medio |
+| General | Obtener consecutivo | Sí | IMPLEMENTADO | El id técnico lo genera SQL; no se pide al usuario | Validación manual de alta | Bajo |
+| General | Alta | Sí | IMPLEMENTADO | Persiste campos generales, foto y antigüedad | Validación manual | Alto |
+| General | Edición | Sí | IMPLEMENTADO | Actualiza por identificación original | Validación manual | Alto |
+| General | Inactivar con confirmación | Sí | IMPLEMENTADO | Operación explícita, confirmada y auditada | Validación manual | Alto |
 | General | Cerrar/liquidar empleado | No | NO INICIADO | Sin equivalente | Implementar con liquidación | Crítico |
-| General | Fotografía | No | NO INICIADO | No se lee ni guarda `Foto` | Diseñar carga/descarga segura | Medio |
-| General | Validar salario mínimo 1000 | Parcial | INCORRECTO / REQUIERE REVISIÓN | Web acepta desde cero | Alinear regla confirmada | Alto |
-| General | Validar cuenta contable SAP | No | NO INICIADO | Solo longitud/modelo | Resolver por adaptador SAP | Alto |
-| General | Validar código cliente SAP | No | NO INICIADO | Campo no se modela igual | Añadir y validar | Alto |
-| General | Cuenta bancaria/id/categoría obligatorios | Parcial | INCORRECTO / REQUIERE REVISIÓN | No todos son Required | Alinear obligatoriedad | Alto |
-| General | Puesto y categoría como listas | Parcial | EN DESARROLLO | Web obtiene opciones, falta paridad | Validar fuentes/códigos | Medio |
-| General | Calcular antigüedad | No | NO INICIADO | Sin cálculo web | Servicio de dominio probado | Alto |
-| General | Salario diario/quincenal | No | NO INICIADO | No visible | Calcular sin persistencia duplicada | Medio |
-| General | Navegar anterior/siguiente | No | ANALIZADO | Sustituible por lista web | Decidir requisito UX | Bajo |
+| General | Fotografía | Sí | IMPLEMENTADO | Carga segura JPG/PNG/WEBP hasta 5 MB y lectura desde `Foto` | Validación manual | Medio |
+| General | Validar salario mínimo 1000 | Sí | IMPLEMENTADO | Regla cliente/servidor y prueba unitaria | Validación manual | Alto |
+| General | Validar cuenta contable SAP | Sí | IMPLEMENTADO | Consulta parametrizada a `OACT` | Validación con SAP real | Alto |
+| General | Validar código cliente SAP | Sí | IMPLEMENTADO | Consulta parametrizada a `OCRD` | Validación con SAP real | Alto |
+| General | Cuenta bancaria/id/categoría obligatorios | Sí | IMPLEMENTADO | Reglas cliente/servidor | Validación manual | Alto |
+| General | Puesto y categoría como listas | Sí | IMPLEMENTADO | Opciones idénticas al Designer WinForms | Validación manual | Medio |
+| General | Calcular antigüedad | Sí | IMPLEMENTADO | Años/meses/días recalculados al guardar y probados | Validación manual | Alto |
+| General | Salario diario/quincenal | Sí | IMPLEMENTADO | Cálculo visible mensual/2 y mensual/30 | Validación manual | Medio |
+| General | Navegar anterior/siguiente | Sí | IMPLEMENTADO | Sustituido por lista/búsqueda y retorno al expediente | Validación UX | Bajo |
 | General | Imprimir expediente | No | NO INICIADO | Sin PDF | Sustituir Crystal y comparar | Medio |
 | Experiencia | Consultar | Sí | IMPLEMENTADO | Background | Validar columnas | Bajo |
 | Experiencia | Alta | Sí | EN DESARROLLO | AddExperience | Completar validaciones | Medio |
@@ -418,7 +418,7 @@ No se identificaron stored procedures llamados directamente por `Planilla_Emplea
 
 ### Fase A — Datos generales y seguridad
 
-Incluye lista, búsqueda, alta, edición, estados, fotografía, listas de puesto/categoría, validaciones y auditoría. Ya existe la base CRUD. Faltan reglas originales y SAP. Pruebas: validaciones, duplicados, permisos, SQL real, fotografía y estados. Termina cuando cada campo y transición tenga paridad comprobada por Codex.
+**Resultado: `PENDIENTE VALIDACIÓN USUARIO`.** Incluye lista, búsqueda, alta, edición, estado legado, fotografía, listas de puesto/categoría, validaciones SAP, reglas obligatorias, cálculos derivados, auditoría y permisos. Codex verificó compilación sin advertencias y 217 pruebas automatizadas; queda ejecutar el guion manual con SQL/SAP reales. No se avanzó a Fase B.
 
 ### Fase B — Experiencia y educación
 
