@@ -1,5 +1,5 @@
 namespace Essco.Domain.HumanResources;
-public sealed record Employee(int Id,string Identification,string Code,string Name,string Position,decimal Salary,DateOnly HireDate,bool Active,string Route,string Email,string BankAccount,string CollaboratorId,string LedgerAccount,string Category,decimal VacationEarned,decimal VacationUsed,decimal VacationPending);
+public sealed record Employee(int Id,string Identification,string Code,string Name,string Position,decimal Salary,DateOnly HireDate,bool Active,string Route,string Email,string Phone1,string Phone2,string BankAccount,string CollaboratorId,string LedgerAccount,string Category,decimal VacationEarned,decimal VacationUsed,decimal VacationPending,int TenureYears,int TenureMonths,int TenureDays);
 public sealed record EmployeeVacation(int Number,DateOnly From,DateOnly To,decimal Days,string Comments,bool Annulled);
 public sealed record EmployeeDisability(int Number,DateOnly From,DateOnly To,decimal Days,string Voucher,string Detail,string Type,bool Annulled);
 public sealed record EmployeeDeduction(int Number,string Category,decimal Amount,string Detail,DateOnly Date,bool Annulled,int FirstFortnightPercentage,int SecondFortnightPercentage);

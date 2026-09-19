@@ -1,8 +1,14 @@
-using Essco.Application.HumanResources;
-namespace Essco.Tests.Unit.HumanResources;
+using Essco.Application.HumanResources;using Essco.Domain.HumanResources;namespace Essco.Tests.Unit.HumanResources;
 public sealed class EmployeeTests
 {
  [Fact]public void Accepts_legacy_position_and_category()=>Assert.Empty(Valid().Validate());
  [Fact]public void Rejects_values_outside_legacy_catalogs(){var errors=(Valid()with{Position="Inventado",Category="Otra"}).Validate();Assert.Contains(errors,x=>x.Contains("puesto",StringComparison.OrdinalIgnoreCase));Assert.Contains(errors,x=>x.Contains("categoría",StringComparison.OrdinalIgnoreCase));}
- private static EmployeeInput Valid()=>new("1","E1","Empleado","TI",100,new(2020,1,1),true,"","","","","","","","Administrativo",0,0,0);
+ [Fact]public void Requires_legacy_payroll_fields_and_minimum_salary(){var errors=(Valid()with{Salary=999,BankAccount="",CollaboratorId=""}).Validate();Assert.Contains(errors,x=>x.Contains("1000"));Assert.Contains(errors,x=>x.Contains("bancaria"));Assert.Contains(errors,x=>x.Contains("colaborador"));}
+ [Fact]public void Agent_requires_route()=>Assert.Contains((Valid()with{Position="Agente",Route=""}).Validate(),x=>x.Contains("ruta"));
+ [Fact]public void Calculates_tenure_with_completed_months_and_days()=>Assert.Equal((2,1,5),EmployeeService.CalculateTenure(new(2024,1,10),new(2026,2,15)));
+ [Fact]public async Task Rejects_unknown_sap_account(){var repo=new Repo{LedgerExists=false};var result=await new EmployeeService(repo).SaveAsync(null,Valid()with{LedgerAccount="5000"},default);Assert.False(result.Succeeded);Assert.Contains("SAP",result.Error);Assert.False(repo.Saved);}
+ [Fact]public async Task Saves_valid_employee_and_normalizes_name(){var repo=new Repo();var result=await new EmployeeService(repo).SaveAsync(null,Valid()with{Name="José Núñez!"},default);Assert.True(result.Succeeded);Assert.Equal("Jose Nunez",repo.Value!.Name);}
+ private static EmployeeInput Valid()=>new("1","","Empleado","TI",1000,new(2020,1,1),true,"0","","","","CR1","COL1","","Administrativo",0,0,0);
+ private sealed class Repo:IEmployeeRepository
+ {public bool LedgerExists{get;set;}=true;public bool Saved{get;private set;}public EmployeeInput?Value{get;private set;}public ValueTask<IReadOnlyCollection<Employee>>ListAsync(string?s,bool i,CancellationToken t)=>ValueTask.FromResult<IReadOnlyCollection<Employee>>([]);public ValueTask<EmployeeFile?>GetAsync(string i,CancellationToken t)=>ValueTask.FromResult<EmployeeFile?>(null);public ValueTask<byte[]?>GetPhotoAsync(string i,CancellationToken t)=>ValueTask.FromResult<byte[]?>(null);public ValueTask<bool>ExistsAsync(string i,string c,string?e,CancellationToken t)=>ValueTask.FromResult(false);public ValueTask<bool>SapLedgerAccountExistsAsync(string a,CancellationToken t)=>ValueTask.FromResult(LedgerExists);public ValueTask<bool>SapCustomerExistsAsync(string c,CancellationToken t)=>ValueTask.FromResult(true);public ValueTask<bool>CreateAsync(EmployeeInput i,CancellationToken t){Saved=true;Value=i;return ValueTask.FromResult(true);}public ValueTask<bool>UpdateAsync(string o,EmployeeInput i,CancellationToken t)=>CreateAsync(i,t);public ValueTask<bool>SetActiveAsync(string i,bool a,CancellationToken t)=>ValueTask.FromResult(true);}
 }

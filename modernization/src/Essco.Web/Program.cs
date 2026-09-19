@@ -171,7 +171,7 @@ builder.Services.AddScoped<IPayrollBankRepository>(_ => initialOptions.SqlServer
 builder.Services.AddScoped<PayrollBankFileService>();
 builder.Services.AddScoped<IPayrollJournalRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerPayrollJournalRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailablePayrollJournalRepository());
 builder.Services.AddScoped<PayrollSapDispatchService>();
-builder.Services.AddScoped<IEmployeeRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeRepository());
+builder.Services.AddScoped<IEmployeeRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds, initialOptions.Sap.CompanyDatabase) : new UnavailableEmployeeRepository());
 builder.Services.AddScoped<EmployeeService>();
 builder.Services.AddScoped<IEmployeeMovementRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeMovementRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeMovementRepository());
 builder.Services.AddScoped<EmployeeMovementService>();

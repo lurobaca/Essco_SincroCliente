@@ -21,6 +21,8 @@ public static class Permissions
     public const string Cash = "cash.access";
     public const string Administration = "administration.access";
     public const string Payroll = "payroll.access";
+    public const string EmployeesView = "employees.view";
+    public const string EmployeesManage = "employees.manage";
     public const string Export = "export.access";
     public const string Reports = "reports.access";
     public const string Users = "users.manage";
@@ -33,7 +35,7 @@ public static class Permissions
     public const string LiquidationDifferences = "liquidation-differences.access";
 
     public static IReadOnlyCollection<string> All { get; } =
-    [Billing, Cash, Administration, Payroll, Export, Reports, Users, Company, Customers, Catalogs, Warehouse,
+    [Billing, Cash, Administration, Payroll, EmployeesView, EmployeesManage, Export, Reports, Users, Company, Customers, Catalogs, Warehouse,
         LoadReports, InvoiceReports, LiquidationDifferences];
 }
 
@@ -52,7 +54,7 @@ public static class LegacyRolePermissions
             [LegacyRoles.Billing] = Set(Permissions.Billing, Permissions.Administration,
                 Permissions.Export, Permissions.Reports, Permissions.Customers, Permissions.Catalogs, Permissions.LoadReports, Permissions.InvoiceReports),
             [LegacyRoles.Administration] = Set(Permissions.Cash, Permissions.Administration,
-                Permissions.Payroll, Permissions.Export, Permissions.Reports, Permissions.Users,
+                Permissions.Payroll, Permissions.EmployeesView, Permissions.EmployeesManage, Permissions.Export, Permissions.Reports, Permissions.Users,
                 Permissions.Customers, Permissions.Catalogs, Permissions.LiquidationDifferences),
             [LegacyRoles.AccountsReceivable] = Set(Permissions.Billing, Permissions.Administration,
                 Permissions.Export, Permissions.Reports, Permissions.Customers, Permissions.Catalogs, Permissions.LiquidationDifferences),
