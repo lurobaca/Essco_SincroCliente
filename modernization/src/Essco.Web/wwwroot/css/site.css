@@ -23,6 +23,300 @@ body {
   color: #18283b;
 }
 
+.required-mark { color: #b4233a; font-weight: 800; }
+.input-validation-error { border-color: #b4233a !important; box-shadow: 0 0 0 .2rem rgba(180,35,58,.12); }
+.field-validation-error { color: #8f1730 !important; font-weight: 600; }
+.employee-photo-preview { align-items: center; background: #eef5ff; border: 1px dashed #9ab6dd; border-radius: .75rem; display: flex; justify-content: center; min-height: 160px; overflow: hidden; }
+.employee-photo-preview img { max-height: 190px; max-width: 100%; object-fit: contain; }
+.employee-photo-empty { color: #526985; padding: 1rem; text-align: center; }
+
+/* Expediente de empleados */
+.employee-profile {
+  display: grid;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+.employee-back-link {
+  color: var(--essco-blue, #175fd3);
+  font-weight: 700;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.employee-profile__header {
+  align-items: flex-end;
+  background: linear-gradient(135deg, #102f55 0%, #174d87 100%);
+  border-radius: 1.25rem;
+  color: #fff;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: space-between;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.employee-profile__header h1 {
+  color: #fff;
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: .35rem 0 .65rem;
+}
+
+.employee-profile__eyebrow {
+  color: #9bc8ff;
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.employee-profile__identity {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem 1.25rem;
+}
+
+.employee-profile__identity a,
+.employee-profile__identity span {
+  color: #e3efff;
+}
+
+.employee-profile__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+.employee-profile__header .btn-outline-primary {
+  border-color: #9bc8ff;
+  color: #fff;
+}
+
+.employee-profile__header .btn-outline-primary:hover {
+  background: #fff;
+  color: #123964;
+}
+
+.employee-stat-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.employee-stat-card {
+  background: #fff;
+  border: 1px solid #d9e5f3;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(16, 47, 85, .06);
+  display: grid;
+  gap: .35rem;
+  padding: 1.25rem;
+}
+
+.employee-stat-card span,
+.employee-overview-grid span,
+.employee-attachment-list span {
+  color: #61758e;
+  font-size: .85rem;
+}
+
+.employee-stat-card strong {
+  color: #102f55;
+  font-size: 1.55rem;
+}
+
+.employee-stat-card--accent {
+  background: #edf5ff;
+  border-color: #a8cef8;
+}
+
+.employee-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+.employee-shortcuts a {
+  background: #edf5ff;
+  border: 1px solid #c8ddf5;
+  border-radius: 999px;
+  color: #1558ab;
+  font-weight: 700;
+  padding: .6rem 1rem;
+  text-decoration: none;
+}
+
+.employee-shortcuts a:hover {
+  background: #dcecff;
+}
+
+.employee-file-card {
+  background: #fff;
+  border: 1px solid #d9e5f3;
+  border-radius: 1.1rem;
+  box-shadow: 0 12px 36px rgba(16, 47, 85, .06);
+  overflow: hidden;
+}
+
+.employee-tabs {
+  background: #f6f9fd;
+  border-bottom: 1px solid #d9e5f3;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: .75rem .75rem 0;
+}
+
+.employee-tabs .nav-link {
+  border: 0;
+  border-bottom: 3px solid transparent;
+  color: #536a84;
+  font-weight: 700;
+  padding: .9rem 1rem;
+  white-space: nowrap;
+}
+
+.employee-tabs .nav-link.active {
+  background: transparent;
+  border-bottom-color: #1769d2;
+  color: #103b70;
+}
+
+.employee-tabs .badge {
+  background: #dceaff;
+  color: #1558ab;
+  margin-left: .3rem;
+}
+
+.employee-tab-content {
+  min-height: 18rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.employee-overview-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-bottom: 1.5rem;
+}
+
+.employee-overview-grid article {
+  background: #f7faff;
+  border-radius: .75rem;
+  display: grid;
+  gap: .25rem;
+  padding: 1rem;
+}
+
+.employee-overview-grid strong {
+  color: #102f55;
+  overflow-wrap: anywhere;
+}
+
+.employee-empty-state {
+  align-items: center;
+  color: #61758e;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 13rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.employee-empty-state strong {
+  color: #183d68;
+  font-size: 1.1rem;
+}
+
+.employee-empty-state p {
+  margin: .35rem 0 0;
+}
+
+.employee-empty-state--compact {
+  background: #f7faff;
+  border: 1px dashed #c8ddf5;
+  border-radius: .75rem;
+  min-height: 8rem;
+}
+
+.employee-data-table thead th {
+  background: #12365f;
+  color: #fff;
+  font-weight: 700;
+  padding: .9rem;
+  white-space: nowrap;
+}
+
+.employee-data-table tbody td {
+  border-color: #e3ebf5;
+  padding: .9rem;
+  vertical-align: middle;
+}
+
+.employee-status {
+  border-radius: 999px;
+  display: inline-block;
+  font-size: .82rem;
+  font-weight: 800;
+  padding: .3rem .65rem;
+}
+
+.employee-status--active {
+  background: #e6f4ee;
+  color: #176342;
+}
+
+.employee-status--inactive {
+  background: #fcebed;
+  color: #a62b3d;
+}
+
+.employee-attachment-list {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.employee-attachment-list a {
+  border: 1px solid #d9e5f3;
+  border-radius: .75rem;
+  display: grid;
+  gap: .2rem;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.employee-attachment-list a:hover {
+  background: #f3f8ff;
+  border-color: #90bdf0;
+}
+
+@media (max-width: 991.98px) {
+  .employee-profile__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .employee-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .employee-overview-grid,
+  .employee-attachment-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .employee-profile__actions,
+  .employee-profile__actions .btn {
+    width: 100%;
+  }
+
+  .employee-stat-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .account-body {margin:0;min-height:100vh;display:flex;flex-direction:column;background:#eef3f8;}
 .account-header {padding:1.2rem max(1.5rem,5vw);display:flex;align-items:center;justify-content:space-between;background:white;border-bottom:1px solid #dce4ec;}
 .account-brand {font-size:1.5rem;font-weight:750;color:#142d49;}

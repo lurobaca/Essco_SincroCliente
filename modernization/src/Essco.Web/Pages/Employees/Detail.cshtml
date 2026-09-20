@@ -1,9 +1,209 @@
 @page "{id}"
 @model Essco.Web.Pages.Employees.DetailModel
-<details class="mb-3"><summary>Adjuntos de movimientos</summary>
-@foreach (var item in Model.File.Vacations) { <p><a asp-page="Attachment" asp-route-id="@Model.File.Employee.Identification" asp-route-kind="vacation" asp-route-number="@item.Number">Vacación @item.Number</a></p> }
-@foreach (var item in Model.File.Disabilities) { <p><a asp-page="Attachment" asp-route-id="@Model.File.Employee.Identification" asp-route-kind="disability" asp-route-number="@item.Number">Incapacidad @item.Number</a></p> }
-@foreach (var item in Model.File.Loans) { <p><a asp-page="Attachment" asp-route-id="@Model.File.Employee.Identification" asp-route-kind="loan" asp-route-number="@item.Number">Vale/préstamo @item.Number</a></p> }
-</details>
-<p><a asp-page="Edit" asp-route-id="@Model.File.Employee.Identification">Editar empleado</a> · <a asp-page="Compensation" asp-route-id="@Model.File.Employee.Identification">Aumentos y adicionales</a> · <a asp-page="Movements" asp-route-id="@Model.File.Employee.Identification">Administrar movimientos</a> · <a asp-page="Background" asp-route-id="@Model.File.Employee.Identification">Formación y experiencia</a></p>
-@{ViewData["Title"]="Expediente";}<p><a asp-page="Index">← Empleados</a></p><h1>@Model.File.Employee.Name</h1><p>@Model.File.Employee.Identification · @Model.File.Employee.Position · @Model.File.Employee.Email</p><div class="row"><div class="col"><strong>Salario</strong><br/>@Model.File.Employee.Salary.ToString("N2")</div><div class="col"><strong>Vacaciones ganadas</strong><br/>@Model.File.Employee.VacationEarned</div><div class="col"><strong>Consumidas</strong><br/>@Model.File.Employee.VacationUsed</div><div class="col"><strong>Pendientes</strong><br/>@Model.File.Employee.VacationPending</div></div><h2 class="mt-3">Vacaciones</h2><table class="table table-sm"><tbody>@foreach(var x in Model.File.Vacations){<tr><td>@x.From — @x.To</td><td>@x.Days días</td><td>@x.Comments</td><td>@(x.Annulled?"Anulada":"Activa")</td></tr>}</tbody></table><h2>Incapacidades</h2><table class="table table-sm"><tbody>@foreach(var x in Model.File.Disabilities){<tr><td>@x.From — @x.To</td><td>@x.Days días</td><td>@x.Type / @x.Voucher</td><td>@x.Detail</td></tr>}</tbody></table><h2>Deducciones</h2><table class="table table-sm"><tbody>@foreach(var x in Model.File.Deductions){<tr><td>@x.Category</td><td>@x.Amount.ToString("N2")</td><td>@x.Detail</td><td>@x.FirstFortnightPercentage% / @x.SecondFortnightPercentage%</td></tr>}</tbody></table><h2>Vales y préstamos</h2><table class="table table-sm"><tbody>@foreach(var x in Model.File.Loans){<tr><td>@x.Type</td><td>@x.Amount.ToString("N2")</td><td>Saldo @x.Balance.ToString("N2")</td><td>Cuota @x.FortnightPayment.ToString("N2")</td><td>@x.Detail</td></tr>}</tbody></table>
+@{
+    ViewData["Title"] = "Expediente";
+    var employee = Model.File.Employee;
+    var attachmentCount = Model.File.Vacations.Count + Model.File.Disabilities.Count + Model.File.Loans.Count;
+}
+
+<main class="employee-profile">
+    <a class="employee-back-link" asp-page="Index">← Volver a empleados</a>
+    @if (!string.IsNullOrWhiteSpace(Model.Notice))
+    {
+        <div class="alert alert-warning" role="status">@Model.Notice</div>
+    }
+
+    <header class="employee-profile__header">
+        <div class="employee-photo-preview" style="width:180px">
+            <img src="@Url.Page("Detail","Photo",new{id=employee.Identification})" alt="Fotografía de @employee.Name" onerror="this.hidden=true;this.nextElementSibling.hidden=false" />
+            <div class="employee-photo-empty" hidden>Sin fotografía almacenada</div>
+        </div>
+        <div>
+            <span class="employee-profile__eyebrow">Expediente del colaborador</span>
+            <h1>@employee.Name</h1>
+            <div class="employee-profile__identity">
+                <span>@employee.Identification</span>
+                @if (!string.IsNullOrWhiteSpace(employee.Position))
+                {
+                    <span>@employee.Position</span>
+                }
+                @if (!string.IsNullOrWhiteSpace(employee.Email))
+                {
+                    <a href="mailto:@employee.Email">@employee.Email</a>
+                }
+            </div>
+            <span class="badge @(employee.Active ? "text-bg-success" : "text-bg-secondary")">@employee.StatusName</span>
+        </div>
+        <div class="employee-profile__actions">
+            @if (Model.CanManage && employee.CanEdit)
+            {
+                <a class="btn btn-primary" asp-page="Edit" asp-route-id="@employee.Identification">Editar datos</a>
+                <form method="post" asp-page="Edit" asp-page-handler="Deactivate"><input type="hidden" name="OriginalIdentification" value="@employee.Identification"/><button class="btn btn-outline-danger" onclick="return confirm('¿Está seguro que desea inactivar al empleado? WinForms no ofrece reactivación.');">Inactivar empleado</button></form>
+            }
+            else if (!employee.Active)
+            {
+                <span class="text-muted">Este estado es de solo consulta y no tiene reactivación en WinForms.</span>
+            }
+        </div>
+    </header>
+
+    <section class="employee-stat-grid" aria-label="Resumen del expediente">
+        <article class="employee-stat-card">
+            <span>Salario actual</span>
+            <strong>₡@employee.Salary.ToString("N2")</strong>
+        </article>
+        <article class="employee-stat-card">
+            <span>Vacaciones ganadas</span>
+            <strong>@employee.VacationEarned</strong>
+        </article>
+        <article class="employee-stat-card">
+            <span>Vacaciones consumidas</span>
+            <strong>@employee.VacationUsed</strong>
+        </article>
+        <article class="employee-stat-card employee-stat-card--accent">
+            <span>Vacaciones pendientes</span>
+            <strong>@employee.VacationPending</strong>
+        </article>
+    </section>
+
+    <div class="alert alert-info"><strong>Secciones posteriores en migración.</strong> Las pestañas siguientes son consultas parciales; su presencia no significa que el ciclo funcional esté terminado.</div>
+    <nav class="employee-shortcuts" aria-label="Acciones parciales del expediente">
+        <a asp-page="Compensation" asp-route-id="@employee.Identification">Aumentos y adicionales</a>
+        <a asp-page="Background" asp-route-id="@employee.Identification">Formación y experiencia</a>
+        <a asp-page="Movements" asp-route-id="@employee.Identification">Registrar movimientos</a>
+    </nav>
+
+    <section class="employee-file-card">
+        <ul class="nav nav-tabs employee-tabs" id="employeeFileTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-pane" type="button" role="tab" aria-controls="overview-pane" aria-selected="true">Resumen</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="vacations-tab" data-bs-toggle="tab" data-bs-target="#vacations-pane" type="button" role="tab" aria-controls="vacations-pane" aria-selected="false">Vacaciones <span class="badge">@Model.File.Vacations.Count</span></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="disabilities-tab" data-bs-toggle="tab" data-bs-target="#disabilities-pane" type="button" role="tab" aria-controls="disabilities-pane" aria-selected="false">Incapacidades <span class="badge">@Model.File.Disabilities.Count</span></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="deductions-tab" data-bs-toggle="tab" data-bs-target="#deductions-pane" type="button" role="tab" aria-controls="deductions-pane" aria-selected="false">Deducciones <span class="badge">@Model.File.Deductions.Count</span></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="loans-tab" data-bs-toggle="tab" data-bs-target="#loans-pane" type="button" role="tab" aria-controls="loans-pane" aria-selected="false">Vales y préstamos <span class="badge">@Model.File.Loans.Count</span></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="attachments-tab" data-bs-toggle="tab" data-bs-target="#attachments-pane" type="button" role="tab" aria-controls="attachments-pane" aria-selected="false">Adjuntos <span class="badge">@attachmentCount</span></button>
+            </li>
+        </ul>
+
+        <div class="tab-content employee-tab-content" id="employeeFileTabContent">
+            <div class="tab-pane fade show active" id="overview-pane" role="tabpanel" aria-labelledby="overview-tab" tabindex="0">
+                <div class="employee-overview-grid">
+                    <article>
+                        <span>Identificación</span>
+                        <strong>@employee.Identification</strong>
+                    </article>
+                    <article>
+                        <span>Puesto</span>
+                        <strong>@(string.IsNullOrWhiteSpace(employee.Position) ? "Sin asignar" : employee.Position)</strong>
+                    </article>
+                    <article>
+                        <span>Correo electrónico</span>
+                        <strong>@(string.IsNullOrWhiteSpace(employee.Email) ? "Sin registrar" : employee.Email)</strong>
+                    </article>
+                </div>
+                <div class="employee-empty-state employee-empty-state--compact">
+                    <strong>Expediente centralizado</strong>
+                    <p>Selecciona una pestaña para consultar el historial de vacaciones, incapacidades, deducciones, préstamos y documentos.</p>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="vacations-pane" role="tabpanel" aria-labelledby="vacations-tab" tabindex="0">
+                @if (Model.File.Vacations.Count == 0)
+                {
+                    <div class="employee-empty-state"><strong>Sin vacaciones registradas</strong><p>Los movimientos de vacaciones del colaborador aparecerán aquí.</p></div>
+                }
+                else
+                {
+                    <div class="table-responsive"><table class="table employee-data-table"><thead><tr><th>Periodo</th><th>Días</th><th>Comentario</th><th>Estado</th></tr></thead><tbody>
+                    @foreach (var item in Model.File.Vacations)
+                    {
+                        <tr><td>@item.From — @item.To</td><td>@item.Days</td><td>@item.Comments</td><td><span class="employee-status @(item.Annulled ? "employee-status--inactive" : "employee-status--active")">@(item.Annulled ? "Anulada" : "Activa")</span></td></tr>
+                    }
+                    </tbody></table></div>
+                }
+            </div>
+
+            <div class="tab-pane fade" id="disabilities-pane" role="tabpanel" aria-labelledby="disabilities-tab" tabindex="0">
+                @if (Model.File.Disabilities.Count == 0)
+                {
+                    <div class="employee-empty-state"><strong>Sin incapacidades registradas</strong><p>Los periodos de incapacidad aparecerán aquí.</p></div>
+                }
+                else
+                {
+                    <div class="table-responsive"><table class="table employee-data-table"><thead><tr><th>Periodo</th><th>Días</th><th>Tipo / comprobante</th><th>Detalle</th></tr></thead><tbody>
+                    @foreach (var item in Model.File.Disabilities)
+                    {
+                        <tr><td>@item.From — @item.To</td><td>@item.Days</td><td>@item.Type / @item.Voucher</td><td>@item.Detail</td></tr>
+                    }
+                    </tbody></table></div>
+                }
+            </div>
+
+            <div class="tab-pane fade" id="deductions-pane" role="tabpanel" aria-labelledby="deductions-tab" tabindex="0">
+                @if (Model.File.Deductions.Count == 0)
+                {
+                    <div class="employee-empty-state"><strong>Sin deducciones registradas</strong><p>Las deducciones recurrentes o extraordinarias aparecerán aquí.</p></div>
+                }
+                else
+                {
+                    <div class="table-responsive"><table class="table employee-data-table"><thead><tr><th>Categoría</th><th>Monto</th><th>Detalle</th><th>Distribución quincenal</th></tr></thead><tbody>
+                    @foreach (var item in Model.File.Deductions)
+                    {
+                        <tr><td>@item.Category</td><td>₡@item.Amount.ToString("N2")</td><td>@item.Detail</td><td>@item.FirstFortnightPercentage% / @item.SecondFortnightPercentage%</td></tr>
+                    }
+                    </tbody></table></div>
+                }
+            </div>
+
+            <div class="tab-pane fade" id="loans-pane" role="tabpanel" aria-labelledby="loans-tab" tabindex="0">
+                @if (Model.File.Loans.Count == 0)
+                {
+                    <div class="employee-empty-state"><strong>Sin vales ni préstamos registrados</strong><p>Los saldos, cuotas y detalles de financiamiento aparecerán aquí.</p></div>
+                }
+                else
+                {
+                    <div class="table-responsive"><table class="table employee-data-table"><thead><tr><th>Tipo</th><th>Monto</th><th>Saldo</th><th>Cuota</th><th>Detalle</th></tr></thead><tbody>
+                    @foreach (var item in Model.File.Loans)
+                    {
+                        <tr><td>@item.Type</td><td>₡@item.Amount.ToString("N2")</td><td>₡@item.Balance.ToString("N2")</td><td>₡@item.FortnightPayment.ToString("N2")</td><td>@item.Detail</td></tr>
+                    }
+                    </tbody></table></div>
+                }
+            </div>
+
+            <div class="tab-pane fade" id="attachments-pane" role="tabpanel" aria-labelledby="attachments-tab" tabindex="0">
+                @if (attachmentCount == 0)
+                {
+                    <div class="employee-empty-state"><strong>Sin documentos adjuntos</strong><p>Cuando un movimiento tenga respaldo documental, podrás consultarlo desde aquí.</p></div>
+                }
+                else
+                {
+                    <div class="employee-attachment-list">
+                        @foreach (var item in Model.File.Vacations)
+                        {
+                            <a asp-page="Attachment" asp-route-id="@employee.Identification" asp-route-kind="vacation" asp-route-number="@item.Number"><span>Vacación</span><strong>Movimiento @item.Number</strong></a>
+                        }
+                        @foreach (var item in Model.File.Disabilities)
+                        {
+                            <a asp-page="Attachment" asp-route-id="@employee.Identification" asp-route-kind="disability" asp-route-number="@item.Number"><span>Incapacidad</span><strong>Movimiento @item.Number</strong></a>
+                        }
+                        @foreach (var item in Model.File.Loans)
+                        {
+                            <a asp-page="Attachment" asp-route-id="@employee.Identification" asp-route-kind="loan" asp-route-number="@item.Number"><span>Vale o préstamo</span><strong>Movimiento @item.Number</strong></a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</main>
