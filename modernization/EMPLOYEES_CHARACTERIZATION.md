@@ -2,7 +2,7 @@
 
 Fecha de análisis: 2026-09-19.
 
-Estado documental: `ANALIZADO`. Ninguna funcionalidad de este documento está marcada como `VALIDADO`.
+Estado documental: `ANALIZADO`. Fase A: `PENDIENTE VALIDACIÓN USUARIO` después de una primera validación manual no superada y su corrección. Ninguna funcionalidad está marcada como `VALIDADO`.
 
 Esta caracterización se rige por [FUNCTIONAL_PARITY_STANDARD.md](FUNCTIONAL_PARITY_STANDARD.md). Las filas actuales constituyen la primera descomposición funcional; antes de implementar cada fase se ampliarán con el control, evento, efectos secundarios y prueba concreta cuando todavía no estén expresados individualmente.
 
@@ -39,13 +39,13 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 
 **Obligatorios comprobados.** Cédula, nombre, salario, cuenta bancaria, id de colaborador y categoría. Salario mínimo: 1000. La cuenta contable, si se indica, debe existir en SAP y no exceder 15 caracteres. El código de cliente, si se indica, debe existir en SAP y no exceder 15 caracteres.
 
-**Acciones y eventos.** Nuevo obtiene consecutivo; Guardar/Actualizar; Inactivar con confirmación; seleccionar fotografía; buscar mediante `Planilla_List_Empleados`; anterior/siguiente; imprimir expediente; cambio de puesto; cambio de salario recalcula salario quincenal/diario; fechas recalculan antigüedad y liquidación; cerrar empleado inicia liquidación y no se presenta como reversible.
+**Acciones y eventos.** Nuevo obtiene consecutivo; Guardar/Actualizar; Inactivar con confirmación; seleccionar y reemplazar fotografía; buscar mediante `Planilla_List_Empleados`; anterior/siguiente; imprimir expediente; cambio de puesto; cambio de salario recalcula salario quincenal/diario; fechas recalculan antigüedad y liquidación; cerrar empleado inicia liquidación y no se presenta como reversible.
 
-**Reglas especiales.** El nombre elimina tildes, ñ y símbolos; la fotografía se guarda en archivo y como bytes, con imagen predeterminada si no existe; el estado usa códigos numéricos; no se permite operar movimientos de un empleado inexistente.
+**Reglas especiales.** El nombre elimina tildes, ñ y símbolos; la fotografía se guarda en archivo y como bytes, con imagen predeterminada si no existe; el estado usa `0=Activo`, `1=Inactivo`, `2=Cerrado`, `3=Liquidado`. El WinForms ejecutable solo implementa `Activo → Inactivo`; el bloque que reactivaba está comentado y los estados 1/2/3 deshabilitan edición. No existe eliminación explícita de fotografía. `IdColaborador` es obligatorio y se usa en el archivo bancario, pero WinForms no lo valida contra SAP ni otra tabla (por eso `0` no puede rechazarse sin crear una regla nueva).
 
 **Dependencias.** `Empleado`, validación de cuenta contable y cliente en SAP, ruta local de fotografías, `Planilla_List_Empleados`, reporte `ExpedienteEmpleado`.
 
-**Web actual (Fase A).** Lista, filtro, alta, edición e inactivación explícita; fotografía en base de datos; validaciones SAP; antigüedad y salarios derivados; estado legado `0=activo`, `1=inactivo`; permisos de consulta/mantenimiento y auditoría. El identificador técnico lo genera SQL y la lista sustituye la navegación anterior/siguiente. Cierre/liquidación e impresión permanecen fuera de Fase A.
+**Web actual (Fase A corregida).** Lista, filtro, alta, edición solo de activos e inactivación explícita; no ofrece reactivación; fotografía visible, previsualizable y reemplazable; validación de firma real; validaciones SAP que bloquean también cuando SAP no está configurado/disponible; obligatoriedad visible y errores por campo; permisos backend y auditoría. El identificador técnico lo genera SQL. Cierre/liquidación e impresión permanecen fuera de Fase A.
 
 ### 1. Experiencia
 
@@ -238,12 +238,22 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 | General | Alta | Sí | IMPLEMENTADO | Persiste campos generales, foto y antigüedad | Validación manual | Alto |
 | General | Edición | Sí | IMPLEMENTADO | Actualiza por identificación original | Validación manual | Alto |
 | General | Inactivar con confirmación | Sí | IMPLEMENTADO | Operación explícita, confirmada y auditada | Validación manual | Alto |
+| General | Reactivar empleado | No aplica | ANALIZADO | Código WinForms comentado; estados no activos bloquean edición | No inventar transición | Alto |
+| General | Bloquear edición de inactivo/cerrado/liquidado | Sí | IMPLEMENTADO | Backend y UI rechazan modificación directa | Validación manual | Alto |
+| General | Duplicado activo con estado explícito | Sí | IMPLEMENTADO | Mensaje identifica ACTIVO | Validación manual | Medio |
+| General | Duplicado inactivo/cerrado/liquidado con estado explícito | Sí | IMPLEMENTADO | Mensaje indica estado y evita recreación | Validación manual | Alto |
 | General | Cerrar/liquidar empleado | No | NO INICIADO | Sin equivalente | Implementar con liquidación | Crítico |
 | General | Fotografía | Sí | IMPLEMENTADO | Carga segura JPG/PNG/WEBP hasta 5 MB y lectura desde `Foto` | Validación manual | Medio |
+| General | Previsualizar fotografía seleccionada | Sí | IMPLEMENTADO | Vista previa local antes de guardar | Validación manual | Bajo |
+| General | Recuperar/mostrar fotografía o estado vacío | Sí | IMPLEMENTADO | Visible en edición y expediente | Validación manual | Medio |
+| General | Reemplazar fotografía | Sí | IMPLEMENTADO | Nueva imagen reemplaza `Foto`; ausencia conserva existente | Validación manual | Medio |
+| General | Validar contenido real de fotografía | Sí | IMPLEMENTADO | Firma binaria JPG/PNG/WEBP, no solo MIME/extensión | Validación manual | Alto |
 | General | Validar salario mínimo 1000 | Sí | IMPLEMENTADO | Regla cliente/servidor y prueba unitaria | Validación manual | Alto |
 | General | Validar cuenta contable SAP | Sí | IMPLEMENTADO | Consulta parametrizada a `OACT` | Validación con SAP real | Alto |
 | General | Validar código cliente SAP | Sí | IMPLEMENTADO | Consulta parametrizada a `OCRD` | Validación con SAP real | Alto |
 | General | Cuenta bancaria/id/categoría obligatorios | Sí | IMPLEMENTADO | Reglas cliente/servidor | Validación manual | Alto |
+| General | Identificación visual y accesible de obligatorios | Sí | IMPLEMENTADO | Asterisco, `required`, `aria-required`, resumen y error por campo | Validación manual | Medio |
+| General | SAP no configurado/no disponible | Sí | IMPLEMENTADO | Bloquea guardado y explica indisponibilidad | Configurar DB SAP y validar | Alto |
 | General | Puesto y categoría como listas | Sí | IMPLEMENTADO | Opciones idénticas al Designer WinForms | Validación manual | Medio |
 | General | Calcular antigüedad | Sí | IMPLEMENTADO | Años/meses/días recalculados al guardar y probados | Validación manual | Alto |
 | General | Salario diario/quincenal | Sí | IMPLEMENTADO | Cálculo visible mensual/2 y mensual/30 | Validación manual | Medio |
@@ -418,7 +428,7 @@ No se identificaron stored procedures llamados directamente por `Planilla_Emplea
 
 ### Fase A — Datos generales y seguridad
 
-**Resultado: `PENDIENTE VALIDACIÓN USUARIO`.** Incluye lista, búsqueda, alta, edición, estado legado, fotografía, listas de puesto/categoría, validaciones SAP, reglas obligatorias, cálculos derivados, auditoría y permisos. Codex verificó compilación sin advertencias y 217 pruebas automatizadas; queda ejecutar el guion manual con SQL/SAP reales. No se avanzó a Fase B.
+**Resultado: `PENDIENTE VALIDACIÓN USUARIO`.** La primera validación manual no fue superada; se corrigieron sus causas raíz y se reauditaron las transiciones, SAP, campos y fotografía. Codex verificó compilación sin advertencias y 232 pruebas automatizadas (222 unitarias + 10 integración); queda repetir el guion manual con SQL/SAP reales. No se avanzó a Fase B.
 
 ### Fase B — Experiencia y educación
 

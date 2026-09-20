@@ -24,16 +24,16 @@ Los estados generales históricos de otros módulos son provisionales hasta que 
 
 | Medida | Cantidad |
 |---|---:|
-| Acciones funcionales trazadas | 82 |
-| Migradas y verificadas por Codex | 15 |
-| Implementadas, aún sin verificación completa | 14 |
-| En desarrollo/parciales | 12 |
+| Acciones funcionales trazadas | 92 |
+| Migradas y verificadas por Codex | 0 |
+| Implementadas, aún sin validación manual | 29 |
+| En desarrollo/parciales | 15 |
 | Incorrectas o requieren revisión | 0 |
-| Analizadas sin implementación cerrada | 1 |
-| No migradas | 40 |
+| Analizadas sin implementación cerrada | 2 |
+| No migradas | 46 |
 | Validadas por el usuario | 0 |
 
-No se publica un porcentaje único: las 82 acciones no tienen la misma complejidad. Por ejemplo, consultar experiencia y calcular una liquidación laboral no representan un esfuerzo ni un riesgo equivalentes.
+No se publica un porcentaje único: las 92 acciones no tienen la misma complejidad. Pruebas verdes y páginas visibles no se contabilizan como validación funcional.
 
 **Implementado actualmente:**
 
@@ -46,7 +46,23 @@ No se publica un porcentaje único: las 82 acciones no tienen la misma complejid
 - aumentos y adicionales parciales;
 - educación y experiencia parciales.
 
-**Fase A implementada y pendiente de validación manual:** listado/búsqueda, semántica real de estados (`0` activo), alta/edición, catálogos heredados, campos obligatorios, salario mínimo y derivados, antigüedad, fotografía, validaciones SAP parametrizadas, inactivación confirmada, auditoría y permisos separados de consulta/mantenimiento. Compilación: 0 errores/advertencias. Pruebas: 209 unitarias y 10 de integración superadas.
+**Fase A corregida después de validación manual no superada y pendiente de nueva validación:** estado exacto `0/1/2/3`, duplicados con estado explícito, edición solo de activos, transición permitida únicamente `Activo → Inactivo`, campos requeridos accesibles, validación SAP con resultado válido/inválido/no disponible, fotografía visible y previsualizable, auditoría y permisos backend. La configuración local todavía debe indicar `Essco:Sap:CompanyDatabase` para probar valores reales. Compilación: 0 errores/advertencias. Pruebas: 222 unitarias y 10 de integración superadas.
+
+### Realidad de pestañas posteriores
+
+| Sección | Consulta visible | Ciclo funcional completo | Estado |
+|---|---|---|---|
+| Experiencia / Educación | Parcial | No | EN DESARROLLO; Fases B/C |
+| Vacaciones | Parcial | No | EN DESARROLLO; Fase E |
+| Incapacidades | Parcial | No | EN DESARROLLO; Fase F |
+| Deducciones | Parcial | No | EN DESARROLLO; Fase G |
+| Vales y préstamos | Parcial | No | EN DESARROLLO; Fase H |
+| Adjuntos | Parcial | No | EN DESARROLLO; fase posterior |
+| Aumentos / Adicionales | Parcial | No | EN DESARROLLO; Fase I |
+| Días adicionales | No | No | NO INICIADO; Fase J |
+| Facturas / Planillas / Liquidación | Parcial o no | No | NO INICIADO; Fases D/K |
+
+Una pestaña o consulta visible no figura como migración cerrada.
 
 **Pendiente de las fases posteriores:**
 
