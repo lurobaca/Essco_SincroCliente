@@ -1,0 +1,7 @@
+SET XACT_ABORT ON;
+BEGIN TRANSACTION;
+
+IF OBJECT_ID(N'[dbo].[Web_EmployeePhoto]', N'U') IS NOT NULL
+    DROP TABLE [dbo].[Web_EmployeePhoto];
+
+COMMIT TRANSACTION;
