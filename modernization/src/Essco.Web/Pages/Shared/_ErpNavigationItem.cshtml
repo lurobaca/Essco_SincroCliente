@@ -1,15 +1,22 @@
 @model Essco.Application.Security.NavigationOption
 @using Essco.Application.Security
+@{
+    var route = Model.Page?.EndsWith("/Index", StringComparison.Ordinal) == true ? Model.Page[..^6] : Model.Page;
+    var current = route is not null && Context.Request.Path.StartsWithSegments(route, StringComparison.OrdinalIgnoreCase);
+}
 @if (Model.IsNavigable)
 {
-    <a class="erp-nav-item" asp-page="@Model.Page">
-        <span>@Model.Label</span><small>Parcial</small>
+    <a class="erp-nav-item @(current ? "erp-nav-item--current" : null)" asp-page="@Model.Page"
+       aria-current="@(current ? "page" : null)" title="Funcionalidad Web parcial">
+        <span>@Model.Label</span><span class="visually-hidden">Funcionalidad Web parcial</span>
     </a>
 }
 else
 {
-    <span class="erp-nav-item erp-nav-item--disabled" aria-disabled="true" title="Pendiente de migración">
+    <span class="erp-nav-item erp-nav-item--disabled" role="link" tabindex="0" aria-disabled="true"
+          title="@(Model.State == NavigationMigrationState.ObsoleteReview ? "Función pendiente de revisión" : "Esta función está pendiente de migración")">
         <span>@Model.Label</span>
-        <small>@(Model.State == NavigationMigrationState.ObsoleteReview ? "Por revisar" : "Pendiente")</small>
+        <i class="erp-state-indicator @(Model.State == NavigationMigrationState.ObsoleteReview ? "erp-state-indicator--review" : null)" aria-hidden="true"></i>
+        <span class="visually-hidden">@(Model.State == NavigationMigrationState.ObsoleteReview ? "Pendiente de revisión" : "Pendiente de migración")</span>
     </span>
 }

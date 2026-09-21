@@ -37,6 +37,7 @@ body {
 .erp-navigation { display: grid; gap: .35rem; width: 100%; }
 .erp-home-link, .erp-nav-group > summary { border-radius: .45rem; color: #fff; cursor: pointer; display: block; font-weight: 700; padding: .65rem .75rem; text-decoration: none; }
 .erp-home-link:hover, .erp-nav-group > summary:hover, .erp-nav-group[open] > summary { background: #194777; color: #fff; }
+.erp-home-link:focus-visible, .erp-nav-group > summary:focus-visible, .erp-nav-item:focus-visible { box-shadow: 0 0 0 3px #b9d9ff; outline: 2px solid #fff; outline-offset: 1px; }
 .erp-nav-group > summary { list-style: none; }
 .erp-nav-group > summary::-webkit-details-marker { display: none; }
 .erp-nav-group > summary::after { content: "+"; float: right; font-weight: 400; }
@@ -44,10 +45,14 @@ body {
 .erp-nav-items { display: grid; gap: .18rem; padding: .25rem 0 .35rem .4rem; }
 .erp-nav-item { align-items: center; border-radius: .4rem; color: #dceaff; display: flex; font-size: .86rem; gap: .5rem; justify-content: space-between; line-height: 1.25; padding: .52rem .65rem; text-decoration: none; }
 .erp-nav-item:hover { background: #23588f; color: #fff; }
-.erp-nav-item small { color: #a9c9eb; font-size: .66rem; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; }
+.erp-nav-item--current { background: #fff; color: #123d6b; font-weight: 800; position: relative; }
+.erp-nav-item--current::before { background: #2874c8; border-radius: 999px; content: ""; height: 55%; left: -.1rem; position: absolute; width: 3px; }
+.erp-nav-item--current:hover { background: #fff; color: #123d6b; }
 .erp-nav-item--disabled { color: #91a5ba; cursor: not-allowed; }
 .erp-nav-item--disabled:hover { background: transparent; color: #91a5ba; }
-.erp-nav-item--disabled small { color: #7890a8; }
+.erp-nav-item--disabled:focus-visible { color: #c1d0df; }
+.erp-state-indicator { background: #8297ad; border-radius: 50%; flex: 0 0 auto; height: .38rem; margin-left: auto; width: .38rem; }
+.erp-state-indicator--review { background: transparent; border: 1px solid #9db1c5; height: .45rem; width: .45rem; }
 .erp-nav-subgroup { border-left: 1px solid #37638f; display: grid; margin: .2rem 0 .3rem .35rem; padding-left: .45rem; }
 .erp-nav-subgroup > span { color: #bcd2e8; font-size: .75rem; font-weight: 800; padding: .45rem .65rem .2rem; text-transform: uppercase; }
 .erp-nav-subgroup--nested { margin-left: .75rem; }
@@ -67,8 +72,14 @@ body {
   .erp-sidebar .offcanvas-body { background: #102f55; }
 }
 
+@media (min-width: 992px) {
+  .erp-sidebar { align-self: flex-start; height: calc(100vh - 76px); position: sticky; top: 76px; }
+  .erp-sidebar .offcanvas-body { height: 100%; }
+}
+
 @media (max-width: 575.98px) {
   .erp-account > span { display: none; }
+  .erp-header .essco-fullname { display: none; }
   .erp-header__inner { gap: .6rem; }
   .erp-page > main { padding: 1rem; }
 }

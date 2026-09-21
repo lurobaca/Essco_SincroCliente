@@ -18,6 +18,12 @@ Actualizado: 2026-09-21. Este documento inventaría navegación; el estado funci
 
 El escritorio usaba una fila de menús MDI. La Web conserva nombres, orden y relación padre/hijo, pero los presenta en una barra lateral colapsable. En móvil se convierte en un panel `offcanvas`. Las opciones no migradas no tienen `href`, URL ni endpoint ficticio.
 
+### Patrón seleccionado
+
+**Cabecera ligera + sidebar jerárquico colapsable + panel móvil.** Los 13 grupos, 80 acciones y hasta tres niveles reales exceden lo que un menú superior o mega menú puede mostrar limpiamente. El sidebar mantiene contexto, permite escaneo vertical, abre automáticamente el grupo de la ruta actual y reserva casi todo el ancho al contenido. En tablet y móvil desaparece del flujo y se abre desde un único botón en la cabecera.
+
+Estados visuales: la opción actual usa una superficie blanca y barra azul discreta; una opción parcial disponible conserva el texto claro y enlace real; una pendiente usa texto atenuado y un punto pequeño con explicación accesible y tooltip; una opción por revisar usa un punto delineado. El estado no depende solamente del color.
+
 | Grupo | Subgrupo | Opción WinForms | Form/función original | Estado Web | Ruta Web | Permiso | Estado menú |
 |---|---|---|---|---|---|---|---|
 | Facturación | — | Estado de transmisiones | EstadoSubida | PARCIAL | `/Billing/Index` | billing.access | Habilitada |
