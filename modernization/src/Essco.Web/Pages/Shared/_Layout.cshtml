@@ -31,12 +31,12 @@
     <div class="erp-shell">
         @if (User.Identity?.IsAuthenticated == true)
         {
-            <aside class="offcanvas-lg offcanvas-start erp-sidebar" tabindex="-1" id="erpSidebar" aria-labelledby="erpSidebarLabel">
+            <aside class="offcanvas offcanvas-start erp-sidebar" tabindex="-1" id="erpSidebar" aria-labelledby="erpSidebarLabel">
                 <div class="offcanvas-header">
                     <h2 class="offcanvas-title h5" id="erpSidebarLabel">Syncro Cliente</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#erpSidebar" aria-label="Cerrar menú"></button>
                 </div>
-                <div class="offcanvas-body"><vc:erp-navigation /></div>
+                <div class="offcanvas-body">@await Component.InvokeAsync("ErpNavigation")</div>
             </aside>
         }
         <div class="erp-page">

@@ -27,11 +27,11 @@ body {
 .erp-authenticated { margin-bottom: 0; background: #f7f9fc; }
 .erp-header { background: #fff; border-bottom: 1px solid #d9e3ef; position: sticky; top: 0; z-index: 1035; }
 .erp-header__inner { align-items: center; display: flex; gap: 1.5rem; justify-content: space-between; margin: auto; max-width: 100%; min-height: 76px; padding: .75rem clamp(1rem, 3vw, 2rem); }
-.erp-account { align-items: center; display: flex; gap: 1rem; }
+.erp-account { align-items: center; display: flex; gap: 1rem; margin-left: auto; }
 .erp-account > span { color: #425873; font-size: .9rem; }
-.erp-menu-toggle { display: none; margin-left: auto; }
+.erp-menu-toggle { align-items: center; display: inline-flex; }
 .erp-shell { display: flex; min-height: calc(100vh - 76px); }
-.erp-sidebar { background: #102f55; color: #fff; flex: 0 0 286px; width: 286px; }
+.erp-sidebar { background: #102f55; color: #fff; width: min(88vw, 340px) !important; }
 .erp-sidebar .offcanvas-body { display: block; overflow-y: auto; padding: 1rem .8rem 2rem; }
 .erp-sidebar .offcanvas-header { background: #fff; color: #102f55; }
 .erp-navigation { display: grid; gap: .35rem; width: 100%; }
@@ -67,14 +67,7 @@ body {
 .public-access .eyebrow { color: #1b62bd; font-size: .75rem; font-weight: 800; letter-spacing: .13em; }
 
 @media (max-width: 991.98px) {
-  .erp-menu-toggle { display: inline-block; }
-  .erp-sidebar { width: min(88vw, 320px) !important; }
   .erp-sidebar .offcanvas-body { background: #102f55; }
-}
-
-@media (min-width: 992px) {
-  .erp-sidebar { align-self: flex-start; height: calc(100vh - 76px); position: sticky; top: 76px; }
-  .erp-sidebar .offcanvas-body { height: 100%; }
 }
 
 @media (max-width: 575.98px) {
