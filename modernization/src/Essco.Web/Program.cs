@@ -28,6 +28,7 @@ if (builder.Environment.IsDevelopment())
 {
     // Machine-specific settings stay outside source control; explicit overrides retain priority.
     builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: false)
+        .AddUserSecrets(typeof(Program).Assembly, optional: true)
         .AddEnvironmentVariables().AddCommandLine(args);
 }
 builder.Logging.ClearProviders();
