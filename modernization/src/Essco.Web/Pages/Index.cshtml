@@ -1,38 +1,18 @@
-﻿@page
+@page
 @model Essco.Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Panel de trabajo";
+    ViewData["Title"] = User.Identity?.IsAuthenticated == true ? "Inicio" : "Acceso";
 }
-
-<section class="workspace-hero">
-    <p class="eyebrow">ESSCO · GESTIÓN WEB</p>
-    <h1>Tu espacio de trabajo</h1>
-    <p>Selecciona un módulo para comenzar. Versión en migración: utilizar con datos de pruebas.</p>
-</section>
-@if(User.Identity?.IsAuthenticated!=true)
+@if (User.Identity?.IsAuthenticated == true)
 {
-    <section class="setup-panel"><h2>Accede con tu usuario</h2><p>Los módulos requieren sesión y permisos. Esta portada no muestra datos del negocio.</p><a asp-page="/Account/Login" class="btn btn-primary">Iniciar sesión</a></section>
+    <section class="erp-home" aria-label="Inicio de Syncro Cliente"><span>ESSCO</span></section>
 }
-@if(Model.ShowSetup)
+else
 {
-    <section class="setup-panel"><h2>Preparación del entorno local</h2>
-    <p>@(Model.SqlConfigured ? "SQL está configurado; falta verificar conexión y esquema." : "Falta configurar la copia SQL de pruebas. Sin ella no podrás iniciar sesión ni guardar operaciones.")</p>
-    <p>En Visual Studio: proyecto de inicio <strong>Essco.Web</strong>, perfil <strong>https</strong> y F5. No guardes credenciales en el repositorio.</p></section>
+    <section class="public-access">
+        <p class="eyebrow">ESSCO · GESTIÓN WEB</p>
+        <h1>Syncro Cliente</h1>
+        <p>Inicia sesión para acceder a las funciones autorizadas del sistema.</p>
+        <a asp-page="/Account/Login" class="btn btn-primary">Iniciar sesión</a>
+    </section>
 }
-<h2 class="h4 mt-4 mb-3">Módulos de trabajo</h2>
-<div class="module-grid">
-@foreach(var module in Model.Modules)
-{
-    <article class="module-card"><span class="module-state">@module.State</span><h3>@module.Title</h3><p>@module.Description</p>
-    @if(User.Identity?.IsAuthenticated==true)
-    {
-        <a asp-page="@module.Page">Abrir módulo →</a>
-    }
-    else
-    {
-        <a asp-page="/Account/Login" asp-route-returnUrl="@Url.Page(module.Page)">Acceder a @module.Title.ToLowerInvariant() →</a>
-    }
-    </article>
-}
-</div>
-@if(Model.Modules.Count==0){<p class="alert alert-info">Tu usuario no tiene módulos habilitados. Solicita una revisión de permisos.</p>}

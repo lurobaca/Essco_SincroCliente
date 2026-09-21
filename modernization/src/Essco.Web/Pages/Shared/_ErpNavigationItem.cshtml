@@ -1,0 +1,15 @@
+@model Essco.Application.Security.NavigationOption
+@using Essco.Application.Security
+@if (Model.IsNavigable)
+{
+    <a class="erp-nav-item" asp-page="@Model.Page">
+        <span>@Model.Label</span><small>Parcial</small>
+    </a>
+}
+else
+{
+    <span class="erp-nav-item erp-nav-item--disabled" aria-disabled="true" title="Pendiente de migración">
+        <span>@Model.Label</span>
+        <small>@(Model.State == NavigationMigrationState.ObsoleteReview ? "Por revisar" : "Pendiente")</small>
+    </span>
+}

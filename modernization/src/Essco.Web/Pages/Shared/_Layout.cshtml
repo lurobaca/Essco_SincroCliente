@@ -1,7 +1,4 @@
-﻿<!DOCTYPE html>
-@using Essco.Application.Security
-@using Microsoft.AspNetCore.Authorization
-@inject IAuthorizationService AuthorizationService
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -13,92 +10,43 @@
     <link rel="stylesheet" href="~/Essco.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/essco-brand.css" asp-append-version="true" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand essco-wordmark" asp-area="" asp-page="/Index"><span class="essco-name">ESSCO</span><span class="essco-fullname">Easy Software Solution Company</span></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacidad</a>
-                        </li>
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Company)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Companies/Profile">Empresa</a></li>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Customers)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Customers/Index">Clientes</a></li>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Billing)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Products/Index">Productos</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Purchasing/Index">Pedidos</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Billing/Index">Facturas</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Returns/Index">Devoluciones</a></li>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Catalogs)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Catalogs/Index">Catálogos</a></li>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Cash)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Treasury/Deposits">Depósitos</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Treasury/Receipts">Recibos</a></li>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.LiquidationDifferences)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Liquidations/Index">Liquidaciones</a></li>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Warehouse)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Inventory/Index">Inventario</a></li>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Payroll)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Payroll/Index">Planillas</a></li>
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Employees/Index">Empleados</a></li>
-                        }
-                        @if ((await AuthorizationService.AuthorizeAsync(User, Permissions.Reports)).Succeeded)
-                        {
-                            <li class="nav-item"><a class="nav-link text-dark" asp-page="/Reports/Index">Reportes</a></li>
-                        }
-                    </ul>
-                    @if (User.Identity?.IsAuthenticated == true)
-                    {
-                        <span class="navbar-text me-3">@User.FindFirst("display_name")?.Value</span>
-                        <form method="post" asp-page="/Account/Logout">
-                            <button type="submit" class="btn btn-outline-secondary btn-sm">Cerrar sesión</button>
-                        </form>
-                    }
+<body class="@(User.Identity?.IsAuthenticated == true ? "erp-authenticated" : "")">
+    <header class="erp-header">
+        <div class="erp-header__inner">
+            <a class="essco-wordmark" asp-page="/Index"><span class="essco-name">ESSCO</span><span class="essco-fullname">Easy Software Solution Company</span></a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <button class="btn btn-outline-primary erp-menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#erpSidebar" aria-controls="erpSidebar">Menú</button>
+                <div class="erp-account">
+                    <span>@User.FindFirst("display_name")?.Value</span>
+                    <form method="post" asp-page="/Account/Logout"><button type="submit" class="btn btn-outline-secondary btn-sm">Cerrar sesión</button></form>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 ESSCO | Easy Software Solution Company · Un mundo con menos clic. · <a asp-area="" asp-page="/Privacy">Privacidad</a>
+            }
+            else
+            {
+                <a class="btn btn-primary" asp-page="/Account/Login">Iniciar sesión</a>
+            }
         </div>
-    </footer>
-
+    </header>
+    <div class="erp-shell">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <aside class="offcanvas-lg offcanvas-start erp-sidebar" tabindex="-1" id="erpSidebar" aria-labelledby="erpSidebarLabel">
+                <div class="offcanvas-header">
+                    <h2 class="offcanvas-title h5" id="erpSidebarLabel">Syncro Cliente</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#erpSidebar" aria-label="Cerrar menú"></button>
+                </div>
+                <div class="offcanvas-body"><vc:erp-navigation /></div>
+            </aside>
+        }
+        <div class="erp-page">
+            <main role="main">@RenderBody()</main>
+            <footer class="erp-footer">&copy; 2026 ESSCO | Easy Software Solution Company · Un mundo con menos clic. · <a asp-page="/Privacy">Privacidad</a></footer>
+        </div>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

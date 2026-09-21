@@ -2,6 +2,10 @@
 
 Actualizado: 2026-09-19.
 
+## Menú general
+
+La navegación Web refleja el inventario completo de `Principal.MenuStrip1`: 80 acciones terminales funcionales y la acción global de cierre de sesión. Hay 45 accesos utilizables marcados como parciales, 32 no migrados y 3 sujetos a revisión; ninguno se considera validado por aparecer en el menú. Consultar [WINFORMS_MENU_INVENTORY.md](WINFORMS_MENU_INVENTORY.md). El catálogo mantenible está centralizado en `src/Essco.Application/Security/ErpNavigationCatalog.cs`.
+
 Ningún módulo se marca `VALIDADO` sin confirmación manual del usuario.
 
 ## Criterio global
