@@ -1,0 +1,18 @@
+@model Essco.Application.Security.NavigationOption
+
+<details class="erp-nav-group">
+    <summary>@Model.Label</summary>
+    <div class="erp-nav-items">
+        @foreach (var child in Model.Items)
+        {
+            if (child.Items.Count == 0)
+            {
+                <partial name="_ErpNavigationItem" model="child" />
+            }
+            else
+            {
+                <partial name="_ErpNavigationNode" model="child" />
+            }
+        }
+    </div>
+</details>

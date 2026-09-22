@@ -13,10 +13,13 @@
 <body class="@(User.Identity?.IsAuthenticated == true ? "erp-authenticated" : "")">
     <header class="erp-header">
         <div class="erp-header__inner">
-            <a class="essco-wordmark" asp-page="/Index"><span class="essco-name">ESSCO</span><span class="essco-fullname">Easy Software Solution Company</span></a>
             @if (User.Identity?.IsAuthenticated == true)
             {
-                <button class="btn btn-outline-primary erp-menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#erpSidebar" aria-controls="erpSidebar">Menú</button>
+                <button class="erp-menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#erpSidebar"
+                        aria-controls="erpSidebar" aria-label="Abrir menú general" title="Abrir menú">
+                    <span aria-hidden="true"></span>
+                </button>
+                <a class="essco-wordmark" asp-page="/Index"><span class="essco-name">ESSCO</span><span class="essco-fullname">Easy Software Solution Company</span></a>
                 <div class="erp-account">
                     <span>@User.FindFirst("display_name")?.Value</span>
                     <form method="post" asp-page="/Account/Logout"><button type="submit" class="btn btn-outline-secondary btn-sm">Cerrar sesión</button></form>
@@ -24,6 +27,7 @@
             }
             else
             {
+                <a class="essco-wordmark" asp-page="/Index"><span class="essco-name">ESSCO</span><span class="essco-fullname">Easy Software Solution Company</span></a>
                 <a class="btn btn-primary" asp-page="/Account/Login">Iniciar sesión</a>
             }
         </div>
@@ -33,8 +37,11 @@
         {
             <aside class="offcanvas offcanvas-start erp-sidebar" tabindex="-1" id="erpSidebar" aria-labelledby="erpSidebarLabel">
                 <div class="offcanvas-header">
-                    <h2 class="offcanvas-title h5" id="erpSidebarLabel">Syncro Cliente</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#erpSidebar" aria-label="Cerrar menú"></button>
+                    <div>
+                        <strong class="erp-sidebar__brand" id="erpSidebarLabel">ESSCO</strong>
+                        <span class="erp-sidebar__product">Syncro Cliente</span>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar menú"></button>
                 </div>
                 <div class="offcanvas-body">@await Component.InvokeAsync("ErpNavigation")</div>
             </aside>

@@ -20,9 +20,11 @@ El escritorio usaba una fila de menús MDI. La Web conserva nombres, orden y rel
 
 ### Patrón seleccionado
 
-**Cabecera ligera + panel lateral jerárquico `offcanvas`.** Los 13 grupos, 80 acciones y hasta tres niveles reales exceden lo que un menú superior o mega menú puede mostrar limpiamente. El botón Menú permanece visible en todas las resoluciones y abre exactamente el mismo árbol autorizado; el panel no comprime el contenido, permite escaneo vertical, abre automáticamente el grupo de la ruta actual y se cierra con botón, fondo o Escape.
+**Cabecera ligera + drawer jerárquico `offcanvas`.** Los 13 grupos, 80 acciones y hasta tres niveles reales exceden lo que un menú superior o mega menú puede mostrar limpiamente. El botón hamburguesa permanece visible en todas las resoluciones y abre exactamente el mismo árbol autorizado. El drawer blanco ESSCO se superpone sin comprimir ni recargar el contenido, tiene scroll independiente, abre automáticamente todos los antecesores de la ruta actual y se cierra con X, fondo o Escape.
 
-Estados visuales: la opción actual usa una superficie blanca y barra azul discreta; una opción parcial disponible conserva el texto claro y enlace real; una pendiente usa texto atenuado y un punto pequeño con explicación accesible y tooltip; una opción por revisar usa un punto delineado. El estado no depende solamente del color.
+Estados visuales: la opción actual usa una superficie azul muy clara y barra azul discreta; una opción parcial disponible conserva enlace real y etiqueta `Parcial`; una pendiente usa texto atenuado y etiqueta `Pendiente`; una opción por revisar usa `Por revisar`. El estado no depende solamente del color.
+
+Estado de entrega: **MENÚ GENERAL — PENDIENTE VALIDACIÓN USUARIO**.
 
 | Grupo | Subgrupo | Opción WinForms | Form/función original | Estado Web | Ruta Web | Permiso | Estado menú |
 |---|---|---|---|---|---|---|---|

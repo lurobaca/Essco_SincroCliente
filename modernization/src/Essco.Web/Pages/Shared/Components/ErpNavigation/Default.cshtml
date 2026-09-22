@@ -1,44 +1,14 @@
 @model IReadOnlyList<Essco.Application.Security.NavigationOption>
 @using Essco.Application.Security
+@{
+    var homeIsCurrent = Context.Request.Path == "/" || Context.Request.Path == "/Index";
+}
 
 <nav class="erp-navigation" aria-label="Navegación general de Syncro Cliente">
-    <a class="erp-home-link" asp-page="/Index">Inicio</a>
+    <a class="erp-home-link @(homeIsCurrent ? "erp-home-link--current" : null)" asp-page="/Index"
+       aria-current="@(homeIsCurrent ? "page" : null)">Inicio</a>
     @foreach (var group in Model)
     {
-        <details class="erp-nav-group">
-            <summary>@group.Label</summary>
-            <div class="erp-nav-items">
-                @foreach (var item in group.Items)
-                {
-                    if (item.Items.Count == 0)
-                    {
-                        <partial name="_ErpNavigationItem" model="item" />
-                    }
-                    else
-                    {
-                        <div class="erp-nav-subgroup">
-                            <span>@item.Label</span>
-                            @foreach (var child in item.Items)
-                            {
-                                if (child.Items.Count == 0)
-                                {
-                                    <partial name="_ErpNavigationItem" model="child" />
-                                }
-                                else
-                                {
-                                    <div class="erp-nav-subgroup erp-nav-subgroup--nested">
-                                        <span>@child.Label</span>
-                                        @foreach (var leaf in child.Items)
-                                        {
-                                            <partial name="_ErpNavigationItem" model="leaf" />
-                                        }
-                                    </div>
-                                }
-                            }
-                        </div>
-                    }
-                }
-            </div>
-        </details>
+        <partial name="_ErpNavigationNode" model="group" />
     }
 </nav>
