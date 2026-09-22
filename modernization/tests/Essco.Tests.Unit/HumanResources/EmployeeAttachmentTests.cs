@@ -1,5 +1,6 @@
 using Essco.Application.HumanResources;
 namespace Essco.Tests.Unit.HumanResources;
+
 public sealed class EmployeeAttachmentTests
 {
     [Fact]

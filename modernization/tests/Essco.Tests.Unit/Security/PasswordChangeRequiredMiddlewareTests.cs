@@ -12,20 +12,20 @@ public sealed class PasswordChangeRequiredMiddlewareTests
     [InlineData("/Inventory/fake.css", false, false)]
     [InlineData("/Account/ChangePassword", false, true)]
     [InlineData("/Account/Logout", false, true)]
-    public async Task Allows_registered_assets_but_keeps_business_pages_blocked(string path,bool asset,bool expectedNext)
+    public async Task Allows_registered_assets_but_keeps_business_pages_blocked(string path, bool asset, bool expectedNext)
     {
-        var context=new DefaultHttpContext();
-        context.Request.Path=path;
-        context.User=new ClaimsPrincipal(new ClaimsIdentity([new Claim("password_change_required","true")],"test"));
-        if(asset) context.SetEndpoint(new Endpoint(_=>Task.CompletedTask,new EndpointMetadataCollection(new PublicStaticAssetMetadata()),"asset"));
-        var called=false;
-        var middleware=new PasswordChangeRequiredMiddleware(_=>{called=true;return Task.CompletedTask;});
+        var context = new DefaultHttpContext();
+        context.Request.Path = path;
+        context.User = new ClaimsPrincipal(new ClaimsIdentity([new Claim("password_change_required", "true")], "test"));
+        if (asset) context.SetEndpoint(new Endpoint(_ => Task.CompletedTask, new EndpointMetadataCollection(new PublicStaticAssetMetadata()), "asset"));
+        var called = false;
+        var middleware = new PasswordChangeRequiredMiddleware(_ => { called = true; return Task.CompletedTask; });
         await middleware.InvokeAsync(context);
-        Assert.Equal(expectedNext,called);
-        if(!expectedNext)
+        Assert.Equal(expectedNext, called);
+        if (!expectedNext)
         {
-            Assert.Equal(302,context.Response.StatusCode);
-            Assert.Equal("/Account/ChangePassword",context.Response.Headers.Location.ToString());
+            Assert.Equal(302, context.Response.StatusCode);
+            Assert.Equal("/Account/ChangePassword", context.Response.Headers.Location.ToString());
         }
     }
 }

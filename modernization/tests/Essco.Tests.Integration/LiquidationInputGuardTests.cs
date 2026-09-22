@@ -7,13 +7,13 @@ public sealed class LiquidationInputGuardTests
     [Fact]
     public async Task Recalculation_rejects_unknown_kind_without_connecting()
     {
-        var repository=new SqlServerLiquidationRepository("invalid connection string",1,"SAP");
-        Assert.False(await repository.RecalculateAsync((LiquidationKind)99,1,default));
+        var repository = new SqlServerLiquidationRepository("invalid connection string", 1, "SAP");
+        Assert.False(await repository.RecalculateAsync((LiquidationKind)99, 1, default));
     }
     [Fact]
     public async Task Recalculation_rejects_invalid_number_without_connecting()
     {
-        var repository=new SqlServerLiquidationRepository("invalid connection string",1,"SAP");
-        Assert.False(await repository.RecalculateAsync(LiquidationKind.Agents,0,default));
+        var repository = new SqlServerLiquidationRepository("invalid connection string", 1, "SAP");
+        Assert.False(await repository.RecalculateAsync(LiquidationKind.Agents, 0, default));
     }
 }

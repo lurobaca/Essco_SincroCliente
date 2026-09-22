@@ -1,6 +1,7 @@
 using Essco.Application.Payroll;
 using Essco.Application.Customers;
 namespace Essco.Tests.Unit.Payroll;
+
 public sealed class PayrollJournalValidationTests
 {
     [Theory]

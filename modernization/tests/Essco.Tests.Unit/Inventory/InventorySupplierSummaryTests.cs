@@ -1,6 +1,7 @@
 using Essco.Application.Inventory;
 using Essco.Domain.Inventory;
 namespace Essco.Tests.Unit.Inventory;
+
 public sealed class InventorySupplierSummaryTests
 {
     [Fact]
