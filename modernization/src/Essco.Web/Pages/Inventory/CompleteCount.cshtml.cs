@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace Essco.Web.Pages.Inventory;
+
 [Authorize(Policy = Permissions.Warehouse)]
 public sealed class CompleteCountModel(IInventoryCountCompletion completion) : PageModel
 {

@@ -69,7 +69,7 @@ public sealed class PortalStore(IConfiguration configuration)
         cmd.Parameters.Add("@User", SqlDbType.UniqueIdentifier).Value = userId;
         var list = new List<Organization>();
         await using var reader = await cmd.ExecuteReaderAsync(token);
-        while (await reader.ReadAsync(token)) list.Add(new(reader.GetGuid(0),reader.GetString(1),reader.GetString(2)));
+        while (await reader.ReadAsync(token)) list.Add(new(reader.GetGuid(0), reader.GetString(1), reader.GetString(2)));
         return list;
     }
     public async Task<IReadOnlyList<PortalApplication>> Applications(Guid userId, Guid organizationId, CancellationToken token)
@@ -90,7 +90,7 @@ public sealed class PortalStore(IConfiguration configuration)
         cmd.Parameters.Add("@Org", SqlDbType.UniqueIdentifier).Value = organizationId;
         var list = new List<PortalApplication>();
         await using var reader = await cmd.ExecuteReaderAsync(token);
-        while (await reader.ReadAsync(token)) list.Add(new(reader.GetString(0),reader.GetString(1),reader.GetString(2),reader.GetBoolean(3)));
+        while (await reader.ReadAsync(token)) list.Add(new(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetBoolean(3)));
         return list;
     }
     // Local, interactive initialization only; not exposed as an HTTP endpoint.
@@ -109,10 +109,10 @@ public sealed class PortalStore(IConfiguration configuration)
             """, connection, tx);
         cmd.Parameters.Add("@User", SqlDbType.UniqueIdentifier).Value = Guid.NewGuid();
         cmd.Parameters.Add("@Org", SqlDbType.UniqueIdentifier).Value = Guid.NewGuid();
-        cmd.Parameters.Add("@Email", SqlDbType.NVarChar,254).Value = email.Trim().ToUpperInvariant();
-        cmd.Parameters.Add("@Name", SqlDbType.NVarChar,200).Value = name.Trim();
-        cmd.Parameters.Add("@Organization", SqlDbType.NVarChar,200).Value = organization.Trim();
-        cmd.Parameters.Add("@Hash", SqlDbType.NVarChar,512).Value = hasher.HashPassword(new(),password);
+        cmd.Parameters.Add("@Email", SqlDbType.NVarChar, 254).Value = email.Trim().ToUpperInvariant();
+        cmd.Parameters.Add("@Name", SqlDbType.NVarChar, 200).Value = name.Trim();
+        cmd.Parameters.Add("@Organization", SqlDbType.NVarChar, 200).Value = organization.Trim();
+        cmd.Parameters.Add("@Hash", SqlDbType.NVarChar, 512).Value = hasher.HashPassword(new(), password);
         await cmd.ExecuteNonQueryAsync();
         await tx.CommitAsync();
     }

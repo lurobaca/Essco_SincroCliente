@@ -35,7 +35,7 @@ public sealed class LoginModel(
     {
         if (!AccessConfigured || !Request.IsHttps)
         {
-            ModelState.AddModelError(string.Empty,"Se requiere configurar el acceso y abrir la aplicación por HTTPS.");
+            ModelState.AddModelError(string.Empty, "Se requiere configurar el acceso y abrir la aplicación por HTTPS.");
             return Page();
         }
         if (!ModelState.IsValid) return Page();

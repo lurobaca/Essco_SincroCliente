@@ -1,1 +1,7 @@
-using Essco.Application.Products;using Essco.Application.Security;using Essco.Domain.Products;using Microsoft.AspNetCore.Authorization;using Microsoft.AspNetCore.Mvc;using Microsoft.AspNetCore.Mvc.RazorPages;namespace Essco.Web.Pages.Products;[Authorize(Policy=Permissions.Billing)]public sealed class IndexModel(ProductService service):PageModel{[BindProperty(SupportsGet=true)]public string?Search{get;set;}[BindProperty(SupportsGet=true)]public string?Type{get;set;}[BindProperty(SupportsGet=true)]public bool ByDescription{get;set;}=true;public IReadOnlyCollection<Product>Items{get;private set;}=[];public async Task OnGetAsync(CancellationToken t)=>Items=await service.ListAsync(new(Search,Type,ByDescription),t);}
+using Essco.Application.Products;
+using Essco.Application.Security;
+using Essco.Domain.Products;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+namespace Essco.Web.Pages.Products; [Authorize(Policy = Permissions.Billing)] public sealed class IndexModel(ProductService service) : PageModel { [BindProperty(SupportsGet = true)] public string? Search { get; set; } [BindProperty(SupportsGet = true)] public string? Type { get; set; } [BindProperty(SupportsGet = true)] public bool ByDescription { get; set; } = true; public IReadOnlyCollection<Product> Items { get; private set; } = []; public async Task OnGetAsync(CancellationToken t) => Items = await service.ListAsync(new(Search, Type, ByDescription), t); }

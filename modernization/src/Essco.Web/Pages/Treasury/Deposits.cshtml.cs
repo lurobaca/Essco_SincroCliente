@@ -92,9 +92,14 @@ public sealed class DepositsModel(DepositService service, DepositSapDispatchServ
         public DepositFilter ToDomain() => new(From, To, Employee, Number, Consecutive, Uploaded, Type, IncludeAnnulled);
         public IReadOnlyDictionary<string, object?> RouteValues() => new Dictionary<string, object?>
         {
-            ["Filter.From"] = From, ["Filter.To"] = To, ["Filter.Employee"] = Employee,
-            ["Filter.Number"] = Number, ["Filter.Consecutive"] = Consecutive, ["Filter.Type"] = Type,
-            ["Filter.Uploaded"] = Uploaded, ["Filter.IncludeAnnulled"] = IncludeAnnulled
+            ["Filter.From"] = From,
+            ["Filter.To"] = To,
+            ["Filter.Employee"] = Employee,
+            ["Filter.Number"] = Number,
+            ["Filter.Consecutive"] = Consecutive,
+            ["Filter.Type"] = Type,
+            ["Filter.Uploaded"] = Uploaded,
+            ["Filter.IncludeAnnulled"] = IncludeAnnulled
         };
     }
 

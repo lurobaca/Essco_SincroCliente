@@ -1,1 +1,7 @@
-using Essco.Application.Billing;using Essco.Application.Security;using Essco.Domain.Billing;using Microsoft.AspNetCore.Authorization;using Microsoft.AspNetCore.Mvc;using Microsoft.AspNetCore.Mvc.RazorPages;namespace Essco.Web.Pages.Billing;[Authorize(Policy=Permissions.Billing)]public sealed class DetailModel(ElectronicInvoiceService service):PageModel{public ElectronicInvoice Invoice{get;private set;}=null!;public async Task<IActionResult>OnGetAsync(string number,CancellationToken t){var x=await service.GetAsync(number,t);if(x is null)return NotFound();Invoice=x;return Page();}}
+using Essco.Application.Billing;
+using Essco.Application.Security;
+using Essco.Domain.Billing;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+namespace Essco.Web.Pages.Billing; [Authorize(Policy = Permissions.Billing)] public sealed class DetailModel(ElectronicInvoiceService service) : PageModel { public ElectronicInvoice Invoice { get; private set; } = null!; public async Task<IActionResult> OnGetAsync(string number, CancellationToken t) { var x = await service.GetAsync(number, t); if (x is null) return NotFound(); Invoice = x; return Page(); } }
