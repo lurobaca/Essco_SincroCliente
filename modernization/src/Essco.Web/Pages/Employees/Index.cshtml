@@ -1,6 +1,80 @@
 @page
 @model Essco.Web.Pages.Employees.IndexModel
-@{ViewData["Title"]="Empleados";}
-<div class="d-flex justify-content-between align-items-center"><div><h1>Empleados</h1><p>@Model.Items.Count registro(s)</p></div>@if(Model.CanManage){<a asp-page="Edit" class="btn btn-primary">Nuevo empleado</a>}</div>
-<form method="get" class="row g-2 mb-3"><div class="col"><input asp-for="Search" placeholder="Cédula, código o nombre" class="form-control"/></div><div class="col form-check"><input asp-for="IncludeInactive" class="form-check-input"/><label asp-for="IncludeInactive">Incluir inactivos, cerrados y liquidados</label></div><div class="col-auto"><button class="btn btn-primary">Buscar</button></div></form>
-<table class="table"><thead><tr><th>Empleado</th><th>Puesto</th><th>Ingreso</th><th>Salario</th><th>Vacaciones</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>@foreach(var x in Model.Items){<tr><td><a asp-page="Detail" asp-route-id="@x.Identification">@x.Code - @x.Name</a><br/><small>@x.Identification</small></td><td>@x.Position</td><td>@x.HireDate</td><td>@x.Salary.ToString("N2")</td><td>@x.VacationPending</td><td><span class="badge @(x.Active?"text-bg-success":"text-bg-secondary")">@x.StatusName</span></td><td><a asp-page="Detail" asp-route-id="@x.Identification" class="btn btn-sm btn-outline-secondary">Ver</a>@if(Model.CanManage&&x.CanEdit){<a asp-page="Edit" asp-route-id="@x.Identification" class="btn btn-sm btn-outline-primary ms-1">Editar</a><form method="post" asp-page="Edit" asp-page-handler="Deactivate" class="d-inline"><input type="hidden" name="OriginalIdentification" value="@x.Identification"/><button class="btn btn-sm btn-outline-danger ms-1" onclick="return confirm('¿Está seguro que desea inactivar al empleado? WinForms no ofrece reactivación.');">Inactivar</button></form>}else if(!x.Active){<small class="d-block text-muted mt-1">Sin reactivación en WinForms</small>}</td></tr>}</tbody></table>
+@{
+    ViewData["Title"] = "Empleados";
+}
+
+<!-- Encabezado y acción de alta -->
+<div class="d-flex justify-content-between align-items-center">
+    <div>
+        <h1>Empleados</h1>
+        <p>@Model.Items.Count registro(s)</p>
+    </div>
+    @if (Model.CanManage)
+    {
+        <a asp-page="Edit" class="btn btn-primary">Nuevo empleado</a>
+    }
+</div>
+
+<!-- Filtros del listado -->
+<form method="get" class="row g-2 mb-3">
+    <div class="col">
+        <input asp-for="Search" placeholder="Cédula, código o nombre" class="form-control" />
+    </div>
+    <div class="col form-check">
+        <input asp-for="IncludeInactive" class="form-check-input" />
+        <label asp-for="IncludeInactive">Incluir inactivos, cerrados y liquidados</label>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary">Buscar</button>
+    </div>
+</form>
+
+<!-- Resultados y acciones disponibles por empleado -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Empleado</th>
+            <th>Puesto</th>
+            <th>Ingreso</th>
+            <th>Salario</th>
+            <th>Vacaciones</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model.Items)
+        {
+            <tr>
+                <td>
+                    <a asp-page="Detail" asp-route-id="@employee.Identification">@employee.Code - @employee.Name</a>
+                    <br />
+                    <small>@employee.Identification</small>
+                </td>
+                <td>@employee.Position</td>
+                <td>@employee.HireDate</td>
+                <td>@employee.Salary.ToString("N2")</td>
+                <td>@employee.VacationPending</td>
+                <td>
+                    <span class="badge @(employee.Active ? "text-bg-success" : "text-bg-secondary")">@employee.StatusName</span>
+                </td>
+                <td>
+                    <a asp-page="Detail" asp-route-id="@employee.Identification" class="btn btn-sm btn-outline-secondary">Ver</a>
+                    @if (Model.CanManage && employee.CanEdit)
+                    {
+                        <a asp-page="Edit" asp-route-id="@employee.Identification" class="btn btn-sm btn-outline-primary ms-1">Editar</a>
+                        <form method="post" asp-page="Edit" asp-page-handler="Deactivate" class="d-inline">
+                            <input type="hidden" name="OriginalIdentification" value="@employee.Identification" />
+                            <button class="btn btn-sm btn-outline-danger ms-1" onclick="return confirm('¿Está seguro que desea inactivar al empleado? WinForms no ofrece reactivación.');">Inactivar</button>
+                        </form>
+                    }
+                    else if (!employee.Active)
+                    {
+                        <small class="d-block text-muted mt-1">Sin reactivación en WinForms</small>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

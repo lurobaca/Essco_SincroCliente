@@ -38,7 +38,10 @@
             @if (Model.CanManage && employee.CanEdit)
             {
                 <a class="btn btn-primary" asp-page="Edit" asp-route-id="@employee.Identification">Editar datos</a>
-                <form method="post" asp-page="Edit" asp-page-handler="Deactivate"><input type="hidden" name="OriginalIdentification" value="@employee.Identification"/><button class="btn btn-outline-danger" onclick="return confirm('¿Está seguro que desea inactivar al empleado? Podrá reactivarlo después mediante un nuevo ciclo laboral.');">Inactivar empleado</button></form>
+                <form method="post" asp-page="Edit" asp-page-handler="Deactivate">
+                    <input type="hidden" name="OriginalIdentification" value="@employee.Identification" />
+                    <button class="btn btn-outline-danger" onclick="return confirm('¿Está seguro que desea inactivar al empleado? Podrá reactivarlo después mediante un nuevo ciclo laboral.');">Inactivar empleado</button>
+                </form>
             }
             else if (Model.CanManage && employee.StatusCode == 1)
             {
