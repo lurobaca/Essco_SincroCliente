@@ -27,13 +27,13 @@ public sealed record NavigationOption(
 /// </summary>
 public static class ErpNavigationCatalog
 {
-    private static NavigationOption P(string label,string control,string form,string page,string permission) =>
-        new(label,control,form,NavigationMigrationState.Partial,page,permission);
-    private static NavigationOption N(string label,string control,string? form=null) => new(label,control,form);
-    private static NavigationOption O(string label,string control,string? form=null) =>
-        new(label,control,form,NavigationMigrationState.ObsoleteReview);
-    private static NavigationOption G(string label,string control,params NavigationOption[] children) =>
-        new(label,control,Children:children);
+    private static NavigationOption P(string label, string control, string form, string page, string permission) =>
+        new(label, control, form, NavigationMigrationState.Partial, page, permission);
+    private static NavigationOption N(string label, string control, string? form = null) => new(label, control, form);
+    private static NavigationOption O(string label, string control, string? form = null) =>
+        new(label, control, form, NavigationMigrationState.ObsoleteReview);
+    private static NavigationOption G(string label, string control, params NavigationOption[] children) =>
+        new(label, control, Children: children);
 
     public static IReadOnlyList<NavigationOption> Groups { get; } =
     [

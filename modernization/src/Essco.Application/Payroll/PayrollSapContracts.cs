@@ -1,11 +1,17 @@
-using System.Text.Json;using Essco.Application.Customers;using Essco.Domain;using Essco.SapBridge.Contracts;
+using System.Text.Json;
+using Essco.Application.Customers;
+using Essco.Domain;
+using Essco.SapBridge.Contracts;
 namespace Essco.Application.Payroll;
-public static class PayrollSapOperations{public const string CreateJournal="Payroll.CreateJournal";}public sealed record PayrollSapPayload(int Number);public sealed record PayrollJournal(int Number,string Memo,IReadOnlyCollection<PayrollJournalLine> Lines);public sealed record PayrollJournalLine(string AccountCode,decimal Debit,decimal Credit);
-public interface IPayrollJournalRepository{ValueTask<PayrollJournal?>GetAsync(int number,CancellationToken token);}
-public sealed class PayrollSapDispatchService(IPayrollJournalRepository repository,ISapJobQueue queue)
-{public async ValueTask<(bool Succeeded,SapJob?Job,string?Error)>DispatchAsync(int number,string company,string user,CancellationToken t){var journal=await repository.GetAsync(number,t);if(journal is null)return(false,null,"La planilla no existe o no produjo asiento.");if(journal.Lines.Count==0)return(false,null,"El asiento no contiene líneas.");if(journal.Lines.Any(x=>string.IsNullOrWhiteSpace(x.AccountCode)))return(false,null,"El asiento contiene cuentas contables vacías.");var debit=journal.Lines.Sum(x=>x.Debit);var credit=journal.Lines.Sum(x=>x.Credit);if(debit<=0||debit!=credit)return(false,null,$"El asiento no está balanceado: débito {debit:N2}, crédito {credit:N2}.");var job=await queue.EnqueueAsync(new(PayrollSapOperations.CreateJournal,company,user,JsonSerializer.Serialize(new PayrollSapPayload(number)),$"payroll:{number}:journal"),t);return(true,job,null);}}
-public interface ISapPayrollGateway{ValueTask<SapProcessingResult>CreateJournalAsync(PayrollJournal journal,CancellationToken token);}public interface IPayrollSapJobProcessor{ValueTask<SapProcessingResult>ProcessAsync(string operation,string payload,CancellationToken token);}
-public sealed class PayrollSapJobProcessor(IPayrollJournalRepository repository,ISapPayrollGateway gateway):IPayrollSapJobProcessor
+
+public static class PayrollSapOperations { public const string CreateJournal = "Payroll.CreateJournal"; }
+public sealed record PayrollSapPayload(int Number); public sealed record PayrollJournal(int Number, string Memo, IReadOnlyCollection<PayrollJournalLine> Lines); public sealed record PayrollJournalLine(string AccountCode, decimal Debit, decimal Credit);
+public interface IPayrollJournalRepository { ValueTask<PayrollJournal?> GetAsync(int number, CancellationToken token); }
+public sealed class PayrollSapDispatchService(IPayrollJournalRepository repository, ISapJobQueue queue)
+{ public async ValueTask<(bool Succeeded, SapJob? Job, string? Error)> DispatchAsync(int number, string company, string user, CancellationToken t) { var journal = await repository.GetAsync(number, t); if (journal is null) return (false, null, "La planilla no existe o no produjo asiento."); if (journal.Lines.Count == 0) return (false, null, "El asiento no contiene líneas."); if (journal.Lines.Any(x => string.IsNullOrWhiteSpace(x.AccountCode))) return (false, null, "El asiento contiene cuentas contables vacías."); var debit = journal.Lines.Sum(x => x.Debit); var credit = journal.Lines.Sum(x => x.Credit); if (debit <= 0 || debit != credit) return (false, null, $"El asiento no está balanceado: débito {debit:N2}, crédito {credit:N2}."); var job = await queue.EnqueueAsync(new(PayrollSapOperations.CreateJournal, company, user, JsonSerializer.Serialize(new PayrollSapPayload(number)), $"payroll:{number}:journal"), t); return (true, job, null); } }
+public interface ISapPayrollGateway { ValueTask<SapProcessingResult> CreateJournalAsync(PayrollJournal journal, CancellationToken token); }
+public interface IPayrollSapJobProcessor { ValueTask<SapProcessingResult> ProcessAsync(string operation, string payload, CancellationToken token); }
+public sealed class PayrollSapJobProcessor(IPayrollJournalRepository repository, ISapPayrollGateway gateway) : IPayrollSapJobProcessor
 {
     public async ValueTask<SapProcessingResult> ProcessAsync(string operation, string payload, CancellationToken t)
     {

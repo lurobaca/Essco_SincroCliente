@@ -1,4 +1,5 @@
 namespace Essco.Application.Inventory;
+
 public sealed record InventoryConsolidationRequest(int Inventory, string Supplier, string Group,
     string Responsible, string Companion, decimal Threshold)
 {

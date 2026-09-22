@@ -22,22 +22,22 @@ public sealed record Liquidation
     public bool IsAnnulled { get; init; }
     public IReadOnlyCollection<string> Validate()
     {
-        var errors=new List<string>();
-        if(!Enum.IsDefined(Kind))errors.Add("El tipo de responsable no es válido.");
-        if(string.IsNullOrWhiteSpace(EmployeeCode))errors.Add("El código del empleado es obligatorio.");
-        if(string.IsNullOrWhiteSpace(EmployeeName))errors.Add("El nombre del empleado es obligatorio.");
-        if(From>To)errors.Add("El rango principal de fechas es inválido.");
-        if(Kind==LiquidationKind.Drivers&&ReceiptFrom>ReceiptTo)errors.Add("El rango de recibos es inválido.");
-        if(string.IsNullOrWhiteSpace(Type))errors.Add("El tipo de liquidación es obligatorio.");
-        if((EmployeeCode?.Length??0)>50||(Identification?.Length??0)>50||(EmployeeName?.Length??0)>200
-            ||(Notes?.Length??0)>1000||(Type?.Length??0)>20||(Route?.Length??0)>100
-            ||(AgentCodes?.Length??0)>1000||(InvoiceReportCodes?.Length??0)>1000)
+        var errors = new List<string>();
+        if (!Enum.IsDefined(Kind)) errors.Add("El tipo de responsable no es válido.");
+        if (string.IsNullOrWhiteSpace(EmployeeCode)) errors.Add("El código del empleado es obligatorio.");
+        if (string.IsNullOrWhiteSpace(EmployeeName)) errors.Add("El nombre del empleado es obligatorio.");
+        if (From > To) errors.Add("El rango principal de fechas es inválido.");
+        if (Kind == LiquidationKind.Drivers && ReceiptFrom > ReceiptTo) errors.Add("El rango de recibos es inválido.");
+        if (string.IsNullOrWhiteSpace(Type)) errors.Add("El tipo de liquidación es obligatorio.");
+        if ((EmployeeCode?.Length ?? 0) > 50 || (Identification?.Length ?? 0) > 50 || (EmployeeName?.Length ?? 0) > 200
+            || (Notes?.Length ?? 0) > 1000 || (Type?.Length ?? 0) > 20 || (Route?.Length ?? 0) > 100
+            || (AgentCodes?.Length ?? 0) > 1000 || (InvoiceReportCodes?.Length ?? 0) > 1000)
             errors.Add("Uno de los campos supera la longitud permitida.");
         return errors;
     }
 }
-public sealed record LiquidationFilter(LiquidationKind Kind,DateOnly? From=null,DateOnly? To=null,int? Consecutive=null,bool IncludeAnnulled=false);
-public sealed record LiquidationSummary(decimal Invoices,decimal Deposits,decimal Receipts,decimal Expenses)
+public sealed record LiquidationFilter(LiquidationKind Kind, DateOnly? From = null, DateOnly? To = null, int? Consecutive = null, bool IncludeAnnulled = false);
+public sealed record LiquidationSummary(decimal Invoices, decimal Deposits, decimal Receipts, decimal Expenses)
 {
     public decimal Result => Deposits + Expenses - Receipts;
 }
