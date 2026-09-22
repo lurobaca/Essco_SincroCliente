@@ -1,7 +1,7 @@
 using Essco.Domain.Liquidations;
 using Essco.Infrastructure.Data;
 namespace Essco.Tests.Integration;
-// Checks guards before SQL is opened; does not validate the SQL transaction itself.
+// Verifica las validaciones previas a la apertura de SQL; no valida la transacción SQL en sí.
 public sealed class LiquidationInputGuardTests
 {
     [Fact]

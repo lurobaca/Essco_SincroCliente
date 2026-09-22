@@ -7,8 +7,8 @@ namespace Essco.Application.Customers;
 
 public static class CustomerRequestFingerprint
 {
-    // Approval is delivery state, not part of the submitted customer data.
-    // Never persist the serialized source: it may include the legacy web password.
+    // La aprobación es un estado de entrega, no forma parte de los datos enviados del cliente.
+    // Nunca persiste el origen serializado: podría incluir la contraseña Web heredada.
     public static string Compute(CustomerChangeRequest customer) =>
         Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(
             JsonSerializer.Serialize(customer with { Approved = false }))));

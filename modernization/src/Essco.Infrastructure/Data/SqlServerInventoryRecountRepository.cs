@@ -11,8 +11,8 @@ public sealed class SqlServerInventoryRecountRepository(string connectionString,
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync(token);
         await using var transaction = (SqlTransaction)await connection.BeginTransactionAsync(IsolationLevel.Serializable, token);
-        // A connection-local staging table supports legacy SQL compatibility levels
-        // and avoids both JSON parsing and the 2,100 SQL parameter limit.
+        // Una tabla temporal local a la conexión admite niveles heredados de compatibilidad SQL
+        // y evita tanto el análisis de JSON como el límite de 2.100 parámetros SQL.
         await using (var create = new SqlCommand(
             "CREATE TABLE #Selected (Code nvarchar(100) COLLATE DATABASE_DEFAULT NOT NULL);",
             connection, transaction)

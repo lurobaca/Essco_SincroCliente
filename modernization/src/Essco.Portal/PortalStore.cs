@@ -93,7 +93,7 @@ public sealed class PortalStore(IConfiguration configuration)
         while (await reader.ReadAsync(token)) list.Add(new(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetBoolean(3)));
         return list;
     }
-    // Local, interactive initialization only; not exposed as an HTTP endpoint.
+    // Inicialización local e interactiva; no se expone como endpoint HTTP.
     public async Task Provision(string email, string name, string organization, string password)
     {
         await using var connection = await Open(default);

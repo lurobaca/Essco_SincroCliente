@@ -4,7 +4,7 @@ namespace Essco.Application.Inventory;
 public sealed record InventorySupplierLine(string Code, string Description, decimal Quantity,
     decimal? Stock, decimal? Cost, bool Invalid)
 {
-    // GuardaGrupo in Inv_Cruzar.vb uses stock minus counted quantity here.
+    // GuardaGrupo en Inv_Cruzar.vb utiliza aquí el stock menos la cantidad contada.
     public decimal? Difference => Stock - Quantity;
     public decimal? Amount => Difference * Cost;
     public bool RequiresRecount(decimal threshold) =>

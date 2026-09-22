@@ -26,7 +26,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 var builder = WebApplication.CreateBuilder(args);
 if (builder.Environment.IsDevelopment())
 {
-    // Machine-specific settings stay outside source control; explicit overrides retain priority.
+    // La configuración específica del equipo queda fuera del control de versiones; los valores explícitos conservan prioridad.
     builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: false)
         .AddUserSecrets(typeof(Program).Assembly, optional: true)
         .AddEnvironmentVariables().AddCommandLine(args);
@@ -203,8 +203,8 @@ app.UseAuthentication();
 app.UseMiddleware<PasswordChangeRequiredMiddleware>();
 app.UseAuthorization();
 
-// Public CSS/JS must load on anonymous pages such as the dashboard and login.
-// Business pages retain the authenticated fallback policy and their permissions.
+// Los recursos CSS/JS públicos deben cargar en páginas anónimas como el panel y el inicio de sesión.
+// Las páginas de negocio conservan la política de autenticación predeterminada y sus permisos.
 app.MapStaticAssets().AllowAnonymous().WithMetadata(new PublicStaticAssetMetadata());
 app.MapRazorPages()
    .WithStaticAssets();

@@ -22,8 +22,8 @@ public sealed record NavigationOption(
 }
 
 /// <summary>
-/// User-facing projection of Principal.MenuStrip1. This is intentionally explicit:
-/// changing an option from pending to available must be a reviewed one-line state/route change.
+/// Proyección para el usuario de Principal.MenuStrip1. Se mantiene explícita de forma intencional:
+/// cambiar una opción de pendiente a disponible requiere revisar el cambio de estado y ruta.
 /// </summary>
 public static class ErpNavigationCatalog
 {

@@ -5,7 +5,7 @@ using System.Xml;
 using Essco.Domain.Inventory;
 namespace Essco.Application.Inventory;
 
-/// <summary>Text-cell workbook matching the legacy Obtiene_DatosPlantilla column order.</summary>
+/// <summary>Libro de celdas de texto que conserva el orden de columnas heredado de Obtiene_DatosPlantilla.</summary>
 public static class InventorySapTemplate
 {
     private static readonly string[] Headers = ["Codigo","Descripcion","Almacen","Cantidad en almacén en fecha de recuento",

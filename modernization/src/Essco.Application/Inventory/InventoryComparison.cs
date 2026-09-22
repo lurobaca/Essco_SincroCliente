@@ -23,7 +23,7 @@ public static class InventoryComparison
         {
             var a = rows.Where(x => x.Number == first).ToArray();
             var b = rows.Where(x => x.Number == second).ToArray();
-            // A missing or duplicated row must not silently become a zero count.
+            // Una fila ausente o duplicada no debe convertirse silenciosamente en un conteo cero.
             return new InventoryComparisonLine(rows.Key, rows.First().Description,
                 a.Length == 1 ? a[0].Quantity : null, b.Length == 1 ? b[0].Quantity : null,
                 costs.TryGetValue(rows.Key, out var item) ? item.UnitCost : null);

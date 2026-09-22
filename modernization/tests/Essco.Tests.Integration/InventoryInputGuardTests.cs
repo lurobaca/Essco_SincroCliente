@@ -2,7 +2,7 @@ using Essco.Application.Inventory;
 using Essco.Infrastructure.Data;
 namespace Essco.Tests.Integration;
 
-// These tests verify rejection before opening SQL; they are not database integration tests.
+// Estas pruebas verifican el rechazo antes de abrir SQL; no son pruebas de integración con la base de datos.
 public sealed class InventoryInputGuardTests
 {
     [Theory]

@@ -17,8 +17,8 @@ public sealed class SqlServerInventoryCreationRepository(string connectionString
                 return new(false, Error: "Existe un inventario abierto.");
         }
 
-        // Validate legacy integer destinations before inserting the header. The source
-        // view exposes Sector as text and stock/pack as numeric, unlike the destination.
+        // Valida los campos enteros heredados antes de insertar el encabezado. La vista
+        // de origen expone Sector como texto y stock/empaque como números, a diferencia del destino.
         await using (var check = Cmd("SELECT Sector,Stock_B1,Empaque FROM dbo.Inve_Conteo WITH (HOLDLOCK)", connection, transaction))
         await using (var reader = await check.ExecuteReaderAsync(token))
         {
