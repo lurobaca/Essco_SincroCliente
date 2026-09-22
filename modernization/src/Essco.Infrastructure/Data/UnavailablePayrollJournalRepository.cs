@@ -1,1 +1,2 @@
-using Essco.Application.Payroll;namespace Essco.Infrastructure.Data;public sealed class UnavailablePayrollJournalRepository:IPayrollJournalRepository{public ValueTask<PayrollJournal?>GetAsync(int n,CancellationToken t)=>ValueTask.FromResult<PayrollJournal?>(null);}
+using Essco.Application.Payroll;
+namespace Essco.Infrastructure.Data; public sealed class UnavailablePayrollJournalRepository : IPayrollJournalRepository { public ValueTask<PayrollJournal?> GetAsync(int n, CancellationToken t) => ValueTask.FromResult<PayrollJournal?>(null); }

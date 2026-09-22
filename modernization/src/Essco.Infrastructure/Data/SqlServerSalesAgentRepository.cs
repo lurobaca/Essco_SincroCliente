@@ -44,10 +44,21 @@ public sealed class SqlServerSalesAgentRepository(string connectionString, int t
 
     private static SalesAgent Read(SqlDataReader reader) => new()
     {
-        Code = Text(reader, "CodAgente"), Identification = Text(reader, "Cedula"), Name = Text(reader, "Nombre"), Phone = Text(reader, "Telefono"),
-        OrderSequence = Text(reader, "Conse_Pedido"), PaymentSequence = Text(reader, "Conse_Pagos"), DepositSequence = Text(reader, "Conse_Deposito"),
-        ExpenseSequence = Text(reader, "Conse_Gastos"), NoVisitSequence = Text(reader, "Conse_NoVisita"), Email = Text(reader, "Correo"), FtpPath = Text(reader, "FTP"),
-        Group = Text(reader, "Grupo"), ReturnSequence = Text(reader, "Conse_Devoluciones"), NewCustomerSequence = Text(reader, "Conse_ClientesNuevos"), Position = Text(reader, "Puesto")
+        Code = Text(reader, "CodAgente"),
+        Identification = Text(reader, "Cedula"),
+        Name = Text(reader, "Nombre"),
+        Phone = Text(reader, "Telefono"),
+        OrderSequence = Text(reader, "Conse_Pedido"),
+        PaymentSequence = Text(reader, "Conse_Pagos"),
+        DepositSequence = Text(reader, "Conse_Deposito"),
+        ExpenseSequence = Text(reader, "Conse_Gastos"),
+        NoVisitSequence = Text(reader, "Conse_NoVisita"),
+        Email = Text(reader, "Correo"),
+        FtpPath = Text(reader, "FTP"),
+        Group = Text(reader, "Grupo"),
+        ReturnSequence = Text(reader, "Conse_Devoluciones"),
+        NewCustomerSequence = Text(reader, "Conse_ClientesNuevos"),
+        Position = Text(reader, "Puesto")
     };
 
     private static void AddParameters(SqlCommand command, SalesAgent agent)

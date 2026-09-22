@@ -23,10 +23,17 @@ public sealed class SqlServerWarehouseOperatorRepository(string connectionString
             var sectors = Enumerable.Range(1, SectorCount).Where(x => Convert.ToInt32(reader[$"Sector{x}"]) != 0).ToArray();
             result.Add(new WarehouseOperator
             {
-                Code = Text(reader, "CodBodeguero"), Name = Text(reader, "Nombre"), Phone = Text(reader, "Telefono"),
-                LoadSequence = Text(reader, "Conse_RepCarga"), ReturnSequence = Text(reader, "Conse_RepDevoluciones"),
-                Email = Text(reader, "Correo"), FtpPath = Text(reader, "FTP"), Position = Text(reader, "Puesto"),
-                Identification = Text(reader, "Cedula"), Username = Text(reader, "Usuario"), Sectors = sectors
+                Code = Text(reader, "CodBodeguero"),
+                Name = Text(reader, "Nombre"),
+                Phone = Text(reader, "Telefono"),
+                LoadSequence = Text(reader, "Conse_RepCarga"),
+                ReturnSequence = Text(reader, "Conse_RepDevoluciones"),
+                Email = Text(reader, "Correo"),
+                FtpPath = Text(reader, "FTP"),
+                Position = Text(reader, "Puesto"),
+                Identification = Text(reader, "Cedula"),
+                Username = Text(reader, "Usuario"),
+                Sectors = sectors
             });
         }
         return result;

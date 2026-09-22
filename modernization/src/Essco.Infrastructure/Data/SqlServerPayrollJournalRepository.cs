@@ -1,5 +1,9 @@
-using System.Data;using Essco.Application.Payroll;using Microsoft.Data.SqlClient;namespace Essco.Infrastructure.Data;
-public sealed class SqlServerPayrollJournalRepository(string connectionString,int timeout):IPayrollJournalRepository
+using System.Data;
+using Essco.Application.Payroll;
+using Microsoft.Data.SqlClient;
+namespace Essco.Infrastructure.Data;
+
+public sealed class SqlServerPayrollJournalRepository(string connectionString, int timeout) : IPayrollJournalRepository
 {
     public async ValueTask<PayrollJournal?> GetAsync(int number, CancellationToken t)
     {

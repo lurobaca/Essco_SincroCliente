@@ -2,6 +2,7 @@ using System.Data;
 using Essco.Application.Inventory;
 using Microsoft.Data.SqlClient;
 namespace Essco.Infrastructure.Data;
+
 public sealed class SqlServerInventoryConsolidationRepository(string connectionString, int timeout) : IInventoryConsolidationRepository
 {
     public async ValueTask<bool> CreateAsync(InventoryConsolidationRequest request, CancellationToken token)
@@ -70,7 +71,7 @@ public sealed class SqlServerInventoryConsolidationRepository(string connectionS
         command.Parameters.Add("@Responsible", SqlDbType.NVarChar, 200).Value = request.Responsible.Trim();
         command.Parameters.Add("@Companion", SqlDbType.NVarChar, 200).Value = request.Companion?.Trim() ?? "";
         var threshold = command.Parameters.Add("@Threshold", SqlDbType.Decimal);
-        threshold.Precision=19; threshold.Scale=4; threshold.Value=request.Threshold;
+        threshold.Precision = 19; threshold.Scale = 4; threshold.Value = request.Threshold;
         var succeeded = Convert.ToInt32(await command.ExecuteScalarAsync(token)) == 1;
         if (succeeded) await transaction.CommitAsync(token); else await transaction.RollbackAsync(token);
         return succeeded;

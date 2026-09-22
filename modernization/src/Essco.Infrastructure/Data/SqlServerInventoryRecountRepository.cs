@@ -15,7 +15,8 @@ public sealed class SqlServerInventoryRecountRepository(string connectionString,
         // and avoids both JSON parsing and the 2,100 SQL parameter limit.
         await using (var create = new SqlCommand(
             "CREATE TABLE #Selected (Code nvarchar(100) COLLATE DATABASE_DEFAULT NOT NULL);",
-            connection, transaction) { CommandTimeout = timeout })
+            connection, transaction)
+        { CommandTimeout = timeout })
             await create.ExecuteNonQueryAsync(token);
         using (var selected = new DataTable())
         {

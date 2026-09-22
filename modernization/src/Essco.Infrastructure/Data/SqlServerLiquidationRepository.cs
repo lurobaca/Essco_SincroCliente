@@ -3,86 +3,92 @@ using Essco.Application.Liquidations;
 using Essco.Domain.Liquidations;
 using Microsoft.Data.SqlClient;
 namespace Essco.Infrastructure.Data;
-public sealed class SqlServerLiquidationRepository(string connectionString,int timeout,string sapDatabase):ILiquidationRepository
+
+public sealed class SqlServerLiquidationRepository(string connectionString, int timeout, string sapDatabase) : ILiquidationRepository
 {
-    public async ValueTask<IReadOnlyCollection<Liquidation>> ListAsync(LiquidationFilter filter,CancellationToken token)
+    public async ValueTask<IReadOnlyCollection<Liquidation>> ListAsync(LiquidationFilter filter, CancellationToken token)
     {
-        var table=Table(filter.Kind);var extra=filter.Kind==LiquidationKind.Drivers?",[Agentes],[FechaINI_Recibos],[FechaFIN_Recibos],[CodRepFacturas]":",'' AS [Agentes],[FechaINI] AS [FechaINI_Recibos],[FechaFIN] AS [FechaFIN_Recibos],'' AS [CodRepFacturas]";
-        await using var c=await Open(token);await using var cmd=Command("",c);var conditions=new List<string>();
-        if(filter.From is not null){conditions.Add("[Fecha]>=@From");cmd.Parameters.Add("@From",SqlDbType.Date).Value=filter.From.Value.ToDateTime(TimeOnly.MinValue);}if(filter.To is not null){conditions.Add("[Fecha]<DATEADD(day,1,@To)");cmd.Parameters.Add("@To",SqlDbType.Date).Value=filter.To.Value.ToDateTime(TimeOnly.MinValue);}if(filter.Consecutive is not null){conditions.Add("[Cosecutivo]=@Number");cmd.Parameters.Add("@Number",SqlDbType.Int).Value=filter.Consecutive.Value;}if(!filter.IncludeAnnulled)conditions.Add("ISNULL([Anulada],0)<>1");
-        cmd.CommandText=$"SELECT TOP (500) [Cosecutivo],[Fecha],[CodAgente],[CedulaAgente],[NombreAgente],[FechaINI],[FechaFIN],[Comentarios],[Tipo],[Resultado],[Anulada],[Ruta]{extra} FROM [dbo].[{table}]{(conditions.Count==0?"":" WHERE "+string.Join(" AND ",conditions))} ORDER BY [Cosecutivo] DESC";
-        var result=new List<Liquidation>();await using var r=await cmd.ExecuteReaderAsync(token);while(await r.ReadAsync(token))result.Add(Read(r,filter.Kind));return result;
+        var table = Table(filter.Kind); var extra = filter.Kind == LiquidationKind.Drivers ? ",[Agentes],[FechaINI_Recibos],[FechaFIN_Recibos],[CodRepFacturas]" : ",'' AS [Agentes],[FechaINI] AS [FechaINI_Recibos],[FechaFIN] AS [FechaFIN_Recibos],'' AS [CodRepFacturas]";
+        await using var c = await Open(token); await using var cmd = Command("", c); var conditions = new List<string>();
+        if (filter.From is not null) { conditions.Add("[Fecha]>=@From"); cmd.Parameters.Add("@From", SqlDbType.Date).Value = filter.From.Value.ToDateTime(TimeOnly.MinValue); }
+        if (filter.To is not null) { conditions.Add("[Fecha]<DATEADD(day,1,@To)"); cmd.Parameters.Add("@To", SqlDbType.Date).Value = filter.To.Value.ToDateTime(TimeOnly.MinValue); }
+        if (filter.Consecutive is not null) { conditions.Add("[Cosecutivo]=@Number"); cmd.Parameters.Add("@Number", SqlDbType.Int).Value = filter.Consecutive.Value; }
+        if (!filter.IncludeAnnulled) conditions.Add("ISNULL([Anulada],0)<>1");
+        cmd.CommandText = $"SELECT TOP (500) [Cosecutivo],[Fecha],[CodAgente],[CedulaAgente],[NombreAgente],[FechaINI],[FechaFIN],[Comentarios],[Tipo],[Resultado],[Anulada],[Ruta]{extra} FROM [dbo].[{table}]{(conditions.Count == 0 ? "" : " WHERE " + string.Join(" AND ", conditions))} ORDER BY [Cosecutivo] DESC";
+        var result = new List<Liquidation>(); await using var r = await cmd.ExecuteReaderAsync(token); while (await r.ReadAsync(token)) result.Add(Read(r, filter.Kind)); return result;
     }
-    public async ValueTask<LiquidationWriteResult> CreateAsync(Liquidation x,CancellationToken token)
+    public async ValueTask<LiquidationWriteResult> CreateAsync(Liquidation x, CancellationToken token)
     {
-        var errors=x.Validate();if(errors.Count>0)return new(false,0,string.Join(" ",errors));
-        await using var c=await Open(token);await using var tx=(SqlTransaction)await c.BeginTransactionAsync(IsolationLevel.Serializable,token);
+        var errors = x.Validate(); if (errors.Count > 0) return new(false, 0, string.Join(" ", errors));
+        await using var c = await Open(token); await using var tx = (SqlTransaction)await c.BeginTransactionAsync(IsolationLevel.Serializable, token);
         try
         {
-            var column=x.Kind==LiquidationKind.Agents?"ConseLiqAgentes":"ConseLiqChoferes";
-            await using var next=Command($"SELECT [{column}] FROM [dbo].[Consecutivos_Liquidaciones] WITH (UPDLOCK,HOLDLOCK)",c,tx);
+            var column = x.Kind == LiquidationKind.Agents ? "ConseLiqAgentes" : "ConseLiqChoferes";
+            await using var next = Command($"SELECT [{column}] FROM [dbo].[Consecutivos_Liquidaciones] WITH (UPDLOCK,HOLDLOCK)", c, tx);
             int id;
-            await using(var reader=await next.ExecuteReaderAsync(token))
+            await using (var reader = await next.ExecuteReaderAsync(token))
             {
-                if(!await reader.ReadAsync(token)||reader.IsDBNull(0))
-                    return new(false,0,"No se configuró el consecutivo de liquidaciones.");
-                id=Convert.ToInt32(reader[0]);
-                if(id<=0||id==int.MaxValue||await reader.ReadAsync(token))
-                    return new(false,0,"La configuración de consecutivos no es única o válida.");
+                if (!await reader.ReadAsync(token) || reader.IsDBNull(0))
+                    return new(false, 0, "No se configuró el consecutivo de liquidaciones.");
+                id = Convert.ToInt32(reader[0]);
+                if (id <= 0 || id == int.MaxValue || await reader.ReadAsync(token))
+                    return new(false, 0, "La configuración de consecutivos no es única o válida.");
             }
-            await using var insert=Command(InsertSql(x.Kind),c,tx);Add(insert,x with{Consecutive=id});
-            if(await insert.ExecuteNonQueryAsync(token)!=1) return new(false,0,"No se insertó una única liquidación.");
-            await using var increase=Command($"UPDATE [dbo].[Consecutivos_Liquidaciones] SET [{column}]=@Next WHERE [{column}]=@Current",c,tx);
-            increase.Parameters.Add("@Next",SqlDbType.Int).Value=id+1;
-            increase.Parameters.Add("@Current",SqlDbType.Int).Value=id;
-            if(await increase.ExecuteNonQueryAsync(token)!=1) return new(false,0,"No se pudo reservar el consecutivo.");
-            await tx.CommitAsync(token);return new(true,id);
+            await using var insert = Command(InsertSql(x.Kind), c, tx); Add(insert, x with { Consecutive = id });
+            if (await insert.ExecuteNonQueryAsync(token) != 1) return new(false, 0, "No se insertó una única liquidación.");
+            await using var increase = Command($"UPDATE [dbo].[Consecutivos_Liquidaciones] SET [{column}]=@Next WHERE [{column}]=@Current", c, tx);
+            increase.Parameters.Add("@Next", SqlDbType.Int).Value = id + 1;
+            increase.Parameters.Add("@Current", SqlDbType.Int).Value = id;
+            if (await increase.ExecuteNonQueryAsync(token) != 1) return new(false, 0, "No se pudo reservar el consecutivo.");
+            await tx.CommitAsync(token); return new(true, id);
         }
-        catch{await tx.RollbackAsync(token);throw;}
+        catch { await tx.RollbackAsync(token); throw; }
     }
-    public async ValueTask<LiquidationWriteResult> UpdateAsync(Liquidation x,CancellationToken token)
-    { var errors=x.Validate();if(errors.Count>0||x.Consecutive<=0)return new(false,x.Consecutive,"La liquidación contiene datos inválidos.");await using var c=await Open(token);await using var cmd=Command(UpdateSql(x.Kind),c);Add(cmd,x);var changed=await cmd.ExecuteNonQueryAsync(token);return new(changed==1,x.Consecutive,changed==1?null:"La liquidación no existe o está anulada."); }
-    public async ValueTask<bool> AnnulAsync(LiquidationKind kind,int id,string type,CancellationToken token)
-    {await using var c=await Open(token);await using var cmd=Command($"UPDATE [dbo].[{Table(kind)}] SET [Anulada]=1 WHERE [Cosecutivo]=@Id AND [Tipo]=@Type AND ISNULL([Anulada],0)<>1",c);cmd.Parameters.Add("@Id",SqlDbType.Int).Value=id;P(cmd,"@Type",20,type);return await cmd.ExecuteNonQueryAsync(token)==1;}
-    public async ValueTask<LiquidationSummary?> GetSummaryAsync(LiquidationKind kind,int id,CancellationToken token)
+    public async ValueTask<LiquidationWriteResult> UpdateAsync(Liquidation x, CancellationToken token)
+    { var errors = x.Validate(); if (errors.Count > 0 || x.Consecutive <= 0) return new(false, x.Consecutive, "La liquidación contiene datos inválidos."); await using var c = await Open(token); await using var cmd = Command(UpdateSql(x.Kind), c); Add(cmd, x); var changed = await cmd.ExecuteNonQueryAsync(token); return new(changed == 1, x.Consecutive, changed == 1 ? null : "La liquidación no existe o está anulada."); }
+    public async ValueTask<bool> AnnulAsync(LiquidationKind kind, int id, string type, CancellationToken token)
+    { await using var c = await Open(token); await using var cmd = Command($"UPDATE [dbo].[{Table(kind)}] SET [Anulada]=1 WHERE [Cosecutivo]=@Id AND [Tipo]=@Type AND ISNULL([Anulada],0)<>1", c); cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id; P(cmd, "@Type", 20, type); return await cmd.ExecuteNonQueryAsync(token) == 1; }
+    public async ValueTask<LiquidationSummary?> GetSummaryAsync(LiquidationKind kind, int id, CancellationToken token)
     {
-        var liquidation=(await ListAsync(new(kind,Consecutive:id,IncludeAnnulled:true),token)).FirstOrDefault();if(liquidation is null)return null;
-        await using var c=await Open(token);var sql=SummarySql();
-        await using var cmd=Command(sql,c);cmd.Parameters.Add("@Id",SqlDbType.NVarChar,30).Value=id.ToString();P(cmd,"@Employee",50,liquidation.EmployeeCode);P(cmd,"@Type",20,liquidation.Type);await using var r=await cmd.ExecuteReaderAsync(token);if(!await r.ReadAsync(token))return null;return new(D(r,0),D(r,1),D(r,2),D(r,3));
+        var liquidation = (await ListAsync(new(kind, Consecutive: id, IncludeAnnulled: true), token)).FirstOrDefault(); if (liquidation is null) return null;
+        await using var c = await Open(token); var sql = SummarySql();
+        await using var cmd = Command(sql, c); cmd.Parameters.Add("@Id", SqlDbType.NVarChar, 30).Value = id.ToString(); P(cmd, "@Employee", 50, liquidation.EmployeeCode); P(cmd, "@Type", 20, liquidation.Type); await using var r = await cmd.ExecuteReaderAsync(token); if (!await r.ReadAsync(token)) return null; return new(D(r, 0), D(r, 1), D(r, 2), D(r, 3));
     }
-    private string SummarySql(){var sap=SafeIdentifier(sapDatabase);return $"SELECT ISNULL((SELECT SUM(X.[DocTotal]) FROM (SELECT [DocNum],MAX([DocTotal]) [DocTotal] FROM [dbo].[Rep_Facturas] WHERE [NumLiq]=@Id AND ISNULL([Anulado],0)=0 GROUP BY [DocNum]) X),0),ISNULL((SELECT SUM([DPMONTO]) FROM [dbo].[Depositos] WHERE [DPLIQUIDACION]=@Id AND [DP_TIPO_LIQ]=@Type AND ISNULL([DP_ANULADO],0)=0),0),ISNULL((SELECT SUM([DocTotal]) FROM [{sap}].[dbo].[ORCT] WHERE [U_NumLiquidacion]=@Id AND [U_BP_COBRADOR]=@Employee AND [Canceled]<>'Y'),0),ISNULL((SELECT SUM([Monto]) FROM [dbo].[GastosLiquidaciones] WHERE [ConseLiqui]=@Id AND [TipoLiqui]=@Type AND ISNULL([Anulado],0)=0 AND ISNULL([IncluirEnLiquidacion],1)=1),0)";}
-    public async ValueTask<bool> RecalculateAsync(LiquidationKind kind,int id,CancellationToken token)
+    private string SummarySql() { var sap = SafeIdentifier(sapDatabase); return $"SELECT ISNULL((SELECT SUM(X.[DocTotal]) FROM (SELECT [DocNum],MAX([DocTotal]) [DocTotal] FROM [dbo].[Rep_Facturas] WHERE [NumLiq]=@Id AND ISNULL([Anulado],0)=0 GROUP BY [DocNum]) X),0),ISNULL((SELECT SUM([DPMONTO]) FROM [dbo].[Depositos] WHERE [DPLIQUIDACION]=@Id AND [DP_TIPO_LIQ]=@Type AND ISNULL([DP_ANULADO],0)=0),0),ISNULL((SELECT SUM([DocTotal]) FROM [{sap}].[dbo].[ORCT] WHERE [U_NumLiquidacion]=@Id AND [U_BP_COBRADOR]=@Employee AND [Canceled]<>'Y'),0),ISNULL((SELECT SUM([Monto]) FROM [dbo].[GastosLiquidaciones] WHERE [ConseLiqui]=@Id AND [TipoLiqui]=@Type AND ISNULL([Anulado],0)=0 AND ISNULL([IncluirEnLiquidacion],1)=1),0)"; }
+    public async ValueTask<bool> RecalculateAsync(LiquidationKind kind, int id, CancellationToken token)
     {
-        if(!Enum.IsDefined(kind)||id<=0)return false;
-        await using var c=await Open(token);
-        await using var tx=(SqlTransaction)await c.BeginTransactionAsync(IsolationLevel.Serializable,token);
-        string employee,type;
-        await using(var header=Command($"SELECT [CodAgente],[Tipo] FROM [dbo].[{Table(kind)}] WITH (UPDLOCK,HOLDLOCK) WHERE [Cosecutivo]=@Id AND ISNULL([Anulada],0)=0",c,tx))
+        if (!Enum.IsDefined(kind) || id <= 0) return false;
+        await using var c = await Open(token);
+        await using var tx = (SqlTransaction)await c.BeginTransactionAsync(IsolationLevel.Serializable, token);
+        string employee, type;
+        await using (var header = Command($"SELECT [CodAgente],[Tipo] FROM [dbo].[{Table(kind)}] WITH (UPDLOCK,HOLDLOCK) WHERE [Cosecutivo]=@Id AND ISNULL([Anulada],0)=0", c, tx))
         {
-            header.Parameters.Add("@Id",SqlDbType.Int).Value=id;
-            await using var r=await header.ExecuteReaderAsync(token);
-            if(!await r.ReadAsync(token))return false;
-            employee=T(r,"CodAgente");type=T(r,"Tipo");
-            if(await r.ReadAsync(token))return false;
+            header.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+            await using var r = await header.ExecuteReaderAsync(token);
+            if (!await r.ReadAsync(token)) return false;
+            employee = T(r, "CodAgente"); type = T(r, "Tipo");
+            if (await r.ReadAsync(token)) return false;
         }
         decimal result;
-        await using(var summary=Command(SummarySql(),c,tx))
+        await using (var summary = Command(SummarySql(), c, tx))
         {
-            summary.Parameters.Add("@Id",SqlDbType.NVarChar,30).Value=id.ToString(System.Globalization.CultureInfo.InvariantCulture);
-            P(summary,"@Employee",50,employee);P(summary,"@Type",20,type);
-            await using var r=await summary.ExecuteReaderAsync(token);
-            if(!await r.ReadAsync(token))return false;
-            result=new LiquidationSummary(D(r,0),D(r,1),D(r,2),D(r,3)).Result;
+            summary.Parameters.Add("@Id", SqlDbType.NVarChar, 30).Value = id.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            P(summary, "@Employee", 50, employee); P(summary, "@Type", 20, type);
+            await using var r = await summary.ExecuteReaderAsync(token);
+            if (!await r.ReadAsync(token)) return false;
+            result = new LiquidationSummary(D(r, 0), D(r, 1), D(r, 2), D(r, 3)).Result;
         }
-        await using var update=Command($"UPDATE [dbo].[{Table(kind)}] SET [Resultado]=@Result,[FechaActualizacion]=SYSUTCDATETIME() WHERE [Cosecutivo]=@Id AND ISNULL([Anulada],0)=0",c,tx);
-        var amount=update.Parameters.Add("@Result",SqlDbType.Decimal);amount.Precision=19;amount.Scale=4;amount.Value=result;
-        update.Parameters.Add("@Id",SqlDbType.Int).Value=id;
-        if(await update.ExecuteNonQueryAsync(token)!=1)return false;
-        await tx.CommitAsync(token);return true;
+        await using var update = Command($"UPDATE [dbo].[{Table(kind)}] SET [Resultado]=@Result,[FechaActualizacion]=SYSUTCDATETIME() WHERE [Cosecutivo]=@Id AND ISNULL([Anulada],0)=0", c, tx);
+        var amount = update.Parameters.Add("@Result", SqlDbType.Decimal); amount.Precision = 19; amount.Scale = 4; amount.Value = result;
+        update.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+        if (await update.ExecuteNonQueryAsync(token) != 1) return false;
+        await tx.CommitAsync(token); return true;
     }
-    private static string InsertSql(LiquidationKind k)=>k==LiquidationKind.Agents?"INSERT INTO [dbo].[Liquidaciones]([Cosecutivo],[Fecha],[CodAgente],[CedulaAgente],[NombreAgente],[FechaINI],[FechaFIN],[Comentarios],[Tipo],[Resultado],[Anulada],[Ruta]) VALUES(@Id,@Date,@Employee,@Identification,@Name,@From,@To,@Notes,@Type,@Result,0,@Route)":"INSERT INTO [dbo].[Liquidaciones_Choferes]([Cosecutivo],[Fecha],[CodAgente],[CedulaAgente],[NombreAgente],[FechaINI],[FechaFIN],[Comentarios],[Tipo],[Resultado],[Anulada],[Ruta],[Agentes],[FechaINI_Recibos],[FechaFIN_Recibos],[CodRepFacturas]) VALUES(@Id,@Date,@Employee,@Identification,@Name,@From,@To,@Notes,@Type,@Result,0,@Route,@Agents,@ReceiptFrom,@ReceiptTo,@Reports)";
-    private static string UpdateSql(LiquidationKind k)=>k==LiquidationKind.Agents?"UPDATE [dbo].[Liquidaciones] SET [FechaActualizacion]=@Date,[CodAgente]=@Employee,[CedulaAgente]=@Identification,[NombreAgente]=@Name,[FechaINI]=@From,[FechaFIN]=@To,[Comentarios]=@Notes,[Tipo]=@Type,[Resultado]=@Result,[Ruta]=@Route WHERE [Cosecutivo]=@Id AND ISNULL([Anulada],0)<>1":"UPDATE [dbo].[Liquidaciones_Choferes] SET [FechaActualizacion]=@Date,[CodAgente]=@Employee,[CedulaAgente]=@Identification,[NombreAgente]=@Name,[FechaINI]=@From,[FechaFIN]=@To,[Comentarios]=@Notes,[Tipo]=@Type,[Resultado]=@Result,[Ruta]=@Route,[Agentes]=@Agents,[FechaINI_Recibos]=@ReceiptFrom,[FechaFIN_Recibos]=@ReceiptTo,[CodRepFacturas]=@Reports WHERE [Cosecutivo]=@Id AND ISNULL([Anulada],0)<>1";
-    private static void Add(SqlCommand c,Liquidation x){c.Parameters.Add("@Id",SqlDbType.Int).Value=x.Consecutive;c.Parameters.Add("@Date",SqlDbType.Date).Value=x.Date.ToDateTime(TimeOnly.MinValue);P(c,"@Employee",50,x.EmployeeCode);P(c,"@Identification",50,x.Identification);P(c,"@Name",200,x.EmployeeName);c.Parameters.Add("@From",SqlDbType.Date).Value=x.From.ToDateTime(TimeOnly.MinValue);c.Parameters.Add("@To",SqlDbType.Date).Value=x.To.ToDateTime(TimeOnly.MinValue);P(c,"@Notes",1000,x.Notes);P(c,"@Type",20,x.Type);var amount=c.Parameters.Add("@Result",SqlDbType.Decimal);amount.Precision=19;amount.Scale=4;amount.Value=x.Result;P(c,"@Route",100,x.Route);P(c,"@Agents",1000,x.AgentCodes);c.Parameters.Add("@ReceiptFrom",SqlDbType.Date).Value=x.ReceiptFrom.ToDateTime(TimeOnly.MinValue);c.Parameters.Add("@ReceiptTo",SqlDbType.Date).Value=x.ReceiptTo.ToDateTime(TimeOnly.MinValue);P(c,"@Reports",1000,x.InvoiceReportCodes);}
-    private static Liquidation Read(SqlDataReader r,LiquidationKind k)=>new(){Consecutive=Convert.ToInt32(r["Cosecutivo"]),Kind=k,Date=Date(r,"Fecha"),EmployeeCode=T(r,"CodAgente"),Identification=T(r,"CedulaAgente"),EmployeeName=T(r,"NombreAgente"),From=Date(r,"FechaINI"),To=Date(r,"FechaFIN"),Notes=T(r,"Comentarios"),Type=T(r,"Tipo"),Result=r["Resultado"] is DBNull?0:Convert.ToDecimal(r["Resultado"]),IsAnnulled=B(r,"Anulada"),Route=T(r,"Ruta"),AgentCodes=T(r,"Agentes"),ReceiptFrom=Date(r,"FechaINI_Recibos"),ReceiptTo=Date(r,"FechaFIN_Recibos"),InvoiceReportCodes=T(r,"CodRepFacturas")};
-    private static string Table(LiquidationKind k)=>k switch{LiquidationKind.Agents=>"Liquidaciones",LiquidationKind.Drivers=>"Liquidaciones_Choferes",_=>throw new ArgumentOutOfRangeException(nameof(k))};private static string SafeIdentifier(string x){if(string.IsNullOrWhiteSpace(x)||x.Any(c=>!(char.IsLetterOrDigit(c)||c=='_')))throw new InvalidOperationException("La base SAP configurada no es válida.");return x;}private static decimal D(SqlDataReader r,int i)=>r[i] is DBNull?0:Convert.ToDecimal(r[i]);private static string T(SqlDataReader r,string n)=>Convert.ToString(r[n])?.Trim()??"";private static DateOnly Date(SqlDataReader r,string n)=>DateOnly.FromDateTime(Convert.ToDateTime(r[n]));private static bool B(SqlDataReader r,string n)=>r[n] is not DBNull&&Convert.ToInt32(r[n])!=0;private static void P(SqlCommand c,string n,int l,string v)=>c.Parameters.Add(n,SqlDbType.NVarChar,l).Value=v.Trim();private async ValueTask<SqlConnection> Open(CancellationToken t){var c=new SqlConnection(connectionString);await c.OpenAsync(t);return c;}private SqlCommand Command(string s,SqlConnection c,SqlTransaction? t=null)=>new(s,c,t){CommandTimeout=timeout};
+    private static string InsertSql(LiquidationKind k) => k == LiquidationKind.Agents ? "INSERT INTO [dbo].[Liquidaciones]([Cosecutivo],[Fecha],[CodAgente],[CedulaAgente],[NombreAgente],[FechaINI],[FechaFIN],[Comentarios],[Tipo],[Resultado],[Anulada],[Ruta]) VALUES(@Id,@Date,@Employee,@Identification,@Name,@From,@To,@Notes,@Type,@Result,0,@Route)" : "INSERT INTO [dbo].[Liquidaciones_Choferes]([Cosecutivo],[Fecha],[CodAgente],[CedulaAgente],[NombreAgente],[FechaINI],[FechaFIN],[Comentarios],[Tipo],[Resultado],[Anulada],[Ruta],[Agentes],[FechaINI_Recibos],[FechaFIN_Recibos],[CodRepFacturas]) VALUES(@Id,@Date,@Employee,@Identification,@Name,@From,@To,@Notes,@Type,@Result,0,@Route,@Agents,@ReceiptFrom,@ReceiptTo,@Reports)";
+    private static string UpdateSql(LiquidationKind k) => k == LiquidationKind.Agents ? "UPDATE [dbo].[Liquidaciones] SET [FechaActualizacion]=@Date,[CodAgente]=@Employee,[CedulaAgente]=@Identification,[NombreAgente]=@Name,[FechaINI]=@From,[FechaFIN]=@To,[Comentarios]=@Notes,[Tipo]=@Type,[Resultado]=@Result,[Ruta]=@Route WHERE [Cosecutivo]=@Id AND ISNULL([Anulada],0)<>1" : "UPDATE [dbo].[Liquidaciones_Choferes] SET [FechaActualizacion]=@Date,[CodAgente]=@Employee,[CedulaAgente]=@Identification,[NombreAgente]=@Name,[FechaINI]=@From,[FechaFIN]=@To,[Comentarios]=@Notes,[Tipo]=@Type,[Resultado]=@Result,[Ruta]=@Route,[Agentes]=@Agents,[FechaINI_Recibos]=@ReceiptFrom,[FechaFIN_Recibos]=@ReceiptTo,[CodRepFacturas]=@Reports WHERE [Cosecutivo]=@Id AND ISNULL([Anulada],0)<>1";
+    private static void Add(SqlCommand c, Liquidation x) { c.Parameters.Add("@Id", SqlDbType.Int).Value = x.Consecutive; c.Parameters.Add("@Date", SqlDbType.Date).Value = x.Date.ToDateTime(TimeOnly.MinValue); P(c, "@Employee", 50, x.EmployeeCode); P(c, "@Identification", 50, x.Identification); P(c, "@Name", 200, x.EmployeeName); c.Parameters.Add("@From", SqlDbType.Date).Value = x.From.ToDateTime(TimeOnly.MinValue); c.Parameters.Add("@To", SqlDbType.Date).Value = x.To.ToDateTime(TimeOnly.MinValue); P(c, "@Notes", 1000, x.Notes); P(c, "@Type", 20, x.Type); var amount = c.Parameters.Add("@Result", SqlDbType.Decimal); amount.Precision = 19; amount.Scale = 4; amount.Value = x.Result; P(c, "@Route", 100, x.Route); P(c, "@Agents", 1000, x.AgentCodes); c.Parameters.Add("@ReceiptFrom", SqlDbType.Date).Value = x.ReceiptFrom.ToDateTime(TimeOnly.MinValue); c.Parameters.Add("@ReceiptTo", SqlDbType.Date).Value = x.ReceiptTo.ToDateTime(TimeOnly.MinValue); P(c, "@Reports", 1000, x.InvoiceReportCodes); }
+    private static Liquidation Read(SqlDataReader r, LiquidationKind k) => new() { Consecutive = Convert.ToInt32(r["Cosecutivo"]), Kind = k, Date = Date(r, "Fecha"), EmployeeCode = T(r, "CodAgente"), Identification = T(r, "CedulaAgente"), EmployeeName = T(r, "NombreAgente"), From = Date(r, "FechaINI"), To = Date(r, "FechaFIN"), Notes = T(r, "Comentarios"), Type = T(r, "Tipo"), Result = r["Resultado"] is DBNull ? 0 : Convert.ToDecimal(r["Resultado"]), IsAnnulled = B(r, "Anulada"), Route = T(r, "Ruta"), AgentCodes = T(r, "Agentes"), ReceiptFrom = Date(r, "FechaINI_Recibos"), ReceiptTo = Date(r, "FechaFIN_Recibos"), InvoiceReportCodes = T(r, "CodRepFacturas") };
+    private static string Table(LiquidationKind k) => k switch { LiquidationKind.Agents => "Liquidaciones", LiquidationKind.Drivers => "Liquidaciones_Choferes", _ => throw new ArgumentOutOfRangeException(nameof(k)) }; private static string SafeIdentifier(string x) { if (string.IsNullOrWhiteSpace(x) || x.Any(c => !(char.IsLetterOrDigit(c) || c == '_'))) throw new InvalidOperationException("La base SAP configurada no es válida."); return x; }
+    private static decimal D(SqlDataReader r, int i) => r[i] is DBNull ? 0 : Convert.ToDecimal(r[i]); private static string T(SqlDataReader r, string n) => Convert.ToString(r[n])?.Trim() ?? ""; private static DateOnly Date(SqlDataReader r, string n) => DateOnly.FromDateTime(Convert.ToDateTime(r[n])); private static bool B(SqlDataReader r, string n) => r[n] is not DBNull && Convert.ToInt32(r[n]) != 0; private static void P(SqlCommand c, string n, int l, string v) => c.Parameters.Add(n, SqlDbType.NVarChar, l).Value = v.Trim(); private async ValueTask<SqlConnection> Open(CancellationToken t) { var c = new SqlConnection(connectionString); await c.OpenAsync(t); return c; }
+    private SqlCommand Command(string s, SqlConnection c, SqlTransaction? t = null) => new(s, c, t) { CommandTimeout = timeout };
 }
