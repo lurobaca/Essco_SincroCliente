@@ -40,7 +40,7 @@ body {
 .erp-sidebar { background: #fff; border-right: 1px solid #d9e3ef; color: #142b47; width: min(90vw, 342px) !important; }
 .erp-sidebar .offcanvas-header { align-items: flex-start; border-bottom: 1px solid #e2e9f2; min-height: 78px; padding: 1rem 1.1rem; }
 .erp-sidebar .offcanvas-body { display: block; overflow-y: auto; overscroll-behavior: contain; padding: .75rem .7rem 1.5rem; }
-.erp-sidebar__brand { color: #102f55; display: block; font-size: 1.35rem; letter-spacing: .08em; line-height: 1.1; }
+.erp-sidebar__brand { color: #102f55; display: block; font-size: 1.35rem; font-style: italic; font-weight: 800; letter-spacing: .08em; line-height: 1.1; }
 .erp-sidebar__product { color: #62758c; display: block; font-size: .78rem; margin-top: .25rem; }
 .erp-navigation { display: grid; gap: .2rem; width: 100%; }
 .erp-home-link, .erp-nav-group > summary { align-items: center; border-radius: .42rem; color: #203b5b; cursor: pointer; display: flex; font-weight: 700; gap: .58rem; padding: .62rem .7rem; text-decoration: none; }
