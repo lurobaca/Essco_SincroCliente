@@ -28,4 +28,18 @@ public sealed class ErpNavigationCatalogTests
         });
         Assert.All(leaves.Where(x => !x.IsNavigable), x => Assert.Null(x.Page));
     }
+
+    [Fact]
+    public void Every_menu_node_has_traced_functional_iconography()
+    {
+        var nodes = ErpNavigationCatalog.Descendants().ToArray();
+
+        Assert.Equal(97, nodes.Select(x => x.OriginalControl).Distinct().Count());
+        Assert.All(nodes, node =>
+        {
+            Assert.False(string.IsNullOrWhiteSpace(node.Icon.Name));
+            Assert.False(string.IsNullOrWhiteSpace(node.Icon.Function));
+            Assert.False(string.IsNullOrWhiteSpace(node.Icon.Rationale));
+        });
+    }
 }

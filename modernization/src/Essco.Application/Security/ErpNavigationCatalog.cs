@@ -18,6 +18,7 @@ public sealed record NavigationOption(
 {
     public bool IsNavigable => State == NavigationMigrationState.Partial && Page is not null;
     public IReadOnlyList<NavigationOption> Items => Children ?? [];
+    public NavigationIcon Icon => NavigationIconRegistry.For(OriginalControl);
 }
 
 /// <summary>

@@ -43,18 +43,21 @@ body {
 .erp-sidebar__brand { color: #102f55; display: block; font-size: 1.35rem; letter-spacing: .08em; line-height: 1.1; }
 .erp-sidebar__product { color: #62758c; display: block; font-size: .78rem; margin-top: .25rem; }
 .erp-navigation { display: grid; gap: .2rem; width: 100%; }
-.erp-home-link, .erp-nav-group > summary { border-radius: .42rem; color: #203b5b; cursor: pointer; display: block; font-weight: 700; padding: .62rem .7rem; text-decoration: none; }
+.erp-home-link, .erp-nav-group > summary { align-items: center; border-radius: .42rem; color: #203b5b; cursor: pointer; display: flex; font-weight: 700; gap: .58rem; padding: .62rem .7rem; text-decoration: none; }
 .erp-home-link:hover, .erp-nav-group > summary:hover { background: #eef5fd; color: #0e57ab; }
 .erp-home-link--current { background: #e7f1fd; color: #0d58af; }
 .erp-home-link:focus-visible, .erp-nav-group > summary:focus-visible, .erp-nav-item:focus-visible { box-shadow: 0 0 0 .18rem rgba(38, 105, 187, .18); outline: 2px solid #1e66bc; outline-offset: 1px; }
 .erp-nav-group > summary { list-style: none; }
 .erp-nav-group > summary::-webkit-details-marker { display: none; }
-.erp-nav-group > summary::after { color: #71839a; content: "›"; float: right; font-size: 1.15rem; font-weight: 400; line-height: 1; transform: rotate(0); transition: transform .14s ease; }
+.erp-nav-group > summary::after { color: #71839a; content: "›"; font-size: 1.15rem; font-weight: 400; line-height: 1; margin-left: auto; transform: rotate(0); transition: transform .14s ease; }
 .erp-nav-group[open] > summary::after { transform: rotate(90deg); }
 .erp-nav-group[open] > summary { color: #123d6b; }
 .erp-nav-items { border-left: 1px solid #dce6f1; display: grid; gap: .12rem; margin: 0 0 .3rem .72rem; padding: .18rem 0 .18rem .42rem; }
 .erp-nav-items .erp-nav-group > summary { color: #526a85; font-size: .78rem; padding: .48rem .58rem; text-transform: none; }
-.erp-nav-item { align-items: center; border-radius: .38rem; color: #3c526d; display: flex; font-size: .84rem; gap: .5rem; justify-content: space-between; line-height: 1.28; min-height: 2.15rem; padding: .48rem .58rem; text-decoration: none; }
+.erp-nav-item { align-items: center; border-radius: .38rem; color: #3c526d; display: grid; font-size: .84rem; gap: .48rem; grid-template-columns: 1.05rem minmax(0, 1fr) auto; line-height: 1.28; min-height: 2.15rem; padding: .48rem .58rem; text-decoration: none; }
+.erp-nav-icon { fill: none; flex: 0 0 auto; height: 1.05rem; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; width: 1.05rem; }
+.erp-nav-group > summary > .erp-nav-icon, .erp-home-link > .erp-nav-icon { height: 1.15rem; width: 1.15rem; }
+.erp-nav-items .erp-nav-group > summary > .erp-nav-icon { height: 1rem; width: 1rem; }
 .erp-nav-item:hover { background: #f0f6fd; color: #0e57ab; }
 .erp-nav-item--current { background: #e7f1fd; color: #0d58af; font-weight: 800; position: relative; }
 .erp-nav-item--current::before { background: #2168bd; border-radius: 999px; content: ""; height: 58%; left: -.12rem; position: absolute; width: 3px; }

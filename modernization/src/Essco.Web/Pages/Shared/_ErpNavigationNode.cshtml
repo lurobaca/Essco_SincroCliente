@@ -1,7 +1,10 @@
 @model Essco.Application.Security.NavigationOption
 
 <details class="erp-nav-group">
-    <summary>@Model.Label</summary>
+    <summary title="@Model.Icon.Function">
+        <partial name="_NavigationIcon" model="Model.Icon" />
+        <span>@Model.Label</span>
+    </summary>
     <div class="erp-nav-items">
         @foreach (var child in Model.Items)
         {

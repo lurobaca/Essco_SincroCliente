@@ -6,7 +6,10 @@
 
 <nav class="erp-navigation" aria-label="Navegación general de Syncro Cliente">
     <a class="erp-home-link @(homeIsCurrent ? "erp-home-link--current" : null)" asp-page="/Index"
-       aria-current="@(homeIsCurrent ? "page" : null)">Inicio</a>
+       aria-current="@(homeIsCurrent ? "page" : null)">
+        <svg class="erp-nav-icon" aria-hidden="true" focusable="false"><use href="/icons/lucide-navigation.svg#house"></use></svg>
+        <span>Inicio</span>
+    </a>
     @foreach (var group in Model)
     {
         <partial name="_ErpNavigationNode" model="group" />
