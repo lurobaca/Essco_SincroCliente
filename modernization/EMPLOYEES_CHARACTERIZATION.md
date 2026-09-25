@@ -61,7 +61,7 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 
 **Datos.** `Empleado_Experiencia`. No se observaron vistas ni stored procedures.
 
-**Web actual.** Alta, consulta y eliminación en `/Employees/Background`; no ofrece edición explícita. La eliminación web usa `CompanyId`, criterio distinto del original.
+**Web actual.** Alta, consulta, edición explícita y eliminación en `/Employees/Background`. La edición se identifica por `CedulaEmpresa` exacta y solo afecta una fila; si esa clave está duplicada, no ofrece una selección ambigua ni actualiza varias filas. Esta decisión defensiva difiere del `LIKE` parcial del WinForms. La eliminación web usa `CompanyId`, criterio distinto del original; su equivalencia y seguridad siguen pendientes de validación.
 
 ### 2. Educación
 
@@ -428,11 +428,13 @@ No se identificaron stored procedures llamados directamente por `Planilla_Emplea
 
 ### Fase A — Datos generales y seguridad
 
-**Resultado: `PENDIENTE VALIDACIÓN USUARIO`.** La primera validación manual no fue superada; se corrigieron sus causas raíz y se reauditaron las transiciones, SAP, campos y fotografía. Codex verificó compilación sin advertencias y 232 pruebas automatizadas (222 unitarias + 10 integración); queda repetir el guion manual con SQL/SAP reales. No se avanzó a Fase B.
+**Resultado: `PENDIENTE VALIDACIÓN USUARIO`.** La primera validación manual no fue superada; se corrigieron sus causas raíz y se reauditaron las transiciones, SAP, campos y fotografía. Queda repetir el guion manual con SQL/SAP reales. El trabajo posterior en Experiencia no equivale a la aprobación de Fase A.
 
 ### Fase B — Experiencia y educación
 
 Completar edición, claves estables, validaciones y estados En curso. Probar alta/edición/eliminación y registros duplicados. Termina con CRUD completo y comparación SQL.
+
+**Avance del primer bloque:** se añadió selección y actualización de Experiencia, con validación de los campos obligatorios del WinForms, clave exacta y actualización limitada a una fila. Compilación Web aislada: 0 errores y 0 advertencias. Pruebas unitarias de antecedentes: 5 superadas. **Estado: `IMPLEMENTADA PENDIENTE VALIDACIÓN` para esta acción de edición**, no para toda la pestaña. Educación, borrado con claves duplicadas y cotejo SQL real continúan pendientes.
 
 ### Fase C — Historial de planillas de solo lectura
 

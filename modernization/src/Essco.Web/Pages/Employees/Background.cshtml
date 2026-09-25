@@ -2,4 +2,56 @@
 @model Essco.Web.Pages.Employees.BackgroundModel
 @{ViewData["Title"]="Formación y experiencia";}<p><a asp-page="Detail" asp-route-id="@RouteData.Values["id"]">← Expediente</a></p><h1>Formación y experiencia de @Model.EmployeeName</h1>@if(!string.IsNullOrWhiteSpace(Model.StatusMessage)){<div class="alert alert-info">@Model.StatusMessage</div>}
 <div class="row g-4"><div class="col-lg-6"><h2>Educación</h2><form method="post" asp-page-handler="Education"><input asp-for="EducationInput.Institution" class="form-control" placeholder="Institución"/><input asp-for="EducationInput.Title" class="form-control mt-2" placeholder="Título"/><input asp-for="EducationInput.Degree" class="form-control mt-2" placeholder="Grado"/><div class="row mt-2"><div class="col"><input asp-for="EducationInput.From" type="date" class="form-control"/></div><div class="col"><input asp-for="EducationInput.To" type="date" class="form-control"/></div></div><label class="mt-2"><input asp-for="EducationInput.InProgress"/> En curso</label><br/><button class="btn btn-primary mt-2">Agregar</button></form><table class="table table-sm mt-3">@foreach(var x in Model.Education){<tr><td>@x.Institution<br/><small>@x.Title · @x.Degree</small></td><td><form method="post" asp-page-handler="DeleteEducation"><input type="hidden" name="key" value="@x.Institution"/><button class="btn btn-sm btn-outline-danger">Eliminar</button></form></td></tr>}</table></div>
-<div class="col-lg-6"><h2>Experiencia</h2><form method="post" asp-page-handler="Experience"><input asp-for="ExperienceInput.CompanyId" class="form-control" placeholder="Cédula empresa"/><input asp-for="ExperienceInput.Company" class="form-control mt-2" placeholder="Empresa"/><input asp-for="ExperienceInput.Position" class="form-control mt-2" placeholder="Puesto"/><div class="row mt-2"><div class="col"><input asp-for="ExperienceInput.From" type="date" class="form-control"/></div><div class="col"><input asp-for="ExperienceInput.To" type="date" class="form-control"/></div></div><input asp-for="ExperienceInput.Reference" class="form-control mt-2" placeholder="Persona de referencia"/><input asp-for="ExperienceInput.Phone" class="form-control mt-2" placeholder="Teléfono"/><textarea asp-for="ExperienceInput.Comments" class="form-control mt-2" placeholder="Comentarios"></textarea><button class="btn btn-primary mt-2">Agregar</button></form><table class="table table-sm mt-3">@foreach(var x in Model.Experience){<tr><td>@x.Company<br/><small>@x.Position · @x.Reference</small></td><td><form method="post" asp-page-handler="DeleteExperience"><input type="hidden" name="key" value="@x.CompanyId"/><button class="btn btn-sm btn-outline-danger">Eliminar</button></form></td></tr>}</table></div></div>
+<!-- La experiencia permite seleccionar una fila y actualizarla como en el formulario original. -->
+<div class="col-lg-6">
+    <h2>Experiencia</h2>
+    @if (Model.EditingExperienceKey is not null)
+    {
+        <p class="alert alert-info">Editando la experiencia seleccionada. La cédula de empresa identifica este registro y no se puede cambiar aquí.</p>
+    }
+    <form method="post" asp-page-handler="@(Model.EditingExperienceKey is null ? "Experience" : "UpdateExperience")">
+        @if (Model.EditingExperienceKey is not null)
+        {
+            <input type="hidden" name="key" value="@Model.EditingExperienceKey" />
+        }
+        <label asp-for="ExperienceInput.CompanyId" class="form-label">Cédula de empresa</label>
+        <input asp-for="ExperienceInput.CompanyId" class="form-control" readonly="@(Model.EditingExperienceKey is not null)" />
+        <label asp-for="ExperienceInput.Company" class="form-label mt-2">Empresa</label>
+        <input asp-for="ExperienceInput.Company" class="form-control" />
+        <label asp-for="ExperienceInput.Position" class="form-label mt-2">Puesto</label>
+        <input asp-for="ExperienceInput.Position" class="form-control" />
+        <div class="row mt-2">
+            <div class="col"><label asp-for="ExperienceInput.From" class="form-label">Ingreso</label><input asp-for="ExperienceInput.From" type="date" class="form-control" /></div>
+            <div class="col"><label asp-for="ExperienceInput.To" class="form-label">Salida</label><input asp-for="ExperienceInput.To" type="date" class="form-control" /></div>
+        </div>
+        <label asp-for="ExperienceInput.Reference" class="form-label mt-2">Persona de referencia</label>
+        <input asp-for="ExperienceInput.Reference" class="form-control" />
+        <label asp-for="ExperienceInput.Phone" class="form-label mt-2">Teléfono</label>
+        <input asp-for="ExperienceInput.Phone" class="form-control" />
+        <label asp-for="ExperienceInput.Comments" class="form-label mt-2">Comentarios</label>
+        <textarea asp-for="ExperienceInput.Comments" class="form-control"></textarea>
+        <button class="btn btn-primary mt-2" type="submit">@(Model.EditingExperienceKey is null ? "Agregar" : "Actualizar")</button>
+        @if (Model.EditingExperienceKey is not null)
+        {
+            <a asp-page="Background" asp-route-id="@RouteData.Values["id"]" class="btn btn-outline-secondary mt-2">Cancelar edición</a>
+        }
+    </form>
+    <table class="table table-sm mt-3">
+        <thead><tr><th>Empresa</th><th>Acciones</th></tr></thead>
+        <tbody>
+        @foreach (var item in Model.Experience)
+        {
+            <tr>
+                <td>@item.Company<br /><small>@item.Position · @item.Reference</small></td>
+                <td>
+                    <a asp-page="Background" asp-route-id="@RouteData.Values["id"]" asp-route-experience="@item.CompanyId" class="btn btn-sm btn-outline-primary">Editar</a>
+                    <form method="post" asp-page-handler="DeleteExperience" class="d-inline">
+                        <input type="hidden" name="key" value="@item.CompanyId" />
+                        <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div></div>

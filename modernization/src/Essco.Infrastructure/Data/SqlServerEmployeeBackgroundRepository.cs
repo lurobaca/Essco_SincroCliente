@@ -9,6 +9,33 @@ public sealed class SqlServerEmployeeBackgroundRepository(string connectionStrin
     public async ValueTask<IReadOnlyCollection<EmployeeExperience>> ListExperienceAsync(string id, CancellationToken t) { await using var c = await Open(t); await using var cmd = Cmd("SELECT [CedulaEmpresa],[Empresa],[Puesto],[Fecha_Ingreso],[Fecha_Salida],[Person_Referencia],[Telefono],[Comentarios] FROM [dbo].[Empleado_Experiencia] WHERE [Cedula_Empleado]=@Id ORDER BY [Fecha_Ingreso] DESC", c); P(cmd, "@Id", 100, id); var a = new List<EmployeeExperience>(); await using var r = await cmd.ExecuteReaderAsync(t); while (await r.ReadAsync(t)) a.Add(new(S(r, 0), S(r, 1), S(r, 2), DateOnly.FromDateTime(r.GetDateTime(3)), DateOnly.FromDateTime(r.GetDateTime(4)), S(r, 5), S(r, 6), S(r, 7))); return a; }
     public async ValueTask<bool> AddEducationAsync(string id, EmployeeEducation x, CancellationToken t) { await using var c = await Open(t); await using var cmd = Cmd("INSERT INTO [dbo].[Empleado_Educacion]([Cedula_Empleado],[Institucion],[Fecha_Ingreso],[Fecha_Salida],[EnCurso],[Grado],[Titulo]) VALUES(@Id,@Institution,@From,@To,@Current,@Degree,@Title)", c); P(cmd, "@Id", 100, id); P(cmd, "@Institution", 300, x.Institution); P(cmd, "@Title", 300, x.Title); P(cmd, "@Degree", 100, x.Degree); cmd.Parameters.Add("@From", SqlDbType.Date).Value = x.From.ToDateTime(TimeOnly.MinValue); cmd.Parameters.Add("@To", SqlDbType.Date).Value = x.To.ToDateTime(TimeOnly.MinValue); cmd.Parameters.Add("@Current", SqlDbType.Bit).Value = x.InProgress; return await cmd.ExecuteNonQueryAsync(t) == 1; }
     public async ValueTask<bool> AddExperienceAsync(string id, EmployeeExperience x, CancellationToken t) { await using var c = await Open(t); await using var cmd = Cmd("INSERT INTO [dbo].[Empleado_Experiencia]([Cedula_Empleado],[CedulaEmpresa],[Empresa],[Puesto],[Fecha_Ingreso],[Fecha_Salida],[Person_Referencia],[Telefono],[Comentarios]) VALUES(@Id,@CompanyId,@Company,@Position,@From,@To,@Reference,@Phone,@Comments)", c); P(cmd, "@Id", 100, id); P(cmd, "@CompanyId", 100, x.CompanyId); P(cmd, "@Company", 300, x.Company); P(cmd, "@Position", 200, x.Position); P(cmd, "@Reference", 300, x.Reference); P(cmd, "@Phone", 100, x.Phone); P(cmd, "@Comments", 1000, x.Comments); cmd.Parameters.Add("@From", SqlDbType.Date).Value = x.From.ToDateTime(TimeOnly.MinValue); cmd.Parameters.Add("@To", SqlDbType.Date).Value = x.To.ToDateTime(TimeOnly.MinValue); return await cmd.ExecuteNonQueryAsync(t) == 1; }
+    /// <summary>Actualiza una experiencia solo cuando su cédula de empresa identifica una fila única.</summary>
+    public async ValueTask<bool> UpdateExperienceAsync(string id, string companyId, EmployeeExperience item, CancellationToken t)
+    {
+        // El WinForms actualizaba por coincidencia parcial; exigir una clave exacta evita cambios masivos.
+        const string sql = """
+            UPDATE [dbo].[Empleado_Experiencia]
+            SET [Empresa]=@Company, [Puesto]=@Position, [Fecha_Ingreso]=@From,
+                [Fecha_Salida]=@To, [Person_Referencia]=@Reference,
+                [Telefono]=@Phone, [Comentarios]=@Comments
+            WHERE [Cedula_Empleado]=@Id AND [CedulaEmpresa]=@CompanyId
+              AND (SELECT COUNT_BIG(*) FROM [dbo].[Empleado_Experiencia]
+                   WHERE [Cedula_Empleado]=@Id AND [CedulaEmpresa]=@CompanyId)=1;
+            """;
+
+        await using var connection = await Open(t);
+        await using var command = Cmd(sql, connection);
+        P(command, "@Id", 100, id);
+        P(command, "@CompanyId", 100, companyId);
+        P(command, "@Company", 300, item.Company);
+        P(command, "@Position", 200, item.Position);
+        P(command, "@Reference", 300, item.Reference);
+        P(command, "@Phone", 100, item.Phone);
+        P(command, "@Comments", 1000, item.Comments);
+        command.Parameters.Add("@From", SqlDbType.Date).Value = item.From.ToDateTime(TimeOnly.MinValue);
+        command.Parameters.Add("@To", SqlDbType.Date).Value = item.To.ToDateTime(TimeOnly.MinValue);
+        return await command.ExecuteNonQueryAsync(t) == 1;
+    }
     public ValueTask<bool> DeleteEducationAsync(string id, string key, CancellationToken t) => Delete("Empleado_Educacion", "Institucion", id, key, t); public ValueTask<bool> DeleteExperienceAsync(string id, string key, CancellationToken t) => Delete("Empleado_Experiencia", "CedulaEmpresa", id, key, t);
     private async ValueTask<bool> Delete(string table, string keyColumn, string id, string key, CancellationToken t) { await using var c = await Open(t); await using var cmd = Cmd($"DELETE FROM [dbo].[{table}] WHERE [Cedula_Empleado]=@Id AND [{keyColumn}]=@Key", c); P(cmd, "@Id", 100, id); P(cmd, "@Key", 300, key); return await cmd.ExecuteNonQueryAsync(t) > 0; }
     private async ValueTask<SqlConnection> Open(CancellationToken t) { var c = new SqlConnection(connectionString); await c.OpenAsync(t); return c; }
