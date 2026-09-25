@@ -8,6 +8,12 @@ La navegación Web refleja el inventario completo de `Principal.MenuStrip1`: 80 
 
 Ningún módulo se marca `VALIDADO` sin confirmación manual del usuario.
 
+## Empresa
+
+**Estado:** `PARCIAL`; 18 acciones trazadas: 3 `IMPLEMENTADA PENDIENTE VALIDACIÓN`, 10 `PARCIAL`, 5 `NO MIGRADA` y ninguna `VALIDADA POR USUARIO`. El formulario original tiene dos pestañas, «Empresa» y «Configuraciones». La página web actual no equivale todavía al módulo completo. Consultar [COMPANY_CHARACTERIZATION.md](COMPANY_CHARACTERIZATION.md) para botones, eventos, SQL, divergencias y orden vertical.
+
+**Siguiente bloque:** datos generales, con cotejo de esquema y registro de prueba antes de solicitar validación manual. No se modificó el esquema SQL ni se confirmó integración SAP.
+
 ## Criterio global
 
 Todo el seguimiento se rige por [FUNCTIONAL_PARITY_STANDARD.md](FUNCTIONAL_PARITY_STANDARD.md). La unidad mínima no es la página ni el Form, sino la acción funcional con su evento, reglas, datos, efectos secundarios, equivalente Web y prueba.
