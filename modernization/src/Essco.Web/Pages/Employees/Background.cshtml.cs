@@ -48,7 +48,7 @@ public sealed class BackgroundModel(EmployeeService employees, EmployeeBackgroun
         return Page();
     }
     /// <summary>Registra un estudio y conserva visible la pestaña Educación.</summary>
-    public async Task<IActionResult> OnPostEducationAsync(string id, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostEducationAsync(string id, bool returnToDetail, CancellationToken cancellationToken)
     {
         var input = EducationInput;
         var education = new EmployeeEducation(
@@ -60,11 +60,30 @@ public sealed class BackgroundModel(EmployeeService employees, EmployeeBackgroun
             input.Degree ?? "");
 
         var wasSaved = await service.AddEducationAsync(id, education, cancellationToken);
-        return Done(id, wasSaved, "Estudio registrado.", "education");
+        return Done(id, wasSaved, "Estudio registrado.", "education", returnToDetail);
     }
-    public async Task<IActionResult> OnPostExperienceAsync(string id, CancellationToken t) { var x = ExperienceInput; var ok = await service.AddExperienceAsync(id, new(x.CompanyId ?? "", x.Company ?? "", x.Position ?? "", x.From, x.To, x.Reference ?? "", x.Phone ?? "", x.Comments ?? ""), t); return Done(id, ok, "Experiencia registrada."); }
+    /// <summary>Registra una experiencia y vuelve a la pestaña desde donde se envió.</summary>
+    public async Task<IActionResult> OnPostExperienceAsync(
+        string id,
+        bool returnToDetail,
+        CancellationToken cancellationToken)
+    {
+        var input = ExperienceInput;
+        var experience = new EmployeeExperience(
+            input.CompanyId ?? "",
+            input.Company ?? "",
+            input.Position ?? "",
+            input.From,
+            input.To,
+            input.Reference ?? "",
+            input.Phone ?? "",
+            input.Comments ?? "");
+
+        var wasSaved = await service.AddExperienceAsync(id, experience, cancellationToken);
+        return Done(id, wasSaved, "Experiencia registrada.", returnToDetail: returnToDetail);
+    }
     /// <summary>Guarda los cambios de una experiencia previamente seleccionada.</summary>
-    public async Task<IActionResult> OnPostUpdateExperienceAsync(string id, string key, CancellationToken t)
+    public async Task<IActionResult> OnPostUpdateExperienceAsync(string id, string key, bool returnToDetail, CancellationToken t)
     {
         // Comprobar que el empleado existe antes de modificar su experiencia laboral.
         if (await employees.GetAsync(id, t) is null) return NotFound();
@@ -73,27 +92,29 @@ public sealed class BackgroundModel(EmployeeService employees, EmployeeBackgroun
         var item = new EmployeeExperience(input.CompanyId ?? "", input.Company ?? "", input.Position ?? "",
             input.From, input.To, input.Reference ?? "", input.Phone ?? "", input.Comments ?? "");
         var updated = await service.UpdateExperienceAsync(id, key, item, t);
-        return Done(id, updated, "Experiencia actualizada.");
+        return Done(id, updated, "Experiencia actualizada.", returnToDetail: returnToDetail);
     }
     /// <summary>Elimina un estudio y conserva visible la pestaña Educación.</summary>
-    public async Task<IActionResult> OnPostDeleteEducationAsync(string id, string key, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostDeleteEducationAsync(string id, string key, bool returnToDetail, CancellationToken cancellationToken)
     {
         var wasDeleted = await service.DeleteEducationAsync(id, key, cancellationToken);
-        return Done(id, wasDeleted, "Estudio eliminado.", "education");
+        return Done(id, wasDeleted, "Estudio eliminado.", "education", returnToDetail);
     }
 
     /// <summary>Elimina una experiencia laboral existente.</summary>
-    public async Task<IActionResult> OnPostDeleteExperienceAsync(string id, string key, CancellationToken cancellationToken)
+    public async Task<IActionResult> OnPostDeleteExperienceAsync(string id, string key, bool returnToDetail, CancellationToken cancellationToken)
     {
         var wasDeleted = await service.DeleteExperienceAsync(id, key, cancellationToken);
-        return Done(id, wasDeleted, "Experiencia eliminada.");
+        return Done(id, wasDeleted, "Experiencia eliminada.", returnToDetail: returnToDetail);
     }
 
     /// <summary>Publica el resultado y vuelve a la pestaña donde se ejecutó la operación.</summary>
-    private IActionResult Done(string id, bool succeeded, string message, string section = "experience")
+    private IActionResult Done(string id, bool succeeded, string message, string section = "experience", bool returnToDetail = false)
     {
         StatusMessage = succeeded ? message : "Revise los datos; no fue posible completar la operación.";
-        return RedirectToPage(new { id, section });
+        return returnToDetail
+            ? RedirectToPage("Detail", new { id, section, notice = StatusMessage })
+            : RedirectToPage(new { id, section });
     }
     private async Task<bool> Load(string id, CancellationToken t) { var e = await employees.GetAsync(id, t); if (e is null) return false; EmployeeName = e.Employee.Name; Education = await service.ListEducationAsync(id, t); Experience = await service.ListExperienceAsync(id, t); return true; }
     public sealed class EducationForm { public string? Institution { get; set; } public string? Title { get; set; } public DateOnly From { get; set; } public DateOnly To { get; set; } public bool InProgress { get; set; } public string? Degree { get; set; } }

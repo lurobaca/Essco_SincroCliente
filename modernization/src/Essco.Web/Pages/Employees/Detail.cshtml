@@ -4,6 +4,8 @@
     ViewData["Title"] = "Expediente";
     var employee = Model.File.Employee;
     var attachmentCount = Model.File.Vacations.Count + Model.File.Disabilities.Count + Model.File.Loans.Count;
+    var today = DateOnly.FromDateTime(DateTime.Today).ToString("yyyy-MM-dd");
+    var selectedExperience = Model.SelectedExperience;
 }
 
 <main class="employee-profile">
@@ -84,13 +86,13 @@
     <section class="employee-file-card">
         <ul class="nav nav-tabs employee-tabs" id="employeeFileTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-pane" type="button" role="tab" aria-controls="overview-pane" aria-selected="true">Resumen</button>
+                <button class="nav-link @(Model.SelectedSection == "overview" ? "active" : "")" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-pane" type="button" role="tab" aria-controls="overview-pane" aria-selected="@(Model.SelectedSection == "overview")">Resumen</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience-pane" type="button" role="tab" aria-controls="experience-pane" aria-selected="false">Experiencia</button>
+                <button class="nav-link @(Model.SelectedSection == "experience" ? "active" : "")" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience-pane" type="button" role="tab" aria-controls="experience-pane" aria-selected="@(Model.SelectedSection == "experience")">Experiencia</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education-pane" type="button" role="tab" aria-controls="education-pane" aria-selected="false">Educación</button>
+                <button class="nav-link @(Model.SelectedSection == "education" ? "active" : "")" id="education-tab" data-bs-toggle="tab" data-bs-target="#education-pane" type="button" role="tab" aria-controls="education-pane" aria-selected="@(Model.SelectedSection == "education")">Educación</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="vacations-tab" data-bs-toggle="tab" data-bs-target="#vacations-pane" type="button" role="tab" aria-controls="vacations-pane" aria-selected="false">Vacaciones <span class="badge">@Model.File.Vacations.Count</span></button>
@@ -128,7 +130,7 @@
         </ul>
 
         <div class="tab-content employee-tab-content" id="employeeFileTabContent">
-            <div class="tab-pane fade show active" id="overview-pane" role="tabpanel" aria-labelledby="overview-tab" tabindex="0">
+            <div class="tab-pane fade @(Model.SelectedSection == "overview" ? "show active" : "")" id="overview-pane" role="tabpanel" aria-labelledby="overview-tab" tabindex="0">
                 <div class="employee-overview-grid">
                     <article>
                         <span>Identificación</span>
@@ -149,17 +151,154 @@
                 </div>
             </div>
 
-            <!-- Experiencia y educación conservan sus acciones actuales en una página de mantenimiento. -->
-            <div class="tab-pane fade" id="experience-pane" role="tabpanel" aria-labelledby="experience-tab" tabindex="0">
+            <!-- La experiencia se consulta y mantiene directamente en el expediente. -->
+            <div class="tab-pane fade @(Model.SelectedSection == "experience" ? "show active" : "")" id="experience-pane" role="tabpanel" aria-labelledby="experience-tab" tabindex="0">
                 <h2 class="h4">Experiencia laboral</h2>
-                <p>Consulta, agrega, actualiza y elimina experiencias registradas para este empleado.</p>
-                <a asp-page="Background" asp-route-id="@employee.Identification" class="btn btn-primary">Abrir experiencia</a>
+                @if (!Model.CanViewBackground)
+                {
+                    <p class="text-muted">No tiene permiso para consultar la experiencia laboral.</p>
+                }
+                else
+                {
+                    @if (selectedExperience is not null)
+                    {
+                        <div class="alert alert-info">Editando la experiencia seleccionada. La cédula de empresa identifica el registro y no se puede cambiar aquí.</div>
+                    }
+                    <form method="post" asp-page="Background" asp-page-handler="@(selectedExperience is null ? "Experience" : "UpdateExperience")" asp-route-id="@employee.Identification">
+                        <input type="hidden" name="returnToDetail" value="true" />
+                        @if (selectedExperience is not null)
+                        {
+                            <input type="hidden" name="key" value="@selectedExperience.CompanyId" />
+                        }
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="experience-company-id" class="form-label">Cédula de empresa</label>
+                                <input id="experience-company-id" name="ExperienceInput.CompanyId" value="@selectedExperience?.CompanyId" class="form-control" readonly="@(selectedExperience is not null)" />
+                            </div>
+                            <div class="col-md-8">
+                                <label for="experience-company" class="form-label">Empresa</label>
+                                <input id="experience-company" name="ExperienceInput.Company" value="@selectedExperience?.Company" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="experience-position" class="form-label">Puesto</label>
+                                <input id="experience-position" name="ExperienceInput.Position" value="@selectedExperience?.Position" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <label for="experience-from" class="form-label">Fecha de ingreso</label>
+                                <input id="experience-from" name="ExperienceInput.From" type="date" value="@(selectedExperience?.From.ToString("yyyy-MM-dd") ?? today)" class="form-control" />
+                            </div>
+                            <div class="col-md-3">
+                                <label for="experience-to" class="form-label">Fecha de salida</label>
+                                <input id="experience-to" name="ExperienceInput.To" type="date" value="@(selectedExperience?.To.ToString("yyyy-MM-dd") ?? today)" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="experience-reference" class="form-label">Persona de referencia</label>
+                                <input id="experience-reference" name="ExperienceInput.Reference" value="@selectedExperience?.Reference" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="experience-phone" class="form-label">Teléfono</label>
+                                <input id="experience-phone" name="ExperienceInput.Phone" value="@selectedExperience?.Phone" class="form-control" />
+                            </div>
+                            <div class="col-12">
+                                <label for="experience-comments" class="form-label">Comentarios</label>
+                                <textarea id="experience-comments" name="ExperienceInput.Comments" class="form-control" rows="3">@selectedExperience?.Comments</textarea>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-3" type="submit">@(selectedExperience is null ? "Agregar experiencia" : "Actualizar experiencia")</button>
+                        @if (selectedExperience is not null)
+                        {
+                            <a asp-page="Detail" asp-route-id="@employee.Identification" asp-route-section="experience" class="btn btn-outline-secondary mt-3">Cancelar edición</a>
+                        }
+                    </form>
+                    <div class="table-responsive mt-4">
+                        <table class="table">
+                            <thead><tr><th>Empresa</th><th>Puesto</th><th>Periodo</th><th>Acciones</th></tr></thead>
+                            <tbody>
+                                @foreach (var experience in Model.Experience)
+                                {
+                                    <tr>
+                                        <td>@experience.Company</td>
+                                        <td>@experience.Position</td>
+                                        <td>@experience.From — @experience.To</td>
+                                        <td>
+                                            <a asp-page="Detail" asp-route-id="@employee.Identification" asp-route-section="experience" asp-route-experience="@experience.CompanyId" class="btn btn-sm btn-outline-primary">Editar</a>
+                                            <form method="post" asp-page="Background" asp-page-handler="DeleteExperience" asp-route-id="@employee.Identification" class="d-inline">
+                                                <input type="hidden" name="returnToDetail" value="true" />
+                                                <input type="hidden" name="key" value="@experience.CompanyId" />
+                                                <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('¿Eliminar esta experiencia?');">Eliminar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
 
-            <div class="tab-pane fade" id="education-pane" role="tabpanel" aria-labelledby="education-tab" tabindex="0">
+            <!-- La educación usa las mismas operaciones existentes, sin salir del expediente. -->
+            <div class="tab-pane fade @(Model.SelectedSection == "education" ? "show active" : "")" id="education-pane" role="tabpanel" aria-labelledby="education-tab" tabindex="0">
                 <h2 class="h4">Educación</h2>
-                <p>La consulta, el alta y la eliminación están disponibles. La edición de estudios sigue pendiente.</p>
-                <a asp-page="Background" asp-route-id="@employee.Identification" asp-route-section="education" class="btn btn-primary">Abrir educación</a>
+                @if (!Model.CanViewBackground)
+                {
+                    <p class="text-muted">No tiene permiso para consultar la educación del empleado.</p>
+                }
+                else
+                {
+                    <div class="alert alert-info">La edición de estudios aún está pendiente. Las acciones disponibles son agregar y eliminar.</div>
+                    <form method="post" asp-page="Background" asp-page-handler="Education" asp-route-id="@employee.Identification">
+                        <input type="hidden" name="returnToDetail" value="true" />
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="education-institution" class="form-label">Institución</label>
+                                <input id="education-institution" name="EducationInput.Institution" class="form-control" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="education-title" class="form-label">Título</label>
+                                <input id="education-title" name="EducationInput.Title" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="education-degree" class="form-label">Grado</label>
+                                <input id="education-degree" name="EducationInput.Degree" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="education-from" class="form-label">Fecha de ingreso</label>
+                                <input id="education-from" name="EducationInput.From" type="date" value="@today" class="form-control" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="education-to" class="form-label">Fecha de salida</label>
+                                <input id="education-to" name="EducationInput.To" type="date" value="@today" class="form-control" />
+                            </div>
+                            <div class="col-12 form-check ms-2">
+                                <input id="education-in-progress" name="EducationInput.InProgress" type="checkbox" value="true" class="form-check-input" />
+                                <label for="education-in-progress" class="form-check-label">En curso</label>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-3" type="submit">Agregar estudio</button>
+                    </form>
+                    <div class="table-responsive mt-4">
+                        <table class="table">
+                            <thead><tr><th>Institución</th><th>Título</th><th>Grado</th><th>Acción</th></tr></thead>
+                            <tbody>
+                                @foreach (var education in Model.Education)
+                                {
+                                    <tr>
+                                        <td>@education.Institution</td>
+                                        <td>@education.Title</td>
+                                        <td>@education.Degree</td>
+                                        <td>
+                                            <form method="post" asp-page="Background" asp-page-handler="DeleteEducation" asp-route-id="@employee.Identification">
+                                                <input type="hidden" name="returnToDetail" value="true" />
+                                                <input type="hidden" name="key" value="@education.Institution" />
+                                                <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('¿Eliminar este estudio?');">Eliminar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
             </div>
 
             <div class="tab-pane fade" id="invoices-pane" role="tabpanel" aria-labelledby="invoices-tab" tabindex="0">
