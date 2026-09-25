@@ -1,4 +1,5 @@
 using System.Data;
+using System.Globalization;
 using Essco.Application.HumanResources;
 using Essco.Domain.HumanResources;
 using Microsoft.Data.SqlClient;
@@ -8,9 +9,57 @@ namespace Essco.Infrastructure.Data;
 /// Persiste el expediente del empleado en SQL Server y consulta los catálogos
 /// contables de SAP necesarios para validar los datos antes de guardarlos.
 /// </summary>
-public sealed class SqlServerEmployeeRepository(string connectionString, int timeout, string sapCompanyDatabase, string? sapConnectionString = null) : IEmployeeRepository
+public sealed class SqlServerEmployeeRepository(string connectionString, int timeout, string sapCompanyDatabase, string? sapConnectionString = null) : IEmployeeRepository, IEmployeeInvoiceRepository
 {
     private const string Columns = "[id],[Cedula],[Codigo],[Nombre],[Puesto],[Salario],[FechaIngreso],[Estado],[CodRuta],[Correo],[Telefono1],[Telefono2],[CuentaBancaria],[IdColaborador],[CuentaContable],[CategoriaEmpleado],[DiasTotalesDeVacacionesGanadas],[DiasTotalesDeVacacionesConsumidas],[txtb_DiasTotalesDeVacacionesPendientes],[TimeLab_Anios],[TimeLab_Meses],[TimeLab_Dias]";
+
+    /// <summary>
+    /// Reproduce la consulta de facturas pendientes del expediente WinForms sin concatenar el código del cliente en SQL.
+    /// </summary>
+    public async ValueTask<EmployeePendingInvoices> ListPendingInvoicesAsync(
+        string customerCode,
+        CancellationToken cancellationToken)
+    {
+        await using var connection = await Open(cancellationToken);
+        await using var command = Cmd("SELECT * FROM [dbo].[FacturaPendiente](@CustomerCode)", connection);
+        P(command, "@CustomerCode", 100, customerCode);
+
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+        var columns = Enumerable.Range(0, reader.FieldCount)
+            .Select(reader.GetName)
+            .ToArray();
+        var balanceOrdinal = Array.FindIndex(
+            columns,
+            column => string.Equals(column, "Saldo", StringComparison.OrdinalIgnoreCase));
+
+        if (balanceOrdinal < 0)
+        {
+            throw new DataException("La consulta FacturaPendiente no devolvió la columna Saldo.");
+        }
+
+        var rows = new List<IReadOnlyList<string>>();
+        var totalBalance = 0m;
+
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            var values = new string[reader.FieldCount];
+            for (var index = 0; index < reader.FieldCount; index++)
+            {
+                values[index] = reader.IsDBNull(index)
+                    ? ""
+                    : Convert.ToString(reader.GetValue(index), CultureInfo.CurrentCulture) ?? "";
+            }
+
+            if (!reader.IsDBNull(balanceOrdinal))
+            {
+                totalBalance += Convert.ToDecimal(reader.GetValue(balanceOrdinal), CultureInfo.InvariantCulture);
+            }
+
+            rows.Add(values);
+        }
+
+        return new EmployeePendingInvoices(columns, rows, totalBalance);
+    }
     public async ValueTask<IReadOnlyCollection<Employee>> ListAsync(string? s, bool inactive, CancellationToken t) { await using var c = await Open(t); await using var cmd = Cmd("", c); var w = new List<string>(); if (!inactive) w.Add("ISNULL([Estado],0)=0"); if (!string.IsNullOrWhiteSpace(s)) { w.Add("([Cedula]=@Search OR [Codigo]=@Search OR [Nombre] LIKE @Like)"); P(cmd, "@Search", 100, s); P(cmd, "@Like", 300, $"%{s.Trim()}%"); } cmd.CommandText = $"SELECT TOP(500) {Columns} FROM [dbo].[Empleado]{(w.Count == 0 ? "" : " WHERE " + string.Join(" AND ", w))} ORDER BY [Nombre]"; var a = new List<Employee>(); await using var r = await cmd.ExecuteReaderAsync(t); while (await r.ReadAsync(t)) a.Add(Map(r)); return a; }
     public async ValueTask<EmployeeFile?> GetAsync(string id, CancellationToken t) { await using var c = await Open(t); Employee? e; await using (var cmd = Cmd($"SELECT {Columns} FROM [dbo].[Empleado] WHERE [Cedula]=@Id", c)) { P(cmd, "@Id", 100, id); await using var r = await cmd.ExecuteReaderAsync(t); e = await r.ReadAsync(t) ? Map(r) : null; } if (e is null) return null; var vacations = new List<EmployeeVacation>(); await using (var cmd = Cmd("SELECT [Consecutivo],[FechaIni],[FechaFin],[Dias],[Comentario],[Estado] FROM [dbo].[Empleado_Vacaciones] WHERE [Cedula_Empleado]=@Id ORDER BY [FechaIni] DESC", c)) { P(cmd, "@Id", 100, id); await using var r = await cmd.ExecuteReaderAsync(t); while (await r.ReadAsync(t)) vacations.Add(new(I(r, "Consecutivo"), Date(r, "FechaIni"), Date(r, "FechaFin"), D(r, "Dias"), S(r, "Comentario"), B(r, "Estado"))); } var disabilities = new List<EmployeeDisability>(); await using (var cmd = Cmd("SELECT [Consecutivo],[FechaInicio],[FechaFin],[DiasIncapacidad],[NumBoleta],[Detalle],[Tipo],[Estado] FROM [dbo].[Empleado_Incapacidades] WHERE [Cedula_Empleado]=@Id ORDER BY [FechaInicio] DESC", c)) { P(cmd, "@Id", 100, id); await using var r = await cmd.ExecuteReaderAsync(t); while (await r.ReadAsync(t)) disabilities.Add(new(I(r, "Consecutivo"), Date(r, "FechaInicio"), Date(r, "FechaFin"), D(r, "DiasIncapacidad"), S(r, "NumBoleta"), S(r, "Detalle"), S(r, "Tipo"), B(r, "Estado"))); } var deductions = new List<EmployeeDeduction>(); await using (var cmd = Cmd("SELECT [Consecutivo],[Categoria],[Monto],[Detalle],[Fecha],[Estado],[PorcentajePrimerQuincena],[PorcentajeSegundaQuincena] FROM [dbo].[Empleado_Deducciones] WHERE [Cedula_Empleado]=@Id ORDER BY [Fecha] DESC", c)) { P(cmd, "@Id", 100, id); await using var r = await cmd.ExecuteReaderAsync(t); while (await r.ReadAsync(t)) deductions.Add(new(I(r, "Consecutivo"), S(r, "Categoria"), D(r, "Monto"), S(r, "Detalle"), Date(r, "Fecha"), B(r, "Estado"), I(r, "PorcentajePrimerQuincena"), I(r, "PorcentajeSegundaQuincena"))); } var loans = new List<EmployeeLoan>(); await using (var cmd = Cmd("SELECT [Consecutivo],[FechaCrea],[Monto],[Saldo],[Tipo],[Detalle],[Estado],[MontoAbonoQuincenal] FROM [dbo].[Empleado_ValesPrestamos] WHERE [CedulaEmpleado]=@Id ORDER BY [Saldo] DESC", c)) { P(cmd, "@Id", 100, id); await using var r = await cmd.ExecuteReaderAsync(t); while (await r.ReadAsync(t)) loans.Add(new(I(r, "Consecutivo"), Date(r, "FechaCrea"), D(r, "Monto"), D(r, "Saldo"), S(r, "Tipo"), S(r, "Detalle"), B(r, "Estado"), D(r, "MontoAbonoQuincenal"))); } return new(e, vacations, disabilities, deductions, loans); }
     public async ValueTask<byte[]?> GetPhotoAsync(string id, CancellationToken t) { await using var c = await Open(t); await using var cmd = Cmd("IF OBJECT_ID(N'[dbo].[Web_EmployeePhoto]',N'U') IS NULL SELECT CAST(NULL AS varbinary(max)); ELSE SELECT [Content] FROM [dbo].[Web_EmployeePhoto] WHERE [EmployeeIdentification]=@Id", c); P(cmd, "@Id", 100, id); var value = await cmd.ExecuteScalarAsync(t); return value is byte[] photo ? photo : null; }

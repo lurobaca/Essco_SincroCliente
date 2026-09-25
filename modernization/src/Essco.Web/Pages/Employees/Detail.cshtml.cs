@@ -1,9 +1,11 @@
+using System.Data;
 using Essco.Application.HumanResources;
 using Essco.Application.Security;
 using Essco.Domain.HumanResources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Data.SqlClient;
 
 namespace Essco.Web.Pages.Employees;
 
@@ -13,8 +15,10 @@ namespace Essco.Web.Pages.Employees;
 [Authorize(Policy = Permissions.EmployeesView)]
 public sealed class DetailModel(
     EmployeeService employeeService,
+    EmployeeInvoiceService invoiceService,
     EmployeeBackgroundService backgroundService,
-    IAuthorizationService authorizationService) : PageModel
+    IAuthorizationService authorizationService,
+    ILogger<DetailModel> logger) : PageModel
 {
     public new EmployeeFile File { get; private set; } = null!;
 
@@ -27,6 +31,10 @@ public sealed class DetailModel(
     public IReadOnlyCollection<EmployeeExperience> Experience { get; private set; } = [];
 
     public EmployeeExperience? SelectedExperience { get; private set; }
+
+    public EmployeePendingInvoices? PendingInvoices { get; private set; }
+
+    public bool InvoiceQueryFailed { get; private set; }
 
     public string SelectedSection { get; private set; } = "overview";
 
@@ -57,12 +65,30 @@ public sealed class DetailModel(
         File = employeeFile;
         CanManage = (await authorizationService.AuthorizeAsync(User, Permissions.EmployeesManage)).Succeeded;
         CanViewBackground = (await authorizationService.AuthorizeAsync(User, Permissions.Payroll)).Succeeded;
-        SelectedSection = section is "experience" or "education" ? section : "overview";
+        SelectedSection = section is "experience" or "education" or "vacations" or "invoices"
+            ? section
+            : "overview";
 
         if (CanViewBackground)
         {
             Education = await backgroundService.ListEducationAsync(id, cancellationToken);
             Experience = await backgroundService.ListExperienceAsync(id, cancellationToken);
+        }
+
+        // La consulta de facturas se difiere hasta abrir su pestaña para no bloquear el resto del expediente.
+        if (SelectedSection == "invoices" && CanViewBackground && !string.IsNullOrWhiteSpace(employeeFile.Employee.Code))
+        {
+            try
+            {
+                PendingInvoices = await invoiceService.ListPendingInvoicesAsync(
+                    employeeFile.Employee.Code,
+                    cancellationToken);
+            }
+            catch (Exception exception) when (exception is SqlException or DataException or InvalidCastException or FormatException or OverflowException)
+            {
+                InvoiceQueryFailed = true;
+                logger.LogError(exception, "No se pudo consultar FacturaPendiente para el empleado {EmployeeId}.", id);
+            }
         }
 
         if (!string.IsNullOrWhiteSpace(experience))

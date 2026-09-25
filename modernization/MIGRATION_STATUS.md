@@ -63,14 +63,14 @@ No se publica un porcentaje único: las 92 acciones no tienen la misma complejid
 | Sección | Consulta visible | Ciclo funcional completo | Estado |
 |---|---|---|---|
 | Experiencia / Educación | Parcial | No | EN DESARROLLO; Fases B/C |
-| Vacaciones | Parcial | No | EN DESARROLLO; Fase E |
+| Vacaciones | Parcial | No | PARCIAL; alta y anulación visibles en el expediente; cálculo de saldos pendiente |
 | Incapacidades | Parcial | No | EN DESARROLLO; Fase F |
 | Deducciones | Parcial | No | EN DESARROLLO; Fase G |
 | Vales y préstamos | Parcial | No | EN DESARROLLO; Fase H |
 | Adjuntos | Parcial | No | EN DESARROLLO; fase posterior |
 | Aumentos / Adicionales | Parcial | No | EN DESARROLLO; Fase I |
 | Días adicionales | No | No | NO INICIADO; Fase J |
-| Facturas / Planillas / Liquidación | Parcial o no | No | NO INICIADO; Fases D/K |
+| Facturas / Planillas / Liquidación | Parcial o no | No | PARCIAL; Facturas consulta y total pendiente de validación; Planillas y Liquidación sin ciclo completo |
 
 Una pestaña o consulta visible no figura como migración cerrada.
 

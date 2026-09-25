@@ -107,10 +107,10 @@
                 <button class="nav-link @(Model.SelectedSection == "education" ? "active" : "")" id="education-tab" data-bs-toggle="tab" data-bs-target="#education-pane" type="button" role="tab" aria-controls="education-pane" aria-selected="@(Model.SelectedSection == "education")">Educación</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="vacations-tab" data-bs-toggle="tab" data-bs-target="#vacations-pane" type="button" role="tab" aria-controls="vacations-pane" aria-selected="false">Vacaciones <span class="badge">@Model.File.Vacations.Count</span></button>
+                <button class="nav-link @(Model.SelectedSection == "vacations" ? "active" : "")" id="vacations-tab" data-bs-toggle="tab" data-bs-target="#vacations-pane" type="button" role="tab" aria-controls="vacations-pane" aria-selected="@(Model.SelectedSection == "vacations")">Vacaciones <span class="badge">@Model.File.Vacations.Count</span></button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices-pane" type="button" role="tab" aria-controls="invoices-pane" aria-selected="false">Facturas</button>
+                <a class="nav-link @(Model.SelectedSection == "invoices" ? "active" : "")" id="invoices-tab" asp-page="Detail" asp-route-id="@employee.Identification" asp-route-section="invoices" asp-fragment="invoices-pane" role="tab" aria-controls="invoices-pane" aria-selected="@(Model.SelectedSection == "invoices")">Facturas</a>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="loans-tab" data-bs-toggle="tab" data-bs-target="#loans-pane" type="button" role="tab" aria-controls="loans-pane" aria-selected="false">Vales y préstamos <span class="badge">@Model.File.Loans.Count</span></button>
@@ -313,22 +313,115 @@
                 }
             </div>
 
-            <div class="tab-pane fade" id="invoices-pane" role="tabpanel" aria-labelledby="invoices-tab" tabindex="0">
-                <div class="employee-empty-state"><strong>Facturas del empleado pendientes</strong><p>Aún falta migrar la consulta de facturas vinculadas al código de cliente SAP del empleado.</p></div>
+            <div class="tab-pane fade @(Model.SelectedSection == "invoices" ? "show active" : "")" id="invoices-pane" role="tabpanel" aria-labelledby="invoices-tab" tabindex="0">
+                <h2 class="h4">Facturas pendientes del empleado</h2>
+                @if (!Model.CanViewBackground)
+                {
+                    <p class="text-muted">No tiene permiso para consultar las facturas del empleado.</p>
+                }
+                else if (string.IsNullOrWhiteSpace(employee.Code))
+                {
+                    <p class="text-muted">El empleado no tiene un código de cliente SAP asociado.</p>
+                }
+                else if (Model.InvoiceQueryFailed)
+                {
+                    <div class="alert alert-danger" role="alert">No se pudieron consultar las facturas pendientes. Revise la conexión SQL y la función FacturaPendiente.</div>
+                }
+                else if (Model.PendingInvoices is null)
+                {
+                    <p class="text-muted">Abra esta pestaña para consultar las facturas pendientes.</p>
+                }
+                else if (Model.PendingInvoices.Rows.Count == 0)
+                {
+                    <div class="employee-empty-state"><strong>Sin facturas pendientes</strong><p>No se encontraron facturas para el código @employee.Code.</p></div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table employee-data-table">
+                            <thead>
+                                <tr>
+                                    @foreach (var column in Model.PendingInvoices.Columns)
+                                    {
+                                        <th scope="col">@column</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var invoice in Model.PendingInvoices.Rows)
+                                {
+                                    <tr>
+                                        @foreach (var value in invoice)
+                                        {
+                                            <td>@value</td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-end"><strong>Total pendiente: ₡@Model.PendingInvoices.TotalBalance.ToString("N2")</strong></p>
+                }
             </div>
 
-            <div class="tab-pane fade" id="vacations-pane" role="tabpanel" aria-labelledby="vacations-tab" tabindex="0">
-                <p><a asp-page="Movements" asp-route-id="@employee.Identification" class="btn btn-outline-primary">Registrar o anular vacaciones</a></p>
+            <div class="tab-pane fade @(Model.SelectedSection == "vacations" ? "show active" : "")" id="vacations-pane" role="tabpanel" aria-labelledby="vacations-tab" tabindex="0">
+                <h2 class="h4">Vacaciones</h2>
+                @if (Model.CanViewBackground && employee.Active)
+                {
+                    <p class="text-muted">Registro parcial: aún falta migrar el cálculo automático de días y saldos del sistema anterior. Verifique estos valores antes de guardar.</p>
+                    <form method="post" asp-page="Movements" asp-page-handler="Vacation" asp-route-id="@employee.Identification" class="mb-4">
+                        <input type="hidden" name="returnToDetail" value="true" />
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label for="vacation-from" class="form-label">Fecha inicial</label>
+                                <input id="vacation-from" name="Vacation.From" type="date" value="@today" class="form-control" required />
+                            </div>
+                            <div class="col-md-3">
+                                <label for="vacation-to" class="form-label">Fecha final</label>
+                                <input id="vacation-to" name="Vacation.To" type="date" value="@today" class="form-control" required />
+                            </div>
+                            <div class="col-md-2">
+                                <label for="vacation-days" class="form-label">Días a consumir</label>
+                                <input id="vacation-days" name="Vacation.Days" type="number" min="0.01" step="0.01" value="1" class="form-control" required />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="vacation-comments" class="form-label">Comentario</label>
+                                <input id="vacation-comments" name="Vacation.Comments" class="form-control" />
+                            </div>
+                        </div>
+                        <button class="btn btn-primary mt-3" type="submit">Registrar vacaciones</button>
+                    </form>
+                }
+                else if (!Model.CanViewBackground)
+                {
+                    <p class="text-muted">No tiene permiso para registrar movimientos de vacaciones.</p>
+                }
                 @if (Model.File.Vacations.Count == 0)
                 {
                     <div class="employee-empty-state"><strong>Sin vacaciones registradas</strong><p>Los movimientos de vacaciones del colaborador aparecerán aquí.</p></div>
                 }
                 else
                 {
-                    <div class="table-responsive"><table class="table employee-data-table"><thead><tr><th>Periodo</th><th>Días</th><th>Comentario</th><th>Estado</th></tr></thead><tbody>
+                    <div class="table-responsive"><table class="table employee-data-table"><thead><tr><th>Periodo</th><th>Días</th><th>Comentario</th><th>Estado</th><th>Acciones</th></tr></thead><tbody>
                     @foreach (var item in Model.File.Vacations)
                     {
-                        <tr><td>@item.From — @item.To</td><td>@item.Days</td><td>@item.Comments</td><td><span class="employee-status @(item.Annulled ? "employee-status--inactive" : "employee-status--active")">@(item.Annulled ? "Anulada" : "Activa")</span></td></tr>
+                        <tr>
+                            <td>@item.From — @item.To</td>
+                            <td>@item.Days</td>
+                            <td>@item.Comments</td>
+                            <td><span class="employee-status @(item.Annulled ? "employee-status--inactive" : "employee-status--active")">@(item.Annulled ? "Anulada" : "Activa")</span></td>
+                            <td>
+                                @if (Model.CanViewBackground && employee.Active && !item.Annulled)
+                                {
+                                    <form method="post" asp-page="Movements" asp-page-handler="Annul" asp-route-id="@employee.Identification">
+                                        <input type="hidden" name="returnToDetail" value="true" />
+                                        <input type="hidden" name="type" value="vacation" />
+                                        <input type="hidden" name="number" value="@item.Number" />
+                                        <button class="btn btn-sm btn-outline-danger" type="submit" onclick="return confirm('¿Anular este movimiento de vacaciones?');">Anular</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
                     }
                     </tbody></table></div>
                 }

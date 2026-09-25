@@ -17,6 +17,8 @@ public sealed class MovementsModel(EmployeeService employees, EmployeeMovementSe
     [BindProperty] public LoanForm Loan { get; set; } = new();
     [TempData] public string? StatusMessage { get; set; }
 
+    [TempData] public bool? OperationSucceeded { get; set; }
+
     public async Task<IActionResult> OnGetAsync(string id, CancellationToken cancellationToken)
     {
         if (!await LoadAsync(id, cancellationToken)) return NotFound();
@@ -28,10 +30,30 @@ public sealed class MovementsModel(EmployeeService employees, EmployeeMovementSe
         return Page();
     }
 
-    public async Task<IActionResult> OnPostVacationAsync(string id, CancellationToken cancellationToken)
+    /// <summary>Registra vacaciones y retorna a la pestaña del expediente cuando se originó allí.</summary>
+    public async Task<IActionResult> OnPostVacationAsync(
+        string id,
+        bool returnToDetail,
+        CancellationToken cancellationToken)
     {
+        var employeeFile = await employees.GetAsync(id, cancellationToken);
+        if (employeeFile is null)
+        {
+            return NotFound();
+        }
+
+        if (!employeeFile.Employee.Active)
+        {
+            return Complete(id, "Solo se pueden registrar vacaciones para empleados activos.", false, returnToDetail);
+        }
+
+        if (Vacation.From < employeeFile.Employee.HireDate)
+        {
+            return Complete(id, "La fecha inicial no puede ser anterior al ingreso del empleado.", false, returnToDetail);
+        }
+
         var result = await movements.SaveVacationAsync(new(id, Vacation.From, Vacation.To, Vacation.Days, Vacation.Comments ?? ""), cancellationToken);
-        return Complete(id, result.Succeeded ? $"Vacación {result.Number} registrada." : result.Error);
+        return Complete(id, result.Succeeded ? $"Vacación {result.Number} registrada." : result.Error, result.Succeeded, returnToDetail);
     }
 
     public async Task<IActionResult> OnPostDisabilityAsync(string id, CancellationToken cancellationToken)
@@ -54,16 +76,48 @@ public sealed class MovementsModel(EmployeeService employees, EmployeeMovementSe
         return Complete(id, result.Succeeded ? $"Vale/préstamo {result.Number} registrado." : result.Error);
     }
 
-    public async Task<IActionResult> OnPostAnnulAsync(string id, string type, int number, CancellationToken cancellationToken)
+    /// <summary>Anula únicamente un movimiento activo que pertenezca al empleado solicitado.</summary>
+    public async Task<IActionResult> OnPostAnnulAsync(string id, string type, int number, bool returnToDetail, CancellationToken cancellationToken)
     {
+        var employeeFile = await employees.GetAsync(id, cancellationToken);
+        if (employeeFile is null)
+        {
+            return NotFound();
+        }
+
+        var belongsToEmployee = type switch
+        {
+            "vacation" => employeeFile.Vacations.Any(item => item.Number == number && !item.Annulled),
+            "disability" => employeeFile.Disabilities.Any(item => item.Number == number && !item.Annulled),
+            "deduction" => employeeFile.Deductions.Any(item => item.Number == number && !item.Annulled),
+            "loan" => employeeFile.Loans.Any(item => item.Number == number && !item.Annulled),
+            _ => false
+        };
+
+        if (!belongsToEmployee || (returnToDetail && (type != "vacation" || !employeeFile.Employee.Active)))
+        {
+            return Complete(id, "No se puede anular el movimiento indicado.", false, returnToDetail);
+        }
+
         var succeeded = number > 0 && await movements.AnnulAsync(type, number, cancellationToken);
-        return Complete(id, succeeded ? $"Movimiento {number} anulado." : "No fue posible anular el movimiento.");
+        return Complete(id, succeeded ? $"Movimiento {number} anulado." : "No fue posible anular el movimiento.", succeeded, returnToDetail);
     }
 
-    private IActionResult Complete(string id, string? message)
+    /// <summary>Publica el resultado sin perder la pestaña desde la que se inició el movimiento.</summary>
+    private IActionResult Complete(string id, string? message, bool succeeded = false, bool returnToDetail = false)
     {
         StatusMessage = message ?? "No fue posible completar la operación.";
-        return RedirectToPage(new { id });
+        if (!returnToDetail)
+        {
+            return RedirectToPage(new { id });
+        }
+
+        OperationSucceeded = succeeded;
+        return RedirectToPage(
+            "Detail",
+            pageHandler: null,
+            routeValues: new { id, section = "vacations" },
+            fragment: "vacations-pane");
     }
 
     private async Task<bool> LoadAsync(string id, CancellationToken cancellationToken)

@@ -91,7 +91,7 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 
 **Datos.** `Empleado_Vacaciones` y actualización de saldos en `Empleado`. No se observaron stored procedures.
 
-**Web actual.** Alta, consulta, anulación genérica y adjunto. Faltan edición, cálculo laboral equivalente, actualización atómica de saldos, validación contra fecha de ingreso, impresión, montos y estados detallados.
+**Web actual.** Alta y anulación parcial desde la pestaña Vacaciones del expediente, además de consulta y adjunto. Se valida que el empleado esté activo y que el periodo no comience antes del ingreso. Faltan edición, cálculo laboral equivalente, actualización atómica de saldos, impresión, montos y estados detallados. No se ha validado manualmente el flujo con datos reales.
 
 ### 4. Facturas
 
@@ -105,7 +105,7 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 
 **Dependencias.** Consulta `ObtineFacturas`, código de cliente SAP y objetos de facturación.
 
-**Web actual.** No existe dentro de `/Employees`. El módulo `/Billing` no reemplaza la relación contextual empleado–facturas.
+**Web actual.** Consulta de solo lectura de `FacturaPendiente` por el código de cliente SAP del empleado, con las columnas devueltas por SQL y total de `Saldo`. Se carga al abrir la pestaña Facturas. Falta validación manual con una base que tenga facturas y confirmar el formato de todas las columnas; el módulo `/Billing` no reemplaza esta relación contextual.
 
 ### 5. Vales y préstamos
 
@@ -277,8 +277,8 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 | Vacaciones | Calcular ganado/pendiente/montos | No | NO INICIADO | Saldos editables manualmente | Mover cálculo a dominio | Crítico |
 | Vacaciones | Adjuntar/ver/descargar | Sí | EN DESARROLLO | Attachment | Validar tamaño, MIME y autorización | Alto |
 | Vacaciones | Imprimir solicitud | No | NO INICIADO | Sin PDF | Sustituir reporte | Medio |
-| Facturas | Consultar por empleado/código cliente | No | NO INICIADO | Billing está separado | Vista contextual | Medio |
-| Facturas | Filtrar/totalizar | No | NO INICIADO | Sin equivalente | Caracterizar selector y total | Medio |
+| Facturas | Consultar por empleado/código cliente | Sí | IMPLEMENTADA PENDIENTE VALIDACIÓN | Detail / FacturaPendiente | Probar contra datos reales | Medio |
+| Facturas | Filtrar/totalizar | Parcial | PARCIAL | Total de Saldo; selector heredado no visible | Validar total y selector | Medio |
 | Préstamos | Consultar | Sí | IMPLEMENTADO | Detail | Validar estados | Medio |
 | Préstamos | Alta | Sí | EN DESARROLLO | Movements | Completar reglas | Alto |
 | Préstamos | Editar | No | NO INICIADO | Sin operación | Implementar controlando abonos | Crítico |

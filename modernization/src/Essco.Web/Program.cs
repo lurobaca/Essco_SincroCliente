@@ -175,6 +175,8 @@ builder.Services.AddScoped<IPayrollJournalRepository>(_ => initialOptions.SqlSer
 builder.Services.AddScoped<PayrollSapDispatchService>();
 builder.Services.AddScoped<IEmployeeRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds, initialOptions.Sap.CompanyDatabase, sapSqlConnectionString) : new UnavailableEmployeeRepository());
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<IEmployeeInvoiceRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds, initialOptions.Sap.CompanyDatabase, sapSqlConnectionString) : new UnavailableEmployeeInvoiceRepository());
+builder.Services.AddScoped<EmployeeInvoiceService>();
 builder.Services.AddScoped<IEmployeeMovementRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeMovementRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeMovementRepository());
 builder.Services.AddScoped<EmployeeMovementService>();
 builder.Services.AddScoped<IEmployeeCompensationRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerEmployeeCompensationRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableEmployeeCompensationRepository());
