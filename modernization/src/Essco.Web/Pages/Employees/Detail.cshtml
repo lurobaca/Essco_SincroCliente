@@ -10,7 +10,7 @@
 
 <main class="employee-profile">
     <a class="employee-back-link" asp-page="Index">← Volver a empleados</a>
-    @if (!string.IsNullOrWhiteSpace(Model.Notice))
+    @if (!string.IsNullOrWhiteSpace(Model.Notice) && Model.SelectedSection == "overview")
     {
         <div class="alert alert-warning" role="status">@Model.Notice</div>
     }
@@ -154,6 +154,10 @@
             <!-- La experiencia se consulta y mantiene directamente en el expediente. -->
             <div class="tab-pane fade @(Model.SelectedSection == "experience" ? "show active" : "")" id="experience-pane" role="tabpanel" aria-labelledby="experience-tab" tabindex="0">
                 <h2 class="h4">Experiencia laboral</h2>
+                @if (!string.IsNullOrWhiteSpace(Model.Notice) && Model.SelectedSection == "experience")
+                {
+                    <div class="alert alert-info" role="status">@Model.Notice</div>
+                }
                 @if (!Model.CanViewBackground)
                 {
                     <p class="text-muted">No tiene permiso para consultar la experiencia laboral.</p>
@@ -207,7 +211,7 @@
                         <button class="btn btn-primary mt-3" type="submit">@(selectedExperience is null ? "Agregar experiencia" : "Actualizar experiencia")</button>
                         @if (selectedExperience is not null)
                         {
-                            <a asp-page="Detail" asp-route-id="@employee.Identification" asp-route-section="experience" class="btn btn-outline-secondary mt-3">Cancelar edición</a>
+                            <a asp-page="Detail" asp-route-id="@employee.Identification" asp-route-section="experience" asp-fragment="experience-pane" class="btn btn-outline-secondary mt-3">Cancelar edición</a>
                         }
                     </form>
                     <div class="table-responsive mt-4">
@@ -221,7 +225,7 @@
                                         <td>@experience.Position</td>
                                         <td>@experience.From — @experience.To</td>
                                         <td>
-                                            <a asp-page="Detail" asp-route-id="@employee.Identification" asp-route-section="experience" asp-route-experience="@experience.CompanyId" class="btn btn-sm btn-outline-primary">Editar</a>
+                                            <a asp-page="Detail" asp-route-id="@employee.Identification" asp-route-section="experience" asp-route-experience="@experience.CompanyId" asp-fragment="experience-pane" class="btn btn-sm btn-outline-primary">Editar</a>
                                             <form method="post" asp-page="Background" asp-page-handler="DeleteExperience" asp-route-id="@employee.Identification" class="d-inline">
                                                 <input type="hidden" name="returnToDetail" value="true" />
                                                 <input type="hidden" name="key" value="@experience.CompanyId" />
@@ -239,6 +243,10 @@
             <!-- La educación usa las mismas operaciones existentes, sin salir del expediente. -->
             <div class="tab-pane fade @(Model.SelectedSection == "education" ? "show active" : "")" id="education-pane" role="tabpanel" aria-labelledby="education-tab" tabindex="0">
                 <h2 class="h4">Educación</h2>
+                @if (!string.IsNullOrWhiteSpace(Model.Notice) && Model.SelectedSection == "education")
+                {
+                    <div class="alert alert-info" role="status">@Model.Notice</div>
+                }
                 @if (!Model.CanViewBackground)
                 {
                     <p class="text-muted">No tiene permiso para consultar la educación del empleado.</p>

@@ -113,7 +113,11 @@ public sealed class BackgroundModel(EmployeeService employees, EmployeeBackgroun
     {
         StatusMessage = succeeded ? message : "Revise los datos; no fue posible completar la operación.";
         return returnToDetail
-            ? RedirectToPage("Detail", new { id, section, notice = StatusMessage })
+            ? RedirectToPage(
+                "Detail",
+                pageHandler: null,
+                routeValues: new { id, section, notice = StatusMessage },
+                fragment: section == "education" ? "education-pane" : "experience-pane")
             : RedirectToPage(new { id, section });
     }
     private async Task<bool> Load(string id, CancellationToken t) { var e = await employees.GetAsync(id, t); if (e is null) return false; EmployeeName = e.Employee.Name; Education = await service.ListEducationAsync(id, t); Experience = await service.ListExperienceAsync(id, t); return true; }

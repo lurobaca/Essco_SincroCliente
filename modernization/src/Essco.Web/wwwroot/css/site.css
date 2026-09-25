@@ -252,6 +252,11 @@ a.erp-nav-item .erp-state-label { background: transparent; color: #788a9e; paddi
   padding: clamp(1.25rem, 3vw, 2rem);
 }
 
+/* Deja visible el inicio de la pestaña al volver desde sus formularios. */
+.employee-tab-content > .tab-pane {
+  scroll-margin-top: 7rem;
+}
+
 .employee-overview-grid {
   display: grid;
   gap: 1rem;
