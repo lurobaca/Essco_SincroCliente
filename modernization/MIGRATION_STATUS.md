@@ -12,7 +12,7 @@ Ningún módulo se marca `VALIDADO` sin confirmación manual del usuario.
 
 **Estado:** `PARCIAL`; 18 acciones trazadas: 3 `IMPLEMENTADA PENDIENTE VALIDACIÓN`, 10 `PARCIAL`, 5 `NO MIGRADA` y ninguna `VALIDADA POR USUARIO`. El formulario original tiene dos pestañas, «Empresa» y «Configuraciones». La página web actual no equivale todavía al módulo completo. Consultar [COMPANY_CHARACTERIZATION.md](COMPANY_CHARACTERIZATION.md) para botones, eventos, SQL, divergencias y orden vertical.
 
-**Siguiente bloque:** datos generales, con cotejo de esquema y registro de prueba antes de solicitar validación manual. No se modificó el esquema SQL ni se confirmó integración SAP.
+**Siguiente bloque:** datos generales, con cotejo de esquema y registro de prueba antes de solicitar validación manual. La Web ya separa las dos pestañas y enlaza el catálogo de razones, pero esto no constituye paridad funcional. No se modificó el esquema SQL ni se confirmó integración SAP.
 
 ## Criterio global
 

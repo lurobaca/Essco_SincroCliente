@@ -24,7 +24,7 @@ Estado del módulo: **PARCIAL**. Fuente de verdad: `Play/Manager_Empresa.vb`, `P
 - **Tablas/consultas:** `dbo.Empresa` para parámetros y credenciales; `dbo.Razones_NoVisita` con `CONSULTA_RazonesNoVisita`, `Inserta_Razones_NoVisita`, `Actualizar_Razones_NoVisita` y `Elimina_Razon`. No se encontró stored procedure ni transacción explícita en esos métodos; el SQL heredado concatena valores. El formulario no invoca SAP directamente: el grupo «SAP Bussines one» almacena configuración SQL.
 - **Reglas:** el guardado de empresa exige varios secretos aun cuando algunos controles FTP están deshabilitados; el método de modificar razón usa índice del combo como `Codigo`, diferencia potencial frente a la clave real. No reproducir SQL concatenado ni exponer secretos en HTML.
 - **Dependencias:** configuración de correo, FTP y SQL empleada fuera de este formulario; catálogo de razones de no visita. Su migración segura necesita acordar almacenamiento de secretos y cotejar datos reales.
-- **Estado actual en Web:** **PARCIAL**. Los parámetros no secretos están en `/Companies/Profile`; razones tienen mantenimiento independiente en Catálogos, pero no están integradas como bloque de Empresa. Credenciales y servidores están excluidos deliberadamente del perfil web; no equivalen todavía a una administración segura de Configuraciones.
+- **Estado actual en Web:** **PARCIAL**. Los parámetros no secretos están en la pestaña Configuraciones de `/Companies/Profile`; desde ella se enlaza el mantenimiento independiente de razones en Catálogos. Credenciales y servidores están excluidos deliberadamente del perfil web; no equivalen todavía a una administración segura de Configuraciones.
 
 ## Trazabilidad por acción
 
@@ -40,7 +40,7 @@ Estado del módulo: **PARCIAL**. Fuente de verdad: `Play/Manager_Empresa.vb`, `P
 | 8 | Empresa | `Eliminar`: control sin `Click` conectado | Ninguno | NO MIGRADA | Confirmar con usuario si se requiere eliminación; no crear borrado de registro único sin autorización. |
 | 9 | Configuraciones | `Load` → parámetros de `Empresa` | GET del perfil muestra parámetros no secretos | IMPLEMENTADA PENDIENTE VALIDACIÓN | Cotejar valores reales. |
 | 10 | Configuraciones | `Guardar`/`Modificar` → parámetros y agrupación en `Empresa` | POST del perfil guarda parámetros no secretos | PARCIAL | Verificar consecutivos, límites y agrupación oculta. |
-| 11 | Configuraciones | `Load` → `CONSULTA_RazonesNoVisita` | Catálogo web independiente | PARCIAL | Integrar acceso desde Empresa y comparar listado. |
+| 11 | Configuraciones | `Load` → `CONSULTA_RazonesNoVisita` | Enlace desde Empresa al catálogo web independiente | PARCIAL | Comparar listado real y permisos. |
 | 12 | Configuraciones | Crear razón: método existente sin evento conectado → `INSERT` | Catálogo web independiente | PARCIAL | Verificar capacidad web y decidir relación con pestaña. |
 | 13 | Configuraciones | Editar razón: método sin evento conectado → `UPDATE Codigo` | Catálogo web independiente | PARCIAL | Confirmar clave y corregir uso heredado del índice solo con evidencia. |
 | 14 | Configuraciones | Eliminar razón: método sin evento conectado → `DELETE Razon` | Catálogo web independiente | PARCIAL | Revisar referencias y autorización antes de paridad. |
@@ -65,4 +65,4 @@ El menú original abre `Manager_Empresa` desde `Principal`; la Web exige `compan
 4. **Configuraciones — secretos e integraciones:** acordar gestión segura de correo, FTP y SQL/SAP, probar sus consumidores y fallos; no exponer valores ni asumir conexión SAP. Detenerse para prueba manual.
 5. Decidir con el usuario si los controles ocultos y `Eliminar` deben permanecer fuera de alcance o convertirse en operaciones nuevas. No implementar borrado del único registro por inferencia.
 
-**Primer punto de control:** la caracterización está terminada; el bloque de datos generales no se considera completo hasta cotejar esquema y registro de prueba. No se ha efectuado validación manual ni conexión a SAP.
+**Primer punto de control:** la caracterización está terminada y la Web presenta las dos pestañas reales, con enlace explícito a razones de no visita y aviso de configuraciones pendientes. El bloque de datos generales no se considera completo hasta cotejar esquema y registro de prueba. No se ha efectuado validación manual ni conexión a SAP.
