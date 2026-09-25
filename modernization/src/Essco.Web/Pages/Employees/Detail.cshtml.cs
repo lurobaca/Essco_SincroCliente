@@ -33,6 +33,12 @@ public sealed class DetailModel(
     [BindProperty(SupportsGet = true)]
     public string? Notice { get; set; }
 
+    [TempData]
+    public string? StatusMessage { get; set; }
+
+    [TempData]
+    public bool? OperationSucceeded { get; set; }
+
     /// <summary>
     /// Carga el expediente y, si el usuario tiene permiso de planilla, sus antecedentes.
     /// </summary>

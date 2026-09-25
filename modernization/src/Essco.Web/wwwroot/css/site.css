@@ -257,6 +257,14 @@ a.erp-nav-item .erp-state-label { background: transparent; color: #788a9e; paddi
   scroll-margin-top: 7rem;
 }
 
+/* Los resultados de las operaciones se muestran sin desplazar el formulario. */
+.employee-notification {
+  position: fixed;
+  right: 1.25rem;
+  top: 6rem;
+  z-index: 1100;
+}
+
 .employee-overview-grid {
   display: grid;
   gap: 1rem;

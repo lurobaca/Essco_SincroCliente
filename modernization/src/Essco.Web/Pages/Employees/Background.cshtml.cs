@@ -9,6 +9,7 @@ namespace Essco.Web.Pages.Employees;
 public sealed class BackgroundModel(EmployeeService employees, EmployeeBackgroundService service) : PageModel
 {
     public string EmployeeName { get; private set; } = ""; public IReadOnlyCollection<EmployeeEducation> Education { get; private set; } = []; public IReadOnlyCollection<EmployeeExperience> Experience { get; private set; } = []; [BindProperty] public EducationForm EducationInput { get; set; } = new(); [BindProperty] public ExperienceForm ExperienceInput { get; set; } = new(); [TempData] public string? StatusMessage { get; set; }
+    [TempData] public bool? OperationSucceeded { get; set; }
     public string? EditingExperienceKey { get; private set; }
     public string SelectedSection { get; private set; } = "experience";
 
@@ -112,11 +113,15 @@ public sealed class BackgroundModel(EmployeeService employees, EmployeeBackgroun
     private IActionResult Done(string id, bool succeeded, string message, string section = "experience", bool returnToDetail = false)
     {
         StatusMessage = succeeded ? message : "Revise los datos; no fue posible completar la operación.";
+        if (returnToDetail)
+        {
+            OperationSucceeded = succeeded;
+        }
         return returnToDetail
             ? RedirectToPage(
                 "Detail",
                 pageHandler: null,
-                routeValues: new { id, section, notice = StatusMessage },
+                routeValues: new { id, section },
                 fragment: section == "education" ? "education-pane" : "experience-pane")
             : RedirectToPage(new { id, section });
     }
