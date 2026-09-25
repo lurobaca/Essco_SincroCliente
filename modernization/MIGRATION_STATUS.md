@@ -26,7 +26,7 @@ Los estados generales históricos de otros módulos son provisionales hasta que 
 
 **Web:** `/Employees`, `EmployeeService`, servicios de movimientos, compensación, adjuntos y antecedentes, y repositorios SQL correspondientes.
 
-**Estado:** Fase A `PENDIENTE VALIDACIÓN USUARIO`; el módulo completo continúa parcial porque las fases B–L no están cerradas. En Fase B se implementó la edición de Experiencia, aún pendiente de validación manual y cotejo SQL.
+**Estado:** Fase A `PENDIENTE VALIDACIÓN USUARIO`; el módulo completo continúa `PARCIAL` porque las fases B–L no están cerradas. El expediente muestra las doce pestañas originales, pero varias acciones todavía abren páginas separadas o están pendientes. En Fase B se implementó la edición de Experiencia y se corrigió la lectura de `EnCurso`; ambas requieren validación manual con SQL real.
 
 **Caracterización:** consultar [EMPLOYEES_CHARACTERIZATION.md](EMPLOYEES_CHARACTERIZATION.md).
 

@@ -79,12 +79,7 @@
         </article>
     </section>
 
-    <div class="alert alert-info"><strong>Secciones posteriores en migración.</strong> Las pestañas siguientes son consultas parciales; su presencia no significa que el ciclo funcional esté terminado.</div>
-    <nav class="employee-shortcuts" aria-label="Acciones parciales del expediente">
-        <a asp-page="Compensation" asp-route-id="@employee.Identification">Aumentos y adicionales</a>
-        <a asp-page="Background" asp-route-id="@employee.Identification">Formación y experiencia</a>
-        <a asp-page="Movements" asp-route-id="@employee.Identification">Registrar movimientos</a>
-    </nav>
+    <div class="alert alert-info"><strong>Expediente en migración.</strong> Las pestañas siguen el orden del formulario original. Las operaciones disponibles se enlazan desde su pestaña; las demás se identifican como pendientes.</div>
 
     <section class="employee-file-card">
         <ul class="nav nav-tabs employee-tabs" id="employeeFileTabs" role="tablist">
@@ -92,16 +87,40 @@
                 <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview-pane" type="button" role="tab" aria-controls="overview-pane" aria-selected="true">Resumen</button>
             </li>
             <li class="nav-item" role="presentation">
+                <button class="nav-link" id="experience-tab" data-bs-toggle="tab" data-bs-target="#experience-pane" type="button" role="tab" aria-controls="experience-pane" aria-selected="false">Experiencia</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education-pane" type="button" role="tab" aria-controls="education-pane" aria-selected="false">Educación</button>
+            </li>
+            <li class="nav-item" role="presentation">
                 <button class="nav-link" id="vacations-tab" data-bs-toggle="tab" data-bs-target="#vacations-pane" type="button" role="tab" aria-controls="vacations-pane" aria-selected="false">Vacaciones <span class="badge">@Model.File.Vacations.Count</span></button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="disabilities-tab" data-bs-toggle="tab" data-bs-target="#disabilities-pane" type="button" role="tab" aria-controls="disabilities-pane" aria-selected="false">Incapacidades <span class="badge">@Model.File.Disabilities.Count</span></button>
+                <button class="nav-link" id="invoices-tab" data-bs-toggle="tab" data-bs-target="#invoices-pane" type="button" role="tab" aria-controls="invoices-pane" aria-selected="false">Facturas</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="loans-tab" data-bs-toggle="tab" data-bs-target="#loans-pane" type="button" role="tab" aria-controls="loans-pane" aria-selected="false">Vales y préstamos <span class="badge">@Model.File.Loans.Count</span></button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="deductions-tab" data-bs-toggle="tab" data-bs-target="#deductions-pane" type="button" role="tab" aria-controls="deductions-pane" aria-selected="false">Deducciones <span class="badge">@Model.File.Deductions.Count</span></button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="loans-tab" data-bs-toggle="tab" data-bs-target="#loans-pane" type="button" role="tab" aria-controls="loans-pane" aria-selected="false">Vales y préstamos <span class="badge">@Model.File.Loans.Count</span></button>
+                <button class="nav-link" id="disabilities-tab" data-bs-toggle="tab" data-bs-target="#disabilities-pane" type="button" role="tab" aria-controls="disabilities-pane" aria-selected="false">Incapacidades <span class="badge">@Model.File.Disabilities.Count</span></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="increases-tab" data-bs-toggle="tab" data-bs-target="#increases-pane" type="button" role="tab" aria-controls="increases-pane" aria-selected="false">Aumentos</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="payroll-tab" data-bs-toggle="tab" data-bs-target="#payroll-pane" type="button" role="tab" aria-controls="payroll-pane" aria-selected="false">Planillas</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="extra-days-tab" data-bs-toggle="tab" data-bs-target="#extra-days-pane" type="button" role="tab" aria-controls="extra-days-pane" aria-selected="false">Días adicionales</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="settlement-tab" data-bs-toggle="tab" data-bs-target="#settlement-pane" type="button" role="tab" aria-controls="settlement-pane" aria-selected="false">Liquidación laboral</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="additionals-tab" data-bs-toggle="tab" data-bs-target="#additionals-pane" type="button" role="tab" aria-controls="additionals-pane" aria-selected="false">Adicionales</button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="attachments-tab" data-bs-toggle="tab" data-bs-target="#attachments-pane" type="button" role="tab" aria-controls="attachments-pane" aria-selected="false">Adjuntos <span class="badge">@attachmentCount</span></button>
@@ -126,11 +145,29 @@
                 </div>
                 <div class="employee-empty-state employee-empty-state--compact">
                     <strong>Expediente centralizado</strong>
-                    <p>Selecciona una pestaña para consultar el historial de vacaciones, incapacidades, deducciones, préstamos y documentos.</p>
+                    <p>Selecciona una pestaña para consultar las áreas del expediente en el orden del sistema original.</p>
                 </div>
             </div>
 
+            <!-- Experiencia y educación conservan sus acciones actuales en una página de mantenimiento. -->
+            <div class="tab-pane fade" id="experience-pane" role="tabpanel" aria-labelledby="experience-tab" tabindex="0">
+                <h2 class="h4">Experiencia laboral</h2>
+                <p>Consulta, agrega, actualiza y elimina experiencias registradas para este empleado.</p>
+                <a asp-page="Background" asp-route-id="@employee.Identification" class="btn btn-primary">Abrir experiencia</a>
+            </div>
+
+            <div class="tab-pane fade" id="education-pane" role="tabpanel" aria-labelledby="education-tab" tabindex="0">
+                <h2 class="h4">Educación</h2>
+                <p>La consulta, el alta y la eliminación están disponibles. La edición de estudios sigue pendiente.</p>
+                <a asp-page="Background" asp-route-id="@employee.Identification" asp-route-section="education" class="btn btn-primary">Abrir educación</a>
+            </div>
+
+            <div class="tab-pane fade" id="invoices-pane" role="tabpanel" aria-labelledby="invoices-tab" tabindex="0">
+                <div class="employee-empty-state"><strong>Facturas del empleado pendientes</strong><p>Aún falta migrar la consulta de facturas vinculadas al código de cliente SAP del empleado.</p></div>
+            </div>
+
             <div class="tab-pane fade" id="vacations-pane" role="tabpanel" aria-labelledby="vacations-tab" tabindex="0">
+                <p><a asp-page="Movements" asp-route-id="@employee.Identification" class="btn btn-outline-primary">Registrar o anular vacaciones</a></p>
                 @if (Model.File.Vacations.Count == 0)
                 {
                     <div class="employee-empty-state"><strong>Sin vacaciones registradas</strong><p>Los movimientos de vacaciones del colaborador aparecerán aquí.</p></div>
@@ -147,6 +184,7 @@
             </div>
 
             <div class="tab-pane fade" id="disabilities-pane" role="tabpanel" aria-labelledby="disabilities-tab" tabindex="0">
+                <p><a asp-page="Movements" asp-route-id="@employee.Identification" class="btn btn-outline-primary">Registrar o anular incapacidad</a></p>
                 @if (Model.File.Disabilities.Count == 0)
                 {
                     <div class="employee-empty-state"><strong>Sin incapacidades registradas</strong><p>Los periodos de incapacidad aparecerán aquí.</p></div>
@@ -163,6 +201,7 @@
             </div>
 
             <div class="tab-pane fade" id="deductions-pane" role="tabpanel" aria-labelledby="deductions-tab" tabindex="0">
+                <p><a asp-page="Movements" asp-route-id="@employee.Identification" class="btn btn-outline-primary">Registrar o anular deducción</a></p>
                 @if (Model.File.Deductions.Count == 0)
                 {
                     <div class="employee-empty-state"><strong>Sin deducciones registradas</strong><p>Las deducciones recurrentes o extraordinarias aparecerán aquí.</p></div>
@@ -179,6 +218,7 @@
             </div>
 
             <div class="tab-pane fade" id="loans-pane" role="tabpanel" aria-labelledby="loans-tab" tabindex="0">
+                <p><a asp-page="Movements" asp-route-id="@employee.Identification" class="btn btn-outline-primary">Registrar o anular vale/préstamo</a></p>
                 @if (Model.File.Loans.Count == 0)
                 {
                     <div class="employee-empty-state"><strong>Sin vales ni préstamos registrados</strong><p>Los saldos, cuotas y detalles de financiamiento aparecerán aquí.</p></div>
@@ -216,6 +256,31 @@
                         }
                     </div>
                 }
+            </div>
+
+            <!-- Las siguientes áreas permanecen explícitamente parciales o sin migrar. -->
+            <div class="tab-pane fade" id="increases-pane" role="tabpanel" aria-labelledby="increases-tab" tabindex="0">
+                <h2 class="h4">Aumentos</h2>
+                <p>El registro y el historial de aumentos están disponibles en el mantenimiento parcial de compensación.</p>
+                <a asp-page="Compensation" asp-route-id="@employee.Identification" class="btn btn-primary">Abrir aumentos</a>
+            </div>
+
+            <div class="tab-pane fade" id="payroll-pane" role="tabpanel" aria-labelledby="payroll-tab" tabindex="0">
+                <div class="employee-empty-state"><strong>Historial de planillas pendiente</strong><p>Aún falta la consulta contextual y los promedios del empleado.</p></div>
+            </div>
+
+            <div class="tab-pane fade" id="extra-days-pane" role="tabpanel" aria-labelledby="extra-days-tab" tabindex="0">
+                <div class="employee-empty-state"><strong>Días adicionales pendientes</strong><p>El ciclo de registro y cálculo de esta pestaña todavía no está migrado.</p></div>
+            </div>
+
+            <div class="tab-pane fade" id="settlement-pane" role="tabpanel" aria-labelledby="settlement-tab" tabindex="0">
+                <div class="employee-empty-state"><strong>Liquidación laboral pendiente</strong><p>El cálculo y cierre del ciclo laboral deben validarse antes de habilitar acciones.</p></div>
+            </div>
+
+            <div class="tab-pane fade" id="additionals-pane" role="tabpanel" aria-labelledby="additionals-tab" tabindex="0">
+                <h2 class="h4">Adicionales</h2>
+                <p>El registro y la consulta parcial de adicionales están disponibles en compensación.</p>
+                <a asp-page="Compensation" asp-route-id="@employee.Identification" class="btn btn-primary">Abrir adicionales</a>
             </div>
         </div>
     </section>

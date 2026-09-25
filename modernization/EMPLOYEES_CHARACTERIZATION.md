@@ -75,7 +75,7 @@ El WinForms habilita el acceso desde el menú principal y comparte el usuario en
 
 **Datos.** `Empleado_Educacion`. No se observaron vistas ni stored procedures.
 
-**Web actual.** Alta, consulta y eliminación. Falta edición explícita y confirmar equivalencia de las validaciones.
+**Web actual.** Alta, consulta y eliminación en la pestaña Educación de la página de antecedentes. La lectura de `EnCurso` reconoce los valores heredados `0`/`1` y `False`/`True`, que antes causaban error 500. Falta edición explícita y confirmar equivalencia de las validaciones con SQL real.
 
 ### 3. Vacaciones
 
@@ -434,7 +434,9 @@ No se identificaron stored procedures llamados directamente por `Planilla_Emplea
 
 Completar edición, claves estables, validaciones y estados En curso. Probar alta/edición/eliminación y registros duplicados. Termina con CRUD completo y comparación SQL.
 
-**Avance del primer bloque:** se añadió selección y actualización de Experiencia, con validación de los campos obligatorios del WinForms, clave exacta y actualización limitada a una fila. Compilación Web aislada: 0 errores y 0 advertencias. Pruebas unitarias de antecedentes: 5 superadas. **Estado: `IMPLEMENTADA PENDIENTE VALIDACIÓN` para esta acción de edición**, no para toda la pestaña. Educación, borrado con claves duplicadas y cotejo SQL real continúan pendientes.
+**Avance del primer bloque:** se añadió selección y actualización de Experiencia, con validación de los campos obligatorios del WinForms, clave exacta y actualización limitada a una fila. La página de antecedentes ahora separa Experiencia y Educación en pestañas. La lectura de `EnCurso` acepta los valores heredados conocidos y rechaza los desconocidos. **Estado: `IMPLEMENTADA PENDIENTE VALIDACIÓN` para la acción de edición y la corrección de lectura**, no para ambas pestañas completas. Educación, borrado con claves duplicadas y cotejo SQL real continúan pendientes.
+
+**Navegación del expediente:** la Web presenta las doce pestañas originales en su orden, además del resumen y los adjuntos existentes. Por ahora algunas pestañas enlazan acciones que siguen en páginas de mantenimiento separadas y otras indican `NO MIGRADA` o `PARCIAL`; esto no representa todavía una equivalencia completa de la ventana WinForms. La integración de los formularios dentro del mismo expediente queda pendiente.
 
 ### Fase C — Historial de planillas de solo lectura
 
