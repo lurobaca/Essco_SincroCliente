@@ -8,6 +8,10 @@ La navegación Web refleja el inventario completo de `Principal.MenuStrip1`: 80 
 
 Ningún módulo se marca `VALIDADO` sin confirmación manual del usuario.
 
+## Estados de transmisiones
+
+**Estado:** `PARCIAL`. La primera opción del menú web de Facturación ahora abre una consulta propia de `Estado_Subida_SAP` en vez del listado de facturas electrónicas. Los filtros y la lectura requieren validación manual; reintentos, limpiezas, cola y FTP permanecen `NO MIGRADA`. Véase [TRANSMISSION_STATUS_CHARACTERIZATION.md](TRANSMISSION_STATUS_CHARACTERIZATION.md). No se cambió el esquema ni se avanzó a la siguiente opción del menú.
+
 ## Empresa
 
 **Estado:** `PARCIAL`; 18 acciones trazadas: 3 `IMPLEMENTADA PENDIENTE VALIDACIÓN`, 10 `PARCIAL`, 5 `NO MIGRADA` y ninguna `VALIDADA POR USUARIO`. El formulario original tiene dos pestañas, «Empresa» y «Configuraciones». La página web actual no equivale todavía al módulo completo. Consultar [COMPANY_CHARACTERIZATION.md](COMPANY_CHARACTERIZATION.md) para botones, eventos, SQL, divergencias y orden vertical.

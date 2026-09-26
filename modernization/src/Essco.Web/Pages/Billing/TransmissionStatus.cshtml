@@ -1,0 +1,80 @@
+@page
+@model Essco.Web.Pages.Billing.TransmissionStatusModel
+@{
+    ViewData["Title"] = "Estado de transmisiones";
+}
+
+<h1>Estado de transmisiones</h1>
+<p>Consulta de los resultados registrados por Syncro Cliente al transmitir archivos hacia SAP.</p>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <label asp-for="FileType" class="form-label">Archivo</label>
+        <select asp-for="FileType" class="form-select">
+            <option>Todos</option>
+            <option>Pedidos</option>
+            <option>Devoluciones</option>
+            <option>Pagos</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Agent" class="form-label">Número de agente</label>
+        <input asp-for="Agent" inputmode="numeric" class="form-control" />
+    </div>
+    <div class="col-md-3">
+        <label asp-for="Status" class="form-label">Estado</label>
+        <select asp-for="Status" class="form-select">
+            <option>Todos</option>
+            <option>ERROR</option>
+            <option>SUBIDO</option>
+        </select>
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary">Consultar</button>
+    </div>
+</form>
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-danger" role="alert">@Model.ErrorMessage</div>
+}
+else if (Model.Items.Count == 0)
+{
+    <div class="alert alert-info" role="status">No hay transmisiones para los filtros seleccionados.</div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Agente</th>
+                    <th>Archivo</th>
+                    <th>Consecutivo</th>
+                    <th>Estado</th>
+                    <th>Detalle</th>
+                    <th>Fecha</th>
+                    <th>Reintento</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@item.Agent</td>
+                        <td>@item.File</td>
+                        <td>@item.Consecutive</td>
+                        <td>@item.Status</td>
+                        <td>@item.Detail</td>
+                        <td>@item.Date</td>
+                        <td>@item.Retry</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (Model.Items.Count == 500)
+    {
+        <p>Se muestran los primeros 500 registros. Utilice los filtros para acotar la consulta.</p>
+    }
+}

@@ -38,7 +38,7 @@ public static class ErpNavigationCatalog
     public static IReadOnlyList<NavigationOption> Groups { get; } =
     [
         G("Facturación","FacturacionToolStripMenuItem",
-            P("Estado de transmisiones","EstadoDeTransmisionesToolStripMenuItem","EstadoSubida","/Billing/Index",Permissions.Billing),
+            P("Estado de transmisiones","EstadoDeTransmisionesToolStripMenuItem","EstadoSubida","/Billing/TransmissionStatus",Permissions.Billing),
             N("Reportes de carga","ReportesDeCargaToolStripMenuItem","ReportesDeCarga"),
             P("Reporte de facturas","ReporteDeFacturasToolStripMenuItem","Reporte_Facturas","/Reports/Index",Permissions.Reports),
             N("Últimos consecutivos","UltimosConsecutivosToolStripMenuItem","UltimosConsecutivos"),
