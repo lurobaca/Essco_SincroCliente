@@ -10,7 +10,7 @@ Ningún módulo se marca `VALIDADO` sin confirmación manual del usuario.
 
 ## Estados de transmisiones
 
-**Estado:** `PARCIAL`. La primera opción del menú web de Facturación ahora abre una consulta propia de `Estado_Subida_SAP` en vez del listado de facturas electrónicas. Los filtros y la lectura requieren validación manual; reintentos, limpiezas, cola y FTP permanecen `NO MIGRADA`. Véase [TRANSMISSION_STATUS_CHARACTERIZATION.md](TRANSMISSION_STATUS_CHARACTERIZATION.md). No se cambió el esquema ni se avanzó a la siguiente opción del menú.
+**Estado:** `PARCIAL`. La primera opción del menú web de Facturación consulta `Estado_Subida_SAP`, muestra parte del estado del proceso y permite limpieza delimitada, cambio de origen y marca de reintento con permiso de administración. Nada de esto ha sido validado por el usuario. “Solo subir”, “Recargar y subir” y “Recargar todos” siguen `NO MIGRADA` por depender del archivo de señal y del FTP de Syncro Server. Véase [TRANSMISSION_STATUS_CHARACTERIZATION.md](TRANSMISSION_STATUS_CHARACTERIZATION.md). La base local de pruebas tiene 0 filas en `Estado_Subida_SAP`; no se cambió el esquema ni se avanzó a la siguiente opción del menú.
 
 ## Empresa
 
