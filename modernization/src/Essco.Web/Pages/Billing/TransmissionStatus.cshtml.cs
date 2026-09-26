@@ -42,6 +42,9 @@ public sealed class TransmissionStatusModel(
     [TempData]
     public string? Notice { get; set; }
 
+    [TempData]
+    public bool NoticeIsError { get; set; }
+
     /// <summary>
     /// Consulta la bitácora y las señales operativas aplicando filtros validados.
     /// </summary>
@@ -92,6 +95,7 @@ public sealed class TransmissionStatusModel(
         if (!IsValidAgent(agent) || status is not ("ERROR" or "SUBIDO") || confirmation != "LIMPIAR")
         {
             Notice = "Indique un agente, un estado y escriba LIMPIAR para confirmar.";
+            NoticeIsError = true;
             return RedirectToPage();
         }
 
@@ -99,15 +103,18 @@ public sealed class TransmissionStatusModel(
         {
             int affected = await repository.ClearAsync(agent.Trim(), status, cancellationToken);
             Notice = $"Se limpiaron {affected} registros {status} del agente {agent.Trim()}.";
+            NoticeIsError = false;
             await LogAsync("Transmission.Clear", $"{agent.Trim()}:{status}", cancellationToken);
         }
         catch (SqlException)
         {
             Notice = "No fue posible limpiar los estados. No se confirmó el cambio.";
+            NoticeIsError = true;
         }
         catch (InvalidOperationException)
         {
             Notice = "La conexión de Syncro Cliente no está configurada.";
+            NoticeIsError = true;
         }
 
         return RedirectToPage(new { Agent = agent.Trim(), Status = status });
@@ -134,6 +141,7 @@ public sealed class TransmissionStatusModel(
             string.IsNullOrWhiteSpace(date) || date.Length > 100)
         {
             Notice = "No se pudo identificar la transmisión que desea reintentar.";
+            NoticeIsError = true;
             return RedirectToPage();
         }
 
@@ -147,6 +155,7 @@ public sealed class TransmissionStatusModel(
                 -1 => "Hay transmisiones duplicadas; no se marcó ninguna para evitar un reintento ambiguo.",
                 _ => "La transmisión ya no está en ERROR o no existe."
             };
+            NoticeIsError = affected != 1;
             if (affected == 1)
             {
                 await LogAsync("Transmission.Retry", $"{agent.Trim()}:{consecutive.Trim()}", cancellationToken);
@@ -155,10 +164,12 @@ public sealed class TransmissionStatusModel(
         catch (SqlException)
         {
             Notice = "No fue posible marcar la transmisión para reintento.";
+            NoticeIsError = true;
         }
         catch (InvalidOperationException)
         {
             Notice = "La conexión de Syncro Cliente no está configurada.";
+            NoticeIsError = true;
         }
 
         return RedirectToPage(new { Agent = agent.Trim(), Status = "ERROR" });
@@ -180,6 +191,7 @@ public sealed class TransmissionStatusModel(
             Notice = affected == 1
                 ? $"Origen de descarga configurado: {(downloadFromFtp ? "FTP" : "local")}."
                 : "No se cambió el origen: la tabla de configuración no contiene exactamente una fila.";
+            NoticeIsError = affected != 1;
             if (affected == 1)
             {
                 await LogAsync("Transmission.Source", downloadFromFtp ? "FTP" : "Local", cancellationToken);
@@ -188,10 +200,12 @@ public sealed class TransmissionStatusModel(
         catch (SqlException)
         {
             Notice = "No fue posible cambiar el origen de descarga.";
+            NoticeIsError = true;
         }
         catch (InvalidOperationException)
         {
             Notice = "La conexión de Syncro Cliente no está configurada.";
+            NoticeIsError = true;
         }
 
         return RedirectToPage();

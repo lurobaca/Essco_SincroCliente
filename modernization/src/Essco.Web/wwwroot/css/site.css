@@ -440,3 +440,74 @@ a.erp-nav-item .erp-state-label { background: transparent; color: #788a9e; paddi
 .report-table thead th,.report-table tfoot th{background:#142d49;color:#fff}.report-notes{border-left:4px solid #175fc4;padding:.75rem 1rem;background:#f7faff}.report-notes p{margin:.35rem 0 0;white-space:pre-wrap}.report-footer{margin-top:2rem;padding-top:.75rem;border-top:1px solid #dce4ec;color:#526277;font-size:.8rem;text-align:center}
 @media(max-width:700px){.report-details{grid-template-columns:1fr}.liquidation-report{padding:1rem}.report-header{align-items:flex-start}}
 @media print{@page{size:A4;margin:12mm}body{background:#fff;color:#142d49;margin:0}.navbar,footer.border-top{display:none!important}.container{max-width:none!important;padding:0!important}.liquidation-report{max-width:none;border:0;border-radius:0;padding:0}.report-details{grid-template-columns:repeat(3,minmax(0,1fr));print-color-adjust:exact;-webkit-print-color-adjust:exact}.report-table thead th,.report-table tfoot th{background:#142d49!important;color:#fff!important;print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+/* La bitácora conserva todos sus datos y permite recorrer la tabla en pantallas estrechas. */
+.transmission-page .transmission-panel {
+    padding: 1.25rem;
+    border: 1px solid #d3e0ef;
+    border-radius: .75rem;
+    background: #fff;
+}
+
+.transmission-page .transmission-summary-item {
+    padding-left: 1rem;
+    border-left: 3px solid #2364b8;
+}
+
+.transmission-page .transmission-summary-item strong {
+    overflow-wrap: anywhere;
+}
+
+.transmission-page .transmission-table {
+    min-width: 850px;
+}
+
+.transmission-page .transmission-table caption {
+    caption-side: bottom;
+}
+
+.transmission-page .transmission-detail {
+    min-width: 13rem;
+    max-width: 26rem;
+    overflow-wrap: anywhere;
+}
+
+.transmission-page .transmission-status {
+    display: inline-block;
+    padding: .2rem .55rem;
+    border-radius: .4rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.transmission-page .transmission-status-error,
+.transmission-page .transmission-feedback-error {
+    color: #8e2230;
+    background: #fff0f1;
+    border-color: #e8abb3;
+}
+
+.transmission-page .transmission-status-success,
+.transmission-page .transmission-feedback-success {
+    color: #176040;
+    background: #eaf7f0;
+    border-color: #9bd0b3;
+}
+
+.transmission-page .transmission-status-neutral {
+    color: #17365c;
+    background: #eaf2fc;
+}
+
+.transmission-page .transmission-empty {
+    padding: 2rem 1.25rem;
+    border: 1px dashed #abc5e3;
+    border-radius: .75rem;
+    text-align: center;
+    background: #f6faff;
+}
+
+@media (max-width: 767px) {
+    .transmission-page .transmission-panel {
+        padding: 1rem;
+    }
+}
