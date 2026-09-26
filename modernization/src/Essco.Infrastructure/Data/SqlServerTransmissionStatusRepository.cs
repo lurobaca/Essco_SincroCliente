@@ -57,6 +57,32 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
             }
         }
 
+        TransmissionSignals signals = await ReadSignalsAsync(connection, cancellationToken);
+        var alerts = await ReadFtpAlertsAsync(connection, cancellationToken);
+
+        return new TransmissionSnapshot(
+            rows,
+            signals.ActiveAgent,
+            signals.CurrentProcess,
+            signals.DownloadFromFtp,
+            signals.TodayBlocked,
+            alerts);
+    }
+
+    /// <inheritdoc />
+    public async Task<TransmissionSignals> ReadSignalsAsync(CancellationToken cancellationToken)
+    {
+        await using var connection = await OpenAsync(cancellationToken);
+        return await ReadSignalsAsync(connection, cancellationToken);
+    }
+
+    /// <summary>
+    /// Lee las cuatro señales originales sin volver a cargar la bitácora completa.
+    /// </summary>
+    private async Task<TransmissionSignals> ReadSignalsAsync(
+        SqlConnection connection,
+        CancellationToken cancellationToken)
+    {
         string? activeAgent = await ReadControlValueAsync(
             connection,
             "SELECT TOP (1) [AgenteEnSecuencia] FROM [dbo].[AgenteAEjecutar]",
@@ -75,9 +101,18 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
             "1" => false,
             _ => null
         };
-        var alerts = await ReadFtpAlertsAsync(connection, cancellationToken);
+        string? todayFlag = await ReadControlValueAsync(
+            connection,
+            "SELECT TOP (1) [HoySi] FROM [dbo].[FiltraHOY]",
+            cancellationToken);
+        bool? todayBlocked = todayFlag switch
+        {
+            "1" => true,
+            "0" => false,
+            _ => null
+        };
 
-        return new TransmissionSnapshot(rows, activeAgent, currentProcess, downloadFromFtp, alerts);
+        return new TransmissionSignals(activeAgent, currentProcess, downloadFromFtp, todayBlocked);
     }
 
     /// <inheritdoc />

@@ -20,7 +20,17 @@ public sealed record TransmissionSnapshot(
     string? ActiveAgent,
     string? CurrentProcess,
     bool? DownloadFromFtp,
+    bool? TodayBlocked,
     IReadOnlyList<string> FtpAlerts);
+
+/// <summary>
+/// Contiene las señales que el formulario original actualizaba mediante Timer.
+/// </summary>
+public sealed record TransmissionSignals(
+    string? ActiveAgent,
+    string? CurrentProcess,
+    bool? DownloadFromFtp,
+    bool? TodayBlocked);
 
 /// <summary>
 /// Define las consultas y mutaciones de la bitácora de transmisión heredada.
@@ -31,6 +41,11 @@ public interface ITransmissionStatusRepository
     /// Consulta resultados y señales operativas sin modificar el estado del proceso.
     /// </summary>
     Task<TransmissionSnapshot> ReadAsync(string? agent, string fileType, string status, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Consulta únicamente las señales operativas para la actualización periódica.
+    /// </summary>
+    Task<TransmissionSignals> ReadSignalsAsync(CancellationToken cancellationToken);
 
     /// <summary>
     /// Elimina resultados de un solo agente y estado explícito.

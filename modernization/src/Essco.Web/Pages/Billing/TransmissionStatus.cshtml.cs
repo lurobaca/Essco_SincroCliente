@@ -36,6 +36,7 @@ public sealed class TransmissionStatusModel(
     public string? ActiveAgent { get; private set; }
     public string? CurrentProcess { get; private set; }
     public bool? DownloadFromFtp { get; private set; }
+    public bool? TodayBlocked { get; private set; }
     public bool CanManage { get; private set; }
     public string? ErrorMessage { get; private set; }
 
@@ -66,6 +67,7 @@ public sealed class TransmissionStatusModel(
             ActiveAgent = snapshot.ActiveAgent;
             CurrentProcess = snapshot.CurrentProcess;
             DownloadFromFtp = snapshot.DownloadFromFtp;
+            TodayBlocked = snapshot.TodayBlocked;
             FtpAlerts = snapshot.FtpAlerts;
         }
         catch (SqlException)
@@ -79,10 +81,31 @@ public sealed class TransmissionStatusModel(
     }
 
     /// <summary>
+    /// Actualiza las señales del proceso sin recargar las filas ni modificar datos.
+    /// </summary>
+    public async Task<IActionResult> OnGetSignalsAsync(CancellationToken cancellationToken)
+    {
+        try
+        {
+            TransmissionSignals signals = await repository.ReadSignalsAsync(cancellationToken);
+            return new JsonResult(signals);
+        }
+        catch (SqlException)
+        {
+            return StatusCode(503);
+        }
+        catch (InvalidOperationException)
+        {
+            return StatusCode(503);
+        }
+    }
+
+    /// <summary>
     /// Elimina los resultados de un estado únicamente para el agente indicado y confirmado.
     /// </summary>
     public async Task<IActionResult> OnPostClearAsync(
         string agent,
+        string fileType,
         string status,
         string confirmation,
         CancellationToken cancellationToken)
@@ -92,7 +115,10 @@ public sealed class TransmissionStatusModel(
             return Forbid();
         }
 
-        if (!IsValidAgent(agent) || status is not ("ERROR" or "SUBIDO") || confirmation != "LIMPIAR")
+        if (!IsValidAgent(agent) ||
+            fileType is not ("Todos" or "Pedidos" or "Devoluciones" or "Pagos") ||
+            status is not ("ERROR" or "SUBIDO") ||
+            confirmation != "LIMPIAR")
         {
             Notice = "Indique un agente, un estado y escriba LIMPIAR para confirmar.";
             NoticeIsError = true;
@@ -117,7 +143,7 @@ public sealed class TransmissionStatusModel(
             NoticeIsError = true;
         }
 
-        return RedirectToPage(new { Agent = agent.Trim(), Status = status });
+        return RedirectToPage(new { Agent = agent.Trim(), FileType = fileType, Status = status });
     }
 
     /// <summary>

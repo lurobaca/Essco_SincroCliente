@@ -14,6 +14,12 @@ public sealed class UnavailableTransmissionStatusRepository : ITransmissionStatu
     }
 
     /// <inheritdoc />
+    public Task<TransmissionSignals> ReadSignalsAsync(CancellationToken cancellationToken)
+    {
+        throw new InvalidOperationException("La conexión de Syncro Cliente no está configurada.");
+    }
+
+    /// <inheritdoc />
     public Task<int> ClearAsync(string agent, string status, CancellationToken cancellationToken)
     {
         throw new InvalidOperationException("La conexión de Syncro Cliente no está configurada.");
