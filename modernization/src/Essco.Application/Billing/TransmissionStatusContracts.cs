@@ -61,4 +61,37 @@ public interface ITransmissionStatusRepository
     /// Selecciona FTP o lectura local si existe una sola fila de configuración.
     /// </summary>
     Task<int> SetSourceAsync(bool downloadFromFtp, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Comprueba que el código identifica a un agente del catálogo heredado.
+    /// </summary>
+    Task<bool> AgentExistsAsync(string agent, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Lista los agentes que el botón Recargar Todos recorría en WinForms.
+    /// </summary>
+    Task<IReadOnlyList<string>> ListDispatchAgentsAsync(CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Limpia los dos estados del agente y opcionalmente marca sus archivos para recarga.
+    /// </summary>
+    Task PrepareDispatchAsync(string agent, bool reload, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Sustituye la prioridad global del agente después de preparar el envío.
+    /// </summary>
+    Task QueueAgentAsync(string agent, CancellationToken cancellationToken);
+}
+
+/// <summary>
+/// Publica la señal que Syncro Server consume desde el FTP heredado.
+/// </summary>
+public interface ITransmissionSignalSender
+{
+    bool IsConfigured { get; }
+
+    /// <summary>
+    /// Envía la señal del agente al directorio Revisame del FTP.
+    /// </summary>
+    Task SendAsync(string agent, CancellationToken cancellationToken);
 }

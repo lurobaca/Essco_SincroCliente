@@ -28,6 +28,23 @@ document.querySelectorAll(".transmission-clear-form").forEach((form) => {
     });
 });
 
+/**
+ * Copia el agente visible a los formularios de envío y valida su rango antes del POST.
+ */
+document.querySelectorAll(".transmission-dispatch-form").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+        const agent = agentEntry.value.trim();
+        if (!/^[0-9]{1,10}$/.test(agent) || Number(agent) > 2147483647) {
+            event.preventDefault();
+            agentEntry.focus();
+            window.alert("Indique un número de agente válido antes de transmitir.");
+            return;
+        }
+
+        form.querySelector('input[name="agent"]').value = agent;
+    });
+});
+
 document.querySelectorAll(".transmission-page form[method='post']").forEach((form) => {
     form.addEventListener("submit", (event) => {
         if (event.defaultPrevented) {

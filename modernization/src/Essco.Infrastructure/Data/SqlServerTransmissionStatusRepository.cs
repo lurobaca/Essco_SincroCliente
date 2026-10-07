@@ -1,4 +1,5 @@
 using System.Data;
+using System.Globalization;
 using Essco.Application.Billing;
 using Microsoft.Data.SqlClient;
 
@@ -180,6 +181,145 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
             """);
         command.Parameters.Add("@Value", SqlDbType.Int).Value = downloadFromFtp ? 0 : 1;
         return await command.ExecuteNonQueryAsync(cancellationToken);
+    }
+
+    /// <inheritdoc />
+    public async Task<bool> AgentExistsAsync(string agent, CancellationToken cancellationToken)
+    {
+        if (!int.TryParse(agent, NumberStyles.None, CultureInfo.InvariantCulture, out int agentCode))
+        {
+            return false;
+        }
+
+        await using var connection = await OpenAsync(cancellationToken);
+        await using var command = CreateCommand(connection, """
+            SELECT COUNT_BIG(*)
+            FROM [dbo].[Agentes]
+            WHERE [CodAgente] = @Agent AND [Puesto] = 'AGENTE'
+            """);
+        command.Parameters.Add("@Agent", SqlDbType.Int).Value = agentCode;
+        return Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken)) == 1;
+    }
+
+    /// <inheritdoc />
+    public async Task<IReadOnlyList<string>> ListDispatchAgentsAsync(CancellationToken cancellationToken)
+    {
+        await using var connection = await OpenAsync(cancellationToken);
+        await using var command = CreateCommand(connection, """
+            SELECT [CodAgente]
+            FROM [dbo].[Agentes]
+            WHERE [Puesto] = 'AGENTE'
+            ORDER BY [CodAgente]
+            """);
+        var agents = new List<string>();
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+        while (await reader.ReadAsync(cancellationToken))
+        {
+            agents.Add(Convert.ToString(reader.GetValue(0)) ?? string.Empty);
+        }
+
+        return agents;
+    }
+
+    /// <inheritdoc />
+    public async Task PrepareDispatchAsync(string agent, bool reload, CancellationToken cancellationToken)
+    {
+        if (!int.TryParse(agent, NumberStyles.None, CultureInfo.InvariantCulture, out int agentCode))
+        {
+            throw new ArgumentException("El agente debe ser un número válido.", nameof(agent));
+        }
+
+        await using var connection = await OpenAsync(cancellationToken);
+        await using var transaction = (SqlTransaction)await connection.BeginTransactionAsync(cancellationToken);
+
+        try
+        {
+            await using var agentCommand = CreateCommand(connection, """
+                SELECT COUNT_BIG(*)
+                FROM [dbo].[Agentes] WITH (UPDLOCK, HOLDLOCK)
+                WHERE [CodAgente] = @Agent AND [Puesto] = 'AGENTE'
+                """);
+            agentCommand.Transaction = transaction;
+            agentCommand.Parameters.Add("@Agent", SqlDbType.Int).Value = agentCode;
+            long matchingAgents = Convert.ToInt64(
+                await agentCommand.ExecuteScalarAsync(cancellationToken));
+            if (matchingAgents != 1)
+            {
+                throw new InvalidOperationException("El agente ya no está disponible para transmitir.");
+            }
+
+            await using var clearCommand = CreateCommand(connection, """
+                DELETE FROM [dbo].[Estado_Subida_SAP]
+                WHERE [Agente] = @Agent AND [Estado] IN ('ERROR', 'SUBIDO')
+                """);
+            clearCommand.Transaction = transaction;
+            clearCommand.Parameters.Add("@Agent", SqlDbType.VarChar, 30).Value = agent;
+            await clearCommand.ExecuteNonQueryAsync(cancellationToken);
+
+            if (reload)
+            {
+                await using var reloadCommand = CreateCommand(connection, """
+                    UPDATE [dbo].[Agentes]
+                    SET [Recargar] = 1
+                    WHERE [CodAgente] = @Agent AND [Puesto] = 'AGENTE'
+                    """);
+                reloadCommand.Transaction = transaction;
+                reloadCommand.Parameters.Add("@Agent", SqlDbType.Int).Value = agentCode;
+                if (await reloadCommand.ExecuteNonQueryAsync(cancellationToken) != 1)
+                {
+                    throw new InvalidOperationException("No se pudo marcar la recarga del agente.");
+                }
+            }
+
+            await transaction.CommitAsync(cancellationToken);
+        }
+        catch
+        {
+            await transaction.RollbackAsync(CancellationToken.None);
+            throw;
+        }
+    }
+
+    /// <inheritdoc />
+    public async Task QueueAgentAsync(string agent, CancellationToken cancellationToken)
+    {
+        if (agent.Length is < 1 or > 10 || !agent.All(char.IsDigit))
+        {
+            throw new ArgumentException("El agente debe ser un número válido.", nameof(agent));
+        }
+
+        await using var connection = await OpenAsync(cancellationToken);
+        await using var transaction = (SqlTransaction)await connection.BeginTransactionAsync(
+            IsolationLevel.Serializable,
+            cancellationToken);
+
+        try
+        {
+            await using var command = CreateCommand(connection, """
+                SELECT COUNT_BIG(*) FROM [dbo].[AgenteAEjecutar] WITH (TABLOCKX, HOLDLOCK)
+                """);
+            command.Transaction = transaction;
+            long rows = Convert.ToInt64(await command.ExecuteScalarAsync(cancellationToken));
+            if (rows > 1)
+            {
+                throw new InvalidOperationException("La prioridad de agentes contiene más de una fila.");
+            }
+
+            command.CommandText = "DELETE FROM [dbo].[AgenteAEjecutar]";
+            await command.ExecuteNonQueryAsync(cancellationToken);
+            command.CommandText = """
+                INSERT INTO [dbo].[AgenteAEjecutar] ([EjecAgente])
+                VALUES (@Agent)
+                """;
+            command.Parameters.Add("@Agent", SqlDbType.NChar, 10).Value = agent;
+            await command.ExecuteNonQueryAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+        }
+        catch
+        {
+            await transaction.RollbackAsync(CancellationToken.None);
+            throw;
+        }
     }
 
     /// <summary>

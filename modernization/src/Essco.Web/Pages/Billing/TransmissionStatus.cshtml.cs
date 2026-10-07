@@ -18,9 +18,11 @@ namespace Essco.Web.Pages.Billing;
 [Authorize(Policy = Permissions.Billing)]
 public sealed class TransmissionStatusModel(
     ITransmissionStatusRepository repository,
+    TransmissionDispatchService dispatch,
     IAuthorizationService authorization,
     AuditService audit,
-    IOptions<EsscoOptions> options) : PageModel
+    IOptions<EsscoOptions> options,
+    ILogger<TransmissionStatusModel> logger) : PageModel
 {
     [BindProperty(SupportsGet = true)]
     public string? Agent { get; set; }
@@ -38,6 +40,8 @@ public sealed class TransmissionStatusModel(
     public bool? DownloadFromFtp { get; private set; }
     public bool? TodayBlocked { get; private set; }
     public bool CanManage { get; private set; }
+    public bool DispatchConfigured => dispatch.IsConfigured;
+    public bool CanDispatch => CanManage && DispatchConfigured;
     public string? ErrorMessage { get; private set; }
 
     [TempData]
@@ -238,6 +242,85 @@ public sealed class TransmissionStatusModel(
     }
 
     /// <summary>
+    /// Ejecuta los tres flujos de envío heredados solamente cuando el FTP fue habilitado.
+    /// </summary>
+    public async Task<IActionResult> OnPostDispatchAsync(
+        string? agent,
+        string mode,
+        CancellationToken cancellationToken)
+    {
+        if (!await CanManageAsync())
+        {
+            return Forbid();
+        }
+
+        if (!dispatch.IsConfigured)
+        {
+            Notice = "El envío no está habilitado para este entorno.";
+            NoticeIsError = true;
+            return RedirectToPage();
+        }
+
+        if (mode is not ("reload" or "upload" or "all") ||
+            (mode != "all" && !IsValidDispatchAgent(agent)))
+        {
+            Notice = "Indique un número de agente válido para esta operación.";
+            NoticeIsError = true;
+            return RedirectToPage();
+        }
+
+        try
+        {
+            if (mode == "all")
+            {
+                int completed = await dispatch.DispatchAllAsync(cancellationToken);
+                Notice = $"Se enviaron señales para {completed} agentes. Syncro Server procesará cada solicitud.";
+            }
+            else
+            {
+                await dispatch.DispatchAgentAsync(
+                    agent!.Trim(),
+                    reload: mode == "reload",
+                    cancellationToken);
+                Notice = $"Se envió la señal del agente {agent.Trim()}. El procesamiento depende de Syncro Server.";
+            }
+
+            NoticeIsError = false;
+            try
+            {
+                await LogAsync(
+                    "Transmission.Dispatch",
+                    mode == "all" ? "All" : agent!.Trim(),
+                    cancellationToken);
+            }
+            catch (Exception auditException) when (auditException is not OperationCanceledException)
+            {
+                // El envío ya ocurrió: un fallo posterior de auditoría no debe sugerir que se repita.
+                logger.LogError(auditException, "No se pudo auditar una transmisión completada");
+            }
+        }
+        catch (ArgumentException)
+        {
+            Notice = "El agente indicado no existe o no está habilitado para transmitir.";
+            NoticeIsError = true;
+        }
+        catch (InvalidOperationException exception)
+        {
+            logger.LogWarning(exception, "No se pudo iniciar la transmisión del modo {Mode}", mode);
+            Notice = "No se pudo iniciar la transmisión. Revise la configuración y si hay otra operación en curso.";
+            NoticeIsError = true;
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException)
+        {
+            logger.LogError(exception, "Falló la transmisión del modo {Mode}", mode);
+            Notice = "Falló la transmisión. Puede haber cambios parciales en SQL; revise la bitácora y Syncro Server antes de repetirla.";
+            NoticeIsError = true;
+        }
+
+        return RedirectToPage(new { Agent = mode == "all" ? null : agent, Status = "Todos" });
+    }
+
+    /// <summary>
     /// Aplica en backend el permiso adicional para operaciones que cambian el proceso.
     /// </summary>
     private async Task<bool> CanManageAsync()
@@ -277,5 +360,16 @@ public sealed class TransmissionStatusModel(
         return !string.IsNullOrWhiteSpace(agent) &&
             agent.Length <= 30 &&
             agent.All(char.IsDigit);
+    }
+
+    /// <summary>
+    /// La cola heredada almacena hasta diez caracteres y Agentes.CodAgente es entero.
+    /// </summary>
+    private static bool IsValidDispatchAgent(string? agent)
+    {
+        return !string.IsNullOrWhiteSpace(agent) &&
+            agent.Length <= 10 &&
+            agent.All(char.IsDigit) &&
+            int.TryParse(agent, NumberStyles.None, CultureInfo.InvariantCulture, out _);
     }
 }

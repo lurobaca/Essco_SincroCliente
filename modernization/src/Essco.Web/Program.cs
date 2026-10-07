@@ -80,6 +80,12 @@ builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddScoped<PasswordChangeService>();
 
 var initialOptions = builder.Configuration.GetSection(EsscoOptions.SectionName).Get<EsscoOptions>() ?? new();
+var transmissionFtpOptions = builder.Configuration.GetSection("Essco:TransmissionFtp")
+    .Get<TransmissionFtpOptions>() ?? new();
+if (!transmissionFtpOptions.IsValid())
+{
+    throw new InvalidOperationException("La configuración Essco:TransmissionFtp no es válida.");
+}
 var sqlConnectionString = initialOptions.SqlServer.Enabled
     ? builder.Configuration.GetConnectionString(initialOptions.SqlServer.ConnectionStringName)
     : null;
@@ -158,6 +164,24 @@ builder.Services.AddScoped<IPurchaseOrderRepository>(_ => initialOptions.SqlServ
 builder.Services.AddScoped<PurchaseOrderService>();
 builder.Services.AddScoped<IElectronicInvoiceRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerElectronicInvoiceRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableElectronicInvoiceRepository());
 builder.Services.AddScoped<ITransmissionStatusRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerTransmissionStatusRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableTransmissionStatusRepository());
+builder.Services.AddSingleton<ITransmissionSignalSender>(provider =>
+{
+    try
+    {
+        return new LegacyFtpTransmissionSignalSender(
+            transmissionFtpOptions,
+            sqlConnectionString,
+            builder.Environment.ContentRootPath);
+    }
+    catch (Exception exception)
+    {
+        provider.GetRequiredService<ILogger<Program>>().LogError(
+            exception,
+            "El envío FTP quedó deshabilitado por configuración inválida");
+        return new UnavailableTransmissionSignalSender();
+    }
+});
+builder.Services.AddScoped<TransmissionDispatchService>();
 builder.Services.AddScoped<ElectronicInvoiceService>();
 builder.Services.AddScoped<IInventoryRepository>(_ => initialOptions.SqlServer.Enabled && !string.IsNullOrWhiteSpace(sqlConnectionString) ? new SqlServerInventoryRepository(sqlConnectionString, initialOptions.SqlServer.CommandTimeoutSeconds) : new UnavailableInventoryRepository());
 builder.Services.AddScoped<InventoryService>();

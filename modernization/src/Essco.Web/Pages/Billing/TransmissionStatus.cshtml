@@ -97,15 +97,48 @@
             <input asp-for="Agent" id="transmission-agent-entry" form="transmission-query"
                    inputmode="numeric" pattern="[0-9]*" class="form-control form-control-sm"
                    aria-describedby="transmission-ftp-help" />
-            <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Recargar y Subir</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Solo Subir</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Recargar Todos</button>
+            @if (Model.CanDispatch)
+            {
+                <form method="post" asp-page-handler="Dispatch" class="transmission-dispatch-form"
+                      data-confirm-message="Se limpiarán los estados del agente, se marcará la recarga y se enviará una señal al FTP. ¿Continuar?">
+                    <input type="hidden" name="agent" />
+                    <input type="hidden" name="mode" value="reload" />
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Recargar y Subir</button>
+                </form>
+                <form method="post" asp-page-handler="Dispatch" class="transmission-dispatch-form"
+                      data-confirm-message="Se limpiarán los estados del agente y se enviará una señal al FTP. ¿Continuar?">
+                    <input type="hidden" name="agent" />
+                    <input type="hidden" name="mode" value="upload" />
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Solo Subir</button>
+                </form>
+                <form method="post" asp-page-handler="Dispatch"
+                      data-confirm-message="Se limpiarán los estados y se enviará una señal por cada agente, excepto el código 1. Esta operación puede tardar. ¿Continuar?">
+                    <input type="hidden" name="mode" value="all" />
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Recargar Todos</button>
+                </form>
+            }
+            else
+            {
+                <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Recargar y Subir</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Solo Subir</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" disabled>Recargar Todos</button>
+            }
             <span class="transmission-current-agent">#Ag <strong id="transmission-active-agent">@(Model.ActiveAgent ?? "-")</strong></span>
             <output id="transmission-process" class="transmission-process" aria-label="Proceso actual">@(Model.CurrentProcess ?? "Sin información")</output>
         </div>
         <p id="transmission-ftp-help" class="transmission-toolbar-help">
-            El envío requiere el archivo de señal, FTP y Syncro Server; estas tres acciones aún no se ejecutan desde Web.
-            Para limpiar resultados, indique #Agente y confirme la operación.
+            @if (Model.CanDispatch)
+            {
+                <text>El envío publica una señal FTP; Syncro Server confirma el procesamiento posteriormente. Para limpiar resultados, indique #Agente y confirme la operación.</text>
+            }
+            else if (Model.DispatchConfigured)
+            {
+                <text>El envío requiere permiso de administración. La consulta de transmisiones sigue disponible.</text>
+            }
+            else
+            {
+                <text>El envío está deshabilitado hasta configurar un FTP y Syncro Server aislados para este entorno. Para limpiar resultados, indique #Agente y confirme la operación.</text>
+            }
         </p>
     </div>
 

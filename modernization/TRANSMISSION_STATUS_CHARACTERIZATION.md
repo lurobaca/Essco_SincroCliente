@@ -1,6 +1,32 @@
 # Estados de transmisiones — caracterización funcional
 
-Actualizado: 2026-09-26. Estado global: `PARCIAL`. No existe validación manual del usuario.
+Actualizado: 2026-10-06. Estado global: `PARCIAL`. No existe validación manual del usuario.
+
+## Auditoría ampliada del envío (2026-10-06)
+
+La trazabilidad de los tres botones de envío está en `Play/EstadoSubida.vb`:
+
+| Acción | Secuencia WinForms comprobada | Web antes de esta revisión | Estado inicial |
+|---|---|---|---|
+| Recargar y Subir | Limpia ERROR y SUBIDO del agente, marca `Agentes.Recargar = 1`, genera la señal `.mbg`, la sube al FTP y reemplaza `AgenteAEjecutar` | Botón deshabilitado | NO MIGRADA |
+| Solo Subir | Limpia ERROR y SUBIDO del agente, reemplaza `AgenteAEjecutar`, genera la señal `.mbg` y la sube al FTP | Botón deshabilitado | NO MIGRADA |
+| Recargar Todos | Recorre agentes con puesto AGENTE excepto el código 1 y repite la secuencia de recarga y envío | Botón deshabilitado | NO MIGRADA |
+
+`CrearArchivo.Crear_Revisame` crea un archivo con una línea vacía. `Class_FTP.Subir` elimina el destino antes de cargarlo con FTP, pero captura errores y devuelve éxito aparente incluso si falló. Syncro Server no es invocado directamente por este formulario: consume la señal `Revisame/<agente>.mbg` en el FTP y la fila de `AgenteAEjecutar`. El XML leído por WinForms aporta servidor, usuario, contraseña y directorio local; no hay endpoint HTTP ni socket en el formulario. La ruta local configurada en los XML disponibles no existe en esta máquina; el servidor Web puede generar el contenido de la señal sin depender de esa carpeta de la PC.
+
+Hay una falla heredada peligrosa: `RecargaTodos_Click` itera el agente correcto para `ModificaRecargar` y FTP, pero llama `LimpiaEstadoSubidoSAP(txt_SoloAg.Text, ...)` en vez del agente iterado. Si el campo está vacío, puede limpiar resultados de todos los agentes. La migración no debe repetir ese borrado global. La Web ya exige agente explícito y confirmación para los botones de limpieza independientes.
+
+El SQL de prueba conectado por la Web es `Sic_Local_Web_Pruebas`: se verificaron solo metadatos y conteos, sin mutaciones; `Estado_Subida_SAP` tiene cero filas. El XML sandbox apunta a esa base, pero comparte servidor y usuario FTP con el XML de producción. Por ello las pruebas reales de envío no son seguras hasta identificar un FTP y un consumidor Syncro Server aislados. Tampoco se pueden ejecutar pruebas de limpieza, filtros con datos ni reintento con esa tabla vacía.
+
+### Implementación Web preparada
+
+`TransmissionDispatchService` conserva los órdenes distintos: Solo Subir prioriza al agente antes de publicar la señal; Recargar y Subir y Recargar Todos publican antes de sustituir la prioridad. `SqlServerTransmissionStatusRepository` valida el agente en `Agentes`, elimina solamente sus filas ERROR y SUBIDO en una transacción, marca `Recargar` solo cuando corresponde y sustituye la fila de `AgenteAEjecutar` en otra transacción. Recargar Todos usa siempre el agente iterado; no reproduce el borrado global accidental de WinForms. Se rechazan solicitudes simultáneas dentro de una instancia Web.
+
+`LegacyFtpTransmissionSignalSender` lee las secciones FTP y SQL del XML heredado, exige que la base coincida con la conexión de la Web y publica una línea vacía en `Revisame/<agente>.mbg`. Genera la señal en memoria porque el archivo local de WinForms no contiene datos y su directorio configurado no existe en esta máquina. No borra previamente el archivo remoto: la carga FTP lo reemplaza para evitar un intervalo sin señal. Los errores de SQL o FTP no se ocultan; la Web advierte de posibles cambios parciales si falla el envío. Syncro Server sigue siendo un consumidor externo: el éxito de la carga FTP **no** confirma que haya procesado el agente.
+
+La función queda deshabilitada por defecto mediante `Essco:TransmissionFtp:Enabled=false`. Para habilitarla se debe indicar `Essco:TransmissionFtp:LegacyConfigurationPath` mediante configuración local o secretos, con el XML del **mismo** entorno SQL y un FTP aislado. No se copiaron contraseñas al proyecto Web. El límite FTP es `Essco:TransmissionFtp:TimeoutSeconds` (15 segundos por señal por defecto). La configuración no se habilitó porque ambos XML disponibles comparten FTP. Estas acciones permanecen `PARCIAL` hasta contar con pruebas reales y validación del usuario.
+
+El protocolo heredado es FTP sin TLS. La Web no empeora ese transporte ni inventa un endpoint de Syncro Server, pero tampoco puede confirmar que el consumidor externo esté disponible después de recibir la señal. SQL y FTP no comparten transacción: si FTP falla después de preparar SQL, pueden permanecer cambios parciales; el mensaje Web lo advierte y la operación requiere revisión antes de repetirse. El bloqueo de simultaneidad actual es por instancia Web, no distribuido entre múltiples servidores. `Recargar Todos` puede superar los límites de tiempo de un proxy si el catálogo crece; no se agregó infraestructura de jobs sin un entorno donde caracterizar su duración real.
 
 ## Paridad visual y de controles
 
@@ -27,7 +53,7 @@ El Timer original también consume `InfoTransmision` y actualiza `FiltraHOY.HoyS
 
 ### Dependencias pendientes de ejecución
 
-`Solo Subir`, `Recargar y Subir` y `Recargar Todos` siguen en su lugar en la barra, pero no ejecutan limpieza, cola ni envío mientras no se pueda validar el archivo `.mbg`, FTP y Syncro Server en un entorno de prueba. Los botones están deshabilitados y explicados; no hay éxito simulado. La consulta, limpieza y cambio FTP/local conservan sus handlers existentes. Quedan pendientes pruebas manuales con registros reales y comparación visual en navegador de escritorio, tablet y móvil.
+`Solo Subir`, `Recargar y Subir` y `Recargar Todos` están implementados y aparecen habilitados únicamente cuando `Essco:TransmissionFtp` está configurado explícitamente. En el entorno actual continúan deshabilitados: no hay FTP sandbox aislado. La consulta, limpieza y cambio FTP/local conservan sus handlers existentes. Quedan pendientes pruebas manuales con registros reales y comparación visual en navegador de escritorio, tablet y móvil.
 
 ## Trazabilidad
 
@@ -49,9 +75,9 @@ El Timer original también consume `InfoTransmision` y actualiza `FiltraHOY.HoyS
 | Avisar que no hay archivo FTP | `Timer_AGEjecucion_Tick` / `Consulta_InfoNOARCHIVO_FTP` | Muestra las primeras diez alertas activas; no consume ni limpia la señal | PARCIAL |
 | Limpiar errores | `btn_LimpError` / `LimpiaEstadoSubidoSAP` | Elimina solo registros ERROR de un agente indicado y confirmado | IMPLEMENTADA PENDIENTE VALIDACIÓN |
 | Limpiar subidos | `btn_LimpSubidos` / `LimpiaEstadoSubidoSAP` | Elimina solo registros SUBIDO de un agente indicado y confirmado | IMPLEMENTADA PENDIENTE VALIDACIÓN |
-| Solo subir | `btn_subir` / cola y archivo `Revisame` en FTP | Sin equivalente | NO MIGRADA |
-| Recargar y subir | `btn_RecargSubir` / limpieza, marca de recarga, cola y FTP | Sin equivalente | NO MIGRADA |
-| Recargar todos | `btn_RecargaTodos` / iteración de agentes y FTP | Sin equivalente | NO MIGRADA |
+| Solo subir | `btn_subir` / cola y archivo `Revisame` en FTP | Flujo implementado, deshabilitado sin FTP aislado | PARCIAL |
+| Recargar y subir | `btn_RecargSubir` / limpieza, marca de recarga, cola y FTP | Flujo implementado, deshabilitado sin FTP aislado | PARCIAL |
+| Recargar todos | `btn_RecargaTodos` / iteración de agentes y FTP | Flujo implementado por agente, deshabilitado sin FTP aislado | PARCIAL |
 | Seleccionar fila para reintentar | `DGV_EstadoSubida.MouseClick` / `CambiaEstadoReinsertar` | Botón explícito por fila ERROR; solo actualiza `Reintento`, no confirma procesamiento externo | PARCIAL |
 | Alternar origen FTP/local | `BTN_LocalFtp.Click` / `Bloquea_Desbloquea_DescargardeFTP` | Lectura y actualización de `BajarDeFTP`, sin cambiar al cerrar la página | PARCIAL |
 | Bloqueo de pedidos de hoy | carga, timer y cierre; botón oculto en diseñador | Indicador de solo lectura según `FiltraHOY.HoySi`; no reproduce las escrituras globales en apertura/cierre | PARCIAL |
