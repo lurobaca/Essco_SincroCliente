@@ -2,41 +2,56 @@
 @model Essco.Web.Pages.Account.LoginModel
 @{
     ViewData["Title"] = "Iniciar sesión";
+    ViewData["IsLoginPage"] = true;
 }
 
-<div class="row justify-content-center">
-    <div class="col-md-5 col-lg-4">
-        <h1 class="h3 mb-3">Iniciar sesión</h1>
-        <p class="text-muted">Acceso a <strong>Syncro Cliente ERP</strong>. Utiliza tu nombre de usuario del sistema, no el correo del Portal ESSCO.</p>
-        @if (!Model.AccessConfigured)
-        {
-            <p class="alert alert-warning">El acceso todavía no está configurado. Conecta una copia SQL de pruebas y habilita los usuarios antes de iniciar sesión.</p>
-        }
-        @if (!Request.IsHttps)
-        {
-            <p class="alert alert-warning">Abre la aplicación con el perfil HTTPS de Visual Studio. La sesión requiere una conexión segura.</p>
-        }
-        <form method="post">
-            <input type="hidden" asp-for="ReturnUrl" />
-            <div asp-validation-summary="ModelOnly" class="alert alert-danger login-error" role="alert"></div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Username" class="form-control" autocomplete="username" autofocus />
-                <label asp-for="Input.Username"></label>
-                <span asp-validation-for="Input.Username" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <div class="form-floating password-field">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" />
-                <label asp-for="Input.Password"></label><button type="button" class="password-toggle" data-password-toggle="Input_Password" aria-pressed="false">Mostrar</button>
-                </div>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
-        </form>
+<section class="account-card login-card" aria-labelledby="login-title">
+    <div class="essco-wordmark mb-4" aria-label="ESSCO, Easy Software Solution Company">
+        <span class="essco-name">ESSCO</span>
+        <span class="essco-fullname">Easy Software Solution Company</span>
     </div>
-</div>
+    <h1 id="login-title" class="h3 mb-3">Iniciar sesión</h1>
+    <p class="text-muted">Acceso a <strong>Syncro Cliente ERP</strong>. Utiliza tu nombre de usuario del sistema, no el correo del Portal ESSCO.</p>
+    @if (!Model.AccessConfigured)
+    {
+        <p class="alert alert-warning">El acceso todavía no está configurado. Conecta una copia SQL de pruebas y habilita los usuarios antes de iniciar sesión.</p>
+    }
+    @if (!Request.IsHttps)
+    {
+        <p class="alert alert-warning">Abre la aplicación con el perfil HTTPS de Visual Studio. La sesión requiere una conexión segura.</p>
+    }
+    <form method="post">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger login-error" role="alert"></div>
+        <div class="form-floating mb-3">
+            <input asp-for="Input.Username" class="form-control" autocomplete="username" autofocus />
+            <label asp-for="Input.Username"></label>
+            <span asp-validation-for="Input.Username" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <div class="form-floating password-field">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" />
+                <label asp-for="Input.Password"></label>
+                <button type="button" class="password-toggle" data-password-toggle="Input_Password" aria-pressed="false">Mostrar</button>
+            </div>
+            <span asp-validation-for="Input.Password" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+    </form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script>document.querySelectorAll('[data-password-toggle]').forEach(button=>button.addEventListener('click',()=>{const input=document.getElementById(button.dataset.passwordToggle);const show=input.type==='password';input.type=show?'text':'password';button.textContent=show?'Ocultar':'Mostrar';button.setAttribute('aria-pressed',show.toString());}));</script>
+    <script>
+        // Permite revisar la contraseña escrita sin modificar el valor del campo.
+        document.querySelectorAll('[data-password-toggle]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const input = document.getElementById(button.dataset.passwordToggle);
+                const showPassword = input.type === 'password';
+                input.type = showPassword ? 'text' : 'password';
+                button.textContent = showPassword ? 'Ocultar' : 'Mostrar';
+                button.setAttribute('aria-pressed', showPassword.toString());
+            });
+        });
+    </script>
 }

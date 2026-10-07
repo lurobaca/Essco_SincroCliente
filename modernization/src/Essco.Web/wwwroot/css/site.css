@@ -403,6 +403,27 @@ a.erp-nav-item .erp-state-label { background: transparent; color: #788a9e; paddi
 .account-footer {text-align:center;padding:1rem;color:#526277;font-size:.8rem;}
 @media(max-width:575px){.account-card{padding:1.4rem;}.account-main{padding:1.5rem 1rem;}}
 
+/* El acceso a Syncro Cliente muestra únicamente el formulario antes de autenticar. */
+.erp-login-screen {
+  background: #eef3f8;
+}
+
+.erp-login-screen .erp-shell {
+  min-height: 100vh;
+}
+
+.erp-login-screen .erp-page > main {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+.erp-login-screen .login-card {
+  max-width: 540px;
+}
+
 .workspace-hero {background:#142d49;color:white;padding:2.5rem;border-radius:1rem;margin:1rem 0 1.5rem;}
 .workspace-hero h1 {font-size:clamp(1.8rem,4vw,2.7rem);font-weight:700;}
 .workspace-hero p {max-width:45rem;color:#d0dfec;}

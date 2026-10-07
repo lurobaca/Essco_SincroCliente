@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="~/Essco.Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/essco-brand.css" asp-append-version="true" />
 </head>
-<body class="@(User.Identity?.IsAuthenticated == true ? "erp-authenticated" : "")">
-    <header class="erp-header">
-        <div class="erp-header__inner">
-            @if (User.Identity?.IsAuthenticated == true)
-            {
+<body class="@(User.Identity?.IsAuthenticated == true ? "erp-authenticated" : "") @(ViewData["IsLoginPage"] is true ? "erp-login-screen" : "")">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <header class="erp-header">
+            <div class="erp-header__inner">
                 <button class="erp-menu-toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#erpSidebar"
                         aria-controls="erpSidebar" aria-label="Abrir menú general" title="Abrir menú">
                     <span aria-hidden="true"></span>
@@ -24,14 +24,9 @@
                     <span>@User.FindFirst("display_name")?.Value</span>
                     <form method="post" asp-page="/Account/Logout"><button type="submit" class="btn btn-outline-secondary btn-sm">Cerrar sesión</button></form>
                 </div>
-            }
-            else
-            {
-                <a class="essco-wordmark" asp-page="/Index"><span class="essco-name">ESSCO</span><span class="essco-fullname">Easy Software Solution Company</span></a>
-                <a class="btn btn-primary" asp-page="/Account/Login">Iniciar sesión</a>
-            }
-        </div>
-    </header>
+            </div>
+        </header>
+    }
     <div class="erp-shell">
         @if (User.Identity?.IsAuthenticated == true)
         {
@@ -48,7 +43,10 @@
         }
         <div class="erp-page">
             <main role="main">@RenderBody()</main>
-            <footer class="erp-footer">&copy; 2026 ESSCO | Easy Software Solution Company · Un mundo con menos clic. · <a asp-page="/Privacy">Privacidad</a></footer>
+            @if (ViewData["IsLoginPage"] is not true)
+            {
+                <footer class="erp-footer">&copy; 2026 ESSCO | Easy Software Solution Company · Un mundo con menos clic. · <a asp-page="/Privacy">Privacidad</a></footer>
+            }
         </div>
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
