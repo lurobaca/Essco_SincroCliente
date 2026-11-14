@@ -2,6 +2,7 @@
 
 ## En desarrollo
 
+- Ajuste de los nueve proyectos a .NET 9 y del SDK a la banda 9.0.3xx para abrir la solución con Visual Studio 2022.
 - Creación de la solución web por capas sobre .NET 10.
 - Creación del prototipo de trabajos idempotentes para el puente SAP.
 - Incorporación de health check y endpoints iniciales.

@@ -2,7 +2,7 @@
 
 ## Qué se agregó
 
-- Proyecto ASP.NET Core Razor Pages independiente: **Essco.Portal** (net10.0), en Essco.Modern.sln.
+- Proyecto ASP.NET Core Razor Pages independiente: **Essco.Portal** (net9.0), en Essco.Modern.sln.
 - Sitio público ESSCO, acceso por correo/contraseña y panel por organización.
 - Base independiente **Essco_Portal**, sin copiar datos de Sic_Local_Web_Pruebas.
 - Cookie, claves de protección e identidad independientes de Essco.Web.
@@ -11,7 +11,7 @@
 - Portada adaptable, enlaces para saltar al contenido, foco visible, etiquetas de campos y navegación sin dependencia de JavaScript.
 - No hay acceso SSO ni conexión a bases de ERP por organización todavía. No se convierte al administrador del portal en administrador del ERP.
 
-## Ejecutar desde Visual Studio 2026
+## Ejecutar desde Visual Studio 2022
 
 1. Reabrir Essco.Modern.sln para cargar el noveno proyecto.
 2. Establecer **Essco.Portal** como proyecto de inicio y elegir **https**.

@@ -20,4 +20,4 @@ La configuración `Essco:Sap` contiene servidor, base de compañía, usuario SAP
 
 La cola SQL sobrevive reinicios y funciona como transporte compartido entre procesos. Antes del piloto debe aplicarse la migración `003` y configurarse la misma cadena de conexión en ambos ejecutables.
 
-El proyecto apunta a `net10.0-windows` y registra el host con el nombre `Essco SAP Bridge`, por lo que puede publicarse e instalarse como servicio de Windows. La instalación definitiva se habilitará cuando exista transporte persistente y configuración SAP validada.
+El proyecto apunta a `net9.0-windows` y registra el host con el nombre `Essco SAP Bridge`, por lo que puede publicarse e instalarse como servicio de Windows. La instalación definitiva se habilitará cuando exista transporte persistente y configuración SAP validada.
