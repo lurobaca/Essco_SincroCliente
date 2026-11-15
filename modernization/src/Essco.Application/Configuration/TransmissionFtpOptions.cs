@@ -6,6 +6,7 @@ namespace Essco.Application.Configuration;
 public sealed class TransmissionFtpOptions
 {
     public bool Enabled { get; init; }
+    public bool EnableSsl { get; init; }
     public string LegacyConfigurationPath { get; init; } = "";
     public int TimeoutSeconds { get; init; } = 15;
 

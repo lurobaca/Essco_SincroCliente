@@ -6,6 +6,8 @@ Actualizado: 2026-11-15. Estado global: `PARCIAL`. No existe validación manual 
 
 Se confirmó por consulta de solo lectura que `Sic_Local_Web_Pruebas.dbo.Estado_Subida_SAP` contiene cero registros. El esquema tiene las siete columnas que consume la Web. No se insertaron datos de ejemplo ni se ejecutaron envíos. La consulta Web ahora permite recorrer todas las transmisiones en páginas de 500 filas y muestra el total filtrado; la versión anterior ocultaba las filas posteriores a las primeras 500. El sondeo también actualiza las alertas FTP visibles sin consumirlas. Se retiró el indicador Nube porque `Button1` está oculto en el Designer y no tiene evento. Los flujos de FTP siguen sin validación de extremo a extremo: el XML sandbox disponible comparte el destino de producción y no se ha identificado un consumidor aislado de Syncro Server.
 
+El usuario señaló `Essco_SincroServer` como código fuente del consumidor y mostró un perfil temporal de FileZilla llamado `Bourne_FTP`. Se comprobó que `Form1.vb` lee y elimina señales en `Revisame/<agente>.mbg`, pero `Sic_Local_Web/ConexionINFO.xml` de esa carpeta apunta a `DB_Alef` y a otro servidor FTP. El perfil mostrado no prueba que el proceso de ESSCO consuma ese mismo destino. El emisor Web ahora admite `Essco:TransmissionFtp:EnableSsl=true` para FTP explícito sobre TLS; sigue deshabilitado hasta disponer de una configuración de ESSCO que conecte la base de pruebas, el directorio remoto aislado y el consumidor.
+
 ## Auditoría ampliada del envío (2026-10-06)
 
 La trazabilidad de los tres botones de envío está en `Play/EstadoSubida.vb`:

@@ -16,6 +16,7 @@ public sealed class LegacyFtpTransmissionSignalSender : ITransmissionSignalSende
     private readonly Uri? ftpBaseUri;
     private readonly NetworkCredential? credentials;
     private readonly TimeSpan timeout;
+    private readonly bool enableSsl;
 
     /// <summary>
     /// Carga el XML heredado solo cuando el envío está habilitado y comprueba que su SQL
@@ -27,6 +28,7 @@ public sealed class LegacyFtpTransmissionSignalSender : ITransmissionSignalSende
         string contentRootPath)
     {
         timeout = TimeSpan.FromSeconds(options.TimeoutSeconds);
+        enableSsl = options.EnableSsl;
         if (!options.Enabled)
         {
             return;
@@ -97,6 +99,7 @@ public sealed class LegacyFtpTransmissionSignalSender : ITransmissionSignalSende
             new Uri(ftpBaseUri, $"Revisame/{agent}.mbg"));
 #pragma warning restore SYSLIB0014
         request.Method = WebRequestMethods.Ftp.UploadFile;
+        request.EnableSsl = enableSsl;
         request.Credentials = credentials;
         request.Proxy = null;
         request.KeepAlive = false;
