@@ -124,6 +124,7 @@ public sealed class TransmissionDispatchServiceTests
             string? agent,
             string fileType,
             string status,
+            int page,
             CancellationToken cancellationToken) => throw new NotSupportedException();
 
         public Task<TransmissionSignals> ReadSignalsAsync(

@@ -33,7 +33,11 @@ public sealed class TransmissionStatusModel(
     [BindProperty(SupportsGet = true)]
     public string Status { get; set; } = "ERROR";
 
+    [BindProperty(SupportsGet = true)]
+    public int PageNumber { get; set; } = 1;
+
     public IReadOnlyList<TransmissionRow> Items { get; private set; } = [];
+    public long TotalRows { get; private set; }
     public IReadOnlyList<string> FtpAlerts { get; private set; } = [];
     public string? ActiveAgent { get; private set; }
     public string? CurrentProcess { get; private set; }
@@ -58,7 +62,8 @@ public sealed class TransmissionStatusModel(
         CanManage = await CanManageAsync();
         if ((Agent is { Length: > 0 } && !IsValidAgent(Agent)) ||
             FileType is not ("Todos" or "Pedidos" or "Devoluciones" or "Pagos") ||
-            Status is not ("Todos" or "ERROR" or "SUBIDO"))
+            Status is not ("Todos" or "ERROR" or "SUBIDO") ||
+            PageNumber < 1 || PageNumber > 100000)
         {
             ErrorMessage = "Los filtros indicados no son válidos.";
             return;
@@ -66,8 +71,10 @@ public sealed class TransmissionStatusModel(
 
         try
         {
-            TransmissionSnapshot snapshot = await repository.ReadAsync(Agent, FileType, Status, cancellationToken);
+            TransmissionSnapshot snapshot = await repository.ReadAsync(
+                Agent, FileType, Status, PageNumber, cancellationToken);
             Items = snapshot.Rows;
+            TotalRows = snapshot.TotalRows;
             ActiveAgent = snapshot.ActiveAgent;
             CurrentProcess = snapshot.CurrentProcess;
             DownloadFromFtp = snapshot.DownloadFromFtp;

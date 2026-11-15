@@ -64,7 +64,6 @@
             </form>
         }
 
-        <span class="transmission-indicator transmission-indicator-neutral" title="Nube estaba oculta y no tiene evento en WinForms">Nube</span>
         @if (Model.DownloadFromFtp is not null)
         {
             @if (Model.CanManage)
@@ -185,14 +184,32 @@
                 }
             </tbody>
         </table>
-        @if (Model.ErrorMessage is null && Model.Items.Count == 0)
+        @if (Model.ErrorMessage is null && Model.Items.Count == 0 && Model.PageNumber == 1)
         {
             <p class="transmission-grid-empty" role="status">No hay transmisiones para los filtros seleccionados.</p>
         }
+        else if (Model.ErrorMessage is null && Model.Items.Count == 0)
+        {
+            <p class="transmission-grid-empty" role="status">Esta página ya no contiene transmisiones. Vuelva a la primera página.</p>
+        }
     </div>
-    @if (Model.Items.Count == 500)
+    @if (Model.TotalRows > 0 || Model.PageNumber > 1)
     {
-        <p class="small mt-2">Se muestran los primeros 500 registros. Utilice Archivo, #Agente o estado para acotar la consulta.</p>
+        <nav class="transmission-pagination" aria-label="Páginas de transmisiones">
+            <span>@Model.TotalRows registro(s) · Página @Model.PageNumber</span>
+            @if (Model.PageNumber > 1)
+            {
+                <a class="btn btn-sm btn-outline-primary" asp-page="./TransmissionStatus"
+                   asp-route-Agent="@Model.Agent" asp-route-FileType="@Model.FileType"
+                   asp-route-Status="@Model.Status" asp-route-PageNumber="@(Model.PageNumber - 1)">Anterior</a>
+            }
+            @if ((long)Model.PageNumber * 500 < Model.TotalRows)
+            {
+                <a class="btn btn-sm btn-outline-primary" asp-page="./TransmissionStatus"
+                   asp-route-Agent="@Model.Agent" asp-route-FileType="@Model.FileType"
+                   asp-route-Status="@Model.Status" asp-route-PageNumber="@(Model.PageNumber + 1)">Siguiente</a>
+            }
+        </nav>
     }
 </div>
 

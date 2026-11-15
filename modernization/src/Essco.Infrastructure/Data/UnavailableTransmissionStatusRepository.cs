@@ -8,7 +8,7 @@ namespace Essco.Infrastructure.Data;
 public sealed class UnavailableTransmissionStatusRepository : ITransmissionStatusRepository
 {
     /// <inheritdoc />
-    public Task<TransmissionSnapshot> ReadAsync(string? agent, string fileType, string status, CancellationToken cancellationToken)
+    public Task<TransmissionSnapshot> ReadAsync(string? agent, string fileType, string status, int page, CancellationToken cancellationToken)
     {
         throw new InvalidOperationException("La conexión de Syncro Cliente no está configurada.");
     }

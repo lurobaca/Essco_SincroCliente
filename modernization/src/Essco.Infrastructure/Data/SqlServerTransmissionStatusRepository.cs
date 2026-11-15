@@ -15,17 +15,24 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
         string? agent,
         string fileType,
         string status,
+        int page,
         CancellationToken cancellationToken)
     {
+        if (page < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(page));
+        }
+
         await using var connection = await OpenAsync(cancellationToken);
         await using var command = CreateCommand(connection, """
-            SELECT TOP (500) [Agente], [Archivo], [Consecutivo], [Estado],
-                [Detalle], [Fecha], [Reintento]
+            SELECT [Agente], [Archivo], [Consecutivo], [Estado],
+                [Detalle], [Fecha], [Reintento], COUNT_BIG(*) OVER () AS [TotalRows]
             FROM [dbo].[Estado_Subida_SAP]
             WHERE (@Agent IS NULL OR [Agente] = @Agent)
                 AND (@FileName IS NULL OR [Archivo] = @FileName)
                 AND (@Status IS NULL OR [Estado] = @Status)
-            ORDER BY [Agente] ASC, [Fecha] DESC
+            ORDER BY [Agente] ASC, [Fecha] DESC, [Archivo] ASC, [Consecutivo] ASC
+            OFFSET @Offset ROWS FETCH NEXT 500 ROWS ONLY
             """);
 
         string? fileName = fileType switch
@@ -41,12 +48,15 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
             fileName is null ? DBNull.Value : fileName;
         command.Parameters.Add("@Status", SqlDbType.NChar, 20).Value =
             status == "Todos" ? DBNull.Value : status;
+        command.Parameters.Add("@Offset", SqlDbType.Int).Value = checked((page - 1) * 500);
 
         var rows = new List<TransmissionRow>();
+        long totalRows = 0;
         await using (var reader = await command.ExecuteReaderAsync(cancellationToken))
         {
             while (await reader.ReadAsync(cancellationToken))
             {
+                totalRows = reader.GetInt64(7);
                 rows.Add(new TransmissionRow(
                     ReadText(reader, 0),
                     ReadText(reader, 1),
@@ -63,6 +73,7 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
 
         return new TransmissionSnapshot(
             rows,
+            totalRows,
             signals.ActiveAgent,
             signals.CurrentProcess,
             signals.DownloadFromFtp,

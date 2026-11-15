@@ -17,6 +17,7 @@ public sealed record TransmissionRow(
 /// </summary>
 public sealed record TransmissionSnapshot(
     IReadOnlyList<TransmissionRow> Rows,
+    long TotalRows,
     string? ActiveAgent,
     string? CurrentProcess,
     bool? DownloadFromFtp,
@@ -40,7 +41,7 @@ public interface ITransmissionStatusRepository
     /// <summary>
     /// Consulta resultados y señales operativas sin modificar el estado del proceso.
     /// </summary>
-    Task<TransmissionSnapshot> ReadAsync(string? agent, string fileType, string status, CancellationToken cancellationToken);
+    Task<TransmissionSnapshot> ReadAsync(string? agent, string fileType, string status, int page, CancellationToken cancellationToken);
 
     /// <summary>
     /// Consulta únicamente las señales operativas para la actualización periódica.
