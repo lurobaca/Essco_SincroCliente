@@ -19,8 +19,7 @@ public sealed class LegacyFtpTransmissionSignalSender : ITransmissionSignalSende
     private readonly bool enableSsl;
 
     /// <summary>
-    /// Carga el XML heredado solo cuando el envío está habilitado y comprueba que su SQL
-    /// corresponde a la base utilizada por la Web.
+    /// Usa el FTP configurado para la Web o el XML heredado, sin cambiar su conexión SQL.
     /// </summary>
     public LegacyFtpTransmissionSignalSender(
         TransmissionFtpOptions options,
@@ -37,6 +36,19 @@ public sealed class LegacyFtpTransmissionSignalSender : ITransmissionSignalSende
         if (string.IsNullOrWhiteSpace(sqlConnectionString))
         {
             throw new InvalidOperationException("La transmisión requiere la conexión SQL de Syncro Cliente.");
+        }
+
+        if (!options.IsValid())
+        {
+            throw new InvalidOperationException("La configuración FTP de transmisiones está incompleta.");
+        }
+
+        if (!string.IsNullOrWhiteSpace(options.Endpoint))
+        {
+            ftpBaseUri = ParseFtpAddress(options.Endpoint);
+            credentials = new NetworkCredential(options.Username, options.Password);
+            IsConfigured = true;
+            return;
         }
 
         string configurationPath = Path.IsPathRooted(options.LegacyConfigurationPath)
@@ -61,14 +73,7 @@ public sealed class LegacyFtpTransmissionSignalSender : ITransmissionSignalSende
                 "La base SQL del XML FTP no coincide con la base configurada para la Web.");
         }
 
-        string ftpAddress = ReadRequiredValue(ftpNode, "FtpServer").TrimEnd('/') + "/";
-        if (!Uri.TryCreate(ftpAddress, UriKind.Absolute, out Uri? parsedUri) ||
-            parsedUri.Scheme != Uri.UriSchemeFtp)
-        {
-            throw new InvalidOperationException("El XML no contiene un destino FTP válido.");
-        }
-
-        ftpBaseUri = parsedUri;
+        ftpBaseUri = ParseFtpAddress(ReadRequiredValue(ftpNode, "FtpServer"));
         credentials = new NetworkCredential(
             ReadRequiredValue(ftpNode, "userFTP"),
             ReadRequiredValue(ftpNode, "passFTP", preserveWhitespace: true));
@@ -76,6 +81,21 @@ public sealed class LegacyFtpTransmissionSignalSender : ITransmissionSignalSende
     }
 
     public bool IsConfigured { get; }
+
+    /// <summary>
+    /// Conserva el directorio base para que Revisame quede bajo el destino configurado.
+    /// </summary>
+    private static Uri ParseFtpAddress(string address)
+    {
+        string normalizedAddress = address.Trim().TrimEnd('/') + "/";
+        if (!Uri.TryCreate(normalizedAddress, UriKind.Absolute, out Uri? parsedUri) ||
+            parsedUri.Scheme != Uri.UriSchemeFtp)
+        {
+            throw new InvalidOperationException("El destino FTP de transmisiones no es válido.");
+        }
+
+        return parsedUri;
+    }
 
     /// <summary>
     /// Envía una línea vacía a Revisame sin depender del directorio local de la PC WinForms.

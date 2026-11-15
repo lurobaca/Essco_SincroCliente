@@ -8,6 +8,8 @@ Se confirmó por consulta de solo lectura que `Sic_Local_Web_Pruebas.dbo.Estado_
 
 El usuario señaló `Essco_SincroServer` como código fuente del consumidor y mostró un perfil temporal de FileZilla llamado `Bourne_FTP`. Se comprobó que `Form1.vb` lee y elimina señales en `Revisame/<agente>.mbg`, pero `Sic_Local_Web/ConexionINFO.xml` de esa carpeta apunta a `DB_Alef` y a otro servidor FTP. El perfil mostrado no prueba que el proceso de ESSCO consuma ese mismo destino. El emisor Web ahora admite `Essco:TransmissionFtp:EnableSsl=true` para FTP explícito sobre TLS; sigue deshabilitado hasta disponer de una configuración de ESSCO que conecte la base de pruebas, el directorio remoto aislado y el consumidor.
 
+La Web admite ahora `Essco:TransmissionFtp:Endpoint`, `Username` y `Password` como alternativa independiente al XML heredado; la conexión SQL permanece en `ConnectionStrings:EsscoSqlServer`. `appsettings.Local.json` (fuera de Git) contiene el servidor temporal `ftp://ftps12.us.cloudlogin.co/`, el usuario y TLS, con `Enabled=false` y sin contraseña. La contraseña debe configurarse mediante secretos de usuario o variable de entorno, y `Enabled` solo debe activarse cuando Syncro Server de pruebas lea la misma ubicación y `Sic_Local_Web_Pruebas`. El usuario confirmó que esa instancia consumidora todavía no está configurada, por lo que no se enviaron señales.
+
 ## Auditoría ampliada del envío (2026-10-06)
 
 La trazabilidad de los tres botones de envío está en `Play/EstadoSubida.vb`:

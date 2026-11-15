@@ -57,4 +57,38 @@ public sealed class TransmissionFtpConfigurationTests
             File.Delete(filePath);
         }
     }
+
+    [Fact]
+    public void DirectFtp_UsesWebSqlWithoutLegacyXml()
+    {
+        var options = new TransmissionFtpOptions
+        {
+            Enabled = true,
+            EnableSsl = true,
+            Endpoint = "ftp://localhost/essco-pruebas/",
+            Username = "operador-prueba",
+            Password = "clave-de-prueba"
+        };
+
+        var sender = new LegacyFtpTransmissionSignalSender(
+            options,
+            "Server=localhost;Database=Sic_Local_Web_Pruebas;Integrated Security=true",
+            Path.GetTempPath());
+
+        Assert.True(options.IsValid());
+        Assert.True(sender.IsConfigured);
+    }
+
+    [Fact]
+    public void DirectFtp_RejectsMissingPassword()
+    {
+        var options = new TransmissionFtpOptions
+        {
+            Enabled = true,
+            Endpoint = "ftp://localhost/essco-pruebas/",
+            Username = "operador-prueba"
+        };
+
+        Assert.False(options.IsValid());
+    }
 }
