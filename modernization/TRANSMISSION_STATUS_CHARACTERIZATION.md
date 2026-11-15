@@ -4,7 +4,7 @@ Actualizado: 2026-11-15. Estado global: `PARCIAL`. No existe validación manual 
 
 ## Revisión de esta continuación
 
-Se confirmó por consulta de solo lectura que `Sic_Local_Web_Pruebas.dbo.Estado_Subida_SAP` contiene cero registros. El esquema tiene las siete columnas que consume la Web. No se insertaron datos de ejemplo ni se ejecutaron envíos. La consulta Web ahora permite recorrer todas las transmisiones en páginas de 500 filas y muestra el total filtrado; la versión anterior ocultaba las filas posteriores a las primeras 500. Se retiró el indicador Nube porque `Button1` está oculto en el Designer y no tiene evento. Los flujos de FTP siguen sin validación de extremo a extremo: el XML sandbox disponible comparte el destino de producción y no se ha identificado un consumidor aislado de Syncro Server.
+Se confirmó por consulta de solo lectura que `Sic_Local_Web_Pruebas.dbo.Estado_Subida_SAP` contiene cero registros. El esquema tiene las siete columnas que consume la Web. No se insertaron datos de ejemplo ni se ejecutaron envíos. La consulta Web ahora permite recorrer todas las transmisiones en páginas de 500 filas y muestra el total filtrado; la versión anterior ocultaba las filas posteriores a las primeras 500. El sondeo también actualiza las alertas FTP visibles sin consumirlas. Se retiró el indicador Nube porque `Button1` está oculto en el Designer y no tiene evento. Los flujos de FTP siguen sin validación de extremo a extremo: el XML sandbox disponible comparte el destino de producción y no se ha identificado un consumidor aislado de Syncro Server.
 
 ## Auditoría ampliada del envío (2026-10-06)
 

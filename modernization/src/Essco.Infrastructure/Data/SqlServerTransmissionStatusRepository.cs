@@ -69,8 +69,6 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
         }
 
         TransmissionSignals signals = await ReadSignalsAsync(connection, cancellationToken);
-        var alerts = await ReadFtpAlertsAsync(connection, cancellationToken);
-
         return new TransmissionSnapshot(
             rows,
             totalRows,
@@ -78,7 +76,7 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
             signals.CurrentProcess,
             signals.DownloadFromFtp,
             signals.TodayBlocked,
-            alerts);
+            signals.FtpAlerts);
     }
 
     /// <inheritdoc />
@@ -124,7 +122,13 @@ public sealed class SqlServerTransmissionStatusRepository(string connectionStrin
             _ => null
         };
 
-        return new TransmissionSignals(activeAgent, currentProcess, downloadFromFtp, todayBlocked);
+        IReadOnlyList<string> alerts = await ReadFtpAlertsAsync(connection, cancellationToken);
+        return new TransmissionSignals(
+            activeAgent,
+            currentProcess,
+            downloadFromFtp,
+            todayBlocked,
+            alerts);
     }
 
     /// <inheritdoc />

@@ -31,7 +31,8 @@ public sealed record TransmissionSignals(
     string? ActiveAgent,
     string? CurrentProcess,
     bool? DownloadFromFtp,
-    bool? TodayBlocked);
+    bool? TodayBlocked,
+    IReadOnlyList<string> FtpAlerts);
 
 /// <summary>
 /// Define las consultas y mutaciones de la bitácora de transmisión heredada.

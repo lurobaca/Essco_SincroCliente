@@ -101,6 +101,15 @@ async function refreshTransmissionSignals() {
         source.classList.toggle("transmission-indicator-success", signals.downloadFromFtp === true);
         source.classList.toggle("transmission-indicator-error", signals.downloadFromFtp === false);
         source.classList.toggle("transmission-indicator-neutral", signals.downloadFromFtp === null);
+
+        const alerts = document.getElementById("transmission-ftp-alerts");
+        alerts.replaceChildren();
+        for (const message of signals.ftpAlerts ?? []) {
+            const line = document.createElement("div");
+            line.textContent = message;
+            alerts.append(line);
+        }
+        alerts.hidden = alerts.childElementCount === 0;
     } catch {
         // La última lectura visible permanece hasta la siguiente consulta correcta.
     }

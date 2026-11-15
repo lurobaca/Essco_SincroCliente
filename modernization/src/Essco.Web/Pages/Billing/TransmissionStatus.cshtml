@@ -18,15 +18,13 @@
         <div class="alert alert-danger transmission-message" role="alert">@Model.ErrorMessage</div>
     }
 
-    @if (Model.FtpAlerts.Count > 0)
-    {
-        <div class="alert alert-warning transmission-message" role="alert">
-            @foreach (string alert in Model.FtpAlerts)
-            {
-                <div>@alert</div>
-            }
-        </div>
-    }
+    <div id="transmission-ftp-alerts" class="alert alert-warning transmission-message"
+         role="alert" hidden="@(Model.FtpAlerts.Count == 0)">
+        @foreach (string alert in Model.FtpAlerts)
+        {
+            <div>@alert</div>
+        }
+    </div>
 
     <!-- La barra conserva las dos filas funcionales de EstadoSubida. -->
     <div class="transmission-toolbar" aria-label="Controles de estado de transmisiones">
